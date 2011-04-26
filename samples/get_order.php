@@ -20,22 +20,25 @@ $quotInfo = array("collecte_date" => "2011-04-29", "delay" => "aucun",  "content
 "operator" => "UPSE", 
 "envoi.valeur" => 300,
 
-"assurance.selected" => true, 
-"assurance.valeur" => 300,
-"assurance.contenu" => "pas de contenu, mais l'option 631 à sa place", 
-"info_631.selected" => true, 
-"info_631.valeur" => 300,
-"info_631.contenu" => "pas de contenu, mais l'option 631 à sa place", 
+// "assurance.selected" => true, 
+// "assurance.valeur" => 300,
+// "assurance.contenu" => "pas de contenu, mais l'option 631 à sa place", 
+// "info_631.selected" => true, 
+// "info_631.valeur" => 300,
+// "info_631.contenu" => "pas de contenu, mais l'option 631 à sa place", 
 
-"description.info" => "param description 349", 
-"info_349.info" => "param avec info 349",
+// "description.info" => "param description 349", 
+// "info_349.info" => "param avec info 349",
+"valeur" => 1200,
+"description" => "XX", 
+
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00", 
 "delivery_type" => "HOME");
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
-$cotCl->setType("package", array("description" => "descriptio3333n", "valeur" => 330, "weight" => 2, "length" => 30, "width" => 44, "height" => 44));
+$cotCl->setType("package", array("description" => "test", "valeur" => 10, "weight" => 2, "length" => 30, "width" => 44, "height" => 44));
 $orderPassed = $cotCl->makeOrder($quotInfo);
 if(!$cotCl->curlError && !$cotCl->respError) { 
   if($orderPassed) {

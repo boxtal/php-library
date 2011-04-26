@@ -31,8 +31,19 @@ foreach($cotCl->offers as $o => $offre) {
 ?>
 <tr id="ope-<?php echo $o;?>-tr">
 <td><input type="radio" name="ope" id="ope-<?php echo $o;?>" value="<?php echo $offre["operator"]["code"];?>" class="chkbox selectOpe" /> <label for="ope-<?php echo $o;?>">choisir cette offre</label></td>
-<td><img src="<?php echo $offre["operator"]["logo"];?>" alt="" /></td>
-<td><?php  echo implode("<br /> - ", $offre["characteristics"]);?></td>
+<td><img src="http://www.envoimoinscher.com/images/logo_<?php echo strtolower($offre["operator"]["code"]);?>.gif" alt="" /></td>
+<td><?php foreach($offre["characteristics"] as $c => $char) { 
+  echo $char.'<br />';  
+  unset($offre["characteristics"][$c]);  
+  if($c == 3) { 
+    break; 
+  } 
+}  
+?>
+<span id="char-<?php echo $o;?>" class="hidden"><?php echo implode("<br /> - ", $offre["characteristics"]); ?></span>
+<p id="char-<?php echo $o;?>-show" class="arrow"><a href="#" rel="#char-<?php echo $o;?>" class="showMoreOpt">toutes les options</a></p>	
+<p id="char-<?php echo $o;?>-hide" class="arrow hidden"><a href="#" rel="#char-<?php echo $o;?>" class="hideMoreOpt">moins d'options</a></p>	
+</td>
 <td class="price"><?php echo $offre['price']['tax-exclusive'];?>€ <input type="hidden" name="ope-<?php echo $o;?>-price" id="ope-<?php echo $o;?>-price" value="<?php echo $offre['price']['tax-exclusive'];?>" />
 <input type="hidden" name="ope-<?php echo $o;?>-operator" id="ope-<?php echo $o;?>-operator" value="<?php echo $offre['operator']['label'];?>" />
 <input type="hidden" name="ope-<?php echo $o;?>-service" id="ope-<?php echo $o;?>-service" value="<?php echo $offre['service']['label'];?>" />
