@@ -4,23 +4,13 @@ header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
 
-<<<<<<< .mine
-// création du destinataire et de l'expéditeur - classe séparée car dans l'avenir on voudra 
-// peut-être gérer les carnets d'adresses ou gestion de compte à distance (via une smartphone par exemple)
-$from = array("country" => "FR", "zipcode" => "75008", "type" => "particulier");
-$to = array("country" => "FR", "zipcode" => "13005", "type" => "particulier");
-$persoCl = new Env_Person(array("user" => "marwan", "pass" => "motdepasse", "key" => "toto"));
-$persoCl->setPerson("shipper", $from);
-$persoCl->setPerson("recipient", $to);
- 
-
-=======
-$from = array("country" => "FR", "zipcode" => "44000", "type" => "particulier");
-$to = array("country" => "FR", "zipcode" => "13005", "type" => "particulier"); 
->>>>>>> .r13879
+$from = array("country" => "FR", "zipcode" => "44000",
+"adresse" => "1, rue Racine", "type" => "particulier");
+$to = array("country" => "FR", "zipcode" => "33000", 
+"adresse" => "1, Rue des Faures", "type" => "particulier"); 
 // faire la cotation
-$quotInfo = array("collecte_date" => "2011-04-26", "delay" => "aucun",  "content_code" => 30200);
-$cotCl = new Env_Quotation(array("user" => "marwan", "pass" => "motdepasse", "key" => "toto"));
+$quotInfo = array("collecte_date" => "2011-04-26", "delay" => "aucun",  "content_code" => 10120);
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));

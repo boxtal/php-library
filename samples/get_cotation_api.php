@@ -1,14 +1,17 @@
-<?php   
+<?php    
 ob_start();  
 header('Content-Type: text/html; charset=utf-8');  
 error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php'; 
-  
+
+  // print_r($_GET);
 // création du destinataire et de l'expéditeur - classe séparée car dans l'avenir on voudra 
 // peut-être gérer les carnets d'adresses ou gestion de compte à distance (via une smartphone par exemple)
-$from = array("country" => "FR", "zipcode" => "44000", "type" => "particulier");
-$to = array("country" => "FR", "zipcode" => $_GET["cp"], "type" => "particulier",);
- 
+$from = array("country" => "FR", "zipcode" => "44000", "type" => "particulier",
+"adresse" => "1, rue Racine");
+$to = array("country" => "FR", "zipcode" => $_GET["cp"], "type" => "particulier",
+"adresse" => $_GET["adresse"]);
+
 // faire la cotation
 $quotInfo = array("collecte_date" => "2011-04-26", "delay" => "aucun",  "content_code" => 50113);
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
@@ -30,15 +33,32 @@ foreach($cotCl->offers as $o => $offre) {
 <td><input type="radio" name="ope" id="ope-<?php echo $o;?>" value="<?php echo $offre["operator"]["code"];?>" class="chkbox selectOpe" /> <label for="ope-<?php echo $o;?>">choisir cette offre</label></td>
 <td><img src="<?php echo $offre["operator"]["logo"];?>" alt="" /></td>
 <td><?php  echo implode("<br /> - ", $offre["characteristics"]);?></td>
-<td class="price"><?php echo $offre['price']['tax-exclusive'];?>€ <input type="hidden" name="ope-<?php echo $o;?>-price" id="ope-<?php echo $o;?>-price" value="<?php echo $offre['price']['tax-exclusive'];?>" /></td>
+<td class="price"><?php echo $offre['price']['tax-exclusive'];?>€ <input type="hidden" name="ope-<?php echo $o;?>-price" id="ope-<?php echo $o;?>-price" value="<?php echo $offre['price']['tax-exclusive'];?>" />
+<input type="hidden" name="ope-<?php echo $o;?>-operator" id="ope-<?php echo $o;?>-operator" value="<?php echo $offre['operator']['label'];?>" />
+<input type="hidden" name="ope-<?php echo $o;?>-service" id="ope-<?php echo $o;?>-service" value="<?php echo $offre['service']['label'];?>" />
+<input type="hidden" name="ope-<?php echo $o;?>-infos" id="ope-<?php echo $o;?>-infos" value="<?php echo implode("<br /> - ", $offre["characteristics"]);?>" /></td>
 <td>
-<?php if(count($offre['mandatory']['info_10.pointrelais']) > 0) { ?>
-<a href="/api/demo/get_pr.php?qui=exp" rel="#popupPrShip" class="arrow smaller selectPr">sélectionnez le point de proximité d'expédition</a>
-<span id="pr-exp-<?php echo $o;?>" class="hidden"><?php echo $offre['mandatory']['info_210.pointrelais']['type'];?></span>
+<?php $time = time().rand(0,200000); if(count($offre['mandatory']['depot.pointrelais']) > 0) { ?>
+  <?php $pr = explode(" ", $offre['mandatory']['depot.pointrelais']['type']);
+    foreach($pr as $p => $point) {
+      if(trim($point) != "") {
+	    $poi[$p] = trim($point);
+	  }
+    } 
+  ?>
+<a href="/api/demo/demo_relais.php?type=exp&points=<?php echo implode(",", $poi);?>" rel="#pointsExp-<?php echo $time;?>" class="arrow smaller selectPr">sélectionnez le point de proximité de départ</a>
+<div id="pointsExp-<?php echo $time;?>"></div>
 <?php } ?><br />
-<?php if(count($offre['mandatory']['info_210.pointrelais']) > 0) { ?>
-<a href="/api/demo/get_pr.php?qui=dest" rel="#popupPrRec" class="arrow smaller selectPr">sélectionnez le point de proximité de livraison</a>
-<span id="pr-dest-<?php echo $o;?>" class="hidden"><?php echo $offre['mandatory']['info_210.pointrelais']['type'];?></span>
+<?php if(count($offre['mandatory']['retrait.pointrelais']) > 0) { ?>
+  <?php $pr = explode(" ", $offre['mandatory']['retrait.pointrelais']['type']);
+    foreach($pr as $p => $point) {
+      if(trim($point) != "") {
+	    $poi[$p] = trim($point);
+	  }
+    }  
+  ?>
+<a href="/api/demo/demo_relais.php?type=dest&points=<?php echo implode(",", $poi);?>" rel="#pointsLiv-<?php echo $time;?>" class="arrow smaller selectPr">sélectionnez le point de proximité d'arrivée</a>
+<div id="pointsLiv-<?php echo $time;?>"></div>
 <?php } ?>
 </td>
 </tr>

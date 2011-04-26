@@ -15,6 +15,12 @@ class Env_Quotation extends Env_WebService {
    */
   public $offers = array();
 
+  /** Public array containing command informations like order number, order date
+   *  @access public
+   *  @var array
+   */
+  public $command = array();
+
   /** Protected variable with pallet dimensions accepted by EnvoiMoinsCher.com. The dimensions are givent
    *  by format "length cm x width cm". They are sorted by from the longest to the shortest.
    *  @access protected
@@ -103,13 +109,15 @@ class Env_Quotation extends Env_WebService {
 
   /** Function which gets quotation details.
    *  @access private
-   *  @return void
+   *  @return false if server response isn't correct; true if it is
    */
   private function doSimpleRequest() {
     $source = parent::doRequest();
     if($source !== false) {
       parent::parseResponse($source);
+      return true;
     }
+    return false;
   }
 
   /** Public getter to parse and prepare offers array.
@@ -133,7 +141,7 @@ class Env_Quotation extends Env_WebService {
           $arrKey = $mandatory->getElementsByTagName("code")->item(0)->nodeValue;
           $mandInfos[$arrKey] = array();
           foreach($mandatory->childNodes as $mc => $mandatoryChild) {
-            $mandInfos[$arrKey][$mandatoryChild->nodeName] = $mandatoryChild->nodeValue;
+            $mandInfos[$arrKey][$mandatoryChild->nodeName] = trim($mandatoryChild->nodeValue);
           }
           unset($mandInfos[$arrKey]["#text"]);
         }
@@ -196,9 +204,12 @@ class Env_Quotation extends Env_WebService {
   /** Public function which sends order request.
    *  If you don't want to pass insurance parameter, you have to make insurance to false
    *  in your parameters array ($quotInfo).
+   *  The response should contains a command number composed by 10 numbers, 4 letters, 4
+   *  number and 2 letters. We use this rule to check if the order was correctly executed 
+   *  by API server.
    *  @access public
    *  @param array $data Array with order informations (date, type, delay).
-   *  @return void
+   *  @return boolean True if order was passed successfully; false if an error occured. 
    */
   public function makeOrder($quotInfo) {
     if($quotInfo["reason"]) {
@@ -208,7 +219,24 @@ class Env_Quotation extends Env_WebService {
     $this->param = array_merge($this->param, $quotInfo);
     $this->setOptions(array("action" => "/api/v1/order"));
     $this->setPost();
-    $this->doSimpleRequest();
+    if($this->doSimpleRequest()) {
+      // check the order reference
+	  $order = $this->xpath->evaluate("/order/shipment/reference"); 
+	  foreach($order as $o => $or) { 
+        $reference = $or->nodeValue;
+        break;
+      }
+      if(preg_match("/^[0-9]{10}[A-Z]{4}[0-9]{4}[A-Z]{2}$/", $reference)) {
+        $this->command["ref"] = $reference;
+        $this->command["date"] = date("Y-m-d H:i:s");
+        // TODO : get more parameters
+        return true;
+      }
+      return false;
+    }
+    else {
+      return false;
+    }
   }
 
 }

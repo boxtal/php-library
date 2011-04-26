@@ -14,7 +14,7 @@ class Env_WebService {
    *  @access protected
    *  @var string
    */
-  protected $server = "http://api";
+  protected $server = "http://localhost:8080";
 
   /** A private variable which stocks options to pass into curl query.
    *  @access private
