@@ -18,7 +18,7 @@ $to = array("country" => "FR", "zipcode" => "42100", "type" => "particulier",
 
 // faire la cotation
 $quotInfo = array("collecte_date" => "2011-04-29", "delay" => "aucun",  "content_code" => 10120,
-"operator" => "SOGP", "assurance.selected" => true, "valeur" => 300,
+"operator" => "UPSE", "assurance.selected" => true, "valeur" => 300,
 "description" => "xzzzz",
 
 "disponibilite.HDE" => "09:00", 

@@ -133,7 +133,7 @@ class Env_WebService {
    */
   public function setPost() {
     $this->options[CURLOPT_POST] = true;
-    $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param).'&'.$this->proformaLine;    //echo '<br /><br />'.http_build_query($this->param);
+    $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);   //echo '<br /><br />'.http_build_query($this->param);
   }
   
   /** Function sets the get params passed into the request. 

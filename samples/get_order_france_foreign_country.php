@@ -35,6 +35,8 @@ $cotCl->setProforma(array(1 => array("description_en" => "my favorite cat",
 "description_fr" => "mon chat préféré, vivant", "number" => 1, "value" => 1100),
 2 => array("description_en" => "my favorite dog",
 "description_fr" => "mon chien préféré", "number" => 2, "value" => 500)));
+// $cotCl->setProforma(array(1 => array("description_en" => "my favorite dog",
+// "description_fr" => "mon chien préféré", "number" => 2, "value" => 500)));
 $orderPassed = $cotCl->makeOrder($quotInfo); 
 if(!$cotCl->curlError && !$cotCl->respError) {
   if($orderPassed) {

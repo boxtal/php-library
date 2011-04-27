@@ -45,27 +45,19 @@ class Env_Quotation extends Env_WebService {
    *  @param array $data Array with invoice informations.
    *  @return void
    */
-  public function setProforma($data) { 
-    if(count($data) == 1) {
-      foreach($data[0] as $key => $value) {
-        $this->param["proforma.$key"] = $value;
-      }
-    }
-    else {
-      $input = array("0=", "1=", "2=", "3=");
-      $output = array();
+  public function setProforma($data) {
+    // if(count($data) == 1) {
+      // foreach($data as $key => $value) {
+        // $this->param["proforma_1.$key"] = $value;
+      // }
+    // }
+    // else { 
       foreach($data as $key => $value) {
-        $l =0;
         foreach($value as $lineKey => $lineValue) {
-          // problèmes avec l'envoi de la requête ====> $this->param["proforma_".$key.".".$lineKey] = $lineValue;
-          $output[$l] = "proforma_".$key.".".$lineKey."=";
-          $proforma[$l] = $lineValue; 
-          $l++;
+		  $this->param["proforma_".$key.".".$lineKey] = $lineValue;
         }
-        $proformaLine[$key] = str_replace($input, $output, http_build_query($proforma));
       }
-      $this->proformaLine = "&".implode("&", $proformaLine);
-    }
+    // }
   }
 
   /** Function which sets informations about package. 
