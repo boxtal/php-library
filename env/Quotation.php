@@ -45,18 +45,26 @@ class Env_Quotation extends Env_WebService {
    *  @param array $data Array with invoice informations.
    *  @return void
    */
-  public function setProforma($data) {
+  public function setProforma($data) { 
     if(count($data) == 1) {
       foreach($data[0] as $key => $value) {
         $this->param["proforma.$key"] = $value;
       }
     }
     else {
+      $input = array("0=", "1=", "2=", "3=");
+      $output = array();
       foreach($data as $key => $value) {
+        $l =0;
         foreach($value as $lineKey => $lineValue) {
-          $this->param["proforma_$key.$lineKey"] = $lineValue; 
+          // problèmes avec l'envoi de la requête ====> $this->param["proforma_".$key.".".$lineKey] = $lineValue;
+          $output[$l] = "proforma_".$key.".".$lineKey."=";
+          $proforma[$l] = $lineValue; 
+          $l++;
         }
+        $proformaLine[$key] = str_replace($input, $output, http_build_query($proforma));
       }
+      $this->proformaLine = "&".implode("&", $proformaLine);
     }
   }
 
@@ -95,7 +103,7 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Public function which receives the quotation.
+  /** Public function which receives the quotation. 
    *  @access public
    *  @param array $data Array with quotation demand informations (date, type, delay and insurance value).
    *  @return void
@@ -203,7 +211,8 @@ class Env_Quotation extends Env_WebService {
 
   /** Public function which sends order request.
    *  If you don't want to pass insurance parameter, you have to make insurance to false
-   *  in your parameters array ($quotInfo).
+   *  in your parameters array ($quotInfo). It checks also if you pass insurance parameter 
+   *  which is obligatory to order a transport service.
    *  The response should contains a command number composed by 10 numbers, 4 letters, 4
    *  number and 2 letters. We use this rule to check if the order was correctly executed 
    *  by API server.
@@ -215,6 +224,9 @@ class Env_Quotation extends Env_WebService {
     if($quotInfo["reason"]) {
       $quotInfo["shipment.reason"] = $this->shipReasons[$quotInfo["reason"]];
       unset($quotInfo["reason"]);
+    }
+    if($quotInfo["assurance.selected"] == "") {
+      $quotInfo["assurance.selected"] = false;
     }
     $this->param = array_merge($this->param, $quotInfo);
     $this->setOptions(array("action" => "/api/v1/order"));

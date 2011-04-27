@@ -10,31 +10,27 @@ $from = array("country" => "FR", "zipcode" => "75008", "type" => "particulier",
 "ville" => "Paris", "adresse" => "1, rue du Test | logement 320", "civilite" => "Mme",
 "prenom" => "Juliane", "nom" => "Julios", "email" => "bartosz@boxtale.com",
 "tel" => "0601010101", "infos" => "Faire attention au chien");
-$to = array("pays" => "FR", "code_postal" => "13005", "type" => "particulier",
-"ville" => "Marseille", "adresse" => "1, rue de l'Olympiade | logement 1120", "civilite" => "Mme", 
+$to = array("country" => "FR", "zipcode" => "42100", "type" => "particulier",
+"ville" => "Saint-Etienne", "adresse" => "1, rue de l'Olympiade | logement 1120",
+"civilite" => "Mme",
 "prenom" => "Julios", "nom" => "Juliosa", "email" => "bartosz@boxtale.com",
 "tel" => "0601010101", "infos" => "Faire attention au chat");
 
 // faire la cotation
 $quotInfo = array("collecte_date" => "2011-04-29", "delay" => "aucun",  "content_code" => 10120,
-"operator" => "UPSE", 
-"envoi.valeur" => 300,
-
-// "assurance.selected" => true, 
-// "assurance.valeur" => 300,
-// "assurance.contenu" => "pas de contenu, mais l'option 631 à sa place", 
-// "info_631.selected" => true, 
-// "info_631.valeur" => 300,
-// "info_631.contenu" => "pas de contenu, mais l'option 631 à sa place", 
-
-// "description.info" => "param description 349", 
-// "info_349.info" => "param avec info 349",
-"valeur" => 1200,
-"description" => "XX", 
+"operator" => "SOGP", "assurance.selected" => true, "valeur" => 300,
+"description" => "xzzzz",
 
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00", 
-"delivery_type" => "HOME");
+
+"collection_type" => "DROPOFF_POINT",
+"delivery_type" => "PICKUP_POINT",
+
+"depot.pointrelais" => "C3051", 
+"retrait.pointrelais" => "O1128"
+  
+);
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
