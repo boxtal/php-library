@@ -27,7 +27,7 @@ $quotInfo = array("collecte_date" => "2011-04-29", "delay" => "aucun",  "content
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00", 
 "delivery_type" => "HOME");
-$cotCl = new Env_Quotation(array("user" => "marwan", "pass" => "motdepasse", "key" => "toto"));
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));

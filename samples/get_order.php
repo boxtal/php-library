@@ -35,7 +35,7 @@ $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("description" => "test", "valeur" => 10, "weight" => 2, "length" => 30, "width" => 44, "height" => 44));
-$orderPassed = $cotCl->makeOrder($quotInfo);
+$orderPassed = $cotCl->makeOrder($quotInfo, true);
 if(!$cotCl->curlError && !$cotCl->respError) { 
   if($orderPassed) {
     echo "L'envoi a été correctement réalisé sous référence ".$cotCl->command['ref'];

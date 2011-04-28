@@ -46,18 +46,11 @@ class Env_Quotation extends Env_WebService {
    *  @return void
    */
   public function setProforma($data) {
-    // if(count($data) == 1) {
-      // foreach($data as $key => $value) {
-        // $this->param["proforma_1.$key"] = $value;
-      // }
-    // }
-    // else { 
-      foreach($data as $key => $value) {
-        foreach($value as $lineKey => $lineValue) {
-		  $this->param["proforma_".$key.".".$lineKey] = $lineValue;
-        }
+    foreach($data as $key => $value) {
+      foreach($value as $lineKey => $lineValue) {
+        $this->param["proforma_".$key.".".$lineKey] = $lineValue;
       }
-    // }
+    }
   }
 
   /** Function which sets informations about package. 
@@ -196,10 +189,42 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  public function getQuotationInfos() {
-// TODO : récupération de certaines informations de la cotation 
-// TODO : voir si l'on récupère de la requête ou des options passées ?
-  }	
+  /** Get order informations about collection, delivery, offer, price, service, operator, alerts
+   *  and characteristics.
+   *  @access private
+   *  @return void
+   */
+  private function getOrderInfos() {
+    $this->command["url"] = $this->xpath->evaluate(".//url")->item(0)->nodeValue;
+    $this->command["mode"] = $this->xpath->evaluate(".//mode")->item(0)->nodeValue;
+    $this->command["offer"]["operator"]["code"] = $this->xpath->evaluate(".//operator/code")->item(0)->nodeValue;
+    $this->command["offer"]["operator"]["label"] = $this->xpath->evaluate(".//operator/label")->item(0)->nodeValue;
+    $this->command["offer"]["operator"]["logo"] = $this->xpath->evaluate(".//operator/logo")->item(0)->nodeValue;
+    $this->command["service"]["code"] = $this->xpath->evaluate(".//service/code")->item(0)->nodeValue;
+    $this->command["service"]["label"] = $this->xpath->evaluate(".//service/label")->item(0)->nodeValue;
+    $this->command["price"]["currency"] = $this->xpath->evaluate(".//service/code")->item(0)->nodeValue;
+    $this->command["price"]["tax-exclusive"] = $this->xpath->evaluate(".//price/tax-exclusive")->item(0)->nodeValue;
+    $this->command["price"]["tax-inclusive"] = $this->xpath->evaluate(".//price/tax-inclusive")->item(0)->nodeValue;
+    $this->command["collection"]["code"] = $this->xpath->evaluate(".//collection/type/code")->item(0)->nodeValue;
+    $this->command["collection"]["type_label"] = $this->xpath->evaluate(".//collection/type/label")->item(0)->nodeValue;
+    $this->command["collection"]["date"] = $this->xpath->evaluate(".//collection/date")->item(0)->nodeValue;
+    $this->command["collection"]["time"] = $this->xpath->evaluate(".//collection/time")->item(0)->nodeValue;
+    $this->command["collection"]["label"] = $this->xpath->evaluate(".//collection/label")->item(0)->nodeValue;
+    $this->command["delivery"]["code"] = $this->xpath->evaluate(".//delivery/type/code")->item(0)->nodeValue;
+    $this->command["delivery"]["type_label"] = $this->xpath->evaluate(".//delivery/type/label")->item(0)->nodeValue;
+    $this->command["delivery"]["date"] = $this->xpath->evaluate(".//delivery/date")->item(0)->nodeValue;
+    $this->command["delivery"]["time"] = $this->xpath->evaluate(".//delivery/time")->item(0)->nodeValue;
+    $this->command["delivery"]["label"] = $this->xpath->evaluate(".//delivery/label")->item(0)->nodeValue;
+    $this->command["alerts"] = array(); 
+    $alertsNodes = $this->xpath->evaluate(".//alert");
+    foreach($alertsNodes as $a => $alert) {
+      $this->command["alerts"][$a] = $alert->nodeValue;  
+    }
+    $charNodes = $this->xpath->evaluate(".//characteristics/label");
+    foreach($charNodes as $c => $char) {
+      $this->command["chars"][$c] = $char->nodeValue;
+    }
+  }
 
   /** Public function which sends order request.
    *  If you don't want to pass insurance parameter, you have to make insurance to false
@@ -210,11 +235,12 @@ class Env_Quotation extends Env_WebService {
    *  by API server.
    *  @access public
    *  @param array $data Array with order informations (date, type, delay).
+   *  @param boolean $getInfo Precise if we want to get more informations about order.
    *  @return boolean True if order was passed successfully; false if an error occured. 
    */
-  public function makeOrder($quotInfo) {
+  public function makeOrder($quotInfo, $getInfo = false) {
     if($quotInfo["reason"]) {
-      $quotInfo["shipment.reason"] = $this->shipReasons[$quotInfo["reason"]];
+      $quotInfo["envoi.raison"] = $this->shipReasons[$quotInfo["reason"]];
       unset($quotInfo["reason"]);
     }
     if($quotInfo["assurance.selected"] == "") {
@@ -225,15 +251,14 @@ class Env_Quotation extends Env_WebService {
     $this->setPost();
     if($this->doSimpleRequest()) {
       // check the order reference
-	  $order = $this->xpath->evaluate("/order/shipment/reference"); 
-	  foreach($order as $o => $or) { 
-        $reference = $or->nodeValue;
-        break;
-      }
-      if(preg_match("/^[0-9]{10}[A-Z]{4}[0-9]{4}[A-Z]{2}$/", $reference)) {
+	  $nodes = $this->xpath->evaluate("/order/shipment");
+      $reference = $nodes->item(0)->getElementsByTagName("reference")->item(0)->nodeValue;
+	  if(preg_match("/^[0-9]{10}[A-Z]{4}[0-9]{4}[A-Z]{2}$/", $reference)) {
         $this->command["ref"] = $reference;
         $this->command["date"] = date("Y-m-d H:i:s");
-        // TODO : get more parameters
+        if($getInfo) {
+          $this->getOrderInfos();
+        }
         return true;
       }
       return false;
