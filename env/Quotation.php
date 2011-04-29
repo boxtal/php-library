@@ -78,7 +78,7 @@ class Env_Quotation extends Env_WebService {
 
   /** Public function which sets shipper and recipient objects.
    *  @access public
-   *  @param string $type Person type (shipeper or recipient).
+   *  @param string $type Person type (shipper or recipient).
    *  @param array $data Array with person informations.
    *  @return void
    */
@@ -91,7 +91,7 @@ class Env_Quotation extends Env_WebService {
   /** Public function which receives the quotation. 
    *  @access public
    *  @param array $data Array with quotation demand informations (date, type, delay and insurance value).
-   *  @return void
+   *  @return true if request was executed correctly, false if not
    */
   public function getQuotation($quotInfo) {
     $this->param = array_merge($this->param, $quotInfo);

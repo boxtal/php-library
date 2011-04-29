@@ -1,4 +1,4 @@
-<?php 
+<?php  
 ob_start();  
 header('Content-Type: text/html; charset=utf-8');  
 error_reporting(E_ERROR | E_WARNING | E_PARSE); 
@@ -18,13 +18,16 @@ $to = array("country" => "FR", "zipcode" => $_GET["cp"], "type" => "particulier"
 // echo mb_convert_encoding(urldecode($_GET["adresse"]), "UTF-8");
 // faire la cotation
 $quotInfo = array("collecte_date" => "2011-05-03", "delay" => "aucun",  "content_code" => 50113);
+if($_GET["ope"] != "" && $_GET["ope"] != "all") { 
+  $quotInfo["operator"] = $_GET["ope"];
+}
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));
 $cotCl->getQuotation($quotInfo);
-    
-if($cotCl->curlError) {    
+ 
+if($cotCl->curlError) {     
   echo "<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText;   
   die();     
 }    
