@@ -9,7 +9,7 @@ $from = array("country" => "FR", "zipcode" => "44000",
 $to = array("country" => "FR", "zipcode" => "33000", 
 "adresse" => "1, Rue des Faures", "type" => "particulier"); 
 // faire la cotation
-$quotInfo = array("collecte_date" => "2011-04-26", "delay" => "aucun",  "content_code" => 10120);
+$quotInfo = array("collecte_date" => "2011-04-29", "delay" => "aucun",  "content_code" => 10120);
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);

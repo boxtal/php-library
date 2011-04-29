@@ -32,7 +32,7 @@ class Env_ParcelPoint extends Env_WebService {
   /** Getter function to one parcel point. 
    *  @access public
    *  @param string $type Parcels' point type to load.
-   *  @access string $code Parcels' point code composed by operator code and point id 
+   *  @param string $code Parcels' point code composed by operator code and point id 
    *  (for exemple : SERN-206059 for Sernam parcel point in Lille).
    *  @return void
    */

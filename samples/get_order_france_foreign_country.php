@@ -31,12 +31,12 @@ $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));
-$cotCl->setProforma(array(1 => array("description_en" => "my favorite cat",
-"description_fr" => "mon chat préféré, vivant", "number" => 1, "value" => 1100, "origine" => "PL", "poids" => 0.9),
-2 => array("description_en" => "my favorite dog",
-"description_fr" => "mon chien préféré", "number" => 2, "value" => 500, "origine" => "FR", "poids" => 0.9)));
-// $cotCl->setProforma(array(1 => array("description_en" => "my favorite dog",
-// "description_fr" => "mon chien préféré", "number" => 2, "value" => 500)));
+// $cotCl->setProforma(array(1 => array("description_en" => "my favorite cat",
+// "description_fr" => "mon chat préféré, vivant", "number" => 1, "value" => 1100, "origine" => "PL", "poids" => 0.9),
+// 2 => array("description_en" => "my favorite dog",
+// "description_fr" => "mon chien préféré", "number" => 2, "value" => 500, "origine" => "FR", "poids" => 0.9)));
+$cotCl->setProforma(array(1 => array("description_en" => "my favorite dog",
+"description_fr" => "mon chien préféré", "origine" => "FR", "number" => 2, "value" => 500)));
 $orderPassed = $cotCl->makeOrder($quotInfo); 
 if(!$cotCl->curlError && !$cotCl->respError) {
   if($orderPassed) {

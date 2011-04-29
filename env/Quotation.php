@@ -97,7 +97,7 @@ class Env_Quotation extends Env_WebService {
     $this->param = array_merge($this->param, $quotInfo);
     $this->setGetParams();
     $this->setOptions(array("action" => "/api/v1/cotation"));
-    $this->doSimpleRequest($type);
+    return $this->doSimpleRequest();
   }
 
   /** Function which gets quotation details.

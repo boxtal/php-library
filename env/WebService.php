@@ -120,11 +120,11 @@ class Env_WebService {
    *  @return void
    */
   public function setOptions($options) {
-    $this->options = array(CURLOPT_RETURNTRANSFER => 1,
+    $this->options = array(CURLOPT_RETURNTRANSFER => 1, 
       CURLOPT_URL => $this->server.$options['action'].$this->getParams,
       CURLOPT_HTTPHEADER => array("Authorization: ".base64_encode($this->auth['user'].":".$this->auth['pass'])."",
       "access_key : ".$this->auth['key']."")
-    ); 
+    );
   }
   
   /** Function which sets the post request. 

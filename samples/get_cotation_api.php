@@ -1,8 +1,12 @@
-<?php    
+<?php 
 ob_start();  
 header('Content-Type: text/html; charset=utf-8');  
 error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php'; 
+
+foreach($_GET as $k => $get) {
+  $_GET[$k] = mb_convert_encoding(urldecode($_GET[$k]), "UTF-8");
+}
 
   // print_r($_GET);
 // création du destinataire et de l'expéditeur - classe séparée car dans l'avenir on voudra 
@@ -11,23 +15,29 @@ $from = array("country" => "FR", "zipcode" => "44000", "type" => "particulier",
 "adresse" => "1, rue Racine");
 $to = array("country" => "FR", "zipcode" => $_GET["cp"], "type" => "particulier",
 "adresse" => $_GET["adresse"]);
-
+// echo mb_convert_encoding(urldecode($_GET["adresse"]), "UTF-8");
 // faire la cotation
-$quotInfo = array("collecte_date" => "2011-04-26", "delay" => "aucun",  "content_code" => 50113);
+$quotInfo = array("collecte_date" => "2011-05-03", "delay" => "aucun",  "content_code" => 50113);
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));
 $cotCl->getQuotation($quotInfo);
-if(!$cotCl->curlError) {
-  $cotCl->getOffers(true); 
+    
+if($cotCl->curlError) {    
+  echo "<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText;   
+  die();     
+}    
+elseif($cotCl->respError) {   
+  echo "La requête n'est pas valide : ";   
+  foreach($cotCl->respErrorsList as $m => $message) { 
+    echo "<br /><b>".$message['message']."</b>";    
+  }  
+  die();  
 }
 else {
-  echo "<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText;
-  die();
-}
-  
-foreach($cotCl->offers as $o => $offre) {
+  $cotCl->getOffers(true);
+  foreach($cotCl->offers as $o => $offre) {
 ?>
 <tr id="ope-<?php echo $o;?>-tr">
 <td><input type="radio" name="ope" id="ope-<?php echo $o;?>" value="<?php echo $offre["operator"]["code"];?>" class="chkbox selectOpe" /> <label for="ope-<?php echo $o;?>">choisir cette offre</label></td>
@@ -74,5 +84,7 @@ foreach($cotCl->offers as $o => $offre) {
 </td>
 </tr>
 <?php
+}
+
 }
 ?> 
