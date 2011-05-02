@@ -1,30 +1,34 @@
 <?php  
-ob_start(); 
+/*  Ce document a pour but de récupérer des offres de transport pour un devis Nantes - Bordeaux (1 colis d'un poids de 2 kg, 
+ *  dont la catégorie de contenu est Journaux). On a besoin d'adresses exactes afin de pouvoir détermines les points relais pour 
+ *  le service RelaisColis.
+ */
+require_once('../utils/header.php');
+ob_start();
 header('Content-Type: text/html; charset=utf-8'); 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+$quotationStyle = 'style="font-weight:bold;"';
 
-$from = array("country" => "FR", "zipcode" => "44000",
-"adresse" => "1, rue Racine", "type" => "particulier");
-$to = array("country" => "FR", "zipcode" => "33000", 
-"adresse" => "1, Rue des Faures", "type" => "particulier"); 
-// faire la cotation
-$quotInfo = array("collecte_date" => "2011-04-29", "delay" => "aucun",  "content_code" => 10120);
-$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
-$cotCl->setPerson("shipper", $from);
-$cotCl->setPerson("recipient", $to);
-$cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));
+// Précision de l'expéditeur et du destinataire
+$from = array("pays" => "FR", "code_postal" => "44000", "type" => "particulier", "adresse" => "1, rue Racine");
+$to = array("pays" => "FR", "code_postal" => "33000",   "type" => "particulier", "adresse" => "1, rue du Grand Lebrun"); 
+// Informations sur la cotation (date d'enlèvement, le délai, le code de contenu)
+$quotInfo = array("collecte_date" => "2011-05-11", "delai" => "aucun",  
+"content_code" => 10120);
+// Initialisation de la classe
+$cotCl = new Env_Quotation(array("user" => "login", "pass" => "pass", "key" => "api_cle"));
+// Initialisation de l'expéditeur et du destinataire
+$cotCl->setPerson("expediteur", $from);
+$cotCl->setPerson("destinataire", $to);
+// Initialisation du type d'envoi
+$cotCl->setType("colis", array("poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44));
 $cotCl->getQuotation($quotInfo);
-if(!$cotCl->curlError) {
-  $cotCl->getOffers(false); 
-}
-else {
-  echo "<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText;
-  die();
-}
-
-if($_GET['format'] == "") {
- 
+// Si pas d'erreur CURL
+if(!$cotCl->curlError) { print_r($pointCl->respErrorsList);
+  // Si pas d'erreurs de la requête, on affiche le tableau
+  if(!$cotCl->respError) {
+    $cotCl->getOffers(false);
 ?>
 <style type="text/css">
 table tr td {border:1px solid #000000; padding:5px; }
@@ -32,7 +36,7 @@ table tr td {border:1px solid #000000; padding:5px; }
 <table>
 <thead><tr>
 <td>Transp / Service</td><td>Prix</td><td>Collection</td><td>Livraison</td><td>Détails</td><td>Alertes</td>
-<td>Informations</td>
+<td>Informations <br />à fournir</td>
 </tr></thead>
 <tbody>
 <?php foreach($cotCl->offers as $o => $offre) { ?>
@@ -48,20 +52,26 @@ table tr td {border:1px solid #000000; padding:5px; }
 <?php echo implode('<br /> - ', $offre['alerts']); ?>
 </td>
 <td>
-<?php print_r($offre['mandatory']);?>
+<?php foreach($offre['mandatory'] as $m => $mandatory) { ?>
+- <?php echo $m; ?><br />
+<?php } ?>
 </td>
 </tr>
 <?php } ?>
 </tbody>
 </table>
-
-<?php } elseif($_GET["format"] == "serialize") {
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/test.txt', serialize($cotCl->offers));
-  echo serialize($cotCl->offers);
+<?php
+  } 
+  else {
+    echo "La requête n'est pas valide : ";
+    foreach($cotCl->respErrorsList as $m => $message) { 
+      echo "<br />".$message["message"];
+    }
+  }
+}
+else {
+  echo "<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText;
   die();
-} else { 
-// cas requête JSON - utilisé dans la demo
-  echo json_encode($cotCl->offers);
-  die();
-} 
+}
+require_once('../utils/footer.php');
 ?> 

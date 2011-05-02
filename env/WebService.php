@@ -4,6 +4,7 @@
  *
  * The class handles request operations like : putting post and get parameters, calling 
  * API and getting the result of this request.
+ * @package Env
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
  */
@@ -15,6 +16,7 @@ class Env_WebService {
    *  @var string
    */
   protected $server = "http://localhost:8080";
+  // protected $server = "https://test.envoimoinscher.com/";
 
   /** A private variable which stocks options to pass into curl query.
    *  @access private
@@ -73,16 +75,16 @@ class Env_WebService {
     $this->auth = $auth;
   }
 
-  /** Function which executes api request. If an error occurs, we close curl call and put 
+  /** Function which executes api request. If an error occurs, we close curl call and put
    *  error details in $this->errorText variable. We distinguish two situations with 404 code 
    *  returned in the response : 
-   *  1) The API sets 404 code for valid request which doesn't contain any result. The type of response
+   *  <br />1) The API sets 404 code for valid request which doesn't contain any result. The type of response
    *     is application/xml.
-   *  2) The server sets 404 code too. It does it for resources which don't exist (like every 404
+   *  <br />2) The server sets 404 code too. It does it for resources which don't exist (like every 404
    *     web page). In this case the responses' type is text/html.
-   *  If the response returns 404 server code, we cancel the operation by setting $result to false,
+   *  <br />If the response returns 404 server code, we cancel the operation by setting $result to false,
    *  $respError to true and by adding an error message to $respErrorsList (with http_file_not_found value). 
-   *  In the case of 404 API error code, we don't break the operation. We show error messages in
+   *  <br />In the case of 404 API error code, we don't break the operation. We show error messages in
    *  setResponseError().
    *  @access public
    *  @return string
@@ -145,16 +147,16 @@ class Env_WebService {
   }
 
   /** Function parses api server response. 
-   *  First, it checks if the parsed response doesn't contain <error /> tag. If not, it does nothing.
-   *  Otherwise, it makes $respError parameter to true, parses the reponse and sets error messages to $respErrorsList array.
+   *  <br />First, it checks if the parsed response doesn't contain <error /> tag. If not, it does nothing.
+   *  <br />Otherwise, it makes $respError parameter to true, parses the reponse and sets error messages to $respErrorsList array.
    *  @access public
    *  @param String $document The response returned by API. For use it like a XPath object, we have to 
-   *                          parse it with PHP's DOMDocument class.
+   *                          parse it with PHPs' DOMDocument class.
    *  @return void
    */
   public function parseResponse($document) {
     $domCl = new DOMDocument();
-    $domCl->loadXML($document);
+    $domCl->loadXML(mb_convert_encoding($document, "UTF-8"));
     $this->xpath = new DOMXPath($domCl);
     if($this->hasErrors()) {
       $this->setResponseErrors();

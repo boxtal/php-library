@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quick start / Librairie PHP pour l'API EnvoiMoinsCher</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+      #CONTAINER {width:750px; margin:0px auto; display:block;}
+      code {width:700px; display:block; background: #d7d7d7; padding:10px;}
+      ul.code li {padding-left:5px; list-style-type: none;}
+    </style>
+  </head>
+  <body>
+    <div id="CONTAINER">
+      <p>Ce document a pour but de vous faciliter le travail sur votre interface 
+      avec l'API <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a></p>
+      <p>Progressivement on exploitera les éléments qui vous permettront de développer un module e-shipping dans
+      votre e-boutique. Dans le premier exemple on va récupérer <a href="#categories">les catégories</a>. Ensuite on passera à <a href="#pays">la gestion des pays</a> pour finir avec 
+      <a href="#devis">le devis</a> et <a href="#commande">la passation de commande</a>.</p>
+      <p><b>Le contenu de la librairie</b></p>
+      <p>Le package contient 6 répertoires : </p>
+      <ul>
+        <li>documentation - la documentation de la librairie</li>
+        <li>env - les classes qui permettent l'interaction avec l'API</li>
+        <li>lib - le répertoire où vous pouvez placer vos classes</li>
+        <li>samples - les fichiers avec les exemples d'utilisation de la librairie</li>
+        <li>test - un fichier qui teste l'apptitude de votre environnement par rapport à la librairie</li>
+        <li>utils - le dossier avec des fonctions utilisées par les exemples placés dans le répertoire samples/</li>
+      </ul>
+      <p id="categories"><b>1. Comment obtenir la liste des catégories ?</b></p>
+      <p>Grâce à l'API vous pouvez obtenir la liste des contenus qui vont vous servir pour le 
+      développement de votre module.</p>
+      <code>
+        &lt;?php
+        <ul class="code">
+          <li>$contentCl = new Env_ContentCategory(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
+          <li>$contentCl->getContents();</li>
+        </ul>
+        ?>
+      </code>
+      <p>L'API a besoin du code de la catégorie de contenu, représenté par la variable $contents.</p>
+      <p>Pour plus d'exemples, vous pouvez regarder le fichier samples/get_categories.php.</p>
+      <p id="pays"><b>2. Comment obtenir la liste des pays ?</b></p>
+      <p>Les commandes chez EnvoiMoinsCher.com sont réalisées avec les codes ISO des pays. Pour l'instant le système gère uniquement
+      les commandes passées depuis la France vers l'étranger.
+      La récupération des pays se présente ainsi : </p>
+      <code>
+        &lt;?php
+        <ul class="code">
+          <li>$countryCl = new Env_Country(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
+          <li>$countryCl->getCountries();</li>
+        </ul>
+        ?>
+      </code>
+      <p>La passation de commande se déroule avec le code ISO, représenté dans le tableau $countries par la clé "code".</p>
+      <p>Pour plus d'exemples, vous pouvez regarder le fichier samples/get_countries.php.</p>
+      <p id="devis"><b>3. Comment obtenir un devis ?</b></p>
+      <p>Voici les éléments dont on a besoin pour obtenir un devis :</p>
+      <ul>
+        <li>le type d'envoi (encombrant, colis, palette, pli)</li>
+        <li>l'identifiant de la catégorie de contenu</li>
+        <li>le pays, la ville et le type de l'expéditeur</li>
+        <li>le pays, la ville et le type du destinataire</li>
+        <li>la date d'enlèvement (sauf dimanche et jours fériés)</li>
+      </ul>
+      <code>
+        &lt;?php
+        <ul class="code">
+          <li>$from = array("pays" => "FR", "code_postal" => "44000",
+          "adresse" => "1, rue Racine", "type" => "particulier");</li>
+          <li>$to = array("pays" => "FR", "code_postal" => "33000", 
+          "adresse" => "1, Rue des Faures", "type" => "particulier"); </li>
+          <li>$quotInfo = array("collecte_date" => "2011-05-11", "delai" => "aucun",  
+          "content_code" => 10120);</li>
+          <li>$cotCl = new Env_Quotation(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
+          <li>$cotCl->setPerson("expediteur", $from);</li>
+          <li>$cotCl->setPerson("destinataire", $to);</li>
+          <li>$cotCl->setType("colis", array("poids" => 2, "longueur" => 30, 
+          "largeur" => 44, "hauteur" => 44));</li>
+          <li>$cotCl->getQuotation($quotInfo);</li>
+          <li>$cotCl->getOffers(false);</li>
+        </ul>
+        ?>
+      </code>
+      <p>Avant d'appeler getOffers() vous pouvez vous rassuer que la requête s'est correctement exécutée. Pour cela il faut que $curlError et $respError
+      aient comme valeur false.</p>
+      <p id="commande"><b>4. Comment passer une commande ?</b></p> 
+      <p>L'API de l'EnvoiMoinsCher ne supporte que l'envoi d'un seul élément. Il est donc impossible
+      d'expédier deux colis différents ou deux types d'envoi différents (par exemple un encombrant et un pli).</p>
+      <p>La passation d'une commande se déroule de la même manière que l'obtention d'une cotation. La seule différence consiste en informations que vous devez fournir en plus. Pour l'expéditeur et le destinataire vous devez indiquer leurs adresses exactes, numéros de téléphones, données personnelles. Concernant les données 
+      de l'envoi, en fonction de l'opérateur et du service choisis, vous pouvez être amenés à fournir des informations comme les disponibilités d'enlèvement, les points relais de dépôt et de retrait ou le montant d'assurance.</p>
+      <code>
+        &lt;?php
+        <ul class="code">
+          <li>$from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
+          "ville" => "Paris", "adresse" => "41, rue Saint Augustin| 3e étage", "civilite" => "M",
+          "prenom" => "Prénom_expéditeur", "nom" => "Nom_expéditeur", "email" => "dev@boxtale.com",
+          "tel" => "0601010101", "infos" => "Une information supplémentaire");</li>
+          <li>$to = array("pays" => "FR", "code_postal" => "13002", "type" => "particulier",
+          "ville" => "Marseille", "adresse" => "1, rue Saint-Thome",
+          "civilite" => "Mme", "prenom" => "Mme_expéditeur", "nom" => "Mme_expéditeur nom", "email" => "dev@boxtale.com",
+          "tel" => "0601010101", "infos" => "");</li>
+          <li>$quotInfo = array("collecte_date" => "2011-05-11", "delai" => "aucun",  
+          "content_code" => 10120, "operateur" => "UPSE","disponibilite.HDE" => "09:00", 
+          "disponibilite.HLE" => "19:00", "prix_max_ttc" => 50);</li>
+          <li>$cotCl = new Env_Quotation(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
+          <li>$cotCl->setPerson("expediteur", $from);</li>
+          <li>$cotCl->setPerson("destinataire", $to);</li>
+          <li>$cotCl->setType("colis", array("poids" => 2, "longueur" => 30, 
+          "largeur" => 44, "hauteur" => 44));</li>
+          <li>$orderPassed = $cotCl->makeOrder($quotInfo, true);</li>
+        </ul>
+        ?>
+      </code>
+      <p>Dans cet exemple, on passera une commande chez l'opérateur UPS à condition qu'elle sera inférieure à 50 euros TTC (paramètre "prix_max_ttc").</p>
+      <p>Pour plus d'exemples, vous pouvez regarder les fichiers placés dans samples/ qui commencent avec le préfixe get_order_.</p>
+      <p><b>La fonction d'autoload.</b></p>
+      <p>Si vous utilisez un framework ou un système de gestion de contenu, vous pouvez rencontrer des problèmes avec l'inclusion automatique 
+      des classes de la librairie, comme c'est fait dans les fichiers d'exemple. Dans ce cas-là, vous pouvez être amenés à inclure les classes manuellement 
+      en utilisant <a href="http://fr2.php.net/manual/en/function.require-once.php" target="_blank"><i>require_once</i></a> ou <a href="http://fr2.php.net/manual/en/function.include-once.php" target="_blank"><i>include_once</i></a> avec les chemins respectifs vers les classes. </p>
+      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="LIEN_DOC_LIBRAIRIE">la documentation de la librairie</a> et <a href="LIEN_DOC_API" target="_blank">de l'API</a>.</p>
+      <br /><p>Si vous rencontrez le moindre problème, veuillez-nous en parler via l'adresse e-mail <a href="mailto:dev@boxtale.com">dev@boxtale.com</a> ou le numéro de téléphone +33 (0)1 75 77 37 96.</p>
+    </div>
+  </body>
+</html>

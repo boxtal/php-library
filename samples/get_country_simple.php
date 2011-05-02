@@ -1,22 +1,37 @@
-<?php
+<?php  
+/*  Ce document a pour but d'exploiter des différentes méthodes de récupération des pays.
+ * 
+ */ 
+ob_start();
+header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
+require_once('../utils/header.php');
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+$countriesStyle = 'style="font-weight:bold;"';
 
-// récupération des catégories de contenu principales
-$countryCl = new Env_Country(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+// Initialisation de la classe pays
+$countryCl = new Env_Country(array("user" => "login", "pass" => "pass", "key" => "api_cle"));
+// Récupération des pays
 $countryCl->getCountries();
-
-// récupération d'un pays
-$countryCl->getCountry("NL");
-print_r($countryCl->country);
-
-// récupération d'un autre pays
-$countryCl->getCountry("FR");
-print_r($countryCl->country);
 ?>
 
-<select name="categories">
+<p><label for="countries">Sélectionnez votre pays : </label>
+<select id="countries" name="countries">
 <?php foreach($countryCl->countries as $c => $country) { ?>  
 <option value="<?php echo $country['code'];?>"><?php echo $country['label'];?></option> 
 <?php } ?>
-</select>
+</select></p>
+<?php
+// Récupération d'un pays (Pays-Bas)
+$countryCl->getCountry("NL");
+// Récupération d'un pays
+$countryCl->getCountry("NL");
+?>
+<p>Les destinations vers les Pays-Bas : 
+<ul>
+<?php foreach($countryCl->country as $c => $country) { ?>
+<li><?php echo $country["label"];?></li>
+<?php } ?>
+</ul>
+</p>
+<?php require_once('../utils/footer.php'); ?>

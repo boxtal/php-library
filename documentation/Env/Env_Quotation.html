@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Documentation de la classe Env_Quotation</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Env_Quotation</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">EnvoiMoinsCher API - la classe pour la gestion de la cotation.</p>
+<p class="description"><p>La classe principale qui sert soit à récupérer la liste des offres, soit
+à passer une commande.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> EnvoiMoinsCher &lt;<a href="mailto:dev@envoimoinscher.com">dev@envoimoinscher.com</a>&gt;</li>
+				<li><span class="field">version:</span> 1.0</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_Quotation.php.html">/Quotation.php</a> (line <span class="field">11</span>)
+		</p>
+		
+				
+		<pre><a href="../Env/Env_WebService.html">Env_WebService</a>
+   |
+   --Env_Quotation</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$offers" title="details" class="var-name">$offers</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$order" title="details" class="var-name">$order</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$palletDims" title="details" class="var-name">$palletDims</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$shipReasons" title="details" class="var-name">$shipReasons</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																				
+												<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getOffers" title="details" class="method-name">getOffers</a>
+											([<span class="var-type">bool</span>&nbsp;<span class="var-name">$onlyCom</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">true</span>
+										<a href="#getQuotation" title="details" class="method-name">getQuotation</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$quotInfo</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#makeOrder" title="details" class="method-name">makeOrder</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$quotInfo</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$getInfo</span> = <span class="var-default">false</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setPerson" title="details" class="method-name">setPerson</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setProforma" title="details" class="method-name">setProforma</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setType" title="details" class="method-name">setType</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$offers" id="$offers"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$offers</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">17</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau contenant toutes les informations sur les offres trouvées pour un devis.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$order" id="$order"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$order</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">23</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau stockant les informations sur une commande</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$palletDims" id="$palletDims"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$palletDims</span>
+			 = <span class="var-default">array(130110 =&gt; &quot;130x110&quot;, 122102 =&gt; &quot;122x102&quot;, 120120 =&gt; &quot;120x120&quot;, 120100 =&gt; &quot;120x100&quot;,<br />                           12080 =&gt; &quot;120x80&quot; , 114114 =&gt; &quot;114x114&quot;, 11476 =&gt; &quot;114x76&quot;, 110110 =&gt; &quot;110x110&quot;,<br />                           107107 =&gt; &quot;107x107&quot;, 8060 =&gt; &quot;80x60&quot;<br />                          )</span>			(line <span class="line-number">35</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau qui contient les dimensions des palletes acceptées par EnvoiMoinsCher.com. Les dimensions sont données selon le format &quot;longueur cm x largeur cm&quot;. Elles sont classées en ordre décroissant, de la plus longue.</p>
+<p class="description"><p><br />Pour passer une valeur correcte il faut utiliser la clé de $palletDimss dans le paramètre quot;pallet&quot; .   
+La requête correcte de l'envoi d'une palette va se présenter ainsi :   
+$quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;delay&quot; =&gt; 
+&quot;aucun&quot;,  &quot;content_code&quot; =&gt; 10120,   
+<strong>&quot;pallet&quot; =&gt; 130110</strong>);   
+<br />$this-&gt;makeOrder($quotInfo, true);</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$shipReasons" id="$shipReasons"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$shipReasons</span>
+			 = <span class="var-default">array(&quot;sale&quot; =&gt; &quot;sale&quot;, &quot;repair&quot; =&gt; &quot;repr&quot;, &quot;return&quot; =&gt; &quot;rtrn&quot;, &quot;gift&quot; =&gt; &quot;gift&quot;,<br />                           &quot;sample&quot; =&gt; &quot;smpl&quot; , &quot;personnal&quot; =&gt; &quot;prsu&quot;, &quot;document&quot; =&gt; &quot;icdt&quot;, &quot;other&quot; =&gt; &quot;othr&quot;)</span>			(line <span class="line-number">48</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau avec les raisons d'envoi, utilisées pour l'envoi à l'étranger qui nécessite une facture proforma.</p>
+<p class="description"><p>Exemple d'utilisation : 
+$quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;delay&quot; =&gt; &quot;aucun&quot;,  &quot;content_code&quot; =&gt; 10120,   &quot;operator&quot; =&gt; &quot;UPSE&quot;, <strong>&quot;reason&quot; =&gt; &quot;sale&quot;</strong>);   
+<br />$this-&gt;makeOrder($quotInfo, true);</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$curlError">Env_WebService::$curlError</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$curlErrorText">Env_WebService::$curlErrorText</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$quotPost">Env_WebService::$quotPost</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$respError">Env_WebService::$respError</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$respErrorsList">Env_WebService::$respErrorsList</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$server">Env_WebService::$server</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$xpath">Env_WebService::$xpath</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodgetOffers" id="getOffers"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOffers</span> (line <span class="line-number">144</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui prépare la liste des offres.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getOffers
+		</span>
+					([<span class="var-type">bool</span>&nbsp;<span class="var-name">$onlyCom</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$onlyCom</span><span class="var-description">: Si true, on ne traite que les 
+				offres qui peuvent être commandées via EnvoiMoinsCher.com.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetQuotation" id="getQuotation"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getQuotation</span> (line <span class="line-number">119</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui récupère le devis.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> retourne true pour la requête executée correctement,
+				false si la requête a échoué</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">true</span>
+		<span class="method-name">
+			getQuotation
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$quotInfo</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span><span class="var-description">: Tableau qui contient les informations sur la cotation (date, type, délai, valeur d'assurance).</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$quotInfo</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodmakeOrder" id="makeOrder"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">makeOrder</span> (line <span class="line-number">264</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui envoie la requête de passation de commande.</p>
+<p class="description"><p><br />Après le traitement, on vérifie si la commande a été correctement insérée.
+A priori, une commande correcte contient un numéro de référence composé de 10 chiffres, 4 lettres, 4 chiffres and 2 lettres. 
+La commande a été correctement réalisée si la référence correspond à ce modèle.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Retourne true si la commande a été réalisée, false si une erreur est apparue.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			makeOrder
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$quotInfo</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$getInfo</span> = <span class="var-default">false</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span><span class="var-description">: Tableau contenant les informations sur la commande à passer (date, type, délai).</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$getInfo</span><span class="var-description">: Le tableau qui précise si l'on veut obtenir toutes les informations sur la commande (true) ou si l'on se contente uniquement 
+				d'un numéro de référence et de la date de la commande (false).</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$quotInfo</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetPerson" id="setPerson"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setPerson</span> (line <span class="line-number">108</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui définit l'expéditeur et le destinataire de la commande.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setPerson
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span><span class="var-description">: Type de la personne (shipper or recipient).</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span><span class="var-description">: Tableau avec les informations sur l'expéditeur ou le destinataire.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetProforma" id="setProforma"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setProforma</span> (line <span class="line-number">71</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui passe les paramètres du proforma à l'API.</p>
+<p class="description"><p><br />Vous êtes obligé de passer un tableau multidimensionnel qui commence par 1.
+Même si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setProforma(array(1 =&gt; array(&quot;description_en&quot; =&gt; &quot;english description for this item&quot;,   &quot;description_fr&quot; =&gt; &quot;la description française pour ce produit&quot;, &quot;origine&quot; =&gt; &quot;FR&quot;,   &quot;number&quot; =&gt; 2, &quot;value&quot; =&gt; 500)));   
+<br />La signification des clés du tableau:   <ul><li><em>description_en</em> =&gt; la description du produit en anglais</li>
+<li><em>description_fr</em> =&gt; la description du produit en français</li>
+<li><em>origine</em> =&gt; l'origine du produit (vous pouvez y mettre EEE pour chaque produit qui vient de l'Espace Economique Européen)</li>
+<li><em>number</em> =&gt; la quantité des objets à envoyer</li>
+<li><em>value</em> =&gt; la valeur <b>unitaire</b> du produit (la somme est calculée automatiquement du côté de l'API)</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setProforma
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span><span class="var-description">: Tableau avec les informations sur proforma.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetType" id="setType"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setType</span> (line <span class="line-number">88</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui définit les informations utilisées pour réaliser l'envoi.</p>
+<p class="description"><p><br />Faites attention pendant l'envoi d'une palette. Dans ce cas-là vous ne
+pouvez pas indiquer la longueur et la largeur. A leur place, 
+ vous devez utiliser la clé du tableau $palletDims qui correspond à vos dimensions.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setType
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span><span class="var-description">: Le type de l'envoi : pli, colis, encombrant ou palette.</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span><span class="var-description">: Le tableau avec les informations sur votre envoi (poids, largeur, longueur, hauteur)</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../Env/Env_WebService.html#method__construct">Env_WebService::__construct()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methoddoRequest">Env_WebService::doRequest()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodparseResponse">Env_WebService::parseResponse()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodsetGetParams">Env_WebService::setGetParams()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodsetOptions">Env_WebService::setOptions()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodsetPost">Env_WebService::setPost()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<div align="center"><small>
+		Documentation générée le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</small></div>
+	</div></body>
+</html>

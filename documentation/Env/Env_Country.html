@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Documentation de la classe Env_Country</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Env_Country</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">EnvoiMoinsCher API - la classe pour la gestion des pays.</p>
+<p class="description"><p>La classe peut être utilisée pour le chargement d'un pays ou de toute la liste des pays avec les codes ISO, utilisés par EnvoiMoinsCher.com pour effectuer des devis.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> EnvoiMoinsCher &lt;<a href="mailto:dev@envoimoinscher.com">dev@envoimoinscher.com</a>&gt;</li>
+				<li><span class="field">version:</span> 1.0</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_Country.php.html">/Country.php</a> (line <span class="field">11</span>)
+		</p>
+		
+				
+		<pre><a href="../Env/Env_WebService.html">Env_WebService</a>
+   |
+   --Env_Country</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$codesRel" title="details" class="var-name">$codesRel</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$countries" title="details" class="var-name">$countries</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$country" title="details" class="var-name">$country</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																				
+												<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getCountries" title="details" class="method-name">getCountries</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getCountry" title="details" class="method-name">getCountry</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$code</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$codesRel" id="$codesRel"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$codesRel</span>
+			 = <span class="var-default">array(&quot;NL&quot; =&gt; &quot;A&quot;, &quot;PT&quot; =&gt; &quot;P&quot;, &quot;DE&quot; =&gt; &quot;D&quot;, &quot;IT&quot; =&gt; &quot;I&quot;, &quot;ES&quot; =&gt; &quot;E&quot;, <br />                              &quot;VI&quot; =&gt; &quot;V&quot;, &quot;GR&quot; =&gt; &quot;G&quot;)</span>			(line <span class="line-number">19</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau protégé avec les relations entre les pays et leurs codes ISO.</p>
+<p class="description"><p><br />Il est utilisé pour établir un code ISO de certaines destinations. 
+Par exemple, en récupérant les informations sur l'Espagne (code ISO unique "ES"), 
+on recevra aussi les informations sur les Canaries (code ISO unique "E1", mais appartenant à l'Espagne).
+Cette dépendance est utilisée par la méthode getCountry($code))
+</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$countries" id="$countries"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$countries</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">26</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau avec tous les pays. La clé de chaque entrée est le code ISO unique du pays.
+<br />Par exemple pour l'entrée avec l'Argentine va se traduire ainsi dans le langage PHP : 
+<br />array("AR" => array("label" => "ARGENTINE" "code" => "AR" ))</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$country" id="$country"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$country</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">33</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Le tableau public avec les informations sur un seul pays. Peut-être un tableau multidimensionnel pour les pays comme l'Espagne à cause de sa
+relation avec les Canaries.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$curlError">Env_WebService::$curlError</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$curlErrorText">Env_WebService::$curlErrorText</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$quotPost">Env_WebService::$quotPost</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$respError">Env_WebService::$respError</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$respErrorsList">Env_WebService::$respErrorsList</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$server">Env_WebService::$server</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../Env/Env_WebService.html#var$xpath">Env_WebService::$xpath</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodgetCountries" id="getCountries"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getCountries</span> (line <span class="line-number">39</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui charge tous les pays.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getCountries
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetCountry" id="getCountry"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getCountry</span> (line <span class="line-number">68</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">La méthode qui récupère les informations sur un seul pays.
+Si le code ISO de ce pays est stocké comme clé dans le tableau $codesRel, on gère également 
+ses relations.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getCountry
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$code</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$code</span><span class="var-description">: String with country code.</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../Env/Env_WebService.html#method__construct">Env_WebService::__construct()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methoddoRequest">Env_WebService::doRequest()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodparseResponse">Env_WebService::parseResponse()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodsetGetParams">Env_WebService::setGetParams()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodsetOptions">Env_WebService::setOptions()</a></span><br>
+													<span class="method-name"><a href="../Env/Env_WebService.html#methodsetPost">Env_WebService::setPost()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<div align="center"><small>
+		Documentation générée le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</small></div>
+	</div></body>
+</html>

@@ -1,14 +1,12 @@
 <?php
-/*  Cet exemple vous permet de passer une commande. L'envoi est composé d'informations basiques (expéditeur, destinataire, type) 
- *  et ne contient pas d'options supplémentaires. Il possède uniquement un filtre selon lequel le montant de la commande ne peut 
- *  pas dépasser 50€ ttc.
+/*  Cet exemple vous permet de passer une commande avec l'assurance.
  */ 
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require_once('../utils/header.php');
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
-$orderPMStyle = 'style="font-weight:bold;"';
+$orderPMAStyle = 'style="font-weight:bold;"';
 // Informations sur l'expéditeur et le destinataire 
 $from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
 "ville" => "Paris", "adresse" => "41, rue Saint-Augustin | 3e étage", 
@@ -22,15 +20,12 @@ $to = array("pays" => "FR", "code_postal" => "13005", "type" => "particulier",
 // Informations sur la cotation
 $quotInfo = array("collecte" => "2011-05-10", 
 "delai" => "aucun",  "code_contenu" => 10120,
-// "operateur" => "UPSE", //<= opérateur UPS,vous pouvez décommenter et commenter les lignes suivantes (jusqu'à retrait.pointrelais) pour voir ce que cela donne
-// "disponibilite.HDE" => "09:00", 
-// "disponibilite.HLE" => "19:00", 
-"operateur" => "SOGP",
-"collection_type" => "DROPOFF_POINT",
-"delivery_type" => "PICKUP_POINT",
-"depot.pointrelais" => "SOGP-C3051", 
-"retrait.pointrelais" => "SOGP-Q1117",
-"prix_max_ttc" => 20,
+"operateur" => "UPSE", // "service" => "Standard" commenté, vous pouvez décommenter pour passer une commande en service Express 
+"disponibilite.HDE" => "09:00", 
+"disponibilite.HLE" => "19:00",
+"assurance.selection" => true,
+"valeur" => 120,
+"prix_max_ttc" => 40,
 "description" => "Le Monde, années 1990-1992"
 );
 $cotCl = new Env_Quotation(array("user" => "login", "pass" => "pass", "key" => "api_cle"));

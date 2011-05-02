@@ -3,6 +3,7 @@
  * EnvoiMoinsCher API countries class.
  * 
  * It can be used to download and manipulate one or more countries.
+ * @package Env
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
  */
@@ -10,7 +11,7 @@
 class Env_Country extends Env_WebService {
 
   /** Protected array with countries relations by ISO codes.
-   *  For example it contains the relation between the Canary Islands and Spain which haven't the same 
+   *  <br />For example it contains the relation between the Canary Islands and Spain which haven't the same 
    *  ISO code.
    *  @access protected
    *  @var array

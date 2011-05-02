@@ -2,7 +2,8 @@
 /** 
  * EnvoiMoinsCher API parcel points class.
  * 
- * It can be used to load one or more parcel points (for pickup and dropoff). 
+ * It can be used to load one or more parcel points (for pickup and dropoff).
+ * @package Env 
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
  */
@@ -41,6 +42,10 @@ class Env_ParcelPoint extends Env_WebService {
       $this->setOptions(array("action" => "/api/v1/$type/$code/informations",
 	  )); 
       $this->doSimpleRequest($type);
+    }
+    else {
+      $this->respError = true;
+      $this->respErrorsList[0] = array("code" => "type_not_correct", "url" => "");
     }
   }
   

@@ -1,20 +1,22 @@
-<?php
+<?php 
+/*  Ce document a pour but d'exploiter des différentes méthodes de récupération des catégories et des contenus (sous-catégories). 
+ *  Vous pouvez ainsi télécharger uniquement les catégories, lister les sous-catégories pour une seule ou pour toutes les catégories. 
+ */
+require_once('../utils/header.php');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
-
-// récupération des catégories de contenu principales
+$categoriesStyle = 'style="font-weight:bolder;"';
+// Initialisation de la classe chargée de récupérer les catégories 
 $contentCl = new Env_ContentCategory(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+// Cette méthode permet de récupérer la liste des catégories
 $contentCl->getCategories();
+// Celle-ci charge la liste des catégories de contenus (sous-catégories)
 $contentCl->getContents(); 
-
-// pour récupérer les contenus d'une seule catégorie
+// Grâce à cette méthode vous pouvez récupérer les sous-catégories d'une seule catégorie
 $child = $contentCl->getChild(10000);
- 
-print_r($categories);
- 
-
 ?>
-
+<p><b>Exemple d'utilisation sur votre site</b></p>
+<p><label id="categories" for="categories">Sélectionnez votre catégorie</label>
 <select name="categories">
 <option value="<?php echo $contentCl->contents[0][0]['code'];?>"><?php echo $contentCl->contents[0][0]['label'];?></option>
 <?php foreach($contentCl->categories as $c => $category) { ?>
@@ -24,4 +26,5 @@ print_r($categories);
     <?php } ?>
   </optgroup>
 <?php } ?>
-</select>
+</select></p>
+<?php require_once('../utils/footer.php');?> 

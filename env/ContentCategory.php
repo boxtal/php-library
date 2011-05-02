@@ -3,20 +3,28 @@
  * EnvoiMoinsCher API content categories class.
  * 
  * It can be used to load categories or/and contents. 
+ * @package Env
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
  */
 
 class Env_ContentCategory extends Env_WebService {
 
-  /** Public variable with categories array. The categories codes are the array keys. 
+  /** Public variable with categories array. The categories ids are the array keys.
+   *  For exemple, one category has following values : 
+   *  <br />- id : 1111
+   *  <br />- code : A
+   *  <br />- label : First category A 
+   *  <br />The PHP array corresponding to these values : array(1111 => array("label" => "First category A",
+   *  "code" => "A"))
    *  @access public
    *  @var array
    */
   public $categories = array();
 
-  /** Public variable with contents array. Every content element is attached to one category by 
-   *  category attribute. At the same time, this attribute is the first key of $contents array.  
+  /** Public variable with contents array. Every content element is attached to one category by
+   *  category id. For exemple, our category 1111 will have following contents : 
+   *  $categories[1111] = array(0 => array("code" => 11112, "label" => "code 11112"), 1 => array("code" => 11113, "label" => "code 11113"))
    *  @access public
    *  @var array
    */
