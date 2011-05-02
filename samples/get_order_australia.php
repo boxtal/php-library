@@ -19,7 +19,7 @@ $to = array("pays" => "AU", "code_postal" => "2000", "type" => "particulier",
 "tel" => "0601010101", "infos" => "Some informations about my shipment");
 
 // Informations sur l'envoi
-$quotInfo = array("collecte_date" => "2011-05-10", "delai" => "aucun",  "content_code" => 10120,
+$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "content_code" => 10120,
 "operator" => "UPSE",
 "reason" => "sale",
 "valeur" => 1200,
@@ -27,7 +27,7 @@ $quotInfo = array("collecte_date" => "2011-05-10", "delai" => "aucun",  "content
 "description" => "Des journaux",
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00");
-$cotCl = new Env_Quotation(array("user" => "login", "pass" => "pass", "key" => "api_cle"));
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array("poids" => 11, "longueur" => 30, "largeur" => 44, "hauteur" => 44));
@@ -35,7 +35,7 @@ $cotCl->setType("colis", array("poids" => 11, "longueur" => 30, "largeur" => 44,
 $cotCl->setProforma(array(1 => array("description_en" => "L'Equipe newspaper from 1998",
 "description_fr" => "le journal L'Equipe du 1998",  "nombre" => 1, "valeur" => 10, 
 "origine" => "FR", "poids" => 0.2),
-2 => array("description_en" => "300 numbers of L'Equipe newspaper from 1999",
+2 => array("description_en" => "300 editions of L'Equipe newspaper from 1999",
 "description_fr" => "300 numéros de L'Equipe du 1999",  "nombre" => 300,  "valeur" => 8, 
 "origine" => "FR", "poids" => 0.2)));
 $orderPassed = $cotCl->makeOrder($quotInfo); 

@@ -18,7 +18,7 @@ $to = array("pays" => "FR", "code_postal" => "13005", "type" => "particulier",
 "email" => "dev@boxtale.com", "tel" => "0601010101", "infos" => "");
 
 // Informations sur la cotation
-$quotInfo = array("collecte" => "2011-05-10", 
+$quotInfo = array("collecte" => date("Y-m-d"), 
 "delai" => "aucun",  "code_contenu" => 10120,
 "operateur" => "UPSE", // "service" => "Standard" commenté, vous pouvez décommenter pour passer une commande en service Express 
 "disponibilite.HDE" => "09:00", 
@@ -28,7 +28,7 @@ $quotInfo = array("collecte" => "2011-05-10",
 "prix_max_ttc" => 40,
 "description" => "Le Monde, années 1990-1992"
 );
-$cotCl = new Env_Quotation(array("user" => "login", "pass" => "pass", "key" => "api_cle"));
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array("poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44));

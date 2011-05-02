@@ -69,7 +69,7 @@
           "adresse" => "1, rue Racine", "type" => "particulier");</li>
           <li>$to = array("pays" => "FR", "code_postal" => "33000", 
           "adresse" => "1, Rue des Faures", "type" => "particulier"); </li>
-          <li>$quotInfo = array("collecte_date" => "2011-05-11", "delai" => "aucun",  
+          <li>$quotInfo = array("collecte" => "2011-05-11", "delai" => "aucun",  
           "content_code" => 10120);</li>
           <li>$cotCl = new Env_Quotation(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
           <li>$cotCl->setPerson("expediteur", $from);</li>
@@ -99,7 +99,7 @@
           "ville" => "Marseille", "adresse" => "1, rue Saint-Thome",
           "civilite" => "Mme", "prenom" => "Mme_expéditeur", "nom" => "Mme_expéditeur nom", "email" => "dev@boxtale.com",
           "tel" => "0601010101", "infos" => "");</li>
-          <li>$quotInfo = array("collecte_date" => "2011-05-11", "delai" => "aucun",  
+          <li>$quotInfo = array("collecte" => "2011-05-11", "delai" => "aucun",  
           "content_code" => 10120, "operateur" => "UPSE","disponibilite.HDE" => "09:00", 
           "disponibilite.HLE" => "19:00", "prix_max_ttc" => 50);</li>
           <li>$cotCl = new Env_Quotation(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>

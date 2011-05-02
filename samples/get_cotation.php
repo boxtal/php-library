@@ -11,13 +11,13 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
 $quotationStyle = 'style="font-weight:bold;"';
 
 // Précision de l'expéditeur et du destinataire
-$from = array("pays" => "FR", "code_postal" => "44000", "type" => "particulier", "adresse" => "1, rue Racine");
-$to = array("pays" => "FR", "code_postal" => "33000",   "type" => "particulier", "adresse" => "1, rue du Grand Lebrun"); 
+$from = array("pays" => "FR", "code_postal" => "44000", "ville" => "Nantes", "type" => "particulier", "adresse" => "1, rue Racine");
+$to = array("pays" => "FR", "code_postal" => "33000",   "ville" => "Bordeaux", "type" => "particulier", "adresse" => "1, rue du Grand Lebrun"); 
 // Informations sur la cotation (date d'enlèvement, le délai, le code de contenu)
-$quotInfo = array("collecte_date" => "2011-05-11", "delai" => "aucun",  
+$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  
 "content_code" => 10120);
 // Initialisation de la classe
-$cotCl = new Env_Quotation(array("user" => "login", "pass" => "pass", "key" => "api_cle"));
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 // Initialisation de l'expéditeur et du destinataire
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);

@@ -156,7 +156,7 @@ class Env_WebService {
    */
   public function parseResponse($document) {
     $domCl = new DOMDocument();
-    $domCl->loadXML(mb_convert_encoding($document, "UTF-8"));
+    $domCl->loadXML(/*mb_convert_encoding(*/$document/*, "UTF-8")*/);
     $this->xpath = new DOMXPath($domCl);
     if($this->hasErrors()) {
       $this->setResponseErrors();

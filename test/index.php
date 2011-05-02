@@ -16,13 +16,13 @@ foreach($needed as $e => $extension) {
 
 if(count($notLoaded) > 0) { 
 ?>
-<p>Your PHP configuration misses some extensions : 
+<p>Vous manquez des extensions suivantes : 
   <?php echo implode('<br />', $notLoaded);?>
 </p>
 <?php
 } else {
 ?>
-<p>All extensions were correctly loaded.</p>
+<p>Toutes les extensions sont correctement installées.</p>
 <?php
 }
 ?>

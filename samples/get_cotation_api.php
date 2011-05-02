@@ -17,7 +17,7 @@ $to = array("country" => "FR", "zipcode" => $_GET["cp"], "type" => "particulier"
 "adresse" => $_GET["adresse"]);
 // echo mb_convert_encoding(urldecode($_GET["adresse"]), "UTF-8");
 // faire la cotation
-$quotInfo = array("collecte_date" => "2011-05-03", "delay" => "aucun",  "content_code" => 50113);
+$quotInfo = array("collecte" => "2011-05-03", "delay" => "aucun",  "content_code" => 50113);
 if($_GET["ope"] != "" && $_GET["ope"] != "all") { 
   $quotInfo["operator"] = $_GET["ope"];
 }
