@@ -5,10 +5,11 @@
 			<!-- template designed by Marco Von Ballmoos -->
 			<title>Documentation de la classe Env_ContentCategory</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
+
 <h2 class="class-name">Class Env_ContentCategory</h2>
 
 <a name="sec-description"></a>
@@ -22,8 +23,8 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">EnvoiMoinsCher API - la classe pour la gestion des catégories et des contenus.</p>
-<p class="description"><p>Vous pouvez l'utiliser pour charger une liste des catégories à afficher dans un &lt;select/&gt;. </p></p>
+<p class="short-description">EnvoiMoinsCher API - la classe pour la gestion des catÃ©gories et des contenus.</p>
+<p class="description"><p>Vous pouvez l'utiliser pour charger une liste des catÃ©gories Ã  afficher dans un &lt;select/&gt;. </p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> EnvoiMoinsCher &lt;<a href="mailto:dev@envoimoinscher.com">dev@envoimoinscher.com</a>&gt;</li>
 				<li><span class="field">version:</span> 1.0</li>
@@ -123,8 +124,8 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable publique contenant la liste des catégories. Les identifiants des catégories servent comme clés du tableau.</p>
-<p class="description"><p>Par exemple, on récupère une catégorie avec les valeurs suivantes :   <br />- identifiant : 1111   <br />- code : A   <br />- libellé : First category A   <br />Le tableau PHP correspondant à cette catégorie sera le suivant : <br />
+<p class="short-description">La variable publique contenant la liste des catÃ©gories. Les identifiants des catÃ©gories servent comme clÃ©s du tableau.</p>
+<p class="description"><p>Par exemple, on rÃ©cupÃ¨re une catÃ©gorie avec les valeurs suivantes :   <br />- identifiant : 1111   <br />- code : A   <br />- libellÃ© : First category A   <br />Le tableau PHP correspondant Ã  cette catÃ©gorie sera le suivant : <br />
 $categories = array(1111 =&gt; array(&quot;label&quot; =&gt; &quot;First category A&quot;,   &quot;code&quot; =&gt; &quot;A&quot;))</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -147,9 +148,9 @@ $categories = array(1111 =&gt; array(&quot;label&quot; =&gt; &quot;First categor
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable avec les contenus (sous-catégories). Chaque contenu est attaché à une catégorie par l'identifiant de cette catégorie.</p>
-<p class="description"><p>Par exemple on récupère la catégorie dont l'identifient est égal à 1111.
-Les contenus de cette catégorie vont être représentés de la manière suivante dans un tableau PHP:
+<p class="short-description">La variable avec les contenus (sous-catÃ©gories). Chaque contenu est attachÃ© Ã  une catÃ©gorie par l'identifiant de cette catÃ©gorie.</p>
+<p class="description"><p>Par exemple on rÃ©cupÃ¨re la catÃ©gorie dont l'identifient est Ã©gal Ã  1111.
+Les contenus de cette catÃ©gorie vont Ãªtre reprÃ©sentÃ©s de la maniÃ¨re suivante dans un tableau PHP:
 <br />$categories[1111] = array(0 =&gt; array(&quot;code&quot; =&gt; 11112, &quot;label&quot; =&gt; &quot;code 11112&quot;), 1 =&gt; array(&quot;code&quot; =&gt; 11113, &quot;label&quot; =&gt; &quot;code 11113&quot;))</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -160,7 +161,8 @@ Les contenus de cette catégorie vont être représentés de la manière suivante dan
 		
 
 </div>
-							<h4>Inherited Variables</h4>
+
+							<h4>Inherited Variables</h4>
 				<A NAME='inherited_vars'><!-- --></A>
 									<p>Inherited from <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
 					<blockquote>
@@ -210,7 +212,7 @@ Les contenus de cette catégorie vont être représentés de la manière suivante dan
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Function qui charge toutes les catégories.</p>
+<p class="short-description">Function qui charge toutes les catÃ©gories.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -234,7 +236,7 @@ Les contenus de cette catégorie vont être représentés de la manière suivante dan
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui permet d'obtenir tous les contenus d'une seule catégorie.</p>
+<p class="short-description">La mÃ©thode qui permet d'obtenir tous les contenus d'une seule catÃ©gorie.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -263,7 +265,7 @@ Les contenus de cette catégorie vont être représentés de la manière suivante dan
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui appelle l'API d'EnvoiMoinsCher pour récupérer la liste de toutes les contenus.</p>
+<p class="short-description">La mÃ©thode qui appelle l'API d'EnvoiMoinsCher pour rÃ©cupÃ©rer la liste de toutes les contenus.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -297,7 +299,7 @@ Les contenus de cette catégorie vont être représentés de la manière suivante dan
 
 
 	<div align="center"><small>
-		Documentation générée le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation gÃ©nÃ©rÃ©e le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</small></div>
 	</div></body>
-</html>
+</html>

@@ -5,10 +5,11 @@
 			<!-- template designed by Marco Von Ballmoos -->
 			<title>Docs For Class Env_WebService</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
+
 <h2 class="class-name">Class Env_WebService</h2>
 
 <a name="sec-description"></a>
@@ -59,7 +60,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 								<tr>
 					<td style="padding-right: 2em"><a href="../Env/Env_ContentCategory.html">Env_ContentCategory</a></td>
 					<td>
-											La classe pour la gestion des catégories et des contenus (sous-catégories).
+											La classe pour la gestion des catÃ©gories et des contenus (sous-catÃ©gories).
 										</td>
 				</tr>
 								<tr>
@@ -205,7 +206,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le booléan qui indique si le CURL a été correctement exécuté (false si erreurs).</p>
+<p class="short-description">Le boolÃ©an qui indique si le CURL a Ã©tÃ© correctement exÃ©cutÃ© (false si erreurs).</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -249,7 +250,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable avec les données envoyées par CURL au serveur de l'API.</p>
+<p class="short-description">La variable avec les donnÃ©es envoyÃ©es par CURL au serveur de l'API.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -271,7 +272,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable qui précise si la requête a été correctement exécutée et si elle contient des résultats (false si erreurs)</p>
+<p class="short-description">La variable qui prÃ©cise si la requÃªte a Ã©tÃ© correctement exÃ©cutÃ©e et si elle contient des rÃ©sultats (false si erreurs)</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -293,7 +294,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable qui stocke les messages d'erreur retournés par le serveur de l'API</p>
+<p class="short-description">La variable qui stocke les messages d'erreur retournÃ©s par le serveur de l'API</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -315,7 +316,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable qui détermine le hôte de l'API</p>
+<p class="short-description">La variable qui dÃ©termine le hÃ´te de l'API</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> protected</li>
 			</ul>
@@ -337,7 +338,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">L'objet DOMXPath qui sert à parser la réponse et récupérer les informations.</p>
+<p class="short-description">L'objet DOMXPath qui sert Ã  parser la rÃ©ponse et rÃ©cupÃ©rer les informations.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -347,7 +348,8 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		
 
 </div>
-						
+
+						
 		</div>
 	</div>
 	
@@ -388,7 +390,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 			<ul class="parameters">
 					<li>
 				<span class="var-type">array</span>
-				<span class="var-name">$auth</span><span class="var-description">: Le tableau avec les données d'authentification (user, pass, key comme clés).</span>			</li>
+				<span class="var-name">$auth</span><span class="var-description">: Le tableau avec les donnÃ©es d'authentification (user, pass, key comme clÃ©s).</span>			</li>
 				</ul>
 		
 			
@@ -401,16 +403,16 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui exécute la requête. Si une erreur apparaît, on ferme l'appel CURL et met</p>
-<p class="description"><p>les détails de l'erreur dans la variable $this-&gt;errorText. 
-On distingue 2 situations où en retour on reçoit le code 404 :   
-<br />1) API renvoie le code 404 pour une requête correcte (vers une ressource existante)
-qui ne contient pas les résultats.  Dans ce cas le type de la réponse est application/xml.   
+<p class="short-description">La mÃ©thode qui exÃ©cute la requÃªte. Si une erreur apparaÃ®t, on ferme l'appel CURL et met</p>
+<p class="description"><p>les dÃ©tails de l'erreur dans la variable $this-&gt;errorText. 
+On distingue 2 situations oÃ¹ en retour on reÃ§oit le code 404 :   
+<br />1) API renvoie le code 404 pour une requÃªte correcte (vers une ressource existante)
+qui ne contient pas les rÃ©sultats.  Dans ce cas le type de la rÃ©ponse est application/xml.   
 <br />2) Le serveur renvoie le code 404. Il fait cela pour une ressource inexistante, comme chaque page 404.
-Dans cette situation, le type de la réponse est text/html.   
-<br />Si la réponse du serveur est 404, on annule l'opération en mettant $result à false, $respError à true,
-et en rajoutant un message d'erreur à $respErrorsList avec "http_file_not_found" comme clé.
-<br />Si la réponse de l'API est 404, on n'annule pas l'opération. On appelle la méthode setResponseError().
+Dans cette situation, le type de la rÃ©ponse est text/html.   
+<br />Si la rÃ©ponse du serveur est 404, on annule l'opÃ©ration en mettant $result Ã  false, $respError Ã  true,
+et en rajoutant un message d'erreur Ã  $respErrorsList avec "http_file_not_found" comme clÃ©.
+<br />Si la rÃ©ponse de l'API est 404, on n'annule pas l'opÃ©ration. On appelle la mÃ©thode setResponseError().
 qui se charge de remplir le tableau contenant les messages d'erreur.</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -435,11 +437,11 @@ qui se charge de remplir le tableau contenant les messages d'erreur.</p></p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui parse la réponse du serveur.</p>
-<p class="description"><p><br />Au début on vérifie si la réponse ne contient pas la balise &lt;error /&gt; . 
+<p class="short-description">La mÃ©thode qui parse la rÃ©ponse du serveur.</p>
+<p class="description"><p><br />Au dÃ©but on vÃ©rifie si la rÃ©ponse ne contient pas la balise &lt;error /&gt; . 
 Si elle ne la contient pas, on ne fait rien <br />
-Sinon, on change $respError en true, parse la réponse et 
-définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
+Sinon, on change $respError en true, parse la rÃ©ponse et 
+dÃ©finit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -455,8 +457,8 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 			<ul class="parameters">
 					<li>
 				<span class="var-type">String</span>
-				<span class="var-name">$document</span><span class="var-description">: La réponse retournée par le serveur de l'API. On l'exploite en tant qu'un objet XPath. 
-				D'où la nécessité de la parser avec la classe DOMDocument.</span>			</li>
+				<span class="var-name">$document</span><span class="var-description">: La rÃ©ponse retournÃ©e par le serveur de l'API. On l'exploite en tant qu'un objet XPath. 
+				D'oÃ¹ la nÃ©cessitÃ© de la parser avec la classe DOMDocument.</span>			</li>
 				</ul>
 		
 			
@@ -469,7 +471,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui place les paramètres _GET dans la requête.</p>
+<p class="short-description">La mÃ©thode qui place les paramÃ¨tres _GET dans la requÃªte.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -493,7 +495,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui détermine les options de la requête CURL.</p>
+<p class="short-description">La mÃ©thode qui dÃ©termine les options de la requÃªte CURL.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -509,7 +511,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 			<ul class="parameters">
 					<li>
 				<span class="var-type">array</span>
-				<span class="var-name">$options</span><span class="var-description">: Les options à passer.</span>			</li>
+				<span class="var-name">$options</span><span class="var-description">: Les options Ã  passer.</span>			</li>
 				</ul>
 		
 			
@@ -522,7 +524,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui détermine les valeurs à passer en _POST.</p>
+<p class="short-description">La mÃ©thode qui dÃ©termine les valeurs Ã  passer en _POST.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -544,7 +546,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 
 
 	<div align="center"><small>
-		Documentation générée le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation gÃ©nÃ©rÃ©e le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</small></div>
 	</div></body>
-</html>
+</html>

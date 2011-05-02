@@ -5,10 +5,11 @@
 			<!-- template designed by Marco Von Ballmoos -->
 			<title>Documentation de la classe Env_Quotation</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
+
 <h2 class="class-name">Class Env_Quotation</h2>
 
 <a name="sec-description"></a>
@@ -23,8 +24,8 @@
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">EnvoiMoinsCher API - la classe pour la gestion de la cotation.</p>
-<p class="description"><p>La classe principale qui sert soit à récupérer la liste des offres, soit
-à passer une commande.</p></p>
+<p class="description"><p>La classe principale qui sert soit Ã  rÃ©cupÃ©rer la liste des offres, soit
+Ã  passer une commande.</p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> EnvoiMoinsCher &lt;<a href="mailto:dev@envoimoinscher.com">dev@envoimoinscher.com</a>&gt;</li>
 				<li><span class="field">version:</span> 1.0</li>
@@ -147,7 +148,7 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau contenant toutes les informations sur les offres trouvées pour un devis.</p>
+<p class="short-description">Le tableau contenant toutes les informations sur les offres trouvÃ©es pour un devis.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -186,14 +187,17 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$palletDims</span>
-			 = <span class="var-default">array(130110 =&gt; &quot;130x110&quot;, 122102 =&gt; &quot;122x102&quot;, 120120 =&gt; &quot;120x120&quot;, 120100 =&gt; &quot;120x100&quot;,<br />                           12080 =&gt; &quot;120x80&quot; , 114114 =&gt; &quot;114x114&quot;, 11476 =&gt; &quot;114x76&quot;, 110110 =&gt; &quot;110x110&quot;,<br />                           107107 =&gt; &quot;107x107&quot;, 8060 =&gt; &quot;80x60&quot;<br />                          )</span>			(line <span class="line-number">35</span>)
+			 = <span class="var-default">array(130110 =&gt; &quot;130x110&quot;, 122102 =&gt; &quot;122x102&quot;, 120120 =&gt; &quot;120x120&quot;, 120100 =&gt; &quot;120x100&quot;,
+<br />                           12080 =&gt; &quot;120x80&quot; , 114114 =&gt; &quot;114x114&quot;, 11476 =&gt; &quot;114x76&quot;, 110110 =&gt; &quot;110x110&quot;,
+<br />                           107107 =&gt; &quot;107x107&quot;, 8060 =&gt; &quot;80x60&quot;
+<br />                          )</span>			(line <span class="line-number">35</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau qui contient les dimensions des palletes acceptées par EnvoiMoinsCher.com. Les dimensions sont données selon le format &quot;longueur cm x largeur cm&quot;. Elles sont classées en ordre décroissant, de la plus longue.</p>
-<p class="description"><p><br />Pour passer une valeur correcte il faut utiliser la clé de $palletDimss dans le paramètre quot;pallet&quot; .   
-La requête correcte de l'envoi d'une palette va se présenter ainsi :   
+<p class="short-description">Le tableau qui contient les dimensions des palletes acceptÃ©es par EnvoiMoinsCher.com. Les dimensions sont donnÃ©es selon le format &quot;longueur cm x largeur cm&quot;. Elles sont classÃ©es en ordre dÃ©croissant, de la plus longue.</p>
+<p class="description"><p><br />Pour passer une valeur correcte il faut utiliser la clÃ© de $palletDimss dans le paramÃ¨tre quot;pallet&quot; .   
+La requÃªte correcte de l'envoi d'une palette va se prÃ©senter ainsi :   
 $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;delay&quot; =&gt; 
 &quot;aucun&quot;,  &quot;content_code&quot; =&gt; 10120,   
 <strong>&quot;pallet&quot; =&gt; 130110</strong>);   
@@ -214,12 +218,13 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$shipReasons</span>
-			 = <span class="var-default">array(&quot;sale&quot; =&gt; &quot;sale&quot;, &quot;repair&quot; =&gt; &quot;repr&quot;, &quot;return&quot; =&gt; &quot;rtrn&quot;, &quot;gift&quot; =&gt; &quot;gift&quot;,<br />                           &quot;sample&quot; =&gt; &quot;smpl&quot; , &quot;personnal&quot; =&gt; &quot;prsu&quot;, &quot;document&quot; =&gt; &quot;icdt&quot;, &quot;other&quot; =&gt; &quot;othr&quot;)</span>			(line <span class="line-number">48</span>)
+			 = <span class="var-default">array(&quot;sale&quot; =&gt; &quot;sale&quot;, &quot;repair&quot; =&gt; &quot;repr&quot;, &quot;return&quot; =&gt; &quot;rtrn&quot;, &quot;gift&quot; =&gt; &quot;gift&quot;,
+<br />                           &quot;sample&quot; =&gt; &quot;smpl&quot; , &quot;personnal&quot; =&gt; &quot;prsu&quot;, &quot;document&quot; =&gt; &quot;icdt&quot;, &quot;other&quot; =&gt; &quot;othr&quot;)</span>			(line <span class="line-number">48</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau avec les raisons d'envoi, utilisées pour l'envoi à l'étranger qui nécessite une facture proforma.</p>
+<p class="short-description">Le tableau avec les raisons d'envoi, utilisÃ©es pour l'envoi Ã  l'Ã©tranger qui nÃ©cessite une facture proforma.</p>
 <p class="description"><p>Exemple d'utilisation : 
 $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;delay&quot; =&gt; &quot;aucun&quot;,  &quot;content_code&quot; =&gt; 10120,   &quot;operator&quot; =&gt; &quot;UPSE&quot;, <strong>&quot;reason&quot; =&gt; &quot;sale&quot;</strong>);   
 <br />$this-&gt;makeOrder($quotInfo, true);</p></p>
@@ -232,7 +237,8 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 		
 
 </div>
-							<h4>Inherited Variables</h4>
+
+							<h4>Inherited Variables</h4>
 				<A NAME='inherited_vars'><!-- --></A>
 									<p>Inherited from <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
 					<blockquote>
@@ -282,7 +288,7 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui prépare la liste des offres.</p>
+<p class="short-description">La mÃ©thode qui prÃ©pare la liste des offres.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -299,7 +305,7 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 					<li>
 				<span class="var-type">bool</span>
 				<span class="var-name">$onlyCom</span><span class="var-description">: Si true, on ne traite que les 
-				offres qui peuvent être commandées via EnvoiMoinsCher.com.</span>			</li>
+				offres qui peuvent Ãªtre commandÃ©es via EnvoiMoinsCher.com.</span>			</li>
 				</ul>
 		
 			
@@ -312,10 +318,10 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui récupère le devis.</p>
+<p class="short-description">La mÃ©thode qui rÃ©cupÃ¨re le devis.</p>
 	<ul class="tags">
-				<li><span class="field">return:</span> retourne true pour la requête executée correctement,
-				false si la requête a échoué</li>
+				<li><span class="field">return:</span> retourne true pour la requÃªte executÃ©e correctement,
+				false si la requÃªte a Ã©chouÃ©</li>
 				<li><span class="field">access:</span> public</li>
 			</ul>
 	
@@ -330,7 +336,7 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 			<ul class="parameters">
 					<li>
 				<span class="var-type">array</span>
-				<span class="var-name">$data</span><span class="var-description">: Tableau qui contient les informations sur la cotation (date, type, délai, valeur d'assurance).</span>			</li>
+				<span class="var-name">$data</span><span class="var-description">: Tableau qui contient les informations sur la cotation (date, type, dÃ©lai, valeur d'assurance).</span>			</li>
 					<li>
 				<span class="var-type"></span>
 				<span class="var-name">$quotInfo</span>			</li>
@@ -346,12 +352,12 @@ $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui envoie la requête de passation de commande.</p>
-<p class="description"><p><br />Après le traitement, on vérifie si la commande a été correctement insérée.
-A priori, une commande correcte contient un numéro de référence composé de 10 chiffres, 4 lettres, 4 chiffres and 2 lettres. 
-La commande a été correctement réalisée si la référence correspond à ce modèle.</p></p>
+<p class="short-description">La mÃ©thode qui envoie la requÃªte de passation de commande.</p>
+<p class="description"><p><br />AprÃ¨s le traitement, on vÃ©rifie si la commande a Ã©tÃ© correctement insÃ©rÃ©e.
+A priori, une commande correcte contient un numÃ©ro de rÃ©fÃ©rence composÃ© de 10 chiffres, 4 lettres, 4 chiffres and 2 lettres. 
+La commande a Ã©tÃ© correctement rÃ©alisÃ©e si la rÃ©fÃ©rence correspond Ã  ce modÃ¨le.</p></p>
 	<ul class="tags">
-				<li><span class="field">return:</span> Retourne true si la commande a été réalisée, false si une erreur est apparue.</li>
+				<li><span class="field">return:</span> Retourne true si la commande a Ã©tÃ© rÃ©alisÃ©e, false si une erreur est apparue.</li>
 				<li><span class="field">access:</span> public</li>
 			</ul>
 	
@@ -366,11 +372,11 @@ La commande a été correctement réalisée si la référence correspond à ce modèle.<
 			<ul class="parameters">
 					<li>
 				<span class="var-type">array</span>
-				<span class="var-name">$data</span><span class="var-description">: Tableau contenant les informations sur la commande à passer (date, type, délai).</span>			</li>
+				<span class="var-name">$data</span><span class="var-description">: Tableau contenant les informations sur la commande Ã  passer (date, type, dÃ©lai).</span>			</li>
 					<li>
 				<span class="var-type">boolean</span>
-				<span class="var-name">$getInfo</span><span class="var-description">: Le tableau qui précise si l'on veut obtenir toutes les informations sur la commande (true) ou si l'on se contente uniquement 
-				d'un numéro de référence et de la date de la commande (false).</span>			</li>
+				<span class="var-name">$getInfo</span><span class="var-description">: Le tableau qui prÃ©cise si l'on veut obtenir toutes les informations sur la commande (true) ou si l'on se contente uniquement 
+				d'un numÃ©ro de rÃ©fÃ©rence et de la date de la commande (false).</span>			</li>
 					<li>
 				<span class="var-type"></span>
 				<span class="var-name">$quotInfo</span>			</li>
@@ -386,7 +392,7 @@ La commande a été correctement réalisée si la référence correspond à ce modèle.<
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui définit l'expéditeur et le destinataire de la commande.</p>
+<p class="short-description">La mÃ©thode qui dÃ©finit l'expÃ©diteur et le destinataire de la commande.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -405,7 +411,7 @@ La commande a été correctement réalisée si la référence correspond à ce modèle.<
 				<span class="var-name">$type</span><span class="var-description">: Type de la personne (shipper or recipient).</span>			</li>
 					<li>
 				<span class="var-type">array</span>
-				<span class="var-name">$data</span><span class="var-description">: Tableau avec les informations sur l'expéditeur ou le destinataire.</span>			</li>
+				<span class="var-name">$data</span><span class="var-description">: Tableau avec les informations sur l'expÃ©diteur ou le destinataire.</span>			</li>
 				</ul>
 		
 			
@@ -418,14 +424,14 @@ La commande a été correctement réalisée si la référence correspond à ce modèle.<
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui passe les paramètres du proforma à l'API.</p>
-<p class="description"><p><br />Vous êtes obligé de passer un tableau multidimensionnel qui commence par 1.
-Même si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setProforma(array(1 =&gt; array(&quot;description_en&quot; =&gt; &quot;english description for this item&quot;,   &quot;description_fr&quot; =&gt; &quot;la description française pour ce produit&quot;, &quot;origine&quot; =&gt; &quot;FR&quot;,   &quot;number&quot; =&gt; 2, &quot;value&quot; =&gt; 500)));   
-<br />La signification des clés du tableau:   <ul><li><em>description_en</em> =&gt; la description du produit en anglais</li>
-<li><em>description_fr</em> =&gt; la description du produit en français</li>
-<li><em>origine</em> =&gt; l'origine du produit (vous pouvez y mettre EEE pour chaque produit qui vient de l'Espace Economique Européen)</li>
-<li><em>number</em> =&gt; la quantité des objets à envoyer</li>
-<li><em>value</em> =&gt; la valeur <b>unitaire</b> du produit (la somme est calculée automatiquement du côté de l'API)</li></ul></p></p>
+<p class="short-description">La mÃ©thode qui passe les paramÃ¨tres du proforma Ã  l'API.</p>
+<p class="description"><p><br />Vous Ãªtes obligÃ© de passer un tableau multidimensionnel qui commence par 1.
+MÃªme si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setProforma(array(1 =&gt; array(&quot;description_en&quot; =&gt; &quot;english description for this item&quot;,   &quot;description_fr&quot; =&gt; &quot;la description franÃ§aise pour ce produit&quot;, &quot;origine&quot; =&gt; &quot;FR&quot;,   &quot;number&quot; =&gt; 2, &quot;value&quot; =&gt; 500)));   
+<br />La signification des clÃ©s du tableau:   <ul><li><em>description_en</em> =&gt; la description du produit en anglais</li>
+<li><em>description_fr</em> =&gt; la description du produit en franÃ§ais</li>
+<li><em>origine</em> =&gt; l'origine du produit (vous pouvez y mettre EEE pour chaque produit qui vient de l'Espace Economique EuropÃ©en)</li>
+<li><em>number</em> =&gt; la quantitÃ© des objets Ã  envoyer</li>
+<li><em>value</em> =&gt; la valeur <b>unitaire</b> du produit (la somme est calculÃ©e automatiquement du cÃ´tÃ© de l'API)</li></ul></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -454,10 +460,10 @@ Même si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setPro
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui définit les informations utilisées pour réaliser l'envoi.</p>
-<p class="description"><p><br />Faites attention pendant l'envoi d'une palette. Dans ce cas-là vous ne
+<p class="short-description">La mÃ©thode qui dÃ©finit les informations utilisÃ©es pour rÃ©aliser l'envoi.</p>
+<p class="description"><p><br />Faites attention pendant l'envoi d'une palette. Dans ce cas-lÃ  vous ne
 pouvez pas indiquer la longueur et la largeur. A leur place, 
- vous devez utiliser la clé du tableau $palletDims qui correspond à vos dimensions.</p></p>
+ vous devez utiliser la clÃ© du tableau $palletDims qui correspond Ã  vos dimensions.</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -499,7 +505,7 @@ pouvez pas indiquer la longueur et la largeur. A leur place,
 
 
 	<div align="center"><small>
-		Documentation générée le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation gÃ©nÃ©rÃ©e le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</small></div>
 	</div></body>
-</html>
+</html>

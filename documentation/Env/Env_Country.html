@@ -5,10 +5,11 @@
 			<!-- template designed by Marco Von Ballmoos -->
 			<title>Documentation de la classe Env_Country</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
+
 <h2 class="class-name">Class Env_Country</h2>
 
 <a name="sec-description"></a>
@@ -23,7 +24,7 @@
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">EnvoiMoinsCher API - la classe pour la gestion des pays.</p>
-<p class="description"><p>La classe peut être utilisée pour le chargement d'un pays ou de toute la liste des pays avec les codes ISO, utilisés par EnvoiMoinsCher.com pour effectuer des devis.</p></p>
+<p class="description"><p>La classe peut Ãªtre utilisÃ©e pour le chargement d'un pays ou de toute la liste des pays avec les codes ISO, utilisÃ©s par EnvoiMoinsCher.com pour effectuer des devis.</p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> EnvoiMoinsCher &lt;<a href="mailto:dev@envoimoinscher.com">dev@envoimoinscher.com</a>&gt;</li>
 				<li><span class="field">version:</span> 1.0</li>
@@ -117,16 +118,17 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$codesRel</span>
-			 = <span class="var-default">array(&quot;NL&quot; =&gt; &quot;A&quot;, &quot;PT&quot; =&gt; &quot;P&quot;, &quot;DE&quot; =&gt; &quot;D&quot;, &quot;IT&quot; =&gt; &quot;I&quot;, &quot;ES&quot; =&gt; &quot;E&quot;, <br />                              &quot;VI&quot; =&gt; &quot;V&quot;, &quot;GR&quot; =&gt; &quot;G&quot;)</span>			(line <span class="line-number">19</span>)
+			 = <span class="var-default">array(&quot;NL&quot; =&gt; &quot;A&quot;, &quot;PT&quot; =&gt; &quot;P&quot;, &quot;DE&quot; =&gt; &quot;D&quot;, &quot;IT&quot; =&gt; &quot;I&quot;, &quot;ES&quot; =&gt; &quot;E&quot;, 
+<br />                              &quot;VI&quot; =&gt; &quot;V&quot;, &quot;GR&quot; =&gt; &quot;G&quot;)</span>			(line <span class="line-number">19</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau protégé avec les relations entre les pays et leurs codes ISO.</p>
-<p class="description"><p><br />Il est utilisé pour établir un code ISO de certaines destinations. 
-Par exemple, en récupérant les informations sur l'Espagne (code ISO unique "ES"), 
-on recevra aussi les informations sur les Canaries (code ISO unique "E1", mais appartenant à l'Espagne).
-Cette dépendance est utilisée par la méthode getCountry($code))
+<p class="short-description">Le tableau protÃ©gÃ© avec les relations entre les pays et leurs codes ISO.</p>
+<p class="description"><p><br />Il est utilisÃ© pour Ã©tablir un code ISO de certaines destinations. 
+Par exemple, en rÃ©cupÃ©rant les informations sur l'Espagne (code ISO unique "ES"), 
+on recevra aussi les informations sur les Canaries (code ISO unique "E1", mais appartenant Ã  l'Espagne).
+Cette dÃ©pendance est utilisÃ©e par la mÃ©thode getCountry($code))
 </p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> protected</li>
@@ -149,8 +151,8 @@ Cette dépendance est utilisée par la méthode getCountry($code))
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau avec tous les pays. La clé de chaque entrée est le code ISO unique du pays.
-<br />Par exemple pour l'entrée avec l'Argentine va se traduire ainsi dans le langage PHP : 
+<p class="short-description">Le tableau avec tous les pays. La clÃ© de chaque entrÃ©e est le code ISO unique du pays.
+<br />Par exemple pour l'entrÃ©e avec l'Argentine va se traduire ainsi dans le langage PHP : 
 <br />array("AR" => array("label" => "ARGENTINE" "code" => "AR" ))</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -173,7 +175,7 @@ Cette dépendance est utilisée par la méthode getCountry($code))
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau public avec les informations sur un seul pays. Peut-être un tableau multidimensionnel pour les pays comme l'Espagne à cause de sa
+<p class="short-description">Le tableau public avec les informations sur un seul pays. Peut-Ãªtre un tableau multidimensionnel pour les pays comme l'Espagne Ã  cause de sa
 relation avec les Canaries.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -184,7 +186,8 @@ relation avec les Canaries.</p>
 		
 
 </div>
-							<h4>Inherited Variables</h4>
+
+							<h4>Inherited Variables</h4>
 				<A NAME='inherited_vars'><!-- --></A>
 									<p>Inherited from <span class="classname"><a href="../Env/Env_WebService.html">Env_WebService</a></span></p>
 					<blockquote>
@@ -234,7 +237,7 @@ relation avec les Canaries.</p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui charge tous les pays.</p>
+<p class="short-description">La mÃ©thode qui charge tous les pays.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -258,8 +261,8 @@ relation avec les Canaries.</p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui récupère les informations sur un seul pays.
-Si le code ISO de ce pays est stocké comme clé dans le tableau $codesRel, on gère également 
+<p class="short-description">La mÃ©thode qui rÃ©cupÃ¨re les informations sur un seul pays.
+Si le code ISO de ce pays est stockÃ© comme clÃ© dans le tableau $codesRel, on gÃ¨re Ã©galement 
 ses relations.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -299,7 +302,7 @@ ses relations.</p>
 
 
 	<div align="center"><small>
-		Documentation générée le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation gÃ©nÃ©rÃ©e le 29/04/2011 avec <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</small></div>
 	</div></body>
-</html>
+</html>
