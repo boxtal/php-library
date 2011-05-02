@@ -7,7 +7,7 @@
 | <a href="get_order_australia.php" <?php echo $orderPSStyle;?>>la commande Paris - Sydney (Australie)</a>
 | <a href="get_order_insurance.php" <?php echo $orderPMAStyle;?>>TODO : la commande Paris - Marseille (avec l'assurance)</a> 
 </p>
-<p>Regardez aussi : <a href="/librairie">quick start</a> | <a href="/librairie/documentation">documentation de la librairie</a>
-| <a href="#">documentation de l'API</a> | <a href="#">démonstration de l'API</a></p>
+<p>Regardez aussi : <a href="/api/librairie">quick start</a> | <a href="/api/librairie/documentation">documentation de la librairie</a>
+| <a href="#">documentation de l'API</a> | <a href="http://test.envoimoinscher.com/api/demo" target="_blank">démonstration de l'API</a></p>
 </body>
 </html>

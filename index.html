@@ -38,7 +38,7 @@
         ?>
       </code>
       <p>L'API a besoin du code de la catégorie de contenu, représenté par la variable $contents.</p>
-      <p>Pour plus d'exemples, vous pouvez regarder le fichier samples/get_categories.php.</p>
+      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_categories_simple.php">récupération des catégories</a></p>
       <p id="pays"><b>2. Comment obtenir la liste des pays ?</b></p>
       <p>Les commandes chez EnvoiMoinsCher.com sont réalisées avec les codes ISO des pays. Pour l'instant le système gère uniquement
       les commandes passées depuis la France vers l'étranger.
@@ -52,7 +52,7 @@
         ?>
       </code>
       <p>La passation de commande se déroule avec le code ISO, représenté dans le tableau $countries par la clé "code".</p>
-      <p>Pour plus d'exemples, vous pouvez regarder le fichier samples/get_countries.php.</p>
+      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_country_simple.php">récupération des pays</a>.</p>
       <p id="devis"><b>3. Comment obtenir un devis ?</b></p>
       <p>Voici les éléments dont on a besoin pour obtenir un devis :</p>
       <ul>
@@ -83,7 +83,8 @@
       </code>
       <p>Avant d'appeler getOffers() vous pouvez vous rassuer que la requête s'est correctement exécutée. Pour cela il faut que $curlError et $respError
       aient comme valeur false.</p>
-      <p id="commande"><b>4. Comment passer une commande ?</b></p> 
+      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_cotation.php">le devis Nantes - Bordeaux</a>.</p>
+      <p id="commande"><b>4. Comment passer une commande ?</b></p>
       <p>L'API de l'EnvoiMoinsCher ne supporte que l'envoi d'un seul élément. Il est donc impossible
       d'expédier deux colis différents ou deux types d'envoi différents (par exemple un encombrant et un pli).</p>
       <p>La passation d'une commande se déroule de la même manière que l'obtention d'une cotation. La seule différence consiste en informations que vous devez fournir en plus. Pour l'expéditeur et le destinataire vous devez indiquer leurs adresses exactes, numéros de téléphones, données personnelles. Concernant les données 
@@ -112,12 +113,12 @@
         ?>
       </code>
       <p>Dans cet exemple, on passera une commande chez l'opérateur UPS à condition qu'elle sera inférieure à 50 euros TTC (paramètre "prix_max_ttc").</p>
-      <p>Pour plus d'exemples, vous pouvez regarder les fichiers placés dans samples/ qui commencent avec le préfixe get_order_.</p>
+      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_order.php">la commande Paris - Marseille</a>, <a href="/librairie/samples/get_order_australia.php">la commande Paris - Sydney</a>, <a href="/librairie/samples/get_order_insurance.php">la commande Paris - Marseille avec l'assurance</a>.</p>
       <p><b>La fonction d'autoload.</b></p>
       <p>Si vous utilisez un framework ou un système de gestion de contenu, vous pouvez rencontrer des problèmes avec l'inclusion automatique 
       des classes de la librairie, comme c'est fait dans les fichiers d'exemple. Dans ce cas-là, vous pouvez être amenés à inclure les classes manuellement 
       en utilisant <a href="http://fr2.php.net/manual/en/function.require-once.php" target="_blank"><i>require_once</i></a> ou <a href="http://fr2.php.net/manual/en/function.include-once.php" target="_blank"><i>include_once</i></a> avec les chemins respectifs vers les classes. </p>
-      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="LIEN_DOC_LIBRAIRIE">la documentation de la librairie</a> et <a href="LIEN_DOC_API" target="_blank">de l'API</a>.</p>
+      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="/api/librairie/documentation">la documentation de la librairie</a> et <a href="#" target="_blank">de l'API</a>.</p>
       <br /><p>Si vous rencontrez le moindre problème, veuillez-nous en parler via l'adresse e-mail <a href="mailto:dev@boxtale.com">dev@boxtale.com</a> ou le numéro de téléphone +33 (0)1 75 77 37 96.</p>
     </div>
   </body>

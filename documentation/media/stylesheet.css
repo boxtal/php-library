@@ -3,7 +3,7 @@ a:hover { color: #6699CC; text-decoration: underline; }
 a:active { color: #6699CC; text-decoration: underline; }
 
 body { background : #FFFFFF; }
-body, table { font-family: Georgia, Times New Roman, Times, serif; font-size: 10pt }
+body, table { font-family: Georgia, Times New Roman, Times, serif; font-size: 12pt }
 p, li { line-height: 140% }
 a img { border: 0px; }
 dd { margin-left: 0px; padding-left: 1em; }
