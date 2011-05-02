@@ -15,8 +15,8 @@ class Env_WebService {
    *  @access protected
    *  @var string
    */
-  protected $server = "http://localhost:8080";
-  // protected $server = "https://test.envoimoinscher.com/";
+  // protected $server = "http://localhost:8080";
+  protected $server = "https://test.envoimoinscher.com/";
 
   /** A private variable which stocks options to pass into curl query.
    *  @access private
@@ -92,9 +92,9 @@ class Env_WebService {
   public function doRequest() {
     $req = curl_init();
     curl_setopt_array($req, $this->options);
-    $result = curl_exec($req);    //echo '<br /><br />'.$result; 
-	 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
-    $curlInfo = curl_getinfo($req);   //print_r(curl_getinfo($req));
+    $result = curl_exec($req);
+	// You can uncomment this fragment to see the content returned by API file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+    $curlInfo = curl_getinfo($req);
     $contentType = explode(";", $curlInfo["content_type"]);
     if(curl_errno($req) > 0) {
       $this->curlError = true;
@@ -122,7 +122,7 @@ class Env_WebService {
    *  @return void
    */
   public function setOptions($options) {
-    $this->options = array(CURLOPT_RETURNTRANSFER => 1, 
+    $this->options = array(CURLOPT_SSL_VERIFYPEER => false, CURLOPT_RETURNTRANSFER => 1, 
       CURLOPT_URL => $this->server.$options['action'].$this->getParams,
       CURLOPT_HTTPHEADER => array("Authorization: ".base64_encode($this->auth['user'].":".$this->auth['pass'])."",
       "access_key : ".$this->auth['key']."")
@@ -135,7 +135,7 @@ class Env_WebService {
    */
   public function setPost() {
     $this->options[CURLOPT_POST] = true;
-    $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);   //echo '<br /><br />'.http_build_query($this->param);
+    $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
   }
   
   /** Function sets the get params passed into the request. 
