@@ -11,11 +11,16 @@
   </head>
   <body>
     <div id="CONTAINER">
-      <p>Ce document a pour but de vous faciliter le travail sur votre interface 
+      <p>Ce document est un guide de démarrage rapide : il a pour but de vous faciliter le travail pour connecter votre interface
       avec l'API <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a></p>
-      <p>Progressivement on exploitera les éléments qui vous permettront de développer un module e-shipping dans
-      votre e-boutique. Dans le premier exemple on va récupérer <a href="#categories">les catégories</a>. Ensuite on passera à <a href="#pays">la gestion des pays</a> pour finir avec 
-      <a href="#devis">le devis</a> et <a href="#commande">la passation de commande</a>.</p>
+      <p>On explorera successivement les éléments qui vous permettront de développer un module e-shipping pour
+      votre e-boutique. On passera donc en revue ces éléments dans l'ordre :</p> 
+      <ul>
+        <li><a href="#categories">les catégories de contenu</a></li>
+        <li><a href="#pays">la gestion des pays</a></li>
+        <li><a href="#devis">le devis</a></li>
+        <li><a href="#commande">la passation de commande</a></li>
+      </ul> 
       <p><b>Le contenu de la librairie</b></p>
       <p>Le package contient 6 répertoires : </p>
       <ul>
@@ -23,12 +28,12 @@
         <li>env - les classes qui permettent l'interaction avec l'API</li>
         <li>lib - le répertoire où vous pouvez placer vos classes</li>
         <li>samples - les fichiers avec les exemples d'utilisation de la librairie</li>
-        <li>test - un fichier qui teste l'apptitude de votre environnement par rapport à la librairie</li>
+        <li>test - un fichier qui teste si votre environnement de développement possède toutes les extensions utilisées par la librairie</li>
         <li>utils - le dossier avec des fonctions utilisées par les exemples placés dans le répertoire samples/</li>
       </ul>
-      <p id="categories"><b>1. Comment obtenir la liste des catégories ?</b></p>
-      <p>Grâce à l'API vous pouvez obtenir la liste des contenus qui vont vous servir pour le 
-      développement de votre module.</p>
+      <p id="categories"><b>1. Comment obtenir la liste des catégories de contenu ?</b></p>
+      <p>Grâce à l'API vous pouvez obtenir la liste des catégories de contenu qui vont vous servir pour le 
+      développement de votre module. On désigne par « catégories de contenu » les différents types d'objets qui peuvent être contenus dans un envoi (nature des envois). </p>
       <code>
         &lt;?php
         <ul class="code">
@@ -38,11 +43,11 @@
         ?>
       </code>
       <p>L'API a besoin du code de la catégorie de contenu, représenté par la variable $contents.</p>
-      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_categories_simple.php">récupération des catégories</a></p>
+      <p>Voir aussi les exemples : <a href="/api/librairie/samples/get_categories_simple.php">récupération des catégories de contenu</a></p>
       <p id="pays"><b>2. Comment obtenir la liste des pays ?</b></p>
       <p>Les commandes chez EnvoiMoinsCher.com sont réalisées avec les codes ISO des pays. Pour l'instant le système gère uniquement
-      les commandes passées depuis la France vers l'étranger.
-      La récupération des pays se présente ainsi : </p>
+      les commandes passées depuis la France vers l'étranger, pas les trajets import depuis l'étranger vers la France.
+      La récupération des pays de destination se présente ainsi : </p>
       <code>
         &lt;?php
         <ul class="code">
@@ -52,7 +57,7 @@
         ?>
       </code>
       <p>La passation de commande se déroule avec le code ISO, représenté dans le tableau $countries par la clé "code".</p>
-      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_country_simple.php">récupération des pays</a>.</p>
+      <p>Voir aussi les exemples : <a href="/api/librairie/samples/get_country_simple.php">récupération des pays</a>.</p>
       <p id="devis"><b>3. Comment obtenir un devis ?</b></p>
       <p>Voici les éléments dont on a besoin pour obtenir un devis :</p>
       <ul>
@@ -83,12 +88,13 @@
       </code>
       <p>Avant d'appeler getOffers() vous pouvez vous rassuer que la requête s'est correctement exécutée. Pour cela il faut que $curlError et $respError
       aient comme valeur false.</p>
-      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_cotation.php">le devis Nantes - Bordeaux</a>.</p>
+      <p>Voir aussi les exemples : <a href="/api/librairie/samples/get_cotation.php">le devis Nantes - Bordeaux</a>.</p>
       <p id="commande"><b>4. Comment passer une commande ?</b></p>
-      <p>L'API de l'EnvoiMoinsCher ne supporte que l'envoi d'un seul élément. Il est donc impossible
-      d'expédier deux colis différents ou deux types d'envoi différents (par exemple un encombrant et un pli).</p>
-      <p>La passation d'une commande se déroule de la même manière que l'obtention d'une cotation. La seule différence consiste en informations que vous devez fournir en plus. Pour l'expéditeur et le destinataire vous devez indiquer leurs adresses exactes, numéros de téléphones, données personnelles. Concernant les données 
-      de l'envoi, en fonction de l'opérateur et du service choisis, vous pouvez être amenés à fournir des informations comme les disponibilités d'enlèvement, les points relais de dépôt et de retrait ou le montant d'assurance.</p>
+      <p>L'API ne gère que les envois mono-colis (un seul colis dans la commande de transport). 
+      Il n'effectue qu'un seul envoi à la fois, cet envoi ne pouvant être que d'un seul type (encombrant, colis, palette, pli). 
+      Il pourra comporter un ou plusieurs objets mais ces derniers devront tous être de la même nature (une seule catégorie de contenu par envoi).</p>
+      <p>La passation d'une commande se déroule de la même manière que l'obtention d'une cotation. La seule différence réside dans les informations que vous devez fournir en plus. Pour l'expéditeur et le destinataire vous devez indiquer leurs adresses exactes, numéros de téléphones, données personnelles. Concernant les données 
+      de l'envoi, en fonction de l'opérateur et du service choisis, vous pouvez être amenés à fournir des informations comme les disponibilités d'enlèvement, les points de proximité pour le dépôt et le retrait ou le montant à déclarer pour l'assurance.</p>
       <code>
         &lt;?php
         <ul class="code">
@@ -112,14 +118,20 @@
         </ul>
         ?>
       </code>
-      <p>Dans cet exemple, on passera une commande chez l'opérateur UPS à condition qu'elle sera inférieure à 50 euros TTC (paramètre "prix_max_ttc").</p>
-      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_order.php">la commande Paris - Marseille</a>, <a href="/librairie/samples/get_order_australia.php">la commande Paris - Sydney</a>, <a href="/librairie/samples/get_order_insurance.php">la commande Paris - Marseille avec l'assurance</a>.</p>
+      <p>Dans cet exemple, on passera une commande auprès de  l'opérateur UPS à condition qu'elle soit inférieure à 50 euros TTC (paramètre "prix_max_ttc").</p>
+      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_order.php">la commande Paris - Marseille</a>, <a href="/api/librairie/samples/get_order_australia.php">la commande Paris - Sydney</a>, <a href="/api/librairie/samples/get_order_insurance.php">la commande Paris - Marseille avec l'assurance</a>.</p>
       <p><b>La fonction d'autoload.</b></p>
       <p>Si vous utilisez un framework ou un système de gestion de contenu, vous pouvez rencontrer des problèmes avec l'inclusion automatique 
-      des classes de la librairie, comme c'est fait dans les fichiers d'exemple. Dans ce cas-là, vous pouvez être amenés à inclure les classes manuellement 
+      des classes de la librairie, comme c'est fait dans les fichiers d'exemple. Dans ce cas-là, vous pouvez être amené à inclure les classes manuellement 
       en utilisant <a href="http://fr2.php.net/manual/en/function.require-once.php" target="_blank"><i>require_once</i></a> ou <a href="http://fr2.php.net/manual/en/function.include-once.php" target="_blank"><i>include_once</i></a> avec les chemins respectifs vers les classes. </p>
       <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="/api/librairie/documentation">la documentation de la librairie</a> et <a href="#" target="_blank">de l'API</a>.</p>
-      <br /><p>Si vous rencontrez le moindre problème, veuillez-nous en parler via l'adresse e-mail <a href="mailto:dev@boxtale.com">dev@boxtale.com</a> ou le numéro de téléphone +33 (0)1 75 77 37 96.</p>
+      <p>Si vous rencontrez le moindre problème, n'hésitez pas à nous contacter : 
+        <ul>
+          <li><a href="mailto:dev@boxtale.com">dev@boxtale.com</a></li>
+          <li>par téléphone au +33 (0)1 75 77 37 96</li>
+          <li>via skype : dev_envoimoinscher</li>
+        </ul>
+      </p>
     </div>
   </body>
 </html>
