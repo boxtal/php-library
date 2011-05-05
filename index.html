@@ -11,7 +11,8 @@
   </head>
   <body>
     <div id="CONTAINER">
-      <p>Ce document est un guide de démarrage rapide : il a pour but de vous faciliter le travail pour connecter votre interface
+      <h1>Quick start / Librairie PHP pour l'API EnvoiMoinsCher</h1>
+      <p>Ce document a pour but de vous faciliter le travail pour connecter votre interface
       avec l'API <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a></p>
       <p>On explorera successivement les éléments qui vous permettront de développer un module e-shipping pour
       votre e-boutique. On passera donc en revue ces éléments dans l'ordre :</p> 
@@ -21,6 +22,15 @@
         <li><a href="#devis">le devis</a></li>
         <li><a href="#commande">la passation de commande</a></li>
       </ul> 
+      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="/api/librairie/documentation">la documentation de la librairie</a> et <a href="#" target="_blank">de l'API</a>.</p>
+      <p><b>Prérequis et informations générales à propos de l'utilisation de l'API EnvoiMoinsCher.</b></p>
+      <p>Avant de pouvoir utiliser l'API EnvoiMoinsCher, il vous faudra suivre les étapes suivantes :
+      <ul>
+        <li>Créer un compte utilisateur sur le site <a href="http://www.envoimoinscher.com" >www.envoimoinscher.com</a> et le confirmer.</li>
+        <li>Nous contacter par mail à l'adresse <a href="mailto:informationAPI@envoimoinscher.com">informationAPI@envoimoinscher.com</a> en nous indiquant votre login. Nous vous répondrons par un mail contenant la clé API associée à votre compte utilisateur.</li>
+      </ul>
+      Une fois reçu le mail contenant votre clé API, vous pouvez commencer à effectuer des tests. Vos requêtes doivent alors s'effectuer sur le site https://test.envoimoinscher.com en utilisant votre compte EnvoiMoinsCher et la clé API qui vous a été transmise. Lorsque vous pensez être prêt à passer votre boutique en production, il vous faudra alors effectuer vos requêtes sur le site https://www.envoimoinscher.com. Afin de passer de l'un à l'autre, il suffira de changer la valeur du champ $server de la classe WebService. 
+      </p>
       <p><b>Le contenu de la librairie</b></p>
       <p>Le package contient 6 répertoires : </p>
       <ul>
