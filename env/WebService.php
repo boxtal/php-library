@@ -12,6 +12,8 @@
 class Env_WebService {
 
   /** A protected variable which determines the API server host.
+   *  https://test.envoimoinscher.com/ is your test environment
+   *  https://www.envoimoinscher.com/ is your production environment 
    *  @access protected
    *  @var string
    */
@@ -93,7 +95,8 @@ class Env_WebService {
     $req = curl_init();
     curl_setopt_array($req, $this->options);
     $result = curl_exec($req);
-	// You can uncomment this fragment to see the content returned by API file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+	// You can uncomment this fragment to see the content returned by API  
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
     $curlInfo = curl_getinfo($req);
     $contentType = explode(";", $curlInfo["content_type"]);
     if(curl_errno($req) > 0) {
@@ -110,7 +113,9 @@ class Env_WebService {
         $i = count($this->respErrorsList);
       }
       $this->respErrorsList[$i] = array("code" => "http_file_not_found",
-                                "url" => $curlInfo["url"]);
+                                "url" => $curlInfo["url"],
+                                "message" => "Votre requête n'a pas été correctement envoyée. Veuillez vous rassurer qu'elle
+                                 questionne le bon serveur (https et non pas http). Si le problème persiste, contactez notre équipe de développement");
     }
     curl_close($req); 
     return $result;

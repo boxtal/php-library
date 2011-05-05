@@ -87,8 +87,8 @@ class Env_Quotation extends Env_WebService {
    */
   public function setType($type, $data) {
     $this->param["$type.poids"] = $data["poids"];
-    if($type == "pallet") {
-      $palletDim = explode("x", $this->palletDims[$data['pallet']]);
+    if($type == "palette") {
+      $palletDim = explode("x", $this->palletDims[$data['palletDims']]);
       $data["longueur"] = (int)$palletDim[0];
       $data["largeur"] = (int)$palletDim[1];
     }
@@ -165,12 +165,11 @@ class Env_Quotation extends Env_WebService {
         $charactDetail = $this->xpath->evaluate("/cotation/shipment/offer/characteristics")->item($o)->childNodes;
         $charactArray = array();
         foreach($charactDetail as $c => $char) {
-// TODO : enlever cette validation après avoir détecté pourquoi il multiplie le nombre des nodes par 2
           if(trim($char->nodeValue) != "") {
             $charactArray[$c] = $char->nodeValue;
           }
         }
-// préparation des alertes (TODO : modif dans le draft où l'on indique alerte au lieu d'alert)
+// préparation des alertes
         $alerts = array(); 
         $alertsNode = $this->xpath->query("/cotation/shipment/offer[$node]/alert");
         foreach($alertsNode as $a => $alert) {
