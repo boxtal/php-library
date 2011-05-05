@@ -195,7 +195,7 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau qui contient les dimensions des palettes acceptées par EnvoiMoinsCher.com. Les dimensions sont données selon le format &quot;longueur cm x largeur cm&quot;. Elles sont classées en ordre décroissant.</p>
+<p class="short-description">Le tableau qui contient les dimensions des palettes acceptées par EnvoiMoinsCher.com. Les dimensions sont données selon le format &quot;longueur cm x largueur cm&quot;. Elles sont classées en ordre décroissant.</p>
 <p class="description"><p><br />Pour passer une valeur correcte il faut utiliser la clé de $palletDimss dans le paramètre quot;pallet&quot; .   
 La requête correcte de l'envoi d'une palette va se présenter ainsi :   
 $quotInfo = array(&quot;collecte_date&quot; =&gt; &quot;2015-04-29&quot;, &quot;delay&quot; =&gt; 
@@ -424,13 +424,13 @@ La commande a été correctement réalisée si la référence correspond à ce m
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui passe les paramètres du proforma à l'API.</p>
+<p class="short-description">La méthode qui passe les paramètres de la facture proforma à l'API.</p>
 <p class="description"><p><br />Vous êtes obligé de passer un tableau multidimensionnel qui commence par 1.
 Même si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setProforma(array(1 =&gt; array(&quot;description_en&quot; =&gt; &quot;english description for this item&quot;,   &quot;description_fr&quot; =&gt; &quot;la description française pour ce produit&quot;, &quot;origine&quot; =&gt; &quot;FR&quot;,   &quot;number&quot; =&gt; 2, &quot;value&quot; =&gt; 500)));   
 <br />La signification des clés du tableau:   <ul><li><em>description_en</em> =&gt; la description du produit en anglais</li>
 <li><em>description_fr</em> =&gt; la description du produit en français</li>
 <li><em>origine</em> =&gt; l'origine du produit (vous pouvez y mettre EEE pour chaque produit qui vient de l'Espace Economique Européen)</li>
-<li><em>number</em> =&gt; la quantité des objets à envoyer</li>
+<li><em>number</em> =&gt; la quantité d'objets à envoyer</li>
 <li><em>value</em> =&gt; la valeur <b>unitaire</b> du produit (la somme est calculée automatiquement du côté de l'API)</li></ul></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
@@ -447,7 +447,7 @@ Même si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setPr
 			<ul class="parameters">
 					<li>
 				<span class="var-type">array</span>
-				<span class="var-name">$data</span><span class="var-description">: Tableau avec les informations sur proforma.</span>			</li>
+				<span class="var-name">$data</span><span class="var-description">: Tableau avec les informations  de la facture.</span>			</li>
 				</ul>
 		
 			
@@ -462,7 +462,7 @@ Même si vous n'avez qu'une seule ligne. <br /><br />Exemple :   $this-&gt;setPr
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">La méthode qui définit les informations utilisées pour réaliser l'envoi.</p>
 <p class="description"><p><br />Faites attention pendant l'envoi d'une palette. Dans ce cas-là vous ne
-pouvez pas indiquer la longueur et la largeur. A leur place, 
+pouvez pas indiquer la longueur et la largeur. A la place, 
  vous devez utiliser la clé du tableau $palletDims qui correspond à vos dimensions.</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>

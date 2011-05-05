@@ -4,8 +4,8 @@
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once('../utils/header.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+require_once('../utils/header.php'); 
+require_once('../utils/autoload.php');
 $orderPSStyle = 'style="font-weight:bold;"';
 
 // Expéditeur et destinataire
@@ -21,13 +21,13 @@ $to = array("pays" => "AU", "code_postal" => "2000", "type" => "particulier",
 // Informations sur l'envoi
 $quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "content_code" => 10120,
 "operator" => "UPSE",
-"reason" => "sale",
+"raison" => "sale",
 "valeur" => 1200,
-"assurance.selected" => false,
+// "assurance.selected" => false,
 "description" => "Des journaux",
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00");
-$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$cotCl = new Env_Quotation(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array("poids" => 11, "longueur" => 30, "largeur" => 44, "hauteur" => 44));

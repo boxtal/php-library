@@ -4,8 +4,8 @@
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once('../utils/header.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+require_once('../utils/header.php'); 
+require_once('../utils/autoload.php');
 $orderPMAStyle = 'style="font-weight:bold;"';
 // Informations sur l'expéditeur et le destinataire 
 $from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
@@ -19,11 +19,11 @@ $to = array("pays" => "FR", "code_postal" => "13005", "type" => "particulier",
 
 // Informations sur la cotation
 $quotInfo = array("collecte" => date("Y-m-d"), 
-"delai" => "aucun",  "code_contenu" => 10120,
+"delai" => "aucun", "code_contenu" => 10120,
 "operateur" => "UPSE", // "service" => "Standard" commenté, vous pouvez décommenter pour passer une commande en service Express 
-"disponibilite.HDE" => "09:00", 
+"disponibilite.HDE" => "09:00",
 "disponibilite.HLE" => "19:00",
-"assurance.selection" => true,
+"assurance.selection" => true,  
 "valeur" => 120,
 "prix_max_ttc" => 40,
 "description" => "Le Monde, années 1990-1992"
@@ -31,7 +31,8 @@ $quotInfo = array("collecte" => date("Y-m-d"),
 $cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
-$cotCl->setType("colis", array("poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44));
+$cotCl->setType("colis", array("assurance.selection" => true,  
+"valeur" => 120,"poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44));
 $orderPassed = $cotCl->makeOrder($quotInfo, true);
 if(!$cotCl->curlError && !$cotCl->respError) { 
   if($orderPassed) {

@@ -5,15 +5,15 @@
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once('../utils/header.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+require_once('../utils/header.php'); 
+require_once('../utils/autoload.php');
 $parcelPointsStyle = 'style="font-weight:bold;"';
 // Exemple de traduction pour les codes d'erreur
 $codesTranslated = array("http_file_not_found" => "Page n'existe pas", 
 "type_not_correct" => "Please, select the right point type");
 
 // Initialisation de la classe points relais
-$pointCl = new Env_ParcelPoint(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$pointCl = new Env_ParcelPoint(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
 // Example avec deux points relais, un pour RelaisColis, l'autre pour Sernam; pour ce faire
 // on doit mettre $constructList en true
 $pointCl->constructList = true;

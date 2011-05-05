@@ -3,11 +3,11 @@
  *  Vous pouvez ainsi télécharger uniquement les catégories, lister les sous-catégories pour une seule ou pour toutes les catégories. 
  */
 require_once('../utils/header.php');
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+error_reporting(E_ERROR | E_WARNING | E_PARSE); 
+require_once('../utils/autoload.php');
 $categoriesStyle = 'style="font-weight:bolder;"';
 // Initialisation de la classe chargée de récupérer les catégories 
-$contentCl = new Env_ContentCategory(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$contentCl = new Env_ContentCategory(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
 // Cette méthode permet de récupérer la liste des catégories
 $contentCl->getCategories();
 // Celle-ci charge la liste des catégories de contenus (sous-catégories)

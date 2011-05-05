@@ -72,14 +72,14 @@ de l'interaction entre le serveur client et l'API.</p></p>
 								<tr>
 					<td style="padding-right: 2em"><a href="../Env/Env_ParcelPoint.html">Env_ParcelPoint</a></td>
 					<td>
-											La classe pour la gestion des points relais.
+											La classe pour la gestion des points de proximité.
 										</td>
 				</tr>
   
 								<tr>
 					<td style="padding-right: 2em"><a href="../Env/Env_Quotation.html">Env_Quotation</a></td>
 					<td>
-											La classe pour la gestion de la cotation et de la commande.
+											La classe pour la gestion de la cotation (devis de transport avec la liste des offres de livraison) et de la commande.
 										</td>
 				</tr>
 							</table>
@@ -403,8 +403,8 @@ de l'interaction entre le serveur client et l'API.</p></p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La méthode qui exécute la requête. Si une erreur apparaît, on ferme l'appel CURL et met</p>
-<p class="description"><p>les détails de l'erreur dans la variable $this-&gt;errorText. 
+<p class="short-description">La méthode qui exécute la requête.</p>
+<p class="description"><p> Si une erreur apparaît, on ferme l'appel CURL et met les détails de l'erreur dans la variable $this-&gt;errorText. 
 On distingue 2 situations où en retour on reçoit le code 404 :   
 <br />1) API renvoie le code 404 pour une requête correcte (vers une ressource existante)
 qui ne contient pas les résultats.  Dans ce cas le type de la réponse est application/xml.   

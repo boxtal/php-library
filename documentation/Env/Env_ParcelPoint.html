@@ -23,8 +23,8 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">EnvoiMoinsCher API - la classe pour la gestion des points relais.</p>
-<p class="description"><p>Vous pouvez utiliser cette classe pour charger un ou plusieurs points relais pour le dépôt et le retrait de votre envoi.</p></p>
+<p class="short-description">EnvoiMoinsCher API - la classe pour la gestion des points de proximité.</p>
+<p class="description"><p>Vous pouvez utiliser cette classe pour charger un ou plusieurs points de proximité pour le dépôt et le retrait de votre envoi.</p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> EnvoiMoinsCher &lt;<a href="mailto:dev@envoimoinscher.com">dev@envoimoinscher.com</a>&gt;</li>
 				<li><span class="field">version:</span> 1.0</li>
@@ -118,7 +118,7 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La variable qui détermine si $points va contenir un seul ou plusieurs points relais. La valeur par défaut (false) signifie qu'on gère uniquement un point relais.</p>
+<p class="short-description">La variable qui détermine si $points va contenir un seul ou plusieurs points de proximité. La valeur par défaut (false) signifie qu'on gère uniquement un point de proximité.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -140,8 +140,8 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Le tableau avec les points relais chargés qui prend comme clés :  pickup_point (point relais de dépôt) 
-et dropoff_point (point relais de retrait).</p>
+<p class="short-description">Le tableau avec les points de proximité chargés qui prend comme clés :  pickup_point (point de proximité de dépôt) 
+et dropoff_point (point de proximité de retrait).</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -224,7 +224,7 @@ et dropoff_point (point relais de retrait).</p>
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">La fonction qui récupère un point relais.</p>
+<p class="short-description">La fonction qui récupère un point de proximité.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -240,10 +240,10 @@ et dropoff_point (point relais de retrait).</p>
 			<ul class="parameters">
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">$type</span><span class="var-description">: Type du points relais à charger (dropoff_point ou pickup_point).</span>			</li>
+				<span class="var-name">$type</span><span class="var-description">: Type du points de proximité à charger (dropoff_point ou pickup_point).</span>			</li>
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">$code</span><span class="var-description">: Le code du points relais composé d'un code opérateur et d'un identifiant (par exemple : SERN-206059 renvoie au point relais du Sernam à Lille).</span>			</li>
+				<span class="var-name">$code</span><span class="var-description">: Le code du points de proximité composé d'un code opérateur et d'un identifiant (par exemple : SERN-206059 renvoie au point de proximité du Sernam à Lille).</span>			</li>
 				</ul>
 		
 			

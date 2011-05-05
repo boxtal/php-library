@@ -5,12 +5,12 @@
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once('../utils/header.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/librairie/utils/autoload.php';
+require_once('../utils/header.php'); 
+require_once('../utils/autoload.php');
 $countriesStyle = 'style="font-weight:bold;"';
 
 // Initialisation de la classe pays
-$countryCl = new Env_Country(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$countryCl = new Env_Country(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
 // Récupération des pays
 $countryCl->getCountries();
 ?>
