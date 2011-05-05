@@ -22,57 +22,70 @@
           <tr>
             <td>Assurance AXA</td>
             <td>assurance</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : <br />
+              - assurance.selected (true|false) - si true, l'assurance sera prise en compte (et soumise à une validation)
+              <br />- assurance.valeur - la valeur des objets à assurer
+              <br />- assurance.description - la description des objets à assurer
+// TODO : types d'emballage, de protection etc.
+            </td>
           </tr>
           <tr>
             <td>Choix de la personne à facturer pour les droits de douane</td>
             <td>douanes</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>// TODO : tester</td>
           </tr> 
           <tr>
             <td>Code promotionnel</td>
             <td>promotion</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Pour votre envoi vous pouvez bénéficier d'un code promotionnel (<a href="http://www.envoimoinscher.com/1erenvoioffert.html" target="_blank">opération 1er envoi offert</a>, <a href="http://www.envoimoinscher.com/ebay.html" target="_blank">-5% avec eBay</a>). 
+              Pour ce faire veuillez passer le paramètre suivant : promotion.user_code (string) // TODO; à voir
+            </td>
           </tr> 
           <tr>
             <td>Colis hors gabarit accepté</td>
             <td>hors_gabarit</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>TODO : VOIR</td>
           </tr>
           <tr>
             <td>Contre-remboursement</td>
             <td>contre-remboursement</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Cette option permet au destinataire de payer la valeur réelle du produit à sa réception. Le paramètre à passer dans le tableau
+              <br />avec les options est <i>contre-remboursement.valeur</i> (int). Il signifie la valeur attendue du contre-remboursement .
+            </td>
           </tr>
           <tr>
             <td>Date impérative de livraison</td>
             <td>livraison_imperative</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Ce paramètre signifie la date à laquelle votre colis doit forcément être livré. Dans le tableau des options il est représenté par <i>livraison_imperative.DIL</i> (string - la date en format d-M-Y; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>)</td>
           </tr>
           <tr>
             <td>Description de l'envoi</td>
             <td>description</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le paramètre est demandé pour l'assurance AXA. Il se traduit par <i>description</i> (string).</td>
           </tr>
           <tr>
             <td>Disponibilité pour l'enlèvement du colis</td>
             <td>disponibilite</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Certains transporteurs exigent l'information sur la disponibilité de l'expéditeur pour l'enlèvement et du destinataire pour la livraison de l'envoi. Dans ce cas vous êtes amené à passer les 
+              paramètres suivants : 
+              <br />- <i>disponibilite.HDE</i> (string; date en format H:i; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>) : signifie la disponibilité pour l'enlèvement
+              <br />- <i>disponibilite.HLE</i> (string; date en format H:i; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>) : signifie la disponibilité pour la livraison
+            </td>
           </tr>
           <tr>
-            <td>Point relais de dépôt</td>
+            <td>Point de proximité pour le dépôt</td>
             <td>depot</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Si vous avez choisi le transporteur qui livre entre deux points de proximité, vous devez spécifier ce paramètre : <i>depot.pointrelais</i> (string, l'identifiant du point sous format CODE_TRANSPORTEUR-ID_POINT_DE_PROXIMITE).</td>
           </tr> 
           <tr>
-            <td>Point relais de retrait</td>
+            <td>Point de proximité pour le retrait</td>
             <td>retrait</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Si vous avez choisi le transporteur qui livre entre deux points de proximité, vous devez spécifier ce paramètre : <i>retrait.pointrelais</i> (string, l'identifiant du point sous format CODE_TRANSPORTEUR-ID_POINT_DE_PROXIMITE).</td>
           </tr>
           <tr>
             <td>Valeur déclarée du contenu</td>
             <td>valeur_declaree</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Certains transporteurs exigent l'indication de la valeur du contenu de l'envoi. Pour passe ce paramètre, utilisez <i>valeur_declaree.valeur</i> (float).</td>
           </tr>   
         </tbody>
       </table>
@@ -82,82 +95,80 @@
         <tbody>
           <tr>
             <td>Nom</td>
-            <td>assurance</td>
+            <td>nom</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le nom de l'expéditeur ou du destinataire.</td>
           </tr>
           <tr>
             <td>Prénomn</td>
-            <td>douanes</td>
+            <td>prenom</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le prénom de l'expéditeur ou du destinataire.</td>
           </tr> 
           <tr>
             <td>Civilité</td>
-            <td>promotion</td>
+            <td>civilite</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>La civilité de la personne (M, Mme, Mlle)</td>
           </tr> 
           <tr>
             <td>Entreprise</td>
-            <td>hors_gabarit</td>
-            <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>entreprise</td>
+            <td>obligatoire si type = entreprise</td>
+            <td>Si le type de la personne est une entreprise, vous devez indiquer le nom de l'entreprise en question.</td>
           </tr>
           <tr>
-            <td>Fonction</td>
-            <td>contre-remboursement</td>
+            <td>Adresse</td>
+            <td>adresse</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
-          </tr>
-          <tr>
-            <td>Adresse (3 lignes acceptés, séparées par |)</td>
-            <td>livraison_imperative</td>
-            <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>L'adresse (la rue, l'étage, le numéro de chambre...) de la personne. Vous avez la possibilité d'indiquer au maximum 3 lignes pour tous les transporteurs sauf le TNT. Pour le TNT le nombre des lignes maximal est 2.<br />
+              Pour passer une adresse composée de plusieurs lignes, veuillez utiliser le séparateur |. Pour un logement Y situé à la rue Inconnue on aura donc : "1, rue Inconnue | logement 200".
+            </td>
           </tr>
           <tr>
             <td>Pays</td>
-            <td>description</td>
+            <td>pays</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le pays de la personne représenté par le code ISO. L'expéditeur peut prendre comme valeur uniquement "FR".</td>
           </tr>
           <tr>
             <td>Code postal</td>
-            <td>disponibilite</td>
+            <td>code_postal</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le code postal de l'expéditeur ou du destinataire.</td>
           </tr>
           <tr>
             <td>Ville</td>
-            <td>depot</td>
+            <td>ville</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>La ville de la personne.</td>
           </tr> 
           <tr>
             <td>Numéro de téléphone</td>
-            <td>retrait</td>
+            <td>tel</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le numéro de téléphone auquel vous serez joignable par notre service client et par le transporteur (p.ex.: pour demander votre disponibilité).<br />
+              Si vous ne connaissez pas le numéro de téléphone du destinataire, indiquez le même que pour l'expéditeur.
+            </td>
           </tr>
           <tr>
             <td>Adresse e-mail</td>
-            <td>valeur_declaree</td>
+            <td>email</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>L'adresse e-mail de la personne, utilisée pour l'envoi des documents (factures, bordereaux...).</td>
           </tr>
           <tr>
             <td>Informations complémentaires</td>
-            <td>valeur_declaree</td>
+            <td>infos</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Les informations complémentaires dans lesquelles vous pouvez, par exemple, aider livreur de trouver votre bureau ou d'indiquer que l'ascenseur est en panne.</td>
           </tr>  
           <tr>
             <td>Type</td>
-            <td>valeur_declaree</td>
+            <td>type</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
-          </tr>     
+            <td>Le type de la personne : particulier ou entreprise.</td>
+          </tr>
         </tbody>
       </table>
       <p><b>Les paramètres de l'envoi (colis, pli, encombrant, palette)</b></p>
@@ -166,39 +177,39 @@
         <tbody>
           <tr>
             <td>Poids</td>
-            <td>assurance</td>
+            <td>poids</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le poids de votre envoi, exprimé en kg.</td>
           </tr>
           <tr>
             <td>Longueur</td>
-            <td>douanes</td>
+            <td>longueur</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>La longueur de votre envoi, exprimée en cm.</td>
           </tr> 
           <tr>
             <td>Largeur</td>
-            <td>promotion</td>
+            <td>largeur</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>La largeur de votre envoi, exprimée en cm.</td>
           </tr> 
           <tr>
             <td>Hauteur</td>
-            <td>hors_gabarit</td>
+            <td>hauteur</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>La hauteur de votre envoi, exprimé en cm.</td>
           </tr>
           <tr>
-            <td>Longueur de la palette (uniquement pour l'envoi d'une palette)</td>
-            <td>contre-remboursement</td>
-            <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Longueur de la palette</td>
+            <td>palletDims</td>
+            <td>obligatoire si l'envoi = palette</td>
+            <td>Veuillez vous référer au tableau $palletDims placé dans la classe Env_Quotation pour connaître les paramètres acceptés.</td>
           </tr> 
           <tr>
             <td>Nombre</td>
-            <td>contre-remboursement</td>
-            <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>nombre</td>
+            <td>facultatif</td>
+            <td>Le paramètre qui indique le nombre de colis à expédier. Il est facultatif. Si vous ne le passez pas, il prendra 1 pour valeur.</td>
           </tr> 
         </tbody>
       </table>
@@ -208,33 +219,82 @@
         <tbody>
           <tr>
             <td>Catégorie de contenu</td>
-            <td>assurance</td>
+            <td>code_contenu</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Le code de la catégorie de contenu.</td>
           </tr>
           <tr>
             <td>Délai</td>
-            <td>douanes</td>
+            <td>delai</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>Il prend comme valeur : <br />
+              - none : offres de transport triées par prix décroissant<br />
+              - minimum : offres de transport triées par délai croissant<br />
+              - courier : offres de course avec livraison dans la journée<br />
+            </td>
           </tr> 
           <tr>
             <td>Transporteur</td>
-            <td>promotion</td>
-            <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>operateur</td>
+            <td>facultatif</td>
+            <td>Le code du transporteur que vous avez choisi pour votre envoi. Si vous ne l'indiquez pas : <br />
+              - dans la cotation vous recevrez toutes les offres de transport<br />
+              - vous allez commander la 1e offre correspondant au paramète <i>delai</i> dans votre commande
+            </td>
           </tr> 
           <tr>
             <td>Service</td>
-            <td>hors_gabarit</td>
-            <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>service</td>
+            <td>facultatif</td>
+            <td>Le nom du service que vous souhaitez commander.</td>
           </tr>
           <tr>
             <td>Date d'enlèvement</td>
-            <td>contre-remboursement</td>
+            <td>collecte</td>
             <td>obligatoire</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : </td>
+            <td>La date d'enlèvement souhaitée, en format d-M-Y (<a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>).</td>
+          </tr> 
+          <tr>
+            <td>Date d'enlèvement</td>
+            <td>prix_max_ttc</td>
+            <td>obligatoire</td>
+            <td>La date d'enlèvement souhaitée, en format d-M-Y (<a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>).</td>
+          </tr> 
+          <tr>
+            <td>Date d'enlèvement</td>
+            <td>collecte</td>
+            <td>obligatoire</td>
+            <td>La date d'enlèvement souhaitée, en format d-M-Y (<a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>).</td>
+          </tr> 
+          <tr>
+            <td>Prix maximal HT</td>
+            <td>prix_max_ht</td>
+            <td>facultatif</td>
+            <td>Le prix maximal en HT pour la sélection d'offres ou la passation de commande. Exprimé en €.</td>
+          </tr> 
+          <tr>
+            <td>Prix maximal TTC</td>
+            <td>prix_max_ttc</td>
+            <td>facultatif</td>
+            <td>Le prix maximal en TTC pour la sélection d'offres ou la passation de commande. Exprimé en €.</td>
+          </tr> 
+          <tr>
+            <td>Prix exact en HT</td>
+            <td>prix_exact_ht</td>
+            <td>facultatif</td>
+            <td>Le prix exact en HT pour la sélection d'offres ou la passation de commande. Exprimé en €.</td>
+          </tr> 
+          <tr>
+            <td>Prix exact TTC</td>
+            <td>prix_exact_ttc</td>
+            <td>facultatif</td>
+            <td>Le prix exact en TTC pour la sélection d'offres ou la passation de commande. Exprimé en €.</td>
+          </tr>  
+          <tr>
+            <td>L'information externe</td>
+            <td>reference_externe</td>
+            <td>facultatif</td>
+            <td>Dans ce paramètre vous pouvez passer une information qui, par exemple, vous permettra de faire un pont entre votre commande EnvoiMoinsCher et le produit dans votre e-boutique.</td>
           </tr> 
         </tbody>
       </table>
