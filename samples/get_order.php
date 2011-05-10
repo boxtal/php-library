@@ -37,15 +37,24 @@ $quotInfo = array("collecte" => date("Y-m-d"),
 "operateur" => "SOGP",
 "collection_type" => "DROPOFF_POINT",
 "delivery_type" => "PICKUP_POINT",
-"depot.pointrelais" => "SOGP-G2169", 
-// "retrait.pointrelais" => "SOGP-I1151",
-// "prix_max_ttc" => 20,
+"depot.pointrelais" => "SOGP-C3051", 
+// "retrait.pointrelais" => "SOGP-I1151", 
+
+// Pour le point relais en différé (choix par le destinataire) : 
+"retrait.pointrelais" => "differe",
+"retrait.choix_differe" => true,
+
+"prix_max_ttc" => 20,
 "description" => "Le Monde, années 1990-1992"
 );
-$cotCl = new Env_Quotation(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
-$cotCl->setType("colis", array( "assurance.selection" => true,"poids" => 2, "longueur" => 13, "largeur" => 11, "hauteur" => 12));
+$cotCl->setType("colis", array(
+1 => array("poids" => 4, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
+// , 2 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
+)
+);
 $orderPassed = $cotCl->makeOrder($quotInfo, true);
 if(!$cotCl->curlError && !$cotCl->respError) { 
   if($orderPassed) {

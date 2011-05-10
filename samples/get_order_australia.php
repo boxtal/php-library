@@ -19,7 +19,7 @@ $to = array("pays" => "AU", "code_postal" => "2000", "type" => "particulier",
 "tel" => "0601010101", "infos" => "Some informations about my shipment");
 
 // Informations sur l'envoi
-$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "content_code" => 10120,
+$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "code_contenu" => 10120,
 "operator" => "UPSE",
 "raison" => "sale",
 "valeur" => 1200,
@@ -27,17 +27,20 @@ $quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "content_cod
 "description" => "Des journaux",
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00");
-$cotCl = new Env_Quotation(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
+$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
-$cotCl->setType("colis", array("poids" => 11, "longueur" => 30, "largeur" => 44, "hauteur" => 44));
+$cotCl->setType("colis", array(
+  1 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11), 
+  2 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11))
+);
 // Pour cet envoi on est obligé de joindre une facture proforma qui résume 2 objets expédiés
 $cotCl->setProforma(array(1 => array("description_en" => "L'Equipe newspaper from 1998",
 "description_fr" => "le journal L'Equipe du 1998",  "nombre" => 1, "valeur" => 10, 
-"origine" => "FR", "poids" => 0.2),
+"origine" => "FR", "poids" => 1.2),
 2 => array("description_en" => "300 editions of L'Equipe newspaper from 1999",
 "description_fr" => "300 numéros de L'Equipe du 1999",  "nombre" => 300,  "valeur" => 8, 
-"origine" => "FR", "poids" => 0.2)));
+"origine" => "FR", "poids" => 0.1)));
 $orderPassed = $cotCl->makeOrder($quotInfo); 
 if(!$cotCl->curlError && !$cotCl->respError) {
   if($orderPassed) {

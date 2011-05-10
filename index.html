@@ -22,11 +22,11 @@
         <li><a href="#devis">le devis</a></li>
         <li><a href="#commande">la passation de commande</a></li>
       </ul> 
-      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="/api/librairie/documentation">la documentation de la librairie</a>, <a href="/api/librairie/parametres.html">les paramètres de la librairie</a> <!--et <a href="#" target="_blank">de l'API</a>-->.</p>
+      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="documentation">la documentation de la librairie</a>, <a href="parametres.html">les paramètres de la librairie</a> <!--et <a href="#" target="_blank">de l'API</a>-->.</p>
       <p><b>Prérequis et informations générales à propos de l'utilisation de l'API EnvoiMoinsCher.</b></p>
       <p>Avant de pouvoir utiliser l'API EnvoiMoinsCher, il vous faudra suivre les étapes suivantes :
       <ul>
-        <li>Créer un compte utilisateur sur le site <a href="http://www.envoimoinscher.com" >www.envoimoinscher.com</a> et le confirmer.</li>
+        <li>Créer un compte utilisateur sur le site <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a> et le confirmer.</li>
         <li>Nous contacter par mail à l'adresse <a href="mailto:informationAPI@envoimoinscher.com">informationAPI@envoimoinscher.com</a> en nous indiquant votre login. Nous vous répondrons par un mail contenant la clé API associée à votre compte utilisateur.</li>
       </ul>
       Une fois reçu le mail contenant votre clé API, vous pouvez commencer à effectuer des tests. Vos requêtes doivent alors s'effectuer sur le site https://test.envoimoinscher.com en utilisant votre compte EnvoiMoinsCher et la clé API qui vous a été transmise. Lorsque vous pensez être prêt à passer votre boutique en production, il vous faudra alors effectuer vos requêtes sur le site https://www.envoimoinscher.com. Afin de passer de l'un à l'autre, il suffira de changer la valeur du champ $server de la classe WebService. 
@@ -53,7 +53,7 @@
         ?>
       </code>
       <p>L'API a besoin du code de la catégorie de contenu, représenté par la variable $contents.</p>
-      <p>Voir aussi les exemples : <a href="/api/librairie/samples/get_categories_simple.php">récupération des catégories de contenu</a></p>
+      <p>Voir aussi les exemples : <a href="samples/get_categories_simple.php">récupération des catégories de contenu</a></p>
       <p id="pays"><b>2. Comment obtenir la liste des pays ?</b></p>
       <p>Les commandes chez EnvoiMoinsCher.com sont réalisées avec les codes ISO des pays. Pour l'instant le système gère uniquement
       les commandes passées depuis la France vers l'étranger, pas les trajets import depuis l'étranger vers la France.
@@ -67,7 +67,7 @@
         ?>
       </code>
       <p>La passation de commande se déroule avec le code ISO, représenté dans le tableau $countries par la clé "code".</p>
-      <p>Voir aussi les exemples : <a href="/api/librairie/samples/get_country_simple.php">récupération des pays</a>.</p>
+      <p>Voir aussi les exemples : <a href="samples/get_country_simple.php">récupération des pays</a>.</p>
       <p id="devis"><b>3. Comment obtenir un devis ?</b></p>
       <p>Voici les éléments dont on a besoin pour obtenir un devis :</p>
       <ul>
@@ -98,7 +98,7 @@
       </code>
       <p>Avant d'appeler getOffers() vous pouvez vous rassuer que la requête s'est correctement exécutée. Pour cela il faut que $curlError et $respError
       aient comme valeur false.</p>
-      <p>Voir aussi les exemples : <a href="/api/librairie/samples/get_cotation.php">le devis Nantes - Bordeaux</a>.</p>
+      <p>Voir aussi les exemples : <a href="samples/get_cotation.php">le devis Nantes - Bordeaux</a>.</p>
       <p id="commande"><b>4. Comment passer une commande ?</b></p>
       <p>L'API ne gère que les envois mono-colis (un seul colis dans la commande de transport). 
       Il n'effectue qu'un seul envoi à la fois, cet envoi ne pouvant être que d'un seul type (encombrant, colis, palette, pli). 
@@ -129,12 +129,12 @@
         ?>
       </code>
       <p>Dans cet exemple, on passera une commande auprès de  l'opérateur UPS à condition qu'elle soit inférieure à 50 euros TTC (paramètre "prix_max_ttc").</p>
-      <p>Regardez aussi les exemples : <a href="/api/librairie/samples/get_order.php">la commande Paris - Marseille</a>, <a href="/api/librairie/samples/get_order_australia.php">la commande Paris - Sydney</a>, <a href="/api/librairie/samples/get_order_insurance.php">la commande Paris - Marseille avec l'assurance</a>.</p>
+      <p>Regardez aussi les exemples : <a href="samples/get_order.php">la commande Paris - Marseille</a>, <a href="samples/get_order_australia.php">la commande Paris - Sydney</a>, <a href="samples/get_order_insurance.php">la commande Paris - Marseille avec l'assurance</a>.</p>
       <p><b>La fonction d'autoload.</b></p>
       <p>Si vous utilisez un framework ou un système de gestion de contenu, vous pouvez rencontrer des problèmes avec l'inclusion automatique 
       des classes de la librairie, comme c'est fait dans les fichiers d'exemple. Dans ce cas-là, vous pouvez être amené à inclure les classes manuellement 
       en utilisant <a href="http://fr2.php.net/manual/en/function.require-once.php" target="_blank"><i>require_once</i></a> ou <a href="http://fr2.php.net/manual/en/function.include-once.php" target="_blank"><i>include_once</i></a> avec les chemins respectifs vers les classes. </p>
-      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="/api/librairie/documentation">la documentation de la librairie</a> et <a href="#" target="_blank">de l'API</a>.</p>
+      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer à <a href="documentation">la documentation de la librairie</a><!-- et <a href="#" target="_blank">de l'API</a>-->.</p>
       <p>Si vous rencontrez le moindre problème, n'hésitez pas à nous contacter : 
         <ul>
           <li><a href="mailto:dev@boxtale.com">dev@boxtale.com</a></li>

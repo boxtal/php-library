@@ -85,17 +85,19 @@ class Env_Quotation extends Env_WebService {
    *  @param array $data Array with package informations : weight, length, width and height.
    *  @return void
    */
-  public function setType($type, $data) {
-    $this->param["$type.poids"] = $data["poids"];
-    if($type == "palette") {
-      $palletDim = explode("x", $this->palletDims[$data['palletDims']]);
-      $data["longueur"] = (int)$palletDim[0];
-      $data["largeur"] = (int)$palletDim[1];
-    }
-    $this->param["$type.longueur"] = $data["longueur"];
-    $this->param["$type.largeur"] = $data["largeur"];
-    if($type != "pli") {
-      $this->param["$type.hauteur"] = $data["hauteur"];
+  public function setType($type, $dimensions) {
+    foreach($dimensions as $d => $data) {
+      $this->param[$type."_$d.poids"] = $data["poids"];
+      if($type == "palette") {
+        $palletDim = explode("x", $this->palletDims[$data['palletDims']]);
+        $data[$type."_$d.longueur"] = (int)$palletDim[0];
+        $data[$type."_$d.largeur"] = (int)$palletDim[1];
+      }
+      $this->param[$type."_$d.longueur"] = $data["longueur"];
+      $this->param[$type."_$d.largeur"] = $data["largeur"];
+      if($type != "pli") {
+        $this->param[$type."_$d.hauteur"] = $data["hauteur"];
+      }
     }
   }
 
@@ -165,6 +167,7 @@ class Env_Quotation extends Env_WebService {
         $charactDetail = $this->xpath->evaluate("/cotation/shipment/offer/characteristics")->item($o)->childNodes;
         $charactArray = array();
         foreach($charactDetail as $c => $char) {
+// TODO : enlever cette validation après avoir détecté pourquoi il multiplie le nombre des nodes par 2
           if(trim($char->nodeValue) != "") {
             $charactArray[$c] = $char->nodeValue;
           }

@@ -15,7 +15,7 @@
   <body>
     <div id="CONTAINER">
       <p>Ce document a pour but de présenter les paramètres utilisés lors de l'interaction avec l'API <a href="http://www.envoimoinscher.com">EnvoiMoinsCher.com</a>.</p>
-      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer <a href="/api/librairie/documentation">à la documentation de la librairie</a>, <a href="/api/librairie/">au quick start</a> <!-- et <a href="#" target="_blank">de l'API</a>-->.</p>
+      <p>Pour plus d'informations sur les paramètres, la description des classes, veuillez-vous référer <a href="documentation">à la documentation de la librairie</a>, <a href="index.html">au quick start</a> <!-- et <a href="#" target="_blank">de l'API</a>-->.</p>
       <p><b>Les options</b></p>
       <table>
         <thead><tr><td>Nom de l'option</td><td>Nom du paramètre</td><td>Description</td></tr></thead>
@@ -23,8 +23,8 @@
           <tr>
             <td>Assurance AXA</td>
             <td>assurance</td>
-            <td>Afin que votre assurance soit prise en compte, veuillez renseigner également les paramètres suivants : <br />
-              - assurance.selection (true|false) - si true, l'assurance sera prise en compte (et soumise à une validation)
+            <td>Afin que l'assurance proposée par EnvoiMoinsCher soit prise en compte, veuillez renseigner également les paramètres suivants : <br />
+              - assurance.selection (true) - si true, l'assurance sera prise en compte (et soumise à une validation)
               <br />- assurance.valeur - la valeur des objets à assurer
               <br />- assurance.description - la description des objets à assurer
               <br />- assurance.emballage - le type d'emballage utilisé (choix disponibles : Boîte, Caisse, Bac, Emballage isotherme, Etui, Malle, Sac, Tube)
@@ -38,8 +38,10 @@
           <tr>
             <td>Contre-remboursement</td>
             <td>contre-remboursement</td>
-            <td>Cette option permet au destinataire de payer la valeur réelle du produit à sa réception. Le paramètre à passer dans le tableau
-              <br />avec les options est <i>contre-remboursement.valeur</i> (float). Il signifie la valeur attendue du contre-remboursement .
+            <td>Cette option permet au destinataire de payer la valeur réelle du produit à sa réception (c'est le livreur qui
+              collecte la somme qui sera ensuite reversée au vendeur de l'objet). Le paramètre à passer dans le tableau
+              <br />avec les options est <i>contre-remboursement.valeur</i> (float). Il signifie la valeur attendue du contre-remboursement . Il faut
+              également passer <i>contre-remboursement.selection</i> (bool) en true.
             </td>
           </tr>
           <tr>
@@ -55,7 +57,7 @@
           <tr>
             <td>Disponibilité pour l'enlèvement du colis</td>
             <td>disponibilite</td>
-            <td>Certains transporteurs exigent l'information sur la disponibilité de l'expéditeur pour l'enlèvement et du destinataire pour la livraison de l'envoi. Dans ce cas vous êtes amené à passer les 
+            <td>Certains transporteurs exigent cette information : la disponibilité de l'expéditeur à l'enlèvement et celle du destinataire pour la livraison de l'envoi. Dans ce cas vous êtes amené à passer les 
               paramètres suivants : 
               <br />- <i>disponibilite.HDE</i> (string; date en format H:i; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>) : signifie la disponibilité pour l'enlèvement
               <br />- <i>disponibilite.HLE</i> (string; date en format H:i; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>) : signifie la disponibilité pour la livraison
@@ -64,12 +66,14 @@
           <tr>
             <td>Point de proximité pour le dépôt</td>
             <td>depot</td>
-            <td>Si vous avez choisi le transporteur qui livre entre deux points de proximité, vous devez spécifier ce paramètre : <i>depot.pointrelais</i> (string, l'identifiant du point).</td>
+            <td>Si vous avez choisi un transporteur dont le départ s'effectue par un
+            dépôt en point de proximité, vous devez spécifier ce paramètre : <i>depot.pointrelais</i> (string, l'identifiant du point).</td>
           </tr> 
           <tr>
             <td>Point de proximité pour le retrait</td>
             <td>retrait</td>
-            <td>Si vous avez choisi le transporteur qui livre entre deux points de proximité, vous devez spécifier ce paramètre : <i>retrait.pointrelais</i> (string, l'identifiant du point).</td>
+            <td>Si vous avez choisi un transporteur dont la livraison s'effectue par
+            un retrait en point de proximité, vous devez spécifier ce paramètre : <i>retrait.pointrelais</i> (string, l'identifiant du point).</td>
           </tr>
           <tr>
             <td>Valeur déclarée du contenu</td>
@@ -86,8 +90,9 @@
             <td>Adresse</td>
             <td>adresse</td>
             <td>obligatoire</td>
-            <td>L'adresse (la rue, l'étage, le numéro de chambre...) de la personne. Vous avez la possibilité d'indiquer au maximum 3 lignes pour tous les transporteurs sauf le TNT. Pour le TNT le nombre des lignes maximal est 2.<br />
+            <td>L'adresse (la rue, l'étage, le numéro de chambre...) de la personne. Vous avez la possibilité d'indiquer au maximum 3 lignes pour tous les transporteurs sauf TNT. Pour TNT le nombre des lignes maximal est 2.<br />
               Pour passer une adresse composée de plusieurs lignes, veuillez utiliser le séparateur |. Pour un logement 200 situé à la rue Inconnue on aura donc : "1, rue Inconnue | logement 200".
+              <br />Chaque ligne accepte la valeur d'une longueur de 30 caractères.
             </td>
           </tr>
           <tr>
@@ -112,13 +117,13 @@
             <td>Entreprise</td>
             <td>entreprise</td>
             <td>obligatoire si type = entreprise</td>
-            <td>Si le type de la personne est une entreprise, vous devez indiquer le nom de l'entreprise en question.</td>
+            <td>Si la personne possède un statut professionnel, vous devez indiquer le nom de l'entreprise en question.</td>
           </tr>
           <tr>
             <td>Informations complémentaires</td>
             <td>infos</td>
             <td>obligatoire</td>
-            <td>Les informations complémentaires dans lesquelles vous pouvez, par exemple, aider livreur de trouver votre bureau ou d'indiquer que l'ascenseur est en panne.</td>
+            <td>Les informations complémentaires qui aideront le livreur à effectuer l'enlèvement ou la livraison (code, nom sur l'interphone, instructions, etc.).</td>
           </tr>  
           <tr>
             <td>Nom</td>
@@ -131,14 +136,14 @@
             <td>tel</td>
             <td>obligatoire</td>
             <td>Le numéro de téléphone auquel vous serez joignable par notre service client et par le transporteur (p.ex.: pour demander votre disponibilité).<br />
-              Si vous ne connaissez pas le numéro de téléphone du destinataire, indiquez le même que pour l'expéditeur.
+              Si vous ne connaissez pas le numéro de téléphone du destinataire, saisissez celui de l'expéditeur.
             </td>
           </tr>  
           <tr>
             <td>Pays</td>
             <td>pays</td>
             <td>obligatoire</td>
-            <td>Le pays de la personne représenté par le code ISO. L'expéditeur peut prendre comme valeur uniquement "FR".</td>
+            <td>Le pays de la personne représenté par le code ISO. L'expéditeur ne peut prendre comme valeur que "FR".</td>
           </tr> 
           <tr>
             <td>Prénom</td>
@@ -150,7 +155,7 @@
             <td>Type</td>
             <td>type</td>
             <td>obligatoire</td>
-            <td>Le type de la personne : particulier ou entreprise.</td>
+            <td>Le statut de la personne : particulier ou entreprise.</td>
           </tr>    
           <tr>
             <td>Ville</td>
@@ -222,16 +227,16 @@
             <td>Information externe</td>
             <td>reference_externe</td>
             <td>facultatif</td>
-            <td>Dans ce paramètre vous pouvez passer une information qui, par exemple, vous permettra de faire un pont entre votre commande EnvoiMoinsCher et le produit dans votre e-boutique.</td>
+            <td>Dans ce paramètre vous pouvez passer une information quiservira à identifier la commande
+            d'achat sur votre e-boutique, puis à la relier à sa commande de livraison EnvoiMoinsCher.</td>
           </tr> 
           <tr>
             <td>Délai</td>
             <td>delai</td>
             <td>obligatoire</td>
             <td>Il prend comme valeur : <br />
-              - none : offres de transport triées par prix décroissant<br />
-              - minimum : offres de transport triées par délai croissant<br />
-              - courier : offres de course avec livraison dans la journée<br />
+              - aucun : offres de transport triées par prix décroissant<br /> 
+              - course : offres de course avec livraison dans la journée<br />
             </td>
           </tr> 
           <tr>
@@ -262,7 +267,7 @@
             <td>Service</td>
             <td>service</td>
             <td>facultatif</td>
-            <td>Le nom du service que vous souhaitez commander.</td>
+            <td>Le nom du service (de l'offre) que vous souhaitez commander.</td>
           </tr> 
           <tr>
             <td>Transporteur</td>
@@ -270,7 +275,7 @@
             <td>facultatif</td>
             <td>Le code du transporteur que vous avez choisi pour votre envoi. Si vous ne l'indiquez pas : <br />
               - dans la cotation vous recevrez toutes les offres de transport<br />
-              - vous allez commander la 1e offre correspondant au paramète <i>delai</i> dans votre commande
+              - vous allez commander la 1ère offre correspondant au paramète <i>delai</i> dans votre commande
             </td>
           </tr> 
         </tbody>

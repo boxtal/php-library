@@ -17,8 +17,8 @@ class Env_WebService {
    *  @access protected
    *  @var string
    */
-  // protected $server = "http://localhost:8080";
-  protected $server = "https://test.envoimoinscher.com/";
+  protected $server = "http://localhost:8080";
+  // protected $server = "https://test.envoimoinscher.com/";
 
   /** A private variable which stocks options to pass into curl query.
    *  @access private
@@ -161,7 +161,7 @@ class Env_WebService {
    */
   public function parseResponse($document) {
     $domCl = new DOMDocument();
-    $domCl->loadXML(/*mb_convert_encoding(*/$document/*, "UTF-8")*/);
+    $domCl->loadXML($document);
     $this->xpath = new DOMXPath($domCl);
     if($this->hasErrors()) {
       $this->setResponseErrors();
