@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Changelog / Librairie PHP pour l'API EnvoiMoinsCher</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+      #CONTAINER {width:750px; margin:0px auto; display:block;}
+      code {width:700px; display:block; background: #d7d7d7; padding:10px;}
+      ul.code li {padding-left:5px; list-style-type: none;}
+      table {border-collapse: collapse;}
+      table thead td {background: #d7d7d7; font-weight:bold;}
+      table td {border:1px solid #000000; padding:3px; vertical-align:top;}
+    </style>
+  </head>
+  <body>
+    <div id="CONTAINER">
+      <h1>Changelog / Librairie PHP pour l'API EnvoiMoinsCher</h1>
+      <p>Voici les dernières modifications effectuées dans la librairie : </p> 
+      <p><b>Version 1.0.1 rc</b></p> 
+      <table>
+        <thead><tr><td>Fichier</td><td>Modification</td><td>Description</td></tr></thead>
+        <tbody>
+          <tr>
+            <td>env/WebService.php</td>
+            <td>ajout de la méthode setSSLProtection()</td>
+            <td>ajout de la méthode qui détermine si CURL doit vérifier ou pas le certificat SSL</td>
+          </tr>
+          <tr>
+            <td>env/WebService.php</td>
+            <td>ajout de la variable $sslCheck</td>
+            <td>ajout de la variable qui stocke les valeurs de la validation SSL</td>
+          </tr>
+          <tr>
+            <td>env/Quotation.php</td>
+            <td>modification de la méthode setType()</td>
+            <td>modification de la méthode setType() pour permettre l'envoi multi-colis</td>
+          </tr>
+          <tr>
+            <td>utils/header.php</td>
+            <td>parse du fichier de configuration</td>
+            <td>parse du fichier de configuration et l'initialisation des données utilisées lors de la connexion à l'API</td>
+          </tr>
+          <tr>
+            <td>utils/config.ini</td>
+            <td>ajout du fichier de configuration</td>
+            <td>ajout du fichier de configuration; désormais vous pouvez y spécifier vos données d'accès</td>
+          </tr>
+          <tr>
+            <td>samples/*</td>
+            <td>modification de l'appel du constructeur</td>
+            <td>modification de l'appel du constructeur des classes; les données d'accès sont désormais lues à partir du fichier config.ini</td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>ajout des fonctionnalités</td>
+            <td>- la librairie gère désormais le choix du point relais en différé (vous laissez le choix du points relais de livraison au destinataire)
+              <br /><br />- la libraire gère les envois des multi-colis (plusieurs lignes); vous pouvez donc envoyer 1 colis de 3kg (dimensions 10cm/10cm/10cm) avec un autre colis de 10kg (dimensions 20cm/20cm/20cm)
+            </td>
+          </tr>
+        </tbody>
+      </table><br />
+    </div>
+  </body>
+</html>

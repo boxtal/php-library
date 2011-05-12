@@ -21,7 +21,7 @@ $quotInfo = array("collecte" => "2011-05-03", "delay" => "aucun",  "content_code
 if($_GET["ope"] != "" && $_GET["ope"] != "all") { 
   $quotInfo["operator"] = $_GET["ope"];
 }
-$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $cotCl->setPerson("shipper", $from);
 $cotCl->setPerson("recipient", $to);
 $cotCl->setType("package", array("weight" => 2, "length" => 30, "width" => 44, "height" => 44));

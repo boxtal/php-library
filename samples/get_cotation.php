@@ -17,10 +17,12 @@ $to = array("pays" => "FR", "code_postal" => "75002",   "ville" => "Paris", "typ
 $quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  
 "code_contenu" => 10120);
 // Initialisation de la classe
-$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 // Initialisation de l'expéditeur et du destinataire
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
+// Spécification de l'environnement 
+// $cotCl->server = "https://www.envoimoinscher.com/";
 // Initialisation du type d'envoi
 $cotCl->setType("colis", array(
 1 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)

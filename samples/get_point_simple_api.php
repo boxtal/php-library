@@ -9,7 +9,7 @@ $typesTrad = array("exp" => "pickup_point", "dest" => "dropoff_point");
 // c'est juste un exemple; l'utilisateur peut vouloir résoudre cela différement
 $codesTranslated = array("http_file_not_found" => "Page n'existe pas");
 // récupération des catégories de contenu principales
-$pointCl = new Env_ParcelPoint(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$pointCl = new Env_ParcelPoint(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $pointCl->constructList = true;
 
 $pointsGet = explode(",", $_GET["points"]);

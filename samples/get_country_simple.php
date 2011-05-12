@@ -10,7 +10,7 @@ require_once('../utils/autoload.php');
 $countriesStyle = 'style="font-weight:bold;"';
 
 // Initialisation de la classe pays
-$countryCl = new Env_Country(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
+$countryCl = new Env_Country(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 // Récupération des pays
 $countryCl->getCountries();
 ?>

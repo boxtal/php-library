@@ -7,7 +7,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require_once('../utils/autoload.php');
 $categoriesStyle = 'style="font-weight:bolder;"';
 // Initialisation de la classe chargée de récupérer les catégories 
-$contentCl = new Env_ContentCategory(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
+$contentCl = new Env_ContentCategory(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 // Cette méthode permet de récupérer la liste des catégories
 $contentCl->getCategories();
 // Celle-ci charge la liste des catégories de contenus (sous-catégories)

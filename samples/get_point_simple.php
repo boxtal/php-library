@@ -13,7 +13,7 @@ $codesTranslated = array("http_file_not_found" => "Page n'existe pas",
 "type_not_correct" => "Please, select the right point type");
 
 // Initialisation de la classe points relais
-$pointCl = new Env_ParcelPoint(array("user" => "bartosz", "pass" => "bartOOOSw", "key" => "xx00xxYY__AEZRS"));
+$pointCl = new Env_ParcelPoint(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 // Example avec deux points relais, un pour RelaisColis, l'autre pour Sernam; pour ce faire
 // on doit mettre $constructList en true
 $pointCl->constructList = true;

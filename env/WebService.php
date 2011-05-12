@@ -11,14 +11,15 @@
 
 class Env_WebService {
 
-  /** A protected variable which determines the API server host.
+  /** A public variable which determines the API server host.
    *  https://test.envoimoinscher.com/ is your test environment
    *  https://www.envoimoinscher.com/ is your production environment 
-   *  @access protected
+   *  @access public
    *  @var string
    */
-  protected $server = "http://localhost:8080";
-  // protected $server = "https://test.envoimoinscher.com/";
+  // public $server = "http://localhost:8080"; test local environment
+  // public $server = "https://www.envoimoinscher.com"; prod environmnet
+  public $server = "https://test.envoimoinscher.com/";
 
   /** A private variable which stocks options to pass into curl query.
    *  @access private
@@ -68,6 +69,12 @@ class Env_WebService {
    */
   public $xpath = null;
 
+  /** A public variable determines if we have check SSL certificate in function of your request environment.
+   *  @access protected
+   *  @var array
+   */
+  protected $sslCheck = array("peer" => true, "host" => 1);
+
   /** Class constructor.
    *  @access public
    *  @param array $auth Array with authentication credentials.
@@ -96,7 +103,7 @@ class Env_WebService {
     curl_setopt_array($req, $this->options);
     $result = curl_exec($req);
 	// You can uncomment this fragment to see the content returned by API  
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+	// file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
     $curlInfo = curl_getinfo($req);
     $contentType = explode(";", $curlInfo["content_type"]);
     if(curl_errno($req) > 0) {
@@ -127,11 +134,23 @@ class Env_WebService {
    *  @return void
    */
   public function setOptions($options) {
-    $this->options = array(CURLOPT_SSL_VERIFYPEER => false, CURLOPT_RETURNTRANSFER => 1, 
-      CURLOPT_URL => $this->server.$options['action'].$this->getParams,
+    $this->setSSLProtection();
+    $this->options = array(CURLOPT_SSL_VERIFYPEER => $this->sslCheck['peer'], CURLOPT_RETURNTRANSFER => 1,
+      CURLOPT_SSL_VERIFYHOST => $this->sslCheck['host'], CURLOPT_URL => $this->server.$options['action'].$this->getParams,
       CURLOPT_HTTPHEADER => array("Authorization: ".base64_encode($this->auth['user'].":".$this->auth['pass'])."",
       "access_key : ".$this->auth['key']."")
     );
+  }
+
+  /** It determines if CURL has to check SSL or not.
+   *  @access private
+   *  @return void
+   */
+  private function setSSLProtection() {
+    if($this->server != "https://www.envoimoinscher.com/") {
+      $this->sslCheck["peer"] = false;
+      $this->sslCheck["host"] = 0;
+    }
   }
   
   /** Function which sets the post request. 

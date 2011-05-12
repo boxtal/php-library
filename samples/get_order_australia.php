@@ -27,7 +27,7 @@ $quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "code_conten
 "description" => "Des journaux",
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00");
-$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array(

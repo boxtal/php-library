@@ -28,7 +28,7 @@ $quotInfo = array("collecte" => date("Y-m-d"),
 "prix_max_ttc" => 40,
 "description" => "Le Monde, années 1990-1992"
 );
-$cotCl = new Env_Quotation(array("user" => "bbc", "pass" => "bbc", "key" => "bbc"));
+$cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array(
