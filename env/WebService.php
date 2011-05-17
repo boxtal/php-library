@@ -19,7 +19,7 @@ class Env_WebService {
    */
   // public $server = "http://localhost:8080"; test local environment
   // public $server = "https://www.envoimoinscher.com"; prod environmnet
-  public $server = "https://test.envoimoinscher.com/";
+  public $server = "https://test.envoimoinscher.com/"; // test environment
 
   /** A private variable which stocks options to pass into curl query.
    *  @access private
@@ -103,7 +103,7 @@ class Env_WebService {
     curl_setopt_array($req, $this->options);
     $result = curl_exec($req);
 	// You can uncomment this fragment to see the content returned by API  
-	// file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
     $curlInfo = curl_getinfo($req);
     $contentType = explode(";", $curlInfo["content_type"]);
     if(curl_errno($req) > 0) {
@@ -187,7 +187,7 @@ class Env_WebService {
     }
   }
 
-  /** Function detects if xml document has error tag. 
+  /** Function detects if xml document has error tag.
    *  @access private
    *  @return boolean true if xml document has error tag, false if it hasn't.
    */

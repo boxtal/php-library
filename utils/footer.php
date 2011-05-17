@@ -8,6 +8,6 @@
 | <a href="get_order_insurance.php" <?php echo $orderPMAStyle;?>>la commande Paris - Marseille (avec l'assurance)</a> 
 </p>
 <p>Regardez aussi : <a href="/api/librairie">quick start</a> | <a href="/api/librairie/documentation">documentation de la librairie</a>
-| <a href="#">documentation de l'API</a> | <a href="http://test.envoimoinscher.com/api/demo" target="_blank">démonstration de l'API</a></p>
+| <a href="/api/librairie/changelog.html">changelog</a> | <a href="http://test.envoimoinscher.com/api/demo" target="_blank">démonstration de l'API</a></p>
 </body>
 </html>

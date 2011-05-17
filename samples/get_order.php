@@ -37,8 +37,8 @@ $quotInfo = array("collecte" => date("Y-m-d"),
 "operateur" => "SOGP",
 "collection_type" => "DROPOFF_POINT",
 "delivery_type" => "PICKUP_POINT",
-"depot.pointrelais" => "SOGP-C3051", 
-// "retrait.pointrelais" => "SOGP-I1151", 
+"depot.pointrelais" => "SOGP-I1151", 
+"retrait.pointrelais" => "SOGP-I1151", 
 
 // Pour le point relais en différé (choix par le destinataire) : 
 "retrait.pointrelais" => "differe",

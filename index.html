@@ -89,8 +89,8 @@
           <li>$cotCl = new Env_Quotation(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
           <li>$cotCl->setPerson("expediteur", $from);</li>
           <li>$cotCl->setPerson("destinataire", $to);</li>
-          <li>$cotCl->setType("colis", array("poids" => 2, "longueur" => 30, 
-          "largeur" => 44, "hauteur" => 44));</li>
+          <li>$cotCl->setType("colis", array(1 => array("poids" => 2, "longueur" => 30, 
+          "largeur" => 44, "hauteur" => 44)));</li>
           <li>$cotCl->getQuotation($quotInfo);</li>
           <li>$cotCl->getOffers(false);</li>
         </ul>
@@ -122,8 +122,8 @@
           <li>$cotCl = new Env_Quotation(array("user" => "login", "pass" => "mot_de_passe", "key" => "cle_api"));</li>
           <li>$cotCl->setPerson("expediteur", $from);</li>
           <li>$cotCl->setPerson("destinataire", $to);</li>
-          <li>$cotCl->setType("colis", array("poids" => 2, "longueur" => 30, 
-          "largeur" => 44, "hauteur" => 44));</li>
+          <li>$cotCl->setType("colis", array(1 => array("poids" => 2, "longueur" => 30, 
+          "largeur" => 44, "hauteur" => 44)));</li>
           <li>$orderPassed = $cotCl->makeOrder($quotInfo, true);</li>
         </ul>
         ?>
