@@ -73,12 +73,15 @@
             <td>Point de proximité pour le retrait</td>
             <td>retrait</td>
             <td>Si vous avez choisi un transporteur dont la livraison s'effectue par
-            un retrait en point de proximité, vous devez spécifier ce paramètre : <i>retrait.pointrelais</i> (string, l'identifiant du point).</td>
+            un retrait en point de proximité, vous devez spécifier ce paramètre : <i>retrait.pointrelais</i> (string, l'identifiant du point).
+            <br /><br />Vous pouvez laisser le destinataire de choisir le point relais dans lequel 
+            il va retirer son envoi. Pour faire cela, passez les deux paramètres : "retrait.pointrelais" => "differe", "retrait.choix_differe" => true
+            </td>
           </tr>
           <tr>
             <td>Valeur déclarée du contenu</td>
             <td>valeur_declaree</td>
-            <td>Certains transporteurs exigent l'indication de la valeur du contenu de l'envoi. Pour passe ce paramètre, utilisez <i>valeur_declaree.valeur</i> (float).</td>
+            <td>Certains transporteurs exigent l'indication de la valeur du contenu de l'envoi. Pour passer ce paramètre, utilisez <i>valeur_declaree.valeur</i> (float).</td>
           </tr>   
         </tbody>
       </table>
@@ -276,6 +279,13 @@
             <td>Le code du transporteur que vous avez choisi pour votre envoi. Si vous ne l'indiquez pas : <br />
               - dans la cotation vous recevrez toutes les offres de transport<br />
               - vous allez commander la 1ère offre correspondant au paramète <i>delai</i> dans votre commande
+            </td>
+          </tr> 
+          <tr>
+            <td>URL de suivi</td>
+            <td>url_tracking</td>
+            <td>facultatif</td>
+            <td>La page (sur votre serveur) qui va intercepter l'état de vos commandes. <a href="suivi.html">en savoir plus</a>
             </td>
           </tr> 
         </tbody>
