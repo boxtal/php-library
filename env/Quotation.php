@@ -264,6 +264,8 @@ class Env_Quotation extends Env_WebService {
    *  @return boolean True if order was passed successfully; false if an error occured. 
    */
   public function makeOrder($quotInfo, $getInfo = false) {
+    $this->quotInfo = $quotInfo;
+    $this->getInfo = $getInfo;
     if($quotInfo["reason"]) {
       $quotInfo["envoi.raison"] = $this->shipReasons[$quotInfo["reason"]];
       unset($quotInfo["reason"]);
@@ -290,6 +292,62 @@ class Env_Quotation extends Env_WebService {
     }
     else {
       return false;
+    }
+  }
+
+  /** Method which allowes you to make double order (the same order in two directions : from shipper 
+   *  to recipient and from recipient to shipper). It can be used by some stores for send a test product
+   *  to customer and receive it back if the customer isn't satisfied. 
+   *  @return boolean True if second order was passed successfully; false if an error occured. 
+   */
+  public function makeDoubleOrder($quotInfo = array(), $getInfo = false) {
+    if(count($quotInfo) == 0) {
+      $quotInfo = $this->quotInfo;
+    }
+    else {
+      $quotInfo = $this->setNewQuotInfo($quotInfo);
+    }
+    $this->switchPeople();
+    $this->makeOrder($quotInfo, $getInfo);
+  }
+
+  /** Person switcher; it switchs shipper to recipient and recipient to shipper.  
+   *  @return void
+   */
+  private function switchPeople() {
+    $localParams = $this->param;
+    $old = array("expediteur", "destinataire", "tmp_exp", "tmp_dest");
+    $new = array("tmp_exp", "tmp_dest", "destinataire", "expediteur");
+    foreach($localParams as $key => $value) {
+      $this->param[str_replace($old, $new, $key)] = $value;
+    }
+  }
+
+  /** Setter for new request parameters. If a new parameter is defined, it overriddes the old one (for exemple new service,
+   *  new hour disponibility).
+   *  @return array Array containing new quotation informations.
+   */
+  private function setNewQuotInfo($quotInfo) {
+    foreach($this->quotInfo as $q => $info) {
+      if(array_key_exists($q, $quotInfo)) {
+        $this->quotInfo[$q] = $quotInfo[$q];
+      }
+    }
+    foreach($quotInfo as $q => $info) {
+      if(!array_key_exists($q, $this->quotInfo)) {
+        $this->quotInfo[$q] = $quotInfo[$q];
+      }
+    }
+    return $this->quotInfo;
+  }
+
+  /** Method which removes old quotation parameters.
+   *  @return void
+   */
+  public function unsetParams($quotInfo) {
+    foreach($quotInfo as $info) {
+      unset($this->quotInfo[$info]);
+      unset($this->param[$info]);
     }
   }
 
