@@ -10,7 +10,8 @@
 
 class Env_Country extends Env_WebService {
 
-  /** Protected array with countries relations by ISO codes.
+  /** 
+   *  Protected array with countries relations by ISO codes.
    *  <br />For example it contains the relation between the Canary Islands and Spain which haven't the same 
    *  ISO code.
    *  @access protected
@@ -19,20 +20,23 @@ class Env_Country extends Env_WebService {
   protected $codesRel = array("NL" => "A", "PT" => "P", "DE" => "D", "IT" => "I", "ES" => "E", 
                               "VI" => "V", "GR" => "G");
 
-  /** Public variable with categories array. The categories codes are the array keys. 
+  /** 
+   *  Public variable with categories array. The categories codes are the array keys. 
    *  @access public
    *  @var array
    */
   public $countries = array();
 
-  /** Public variable with country array which contains main country and possibly the 
+  /** 
+   *  Public variable with country array which contains main country and possibly the 
    *  iso relations.
    *  @access public
    *  @var array
    */
   public $country = array();
 
-  /** Function loads all countries.
+  /** 
+   *  Function loads all countries.
    *  @access public
    *  @return void
    */
@@ -42,7 +46,8 @@ class Env_Country extends Env_WebService {
     $this->doCtrRequest();
   }
   
-  /** Function executes getCountries() request and prepares the $countries array.
+  /** 
+   *  Function executes getCountries() request and prepares the $countries array.
    *  @access private
    *  @return void
    */
@@ -59,7 +64,8 @@ class Env_Country extends Env_WebService {
     }
   }
 
-  /** Getter function for one country. If the country code is placed in $codesRel array, 
+  /** 
+   *  Getter function for one country. If the country code is placed in $codesRel array, 
    *  we take also his relations.
    *  @access public
    *  @param string $code String with country code.

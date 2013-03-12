@@ -11,71 +11,106 @@
 
 class Env_WebService {
 
-  /** A public variable which determines the API server host.
-   *  https://test.envoimoinscher.com/ is your test environment
-   *  https://www.envoimoinscher.com/ is your production environment 
+  /** 
+   *  A public variable which determines the API server host used by curl request.
    *  @access public
    *  @var string
    */
-  // public $server = "http://localhost:8080"; test local environment
-  // public $server = "https://www.envoimoinscher.com"; prod environmnet
-  public $server = "https://test.envoimoinscher.com/"; // test environment
+  public $server = "https://test.envoimoinscher.com/"; // test environment by default
 
-  /** A private variable which stocks options to pass into curl query.
+  /** 
+   *  API test server host.
+   *  @access public
+   *  @var string
+   */
+  private $serverTest = "https://test.envoimoinscher.com/";
+
+  /** 
+   *  API production server host.
+   *  @access public
+   *  @var string
+   */
+  private $serverProd = "https://www.envoimoinscher.com/";
+
+  /** 
+   *  A private variable which stocks options to pass into curl query.
    *  @access private
    *  @var array
    */
   private $options = array();
   
-  /** A private variable with authentication credentials (login, password and api key).
+  /** 
+   *  A private variable with authentication credentials (login, password and api key).
    *  @access private
    *  @var array
    */
   private $auth = array();
 
-  /** A public variable with _POST data sent by curl function.
+  /** 
+   *  A public variable with _POST data sent by curl function.
    *  @access public
    *  @var array
    */
   public $quotPost = array();
 
-  /** A public boolean which indicates if curl query was executed successful.
+  /** 
+   *  A public boolean which indicates if curl query was executed successful.
    *  @access public
    *  @var boolean
    */
   public $curlError = false;
   
-  /** A public variable with curl error text.
+  /** 
+   *  A public variable with curl error text.
    *  @access public
    *  @var string
    */
   public $curlErrorText = "";
   
-  /** A public variable indicates if response was executed correctly.
+  /** 
+   *  A public variable indicates if response was executed correctly.
    *  @access public
    *  @var boolean
    */
   public $respError = false;
 
-  /** A public variable contains error messages.
+  /** 
+   *  A public variable contains error messages.
    *  @access public
    *  @var array
    */
   public $respErrorsList = array();
 
-  /** A public DOMXPath variable with parsed response.
+  /** 
+   *  A public DOMXPath variable with parsed response.
    *  @access public
    *  @var DOMXPath
    */
   public $xpath = null;
 
-  /** A public variable determines if we have check SSL certificate in function of your request environment.
+  /** 
+   *  A public variable determines if we have check certificate in function of your request environment.
    *  @access protected
    *  @var array
    */
-  protected $sslCheck = array("peer" => true, "host" => 1);
+  protected $sslCheck = array("peer" => true, "host" => 2);
 
-  /** Class constructor.
+  /**
+   * Protected variable with GET parameters.
+   * @access protected
+   * @var string
+   */
+  protected $getParams = "";
+
+  /**
+   * Parameters array used by http_query_build.
+   * @access protected
+   * @var array
+   */
+  protected $param; 
+
+  /** 
+   *  Class constructor.
    *  @access public
    *  @param array $auth Array with authentication credentials.
    *  @return void
@@ -84,7 +119,8 @@ class Env_WebService {
     $this->auth = $auth;
   }
 
-  /** Function which executes api request. If an error occurs, we close curl call and put
+  /** 
+   *  Function which executes api request. If an error occurs, we close curl call and put
    *  error details in $this->errorText variable. We distinguish two situations with 404 code 
    *  returned in the response : 
    *  <br />1) The API sets 404 code for valid request which doesn't contain any result. The type of response
@@ -128,7 +164,8 @@ class Env_WebService {
     return $result;
   }
 
-  /** Request options setter. 
+  /** 
+   *  Request options setter. If prod environment, sets Verisign's certificate.
    *  @access public
    *  @param array $options The request options.
    *  @return void
@@ -138,11 +175,13 @@ class Env_WebService {
     $this->options = array(CURLOPT_SSL_VERIFYPEER => $this->sslCheck['peer'], CURLOPT_RETURNTRANSFER => 1,
       CURLOPT_SSL_VERIFYHOST => $this->sslCheck['host'], CURLOPT_URL => $this->server.$options['action'].$this->getParams,
       CURLOPT_HTTPHEADER => array("Authorization: ".base64_encode($this->auth['user'].":".$this->auth['pass'])."",
-      "access_key : ".$this->auth['key']."")
+      "access_key : ".$this->auth['key'].""), 
+      CURLOPT_CAINFO => dirname(__FILE__).'/../ca/ca-bundle.crt'
     );
   }
 
-  /** It determines if CURL has to check SSL or not.
+  /** 
+   *  It determines if CURL has to check SSL connection or not.
    *  @access private
    *  @return void
    */
@@ -150,10 +189,11 @@ class Env_WebService {
     if($this->server != "https://www.envoimoinscher.com/") {
       $this->sslCheck["peer"] = false;
       $this->sslCheck["host"] = 0;
-    }
+    } 
   }
   
-  /** Function which sets the post request. 
+  /** 
+   *  Function which sets the post request. 
    *  @access public
    *  @return void
    */
@@ -162,7 +202,8 @@ class Env_WebService {
     $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
   }
   
-  /** Function sets the get params passed into the request. 
+  /** 
+   *  Function sets the get params passed into the request. 
    *  @access public
    *  @return void
    */
@@ -170,7 +211,8 @@ class Env_WebService {
     $this->getParams = '?'.http_build_query($this->param);
   }
 
-  /** Function parses api server response. 
+  /** 
+   *  Function parses api server response. 
    *  <br />First, it checks if the parsed response doesn't contain <error /> tag. If not, it does nothing.
    *  <br />Otherwise, it makes $respError parameter to true, parses the reponse and sets error messages to $respErrorsList array.
    *  @access public
@@ -187,7 +229,8 @@ class Env_WebService {
     }
   }
 
-  /** Function detects if xml document has error tag.
+  /** 
+   *  Function detects if xml document has error tag.
    *  @access private
    *  @return boolean true if xml document has error tag, false if it hasn't.
    */
@@ -199,7 +242,8 @@ class Env_WebService {
     return false;
   }
 
-  /** Function sets error messages to $respErrorsList. 
+  /** 
+   *  Function sets error messages to $respErrorsList. 
    *  @access private
    *  @return boolean true if xml document has error tag, false if it hasn't.
    */
@@ -210,6 +254,27 @@ class Env_WebService {
                                         "message" => $this->xpath->evaluate(".//message")->item($e)->nodeValue
                                   );
     }
+  }
+
+  /**
+   *  Sets environment.
+   *  @access public
+   *  @param string $env Server's environment : test or prod .
+   *  @return void
+   */
+  public function setEnv($env)
+  {
+    $envs = array('test', 'prod');
+    if(in_array($env, $envs))
+    {
+      $var = "server".ucfirst($env);
+      $this->server = $this->$var;
+    }
+  }
+ 
+  public function setParam($param)
+  {
+    $this->param = $param;
   }
 
 }

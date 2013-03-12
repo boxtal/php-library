@@ -10,7 +10,8 @@
 
 class Env_ContentCategory extends Env_WebService {
 
-  /** Public variable with categories array. The categories ids are the array keys.
+  /** 
+   *  Public variable with categories array. The categories ids are the array keys.
    *  For exemple, one category has following values : 
    *  <br />- id : 1111
    *  <br />- code : A
@@ -22,7 +23,8 @@ class Env_ContentCategory extends Env_WebService {
    */
   public $categories = array();
 
-  /** Public variable with contents array. Every content element is attached to one category by
+  /** 
+   *  Public variable with contents array. Every content element is attached to one category by
    *  category id. For exemple, our category 1111 will have following contents : 
    *  $categories[1111] = array(0 => array("code" => 11112, "label" => "code 11112"), 1 => array("code" => 11113, "label" => "code 11113"))
    *  @access public
@@ -30,7 +32,8 @@ class Env_ContentCategory extends Env_WebService {
    */
   public $contents = array();
 
-  /** Function loads all categories.
+  /** 
+   *  Function loads all categories.
    *  @access public
    *  @return void
    */
@@ -40,7 +43,8 @@ class Env_ContentCategory extends Env_WebService {
     $this->doCatRequest();
   }
 
-  /** Function loads all contents.
+  /** 
+   *  Function loads all contents.
    *  @access public
    *  @return string
    */
@@ -50,7 +54,8 @@ class Env_ContentCategory extends Env_WebService {
     $this->doConRequest();
   }
   
-  /** Function executes categories request and prepares the $categories array.
+  /** 
+   *  Function executes categories request and prepares the $categories array.
    *  @access private
    *  @return void
    */
@@ -67,7 +72,8 @@ class Env_ContentCategory extends Env_WebService {
     }
   }
 
-  /** Function executes content request and prepares the $contents array.
+  /** 
+   *  Function executes content request and prepares the $contents array.
    *  @access private
    *  @return void
    */
@@ -78,6 +84,7 @@ class Env_ContentCategory extends Env_WebService {
       $contents = $this->xpath->query("/contents/content");
       foreach($contents as $c => $content) {
         $categoryId = $this->xpath->evaluate(".//category")->item($c)->nodeValue;
+        if(!isset($this->contents[$categoryId])) $this->contents[$categoryId] = array();
         $i = count($this->contents[$categoryId]);
         $this->contents[$categoryId][$i] = array(
           "code" => $this->xpath->evaluate(".//code")->item($c)->nodeValue,
@@ -88,11 +95,13 @@ class Env_ContentCategory extends Env_WebService {
     }
   }
 
-  /** Class getter to obtain the contents of one category.
+  /** 
+   *  Class getter to obtain the contents of one category.
    *  @access public
    *  @return void
    */
   public function getChild($code) {
+    if(!isset($this->contents[$code])) $this->contents[$code] = array();
     return $this->contents[$code];
   }
 

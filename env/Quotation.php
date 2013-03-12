@@ -10,19 +10,22 @@
 
 class Env_Quotation extends Env_WebService {
 
-  /** Public variable represents offers array. 
+  /** 
+   *  Public variable represents offers array. 
    *  @access public
    *  @var array
    */
   public $offers = array();
 
-  /** Public array containing order informations like order number, order date...
+  /** 
+   *  Public array containing order informations like order number, order date...
    *  @access public
    *  @var array
    */
   public $order = array();
 
-  /** Protected variable with pallet dimensions accepted by EnvoiMoinsCher.com. The dimensions are given
+  /** 
+   *  Protected variable with pallet dimensions accepted by EnvoiMoinsCher.com. The dimensions are given
    *  in format "length cm x width cm". They are sorted from the longest to the shortest.
    *  <br />To pass a correct pallet values, use the $palletDimss' key in your "pallet" parameter.
    *  For exemple : 
@@ -37,10 +40,11 @@ class Env_Quotation extends Env_WebService {
                            107107 => "107x107", 8060 => "80x60"
                           );
 
-  /** Protected variable with shipment reasons. It is used to generate proforma invoice.
+  /** 
+   *  Protected variable with shipment reasons. It is used to generate proforma invoice.
    *  Exemple of utilisation : 
    *  $quotInfo = array("collecte_date" => "2015-04-29", "delay" => "aucun",  "content_code" => 10120,
-   *  "operator" => "UPSE", <b>"reason" => "sale"</b>);
+   *  "operator" => "UPSE", <b>"reason" => "repair"</b>);
    *  <br />$this->makeOrder($quotInfo, true);
    *  @access protected
    *  @var array
@@ -48,7 +52,8 @@ class Env_Quotation extends Env_WebService {
   protected $shipReasons = array("sale" => "sale", "repair" => "repr", "return" => "rtrn", "gift" => "gift",
                            "sample" => "smpl" , "personnal" => "prsu", "document" => "icdt", "other" => "othr");
 
-  /** Public setter used to pass proforma parameters into the api request.
+  /** 
+   *  Public setter used to pass proforma parameters into the api request.
    *  <br />You must pass a multidimentional array, even for one line.
    *  <br /><b>The array keys must start with 1, not with 0.</b>
    *  <br />Exemple : 
@@ -76,12 +81,13 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Function which sets informations about package. 
+  /** 
+   *  Function which sets informations about package. 
    *  <br />Please note that if you send the pallet cotation, you can't indicate the dimensions like for
    *  other objects. In this case, you must pass the key from $palletDims protected variable. If the key
    *  is not passed, the request will return an empty result. 
    *  @access public
-   *  @param string $type Type : letter, package, bulky or pallet.
+   *  @param string $type Type : pli, colis, encombrant, palette.
    *  @param array $data Array with package informations : weight, length, width and height.
    *  @return void
    */
@@ -101,7 +107,8 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Public function which sets shipper and recipient objects.
+  /** 
+   *  Public function which sets shipper and recipient objects.
    *  @access public
    *  @param string $type Person type (shipper or recipient).
    *  @param array $data Array with person informations.
@@ -113,19 +120,21 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Public function which receives the quotation. 
+  /** 
+   *  Public function which receives the quotation. 
    *  @access public
    *  @param array $data Array with quotation demand informations (date, type, delay and insurance value).
    *  @return true if request was executed correctly, false if not
    */
   public function getQuotation($quotInfo) {
     $this->param = array_merge($this->param, $quotInfo);
-    $this->setGetParams();
+    $this->setGetParams(array());
     $this->setOptions(array("action" => "/api/v1/cotation"));
     return $this->doSimpleRequest();
   }
 
-  /** Function which gets quotation details.
+  /** 
+   *  Function which gets quotation details.
    *  @access private
    *  @return false if server response isn't correct; true if it is
    */
@@ -138,7 +147,8 @@ class Env_Quotation extends Env_WebService {
     return false;
   }
 
-  /** Public getter to parse and prepare offers array.
+  /** 
+   *  Public getter to parse and prepare offers array.
    *  @access public
    *  @param bool $onlyCom If true, we have to get only offers in the "order" mode.
    *  @return void
@@ -152,7 +162,7 @@ class Env_Quotation extends Env_WebService {
       if(!$onlyCom || ($onlyCom && $offerMode == "COM")) {
         $node = $o + 1; // node number (from 1)
         
-        // mandatory informations - you must inform it to be able to order an offer
+        // mandatory informations - you must fill it up when you want to order this offer
         $informations = $this->xpath->evaluate("/cotation/shipment/offer[$node]/mandatory_informations/parameter");
 	    $mandInfos = array();
         foreach($informations as $m => $mandatory) {
@@ -160,6 +170,22 @@ class Env_Quotation extends Env_WebService {
           $mandInfos[$arrKey] = array();
           foreach($mandatory->childNodes as $mc => $mandatoryChild) {
             $mandInfos[$arrKey][$mandatoryChild->nodeName] = trim($mandatoryChild->nodeValue);
+            if($mandatoryChild->nodeName == "type") {
+              foreach($mandatoryChild->childNodes as $node) { 
+	            if($node->nodeName == "enum") {
+                  $mandInfos[$arrKey][$mandatoryChild->nodeName] = "enum";
+                  $mandInfos[$arrKey]['array'] = array();
+                  foreach($node->childNodes as $child) {
+                    if(trim($child->nodeValue) != "") {
+                      $mandInfos[$arrKey]['array'][] = $child->nodeValue;
+                    }
+                  }
+                }
+                else {
+                  $mandInfos[$arrKey][$mandatoryChild->nodeName] = $node->nodeName;
+                }
+              }
+            }
           }
           unset($mandInfos[$arrKey]["#text"]);
         }
@@ -172,11 +198,9 @@ class Env_Quotation extends Env_WebService {
             $charactArray[$c] = $char->nodeValue;
           }
         }
-// préparation des alertes
-        $alerts = array(); 
-        $alertsNode = $this->xpath->query("/cotation/shipment/offer[$node]/alert");
-        foreach($alertsNode as $a => $alert) {
-          $alerts[$a] = $alert->nodeValue;  
+        $alert = "";
+        if(!empty($this->xpath->evaluate(".//offer/alert")->item($o)->nodeValue)) {
+          $alert = $this->xpath->evaluate(".//offer/alert")->item($o)->nodeValue;
         }
         $this->offers[$of] = array(
           "mode" => $offerMode,
@@ -196,17 +220,17 @@ class Env_Quotation extends Env_WebService {
             "tax-inclusive" => $this->xpath->evaluate(".//offer/price/tax-inclusive")->item($o)->nodeValue
           ), 
           "collection" => array(
-            "type" => $this->xpath->evaluate(".//collection/type")->item($o)->nodeValue,
+            "type" => $this->xpath->evaluate(".//collection/type/code")->item($o)->nodeValue,
             "date" => $this->xpath->evaluate(".//collection/date")->item($o)->nodeValue,
-            "label" => $this->xpath->evaluate(".//collection/label")->item($o)->nodeValue
+            "label" => $this->xpath->evaluate(".//collection/type/label")->item($o)->nodeValue
           ),
           "delivery" => array(
-            "type" => $this->xpath->evaluate(".//delivery/type")->item($o)->nodeValue,
+            "type" => $this->xpath->evaluate(".//delivery/type/code")->item($o)->nodeValue,
             "date" => $this->xpath->evaluate(".//delivery/date")->item($o)->nodeValue,
-            "label" => $this->xpath->evaluate(".//delivery/label")->item($o)->nodeValue
+            "label" => $this->xpath->evaluate(".//delivery/type/label")->item($o)->nodeValue
           ),
           "characteristics" => $charactArray,
-          "alerts" => $alerts,
+          "alert" => $alert,
           "mandatory" => $mandInfos
         );
         $of++;
@@ -214,7 +238,8 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Get order informations about collection, delivery, offer, price, service, operator, alerts
+  /** 
+   *  Get order informations about collection, delivery, offer, price, service, operator, alerts
    *  and characteristics.
    *  @access private
    *  @return void
@@ -240,6 +265,7 @@ class Env_Quotation extends Env_WebService {
     $this->order["delivery"]["date"] = $this->xpath->evaluate(".//delivery/date")->item(0)->nodeValue;
     $this->order["delivery"]["time"] = $this->xpath->evaluate(".//delivery/time")->item(0)->nodeValue;
     $this->order["delivery"]["label"] = $this->xpath->evaluate(".//delivery/label")->item(0)->nodeValue;
+    $this->order["proforma"] = $this->xpath->evaluate(".//proforma")->item(0)->nodeValue;
     $this->order["alerts"] = array(); 
     $alertsNodes = $this->xpath->evaluate(".//alert");
     foreach($alertsNodes as $a => $alert) {
@@ -249,9 +275,15 @@ class Env_Quotation extends Env_WebService {
     foreach($charNodes as $c => $char) {
       $this->order["chars"][$c] = $char->nodeValue;
     }
+    $this->order["labels"] = array();
+    $labelNodes = $this->xpath->evaluate(".//labels/label");
+    foreach($labelNodes as $l => $label) {
+      $this->order["labels"][$l] = trim($label->nodeValue);  
+    }
   }
 
-  /** Public function which sends order request.
+  /** 
+   *  Public function which sends order request.
    *  <br />If you don't want to pass insurance parameter, you have to make insurance to false
    *  in your parameters array ($quotInfo). It checks also if you pass insurance parameter 
    *  which is obligatory to order a transport service.
@@ -295,7 +327,30 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Method which allowes you to make double order (the same order in two directions : from shipper 
+
+  /** 
+   *  Public getter of shippment reasons
+   *  @access public
+   *  @param array $translations Array with reasons' translations. You must translate by $this->shipReasons values, 
+   *  not the keys.
+   *  @return array Array with shippment reasons, may by used to pro forma generation. 
+   */
+  public function getReasons($translations) {
+    $reasons = array();
+    if(count($translations) == 0)
+    {
+      $translations = $this->shipReasons;
+    }
+    foreach($this->shipReasons as $r => $reason)
+    {
+      $reasons[$reason] = $translations[$r];
+    }
+    return $reasons;
+  }
+
+
+  /** 
+   *  Method which allowes you to make double order (the same order in two directions : from shipper 
    *  to recipient and from recipient to shipper). It can be used by some stores for send a test product
    *  to customer and receive it back if the customer isn't satisfied. 
    *  @return boolean True if second order was passed successfully; false if an error occured. 
@@ -311,7 +366,8 @@ class Env_Quotation extends Env_WebService {
     $this->makeOrder($quotInfo, $getInfo);
   }
 
-  /** Person switcher; it switchs shipper to recipient and recipient to shipper.  
+  /** 
+   *  Person switcher; it switchs shipper to recipient and recipient to shipper.  
    *  @return void
    */
   private function switchPeople() {
@@ -323,25 +379,27 @@ class Env_Quotation extends Env_WebService {
     }
   }
 
-  /** Setter for new request parameters. If a new parameter is defined, it overriddes the old one (for exemple new service,
+  /** 
+   *  Setter for new request parameters. If a new parameter is defined, it overriddes the old one (for exemple new service,
    *  new hour disponibility).
    *  @return array Array containing new quotation informations.
    */
   private function setNewQuotInfo($quotInfo) {
-    foreach($this->quotInfo as $q => $info) {
+    foreach((array)$this->quotInfo as $q => $info) {
       if(array_key_exists($q, $quotInfo)) {
         $this->quotInfo[$q] = $quotInfo[$q];
       }
     }
     foreach($quotInfo as $q => $info) {
-      if(!array_key_exists($q, $this->quotInfo)) {
+      if(!array_key_exists($q, (array)$this->quotInfo)) {
         $this->quotInfo[$q] = $quotInfo[$q];
       }
     }
     return $this->quotInfo;
   }
 
-  /** Method which removes old quotation parameters.
+  /** 
+   *  Method which removes old quotation parameters.
    *  @return void
    */
   public function unsetParams($quotInfo) {
