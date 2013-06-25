@@ -5,14 +5,14 @@
  */
 require_once('../utils/header.php');
 ob_start();
-header('Content-Type: text/html; charset=utf-8'); 
+header('Content-Type: text/html; charset=utf-8');
 error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 require_once('../utils/autoload.php');
 $quotationStyle = 'style="font-weight:bold;"';
 
 // Précision de l'expéditeur et du destinataire
-$from = array("pays" => "FR", "code_postal" => "44000", "ville" => "Nantes", "type" => "particulier", "adresse" => "1, rue Racine");
-$to = array("pays" => "FR", "code_postal" => "75002",   "ville" => "Paris", "type" => "particulier", "adresse" => "1, rue du Grand Lebrun"); 
+$to = array("pays" => "FR", "code_postal" => "75002", "ville" => "Paris", "type" => "particulier", "adresse" => "41, rue Saint Augustin");
+$from = array("pays" => "FR", "code_postal" => "13002",   "ville" => "Marseille", "type" => "particulier", "adresse" => "1, rue Chape"); 
 // Informations sur la cotation (date d'enlèvement, le délai, le code de contenu)
 $quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  
 "code_contenu" => 10120);
@@ -21,12 +21,12 @@ $cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userDa
 // Initialisation de l'expéditeur et du destinataire
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
-// Spécification de l'environnement 
-// $cotCl->server = "https://www.envoimoinscher.com/";
+// Précision de l'environnement de travail 
+$cotCl->setEnv('test'); 
 // Initialisation du type d'envoi
 $cotCl->setType("colis", array(
-1 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
-, 2 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
+1 => array("poids" => 3, "longueur" => 30, "largeur" => 20, "hauteur" => 20)
+// , 2 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
 )
 );
 $cotCl->getQuotation($quotInfo);
@@ -49,13 +49,30 @@ table tr td {border:1px solid #000000; padding:5px; }
 <tr>
 <td><b><?php echo $o;?></b>. <?php echo $offre['operator']['label'];?> / <?php echo $offre['service']['code'];?></td>
 <td><?php echo $offre['price']['tax-exclusive'];?> <?php echo $offre['price']['currency'];?></td>
-<td><?php echo $offre['collection']['type'];?></td>
-<td><?php echo $offre['delivery']['type'];?></td>
+<td><?php echo $offre['collection']['type'];
+	if($offre['collection']['type'] === "DROPOFF_POINT" || $offre['collection']['type'] === "POST_OFFICE") {
+		echo "<br/><br/>Liste pr :";
+		foreach($offre['mandatory']['depot.pointrelais']['array'] as $pp) {
+			echo "<br/>". $pp;
+		}
+	}
+?></td>
+<td>
+<?php 
+	echo $offre['delivery']['type'];
+	if($offre['delivery']['type'] === "PICKUP_POINT") {
+		echo "<br/><br/>Liste pr :";
+		foreach($offre['mandatory']['retrait.pointrelais']['array'] as $pp) {
+			echo "<br/>". $pp;
+		}
+	}
+?>
+</td>
 <td>
 <?php echo implode('<br /> - ', $offre['characteristics']); ?>
 </td>
 <td>
-<?php echo implode('<br /> - ', $offre['alerts']); ?>
+<?php echo $offre['alert']; ?>
 </td>
 <td>
 <?php foreach($offre['mandatory'] as $m => $mandatory) { ?>
