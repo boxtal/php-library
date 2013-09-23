@@ -64,7 +64,7 @@ class Env_Quotation extends Env_WebService {
    *  <ul>
    *  <li><i>description_en</i> => description of your item in English</li>
    *  <li><i>description_fr</i> => description of your item in French</li>
-   *  <li><i>origine</i> => origin of your item (you can put EEE four every product which comes 
+   *  <li><i>origine</i> => origin of your item (you can put EEE for every product which comes 
    *  from EEA (European Economic Area))</li>
    *  <li><i>number</i> => quantity of items which you send</li>
    *  <li><i>value</i> => unitary value of <b>one</b> item </li>
@@ -239,8 +239,8 @@ class Env_Quotation extends Env_WebService {
   }
 
   /** 
-   *  Get order informations about collection, delivery, offer, price, service, operator, alerts
-   *  and characteristics.
+   *  Prepares the $order array (informations about collection, delivery, offer, price, service, operator, alerts
+   *  and characteristics).
    *  @access private
    *  @return void
    */

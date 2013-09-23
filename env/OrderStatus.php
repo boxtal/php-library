@@ -18,7 +18,7 @@ class Env_OrderStatus extends Env_WebService {
   public $orderInfo = array("emcRef" => "", "state" => "", "opeRef" => "", "labelAvailable" => false);
 
   /**
-   *  Function loads all categories.
+   *  Function loads order informations
    *  @access public
    *  @return void
    */
@@ -29,7 +29,7 @@ class Env_OrderStatus extends Env_WebService {
   }
   
   /** 
-   *  Function executes categories request and prepares the $categories array.
+   *  Function executes getOrderInformations() request and prepares the $orderInfo array.
    *  @access private
    *  @return void
    */
