@@ -59,7 +59,7 @@ class Env_Carrier extends Env_WebService {
     "description" => $this->xpath->evaluate("/operators/operator[$carrier]/description")->item(0)->nodeValue,
     "address" => $this->xpath->evaluate("/operators/operator[$carrier]/address")->item(0)->nodeValue,
     "url" => $this->xpath->evaluate("/operators/operator[$carrier]/url")->item(0)->nodeValue,
-    "tracking" => $this->xpath->evaluate("/operators/operator[$carrier]/tracking_url")->item(0)->nodeValue,
+    "tracking" => $this->xpath->evaluate("/operators/operator[$carrier]/tracking")->item(0)->nodeValue,
     "tel" => $this->xpath->evaluate("/operators/operator[$carrier]/telephone")->item(0)->nodeValue,
     "cgv" => $this->xpath->evaluate("/operators/operator[$carrier]/cgv")->item(0)->nodeValue);
   }

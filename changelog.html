@@ -15,20 +15,81 @@
   <body>
     <div id="CONTAINER">
       <h1>Changelog / Librairie PHP pour l'API EnvoiMoinsCher</h1>
-      <p>Voici les dernières modifications effectuées dans la librairie : </p> 
-      <p><b>Version 1.0.1 rc1</b></p> 
+      <p>Voici les dernières modifications effectuées dans la librairie : </p>
+      <p><b>Version 1.0.1-rc4</b></p>
+      <table>
+        <thead><tr><td>Fichier</td><td>Modification</td><td>Description</td></tr></thead>
+        <tbody>
+          <tr>
+            <td>env/WebService.php</td>
+            <td>suppression du setSSLProtection()</td>
+            <td>suppression de la méthode setSSLProtection() (le certificat est désormais validé pour l'environnement de test)</td>
+          </tr>
+          <tr>
+            <td>ca/VeriSignClass3PublicPrimaryCertificationAuthority-G5.crt</td>
+            <td>suppression du certificat</td>
+            <td>suppression du certificat VeriSign</td>
+          </tr>
+          <tr>
+            <td>ca/ca-bundle.crt</td>
+            <td>un nouveau fichier avec les certificats</td>
+            <td>mise en place d'un nouveau fichier qui contient les certificats du VeriSign et Comodo</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><b>Version 1.0.1-rc3</b></p>
+      <table>
+        <thead><tr><td>Fichier</td><td>Modification</td><td>Description</td></tr></thead>
+        <tbody>
+          <tr>
+            <td>env/WebService.php</td>
+            <td>gestion des environnements</td>
+            <td>- rajout de la méthode setEnv() et modification de la gestion des environnements
+            <br />- rajout du certificat VeriSign pour les requêtes de production</td>
+          </tr>
+          <tr>
+            <td>samples/get_cotation.php</td>
+            <td>rajout d'une méthode</td>
+            <td>illustration de l'utilisation de la méthode setEnv()</td>
+          </tr>
+          <tr>
+            <td>samples/get_order.php</td>
+            <td>remplacement du paramètre description</td>
+            <td>paramètre description modifié en colis.description</td>
+          </tr>
+          <tr>
+            <td>samples/get_order_australia.php</td>
+            <td>remplacements des paramètres valeur et description</td>
+            <td>paramètres valeur et description modifiés en colis.valeur et colis.description</td>
+          </tr>
+          <tr>
+            <td>samples/get_cotation_australia.php</td>
+            <td>rajout d'un fichier d'exemple</td>
+            <td>rajout d'un fichier d'exemple pour la cotation à l'étranger</td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>changement de fonctionnement</td>
+            <td>- désormais tous les appels de cotation et de commande avec les expéditions à l'étranger exigent la présence du paramètre <em>objet</em>.valeur (où <em>objet</em> signifie le type de votre envoi)
+            <br />- le paramètre assurance.valeur n'est plus demandé pour commander une offre avec l'assurance (valeur est reprise du paramètre <em>objet</em>.valeur)
+            <br />- le paramètre valeur_declaree n'est plus utilisé
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><b>Version 1.0.1-rc2</b></p> 
       <table>
         <thead><tr><td>Fichier</td><td>Modification</td><td>Description</td></tr></thead>
         <tbody>
           <tr>
             <td>env/WebService.php</td>
             <td>ajout de la méthode setSSLProtection()</td>
-            <td>ajout de la méthode qui détermine si CURL doit vérifier ou pas le certificat SSL</td>
+            <td>ajout de la méthode qui détermine si CURL doit vérifier ou pas le certificat</td>
           </tr>
           <tr>
             <td>env/WebService.php</td>
             <td>ajout de la variable $sslCheck</td>
-            <td>ajout de la variable qui stocke les valeurs de la validation SSL</td>
+            <td>ajout de la variable qui stocke les valeurs de la validation du certificat</td>
           </tr>
           <tr>
             <td>env/Quotation.php</td>

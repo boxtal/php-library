@@ -22,9 +22,9 @@ $to = array("pays" => "AU", "code_postal" => "2000", "type" => "particulier",
 $quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "code_contenu" => 10120,
 "operator" => "UPSE",
 "raison" => "sale",
-"valeur" => 1200,
+"colis.valeur" => 1200,
 // "assurance.selected" => false,
-"description" => "Des journaux",
+"colis.description" => "Des journaux",
 "disponibilite.HDE" => "09:00", 
 "disponibilite.HLE" => "19:00");
 $cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));

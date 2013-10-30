@@ -1,35 +1,30 @@
-<?php  
-/*  Ce document a pour but de récupérer des offres de transport pour un devis Nantes - Bordeaux (1 colis d'un poids de 2 kg, 
- *  dont la catégorie de contenu est Journaux). On a besoin d'adresses exactes afin de pouvoir détermines les points relais pour 
- *  le service RelaisColis.
+<?php
+/*  Cet exemple illustre une simple cotation pour une expédition France - Australie
  */
-require_once('../utils/header.php');
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
-error_reporting(E_ERROR | E_WARNING | E_PARSE); 
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+require_once('../utils/header.php'); 
 require_once('../utils/autoload.php');
-$quotationStyle = 'style="font-weight:bold;"';
+$quotationPSStyle = 'style="font-weight:bold;"';
 
-// Précision de l'expéditeur et du destinataire
-$to = array("pays" => "FR", "code_postal" => "75002", "ville" => "Paris", "type" => "particulier", "adresse" => "41, rue Saint Augustin");
-$from = array("pays" => "FR", "code_postal" => "13002",   "ville" => "Marseille", "type" => "particulier", "adresse" => "1, rue Chape"); 
-// Informations sur la cotation (date d'enlèvement, le délai, le code de contenu)
-$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  
-"code_contenu" => 10120);
-// Initialisation de la classe
+// Expéditeur et destinataire
+$from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
+"ville" => "Paris");
+$to = array("pays" => "AU", "code_postal" => "2000", "type" => "particulier",
+"ville" => "Sydney");
+
+// Informations sur l'envoi
+$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "code_contenu" => 10120,
+"colis.valeur" => 1200,
+"colis.description" => "Des journaux");
 $cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-// Initialisation de l'expéditeur et du destinataire
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
-// Précision de l'environnement de travail 
-$cotCl->setEnv('test'); 
-// Initialisation du type d'envoi
 $cotCl->setType("colis", array(
-1 => array("poids" => 1, "longueur" => 18, "largeur" => 18, "hauteur" => 18)
-// , 2 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
-)
-);
-$cotCl->getQuotation($quotInfo);
+  1 => array("poids" => 4, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
+));
+$orderPassed = $cotCl->getQuotation($quotInfo); 
 // Si pas d'erreur CURL
 if(!$cotCl->curlError) { print_r($pointCl->respErrorsList);
   // Si pas d'erreurs de la requête, on affiche le tableau

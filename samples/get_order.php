@@ -34,22 +34,24 @@ $quotInfo = array("collecte" => date("Y-m-d"),
  // "assurance.fermeture" => "Agrafes",
  // "valeur" => 300,
 // Commande auprès du RelaisColis (code transporteur SOGP)
-"operateur" => "SOGP",
+"operateur" => "CHRP",
 "collection_type" => "DROPOFF_POINT",
 "delivery_type" => "PICKUP_POINT",
 "depot.pointrelais" => "SOGP-I1151", 
 "retrait.pointrelais" => "SOGP-I1151", 
 
 // Pour le point relais en différé (choix par le destinataire) : 
-"retrait.pointrelais" => "differe",
-"retrait.choix_differe" => true,
+// "retrait.pointrelais" => "differe",
+// "retrait.choix_differe" => true,
 
-"prix_max_ttc" => 20,
-"description" => "Le Monde, années 1990-1992"
+// "prix_max_ttc" => 20,
+"colis.description" => "Le Monde, années 1990-1992"
 );
 $cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
+// Précision de l'environnement de travail 
+$cotCl->setEnv('test'); 
 $cotCl->setType("colis", array(
 1 => array("poids" => 4, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
 // , 2 => array("poids" => 21, "longueur" => 7, "largeur" => 8, "hauteur" => 11)

@@ -32,7 +32,7 @@ $cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userDa
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array(
-  1 => array("valeur" => 120,"poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44))
+  1 => array("poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44))
 );
 $orderPassed = $cotCl->makeOrder($quotInfo, true);
 if(!$cotCl->curlError && !$cotCl->respError) { 

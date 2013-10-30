@@ -271,11 +271,7 @@ class Env_WebService {
       $this->server = $this->$var;
     }
   }
-	/** 
-	*  Function sets param passed into the request. 
-	*  @access public
-	*  @return void
-	*/
+ 
   public function setParam($param)
   {
     $this->param = $param;

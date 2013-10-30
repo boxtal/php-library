@@ -18,7 +18,7 @@ class Env_OrderStatus extends Env_WebService {
   public $orderInfo = array("emcRef" => "", "state" => "", "opeRef" => "", "labelAvailable" => false);
 
   /**
-   *  Function loads order informations
+   *  Function loads all categories.
    *  @access public
    *  @return void
    */
@@ -29,7 +29,7 @@ class Env_OrderStatus extends Env_WebService {
   }
   
   /** 
-   *  Function executes getOrderInformations() request and prepares the $orderInfo array.
+   *  Function executes categories request and prepares the $categories array.
    *  @access private
    *  @return void
    */
@@ -37,22 +37,12 @@ class Env_OrderStatus extends Env_WebService {
     $source = parent::doRequest();
     if($source !== false) {
       parent::parseResponse($source);
-	  if(count($this->respErrorsList) == 0) {
-		$labels = array();
-		$orderLabels = $this->xpath->evaluate("/order/labels");
-		foreach($orderLabels as $labelIndex => $label) {
-		  $labels[$labelIndex] = $label->nodeValue;  
-		}
-	  
-        $this->orderInfo = array(
-			"emcRef" => $this->xpath->evaluate("/order/emc_reference")->item(0)->nodeValue, 
-			"state" => $this->xpath->evaluate("/order/state")->item(0)->nodeValue, 
-			"opeRef" => $this->xpath->evaluate("/order/carrier_reference")->item(0)->nodeValue, 
-			"labelAvailable" => (bool)$this->xpath->evaluate("/order/label_available")->item(0)->nodeValue, 
-			"labelUrl" => $this->xpath->evaluate("/order/label_url")->item(0)->nodeValue,
-			"labels" => $labels
-        );
-      }
+      $this->orderInfo = array("emcRef" => $this->xpath->evaluate("/order/emc_reference")->item(0)->nodeValue, 
+        "state" => $this->xpath->evaluate("/order/state")->item(0)->nodeValue, 
+        "opeRef" => $this->xpath->evaluate("/order/carrier_reference")->item(0)->nodeValue, 
+        "labelAvailable" => (bool)$this->xpath->evaluate("/order/label_available")->item(0)->nodeValue,
+        "labelUrl" => $this->xpath->evaluate("/order/label_url")->item(0)->nodeValue
+      );
     }
   }
 

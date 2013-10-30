@@ -25,8 +25,6 @@
             <td>assurance</td>
             <td>Afin que l'assurance proposée par EnvoiMoinsCher soit prise en compte, veuillez renseigner également les paramètres suivants : <br />
               - assurance.selection (true) - si true, l'assurance sera prise en compte (et soumise à une validation)
-              <br />- assurance.valeur - la valeur des objets à assurer
-              <br />- assurance.description - la description des objets à assurer
               <br />- assurance.emballage - le type d'emballage utilisé (choix disponibles : Boîte, Caisse, Bac, Emballage isotherme, Etui, Malle, Sac, Tube)
               <br />- assurance.materiau - le matériau utilisé (choix disponibles : Carton, Bois, Carton blindé, Film opaque, Film transparent, Métal, Papier, Papier armé, Plastique et carton, Plastique, Plastique opaque, Plastique transparent, Polystyrène)
               <br />- assurance.protection - la protection intérieure utilisée (choix disponibles : Sans protection particulière, Calage papier, Bulles plastiques, Carton antichoc, Coussin air, Coussin mousse, Manchon carton (bouteille), Manchon mousse (bouteille), Matelassage, Plaque mousse, Polystyrène, Coussin de calage, Sachet bulles)
@@ -47,12 +45,12 @@
           <tr>
             <td>Date impérative de livraison</td>
             <td>livraison_imperative</td>
-            <td>Ce paramètre signifie la date à laquelle votre colis doit forcément être livré. Dans le tableau des options il est représenté par <i>livraison_imperative.DIL</i> (string - la date en format d-M-Y; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>)</td>
+            <td>Ce paramètre signifie la date à laquelle votre colis doit forcément être livré. Dans le tableau des options il est représenté par <i>livraison_imperative.DIL</i> (string - la date en format d-m-Y; <a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>)</td>
           </tr>
           <tr>
             <td>Description de l'envoi</td>
-            <td>description</td>
-            <td>Le paramètre est demandé pour l'assurance AXA. Il se traduit par <i>description</i> (string).</td>
+            <td><em>objet</em>.description</td>
+            <td>Le paramètre est demandé pour l'assurance AXA. Il se traduit par <i>description</i> (string). <em>Objet</em> veut dire le type d'envoi (colis, palette, encombrant, pli)</td>
           </tr>
           <tr>
             <td>Disponibilité pour l'enlèvement du colis</td>
@@ -80,8 +78,8 @@
           </tr>
           <tr>
             <td>Valeur déclarée du contenu</td>
-            <td>valeur_declaree</td>
-            <td>Certains transporteurs exigent l'indication de la valeur du contenu de l'envoi. Pour passer ce paramètre, utilisez <i>valeur_declaree.valeur</i> (float).</td>
+            <td><em>objet</em>.valeur</td>
+            <td>La valeur du contenu de l'envoi. <em>Objet</em> veut dire le type d'envoi (colis, palette, encombrant, pli) (float).</td>
           </tr>   
         </tbody>
       </table>
@@ -224,7 +222,7 @@
             <td>Date d'enlèvement</td>
             <td>collecte</td>
             <td>obligatoire</td>
-            <td>La date d'enlèvement souhaitée, en format d-M-Y (<a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>).</td>
+            <td>La date d'enlèvement souhaitée, en format Y-m-d (<a href="http://fr.php.net/manual/en/function.date.php" target="_blank">voir plus sur date() en PHP</a>).</td>
           </tr> 
           <tr>
             <td>Information externe</td>

@@ -108,7 +108,36 @@ de l'interaction entre le serveur client et l'API.</p></p>
 					<span class="var-type">string</span>
 					<a href="#$curlErrorText" title="details" class="var-name">$curlErrorText</a>
 				</div>
+
+				
+				
 																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$serverTest" title="details" class="var-name">$serverTest</a>
+				</div>
+
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$serverProd" title="details" class="var-name">$serverProd</a>
+				</div>
+
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$options" title="details" class="var-name">$options</a>
+				</div>
+
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$auth" title="details" class="var-name">$auth</a>
+				</div>
+
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$sslCheck" title="details" class="var-name">$sslCheck</a>
+				</div>
+
+
+				<div class="var-title">
 					<span class="var-type">array</span>
 					<a href="#$quotPost" title="details" class="var-name">$quotPost</a>
 				</div>
@@ -176,6 +205,28 @@ de l'interaction entre le serveur client et l'API.</p></p>
 										<a href="#setPost" title="details" class="method-name">setPost</a>
 										()
 									</div>
+
+
+<div class="method-definition">
+  <span class="method-result">void</span>
+  <a href="#setSSLProtection" title="details" class="method-name">setSSLProtection</a>
+  ()
+</div>
+<div class="method-definition">
+  <span class="method-result">boolean</span>
+  <a href="#hasErrors" title="details" class="method-name">hasErrors</a>
+  ()
+</div>
+<div class="method-definition">
+  <span class="method-result">void</span>
+  <a href="#setResponseErrors" title="details" class="method-name">setResponseErrors</a>
+  ()
+</div>
+<div class="method-definition">
+  <span class="method-result">void</span>
+  <a href="#setEnv" title="details" class="method-name">setEnv</a>
+  ()
+</div> 
 								</div>
 		</div>
 	</div>		
@@ -201,7 +252,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">boolean</span>
 			<span class="var-name">$curlError</span>
-			 = <span class="var-default"> false</span>			(line <span class="line-number">42</span>)
+			 = <span class="var-default"> false</span> 
 		</span>
 	</div>
 
@@ -223,7 +274,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$curlErrorText</span>
-			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">48</span>)
+			 = <span class="var-default"> &quot;&quot;</span> 
 		</span>
 	</div>
 
@@ -238,6 +289,91 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		
 
 </div>
+
+
+
+<a name="var$serverTest" id="$serverTest"><!-- --></A>
+<div class="evenrow"> 
+  <div class="var-header">
+    <span class="var-title">
+      <span class="var-type">string</span>
+      <span class="var-name">$serverTest</span>
+      = <span class="var-default">https://test.envoimoinscher.com/</span> 
+    </span>
+  </div>
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La variable stockant l'adresse de l'environnement de test.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> private</li>
+  </ul> 
+</div>
+
+
+<a name="var$serverProd" id="$serverProd"><!-- --></A>
+<div class="evenrow"> 
+  <div class="var-header">
+    <span class="var-title">
+      <span class="var-type">string</span>
+      <span class="var-name">$serverProd</span>
+      = <span class="var-default">https://www.envoimoinscher.com/</span>  
+    </span>
+  </div> 
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La variable stockant l'adresse de l'environnement de production.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> private</li>
+  </ul> 
+</div>
+
+<a name="var$options" id="$options"><!-- --></A>
+<div class="evenrow"> 
+  <div class="var-header">
+    <span class="var-title">
+      <span class="var-type">array</span>
+      <span class="var-name">$options</span>
+      = <span class="var-default"> array() </span>
+    </span>
+  </div> 
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La variable stockant les options utilisées dans la requête CURL.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> private</li>
+  </ul> 
+</div>
+
+<a name="var$auth" id="$auth"><!-- --></A>
+<div class="evenrow"> 
+  <div class="var-header">
+    <span class="var-title">
+      <span class="var-type">array</span>
+      <span class="var-name">$auth</span>
+      = <span class="var-default"> array() </span>
+    </span>
+  </div> 
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La variable stockant les données de connexion.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> private</li>
+  </ul> 
+</div>
+
+<a name="var$sslCheck" id="$sslCheck"><!-- --></A>
+<div class="evenrow"> 
+  <div class="var-header">
+    <span class="var-title">
+    <span class="var-type">array</span>
+    <span class="var-name">$sslCheck</span>
+    = <span class="var-default">array("peer" => true, "host" => 2)</span> 
+  </span>
+  </div>
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La variable stockant les paramètres de validation utilisés lors de l'appel CURL.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> protected</li>
+  </ul> 
+</div>
+ 
+
 <a name="var$quotPost" id="$quotPost"><!-- --></A>
 <div class="oddrow">
 
@@ -245,7 +381,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$quotPost</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number">36</span>)
+			 = <span class="var-default">array()</span>	 
 		</span>
 	</div>
 
@@ -267,7 +403,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">boolean</span>
 			<span class="var-name">$respError</span>
-			 = <span class="var-default"> false</span>			(line <span class="line-number">54</span>)
+			 = <span class="var-default"> false</span> 
 		</span>
 	</div>
 
@@ -289,7 +425,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$respErrorsList</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number">60</span>)
+			 = <span class="var-default">array()</span> 
 		</span>
 	</div>
 
@@ -311,7 +447,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$server</span>
-			 = <span class="var-default"> &quot;https://test.envoimoinscher.com&quot;</span>			(line <span class="line-number">18</span>)
+			 = <span class="var-default"> &quot;https://test.envoimoinscher.com&quot;</span> 
 		</span>
 	</div>
 
@@ -333,7 +469,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 		<span class="var-title">
 			<span class="var-type">DOMXPath</span>
 			<span class="var-name">$xpath</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number">66</span>)
+			 = <span class="var-default"> null</span> 
 		</span>
 	</div>
 
@@ -370,7 +506,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">73</span>)
+		<span class="method-title">Constructor __construct</span> 
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -399,7 +535,7 @@ de l'interaction entre le serveur client et l'API.</p></p>
 <div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">doRequest</span> (line <span class="line-number">91</span>)
+		<span class="method-title">doRequest</span>  
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -433,7 +569,7 @@ qui se charge de remplir le tableau contenant les messages d'erreur.</p></p>
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">parseResponse</span> (line <span class="line-number">156</span>)
+		<span class="method-title">parseResponse</span> 
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -467,7 +603,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 <div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">setGetParams</span> (line <span class="line-number">144</span>)
+		<span class="method-title">setGetParams</span>  
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -491,7 +627,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">setOptions</span> (line <span class="line-number">123</span>)
+		<span class="method-title">setOptions</span> 
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -520,7 +656,7 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 <div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">setPost</span> (line <span class="line-number">135</span>)
+		<span class="method-title">setPost</span> 
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -540,7 +676,72 @@ définit les messages d'erreur dans le tableau $respErrorsList.</p></p>
 		
 			
 	</div>
-						
+<a name="methodsetSSLProtection" id="setSSLProtection"><!-- --></a>
+<div class="evenrow">
+  <div class="method-header"><span class="method-title">setSSLProtection</span>
+  <br /><span class="tutorial">@deprecated depuis la version version 1.0.1-rc4</span></div>  
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La méthode détermine si CURL doit valider les certificats.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> private</li>
+  </ul>
+  <div class="method-signature">
+    <span class="method-result">void</span>
+    <span class="method-name">setSSLProtection</span>()
+  </div>
+</div>
+<a name="methodhasErrors" id="hasErrors"><!-- --></a>
+<div class="oddrow">
+  <div class="method-header"><span class="method-title">hasErrors</span></div> 
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La méthode qui détecte si la réponse contient les messages d'erreur.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> private</li>
+  </ul>
+  <div class="method-signature">
+    <span class="method-result">boolean</span>
+    <span class="method-name">hasErrors</span>()
+  </div> 
+</div>
+
+<a name="methodsetResponseErrors" id="setResponseErrors"><!-- --></a>
+<div class="evenrow">
+  <div class="method-header">
+    <span class="method-title">setResponseErrors</span> 
+  </div>
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">La méthode rajoute les erreurs dans le tableau $respErrorsList.</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> public</li>
+  </ul>
+  <div class="method-signature">
+    <span class="method-result">void</span>
+    <span class="method-name">setResponseErrors</span>()
+  </div>
+</div>
+
+<a name="methodsetEnv" id="setEnv"><!-- --></a>
+<div class="oddrow">
+  <div class="method-header">
+    <span class="method-title">setEnv</span> 
+  </div> 
+  <!-- ========== Info from phpDoc block ========= -->
+  <p class="short-description">Détermine l'environnement (test ou prod).</p>
+  <ul class="tags">
+    <li><span class="field">access:</span> public</li>
+  </ul>
+  <div class="method-signature">
+    <span class="method-result">void</span>
+    <span class="method-name">setEnv</span>()
+  </div>
+  <ul class="parameters">
+    <li>
+      <span class="var-type">string</span>
+      <span class="var-name">$env</span><span class="var-description">: La clé de l'environnement (test pour test, prod pour production).</span>
+    </li>
+  </ul>
+</div>
+
 		</div>
 	</div>
 

@@ -84,7 +84,6 @@ class Env_ContentCategory extends Env_WebService {
       $contents = $this->xpath->query("/contents/content");
       foreach($contents as $c => $content) {
         $categoryId = $this->xpath->evaluate(".//category")->item($c)->nodeValue;
-        if(!isset($this->contents[$categoryId])) $this->contents[$categoryId] = array();
         $i = count($this->contents[$categoryId]);
         $this->contents[$categoryId][$i] = array(
           "code" => $this->xpath->evaluate(".//code")->item($c)->nodeValue,
@@ -101,7 +100,6 @@ class Env_ContentCategory extends Env_WebService {
    *  @return void
    */
   public function getChild($code) {
-    if(!isset($this->contents[$code])) $this->contents[$code] = array();
     return $this->contents[$code];
   }
 

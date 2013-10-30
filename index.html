@@ -76,6 +76,7 @@
         <li>le pays, la ville et le type de l'expéditeur</li>
         <li>le pays, la ville et le type du destinataire</li>
         <li>la date d'enlèvement (sauf dimanche et jours fériés)</li>
+        <li>la valeur de l'objet (si un devis à l'international)</li>
       </ul>
       <code>
         &lt;?php
@@ -98,13 +99,14 @@
       </code>
       <p>Avant d'appeler getOffers() vous pouvez vous rassuer que la requête s'est correctement exécutée. Pour cela il faut que $curlError et $respError
       aient comme valeur false.</p>
-      <p>Voir aussi les exemples : <a href="samples/get_cotation.php">le devis Nantes - Bordeaux</a>.</p>
+      <p>Voir aussi les exemples : <a href="samples/get_cotation.php">le devis Nantes - Bordeaux</a>, <a href="samples/get_cotation_australia.php">le devis Paris - Sydney</a>.</p>
       <p id="commande"><b>4. Comment passer une commande ?</b></p>
       <p>L'API ne gère que les envois mono-colis (un seul colis dans la commande de transport). 
       Il n'effectue qu'un seul envoi à la fois, cet envoi ne pouvant être que d'un seul type (encombrant, colis, palette, pli). 
       Il pourra comporter un ou plusieurs objets mais ces derniers devront tous être de la même nature (une seule catégorie de contenu par envoi).</p>
       <p>La passation d'une commande se déroule de la même manière que l'obtention d'une cotation. La seule différence réside dans les informations que vous devez fournir en plus. Pour l'expéditeur et le destinataire vous devez indiquer leurs adresses exactes, numéros de téléphones, données personnelles. Concernant les données 
-      de l'envoi, en fonction de l'opérateur et du service choisis, vous pouvez être amenés à fournir des informations comme les disponibilités d'enlèvement, les points de proximité pour le dépôt et le retrait ou le montant à déclarer pour l'assurance.</p>
+      de l'envoi, en fonction de l'opérateur et du service choisis, vous pouvez être amenés à fournir des informations comme les disponibilités d'enlèvement, les points de proximité pour le dépôt et le retrait.</p>
+      <p>Toutes les expéditions à l'étranger nécessitent la présence du paramètre <em>objet.</em>valeur (où <em>objet</em> signifie le type d'envoi : colis, encombrant, palette, pli)</p>
       <code>
         &lt;?php
         <ul class="code">

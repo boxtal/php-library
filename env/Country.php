@@ -21,7 +21,7 @@ class Env_Country extends Env_WebService {
                               "VI" => "V", "GR" => "G");
 
   /** 
-   *  Public variable with country array. The ISO codes are the array keys. 
+   *  Public variable with categories array. The categories codes are the array keys. 
    *  @access public
    *  @var array
    */
