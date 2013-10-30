@@ -44,7 +44,7 @@ else {
 ?>
 <tr id="ope-<?php echo $o;?>-tr">
 <td><input type="radio" name="ope" id="ope-<?php echo $o;?>" value="<?php echo $offre["operator"]["code"];?>" class="chkbox selectOpe" /> <label for="ope-<?php echo $o;?>">choisir cette offre</label></td>
-<td><img src="http://www.envoimoinscher.com/images/logo_<?php echo strtolower($offre["operator"]["code"]);?>.gif" alt="" /></td>
+<td><img src="//www.envoimoinscher.com/images/logo_<?php echo strtolower($offre["operator"]["code"]);?>.gif" alt="" /></td>
 <td><?php foreach($offre["characteristics"] as $c => $char) { 
   echo $char.'<br />';  
   unset($offre["characteristics"][$c]);  

@@ -9,6 +9,6 @@
 | <a href="get_order_double.php" <?php echo $orderDouStyle;?>>la commande Paris - Marseille dans les 2 directions</a> 
 </p>
 <p>Regardez aussi : <a href="/api/librairie">quick start</a> | <a href="/api/librairie/documentation">documentation de la librairie</a>
-| <a href="/api/librairie/changelog.html">changelog</a> | <a href="http://test.envoimoinscher.com/api/demo" target="_blank">démonstration de l'API</a></p>
+| <a href="/api/librairie/changelog.html">changelog</a> | <a href="//test.envoimoinscher.com/api/demo" target="_blank">démonstration de l'API</a></p>
 </body>
 </html>
