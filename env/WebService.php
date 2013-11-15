@@ -120,16 +120,16 @@ class Env_WebService {
   }
 
   /** 
-   *  Function which executes api request. If an error occurs, we close curl call and put
-   *  error details in $this->errorText variable. We distinguish two situations with 404 code 
-   *  returned in the response : 
-   *  <br />1) The API sets 404 code for valid request which doesn't contain any result. The type of response
+   *  Function which executes api request. 
+	 *  If an error occurs, we close curl call and put error details in $this->errorText variable.
+   *  We distinguish two situations with 404 code returned in the response : 
+   *  	1) The API sets 404 code for valid request which doesn't contain any result. The type of response
    *     is application/xml.
-   *  <br />2) The server sets 404 code too. It does it for resources which don't exist (like every 404
+   *  	2) The server sets 404 code too. It does it for resources which don't exist (like every 404
    *     web page). In this case the responses' type is text/html.
-   *  <br />If the response returns 404 server code, we cancel the operation by setting $result to false,
+   *  If the response returns 404 server code, we cancel the operation by setting $result to false,
    *  $respError to true and by adding an error message to $respErrorsList (with http_file_not_found value). 
-   *  <br />In the case of 404 API error code, we don't break the operation. We show error messages in
+   *  In the case of 404 API error code, we don't break the operation. We show error messages in
    *  setResponseError().
    *  @access public
    *  @return string
@@ -138,8 +138,8 @@ class Env_WebService {
     $req = curl_init();
     curl_setopt_array($req, $this->options);
     $result = curl_exec($req);
-	// You can uncomment this fragment to see the content returned by API  
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+		// You can uncomment this fragment to see the content returned by API  
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
     $curlInfo = curl_getinfo($req);
     $contentType = explode(";", $curlInfo["content_type"]);
     if(curl_errno($req) > 0) {

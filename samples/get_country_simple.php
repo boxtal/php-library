@@ -14,24 +14,23 @@ $countryCl = new Env_Country(array("user" => $userData["login"], "pass" => $user
 // Récupération des pays
 $countryCl->getCountries();
 ?>
-
-<p><label for="countries">Sélectionnez votre pays : </label>
-<select id="countries" name="countries">
+<p>
+	<label for="countries">Sélectionnez votre pays : </label>
+	<select id="countries" name="countries">
 <?php foreach($countryCl->countries as $c => $country) { ?>  
-<option value="<?php echo $country['code'];?>"><?php echo $country['label'];?></option> 
+			<option value="<?php echo $country['code'];?>"><?php echo $country['label'];?></option> 
 <?php } ?>
-</select></p>
+	</select>
+</p>
 <?php
 // Récupération d'un pays (Pays-Bas)
 $countryCl->getCountry("NL");
-// Récupération d'un pays
-$countryCl->getCountry("NL");
 ?>
 <p>Les destinations vers les Pays-Bas : 
-<ul>
+	<ul>
 <?php foreach($countryCl->country as $c => $country) { ?>
-<li><?php echo $country["label"];?></li>
+		<li><?php echo $country["label"];?></li>
 <?php } ?>
-</ul>
+	</ul>
 </p>
 <?php require_once('../utils/footer.php'); ?>

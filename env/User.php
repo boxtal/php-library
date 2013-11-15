@@ -15,7 +15,7 @@ class Env_User extends Env_WebService {
    * @access public
    * @var array
    */
-  public $userConfiguration = array("emails" => array());
+  public $userConfiguration = array('emails' => array());
 
   /**
    * Gets information about e-mail configuration for logged user.
@@ -23,7 +23,7 @@ class Env_User extends Env_WebService {
    * @return void
    */
   public function getEmailConfiguration() {
-    $this->setOptions(array("action" => "/api/v1/emails_configuration"));
+    $this->setOptions(array('action' => '/api/v1/emails_configuration'));
     $this->setEmailConfiguration();
   }
 
@@ -36,7 +36,7 @@ class Env_User extends Env_WebService {
    * @return void
    */
   public function postEmailConfiguration($params) {
-    $this->setOptions(array("action" => "/api/v1/emails_configuration"));
+    $this->setOptions(array('action' => '/api/v1/emails_configuration'));
     $this->param = $params;
     $this->setPost();
     $this->setEmailConfiguration();
@@ -51,9 +51,9 @@ class Env_User extends Env_WebService {
     $source = parent::doRequest();
     if($source !== false) {
       parent::parseResponse($source);
-      foreach($this->xpath->evaluate("/user/mails")->item(0)->childNodes as $configLine) {
+      foreach($this->xpath->evaluate('/user/mails')->item(0)->childNodes as $configLine) {
         if(!($configLine instanceof DOMText)) {
-          $this->userConfiguration["emails"][$configLine->nodeName] = $configLine->nodeValue;
+          $this->userConfiguration['emails'][$configLine->nodeName] = $configLine->nodeValue;
         }
       }
     }

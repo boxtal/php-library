@@ -2,7 +2,7 @@
 /** 
  * EnvoiMoinsCher API content categories class.
  * 
- * It can be used to load categories or/and contents. 
+ * It can be used to load informations about categories or/and contents. 
  * @package Env
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
@@ -12,12 +12,11 @@ class Env_ContentCategory extends Env_WebService {
 
   /** 
    *  Public variable with categories array. The categories ids are the array keys.
-   *  For exemple, one category has following values : 
-   *  <br />- id : 1111
-   *  <br />- code : A
-   *  <br />- label : First category A 
-   *  <br />The PHP array corresponding to these values : array(1111 => array("label" => "First category A",
-   *  "code" => "A"))
+   *  Organisation :
+	 *	$categories[code]	=> array(
+	 *		['label']						=> data
+	 *		['code']						=> data
+	 *	)
    *  @access public
    *  @var array
    */
@@ -25,8 +24,12 @@ class Env_ContentCategory extends Env_WebService {
 
   /** 
    *  Public variable with contents array. Every content element is attached to one category by
-   *  category id. For exemple, our category 1111 will have following contents : 
-   *  $categories[1111] = array(0 => array("code" => 11112, "label" => "code 11112"), 1 => array("code" => 11113, "label" => "code 11113"))
+   *  Organisation :
+	 *	$contents[category][x]	=> array(
+	 *		['code']								=> data
+	 *		['label']								=> data
+	 *		['category']						=> data
+	 *	)
    *  @access public
    *  @var array
    */
@@ -39,7 +42,7 @@ class Env_ContentCategory extends Env_WebService {
    */
   public function getCategories() { 
     $this->setOptions(array("action" => "/api/v1/content_categories",
-	));
+		));
     $this->doCatRequest();
   }
 
@@ -50,7 +53,7 @@ class Env_ContentCategory extends Env_WebService {
    */
   public function getContents() { 
     $this->setOptions(array("action" => "/api/v1/contents",
-	));
+		));
     $this->doConRequest();
   }
   
@@ -61,14 +64,25 @@ class Env_ContentCategory extends Env_WebService {
    */
   private function doCatRequest() {
     $source = parent::doRequest();
+		
+		/* Uncomment if ou want to display the XML content */
+		//echo '<textarea>'.$source.'</textarea>';
+		
+		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
       parent::parseResponse($source);
-      $contents = $this->xpath->query("/content_categories/content_category");
-      foreach($contents as $c => $content) {
-        $code = $this->xpath->evaluate(".//code")->item($c)->nodeValue;
-        $this->categories[$code] = array("label" => $this->xpath->evaluate(".//label")->item($c)->nodeValue,
-        "code" => $code);
-      }
+	  	if(count($this->respErrorsList) == 0) {
+				
+				/* The XML file is loaded, we now gather the datas */
+				$categories = $this->xpath->query("/content_categories/content_category");
+				foreach($categories as $c => $category) {
+					$code = $this->xpath->query("./code",$category)->item(0)->nodeValue;
+					$this->categories[$code] = array(
+						'label' => $this->xpath->evaluate("./label",$category)->item(0)->nodeValue,
+						'code' => $code
+						);
+				}
+			}
     }
   }
 
@@ -79,23 +93,33 @@ class Env_ContentCategory extends Env_WebService {
    */
   private function doConRequest() {
     $source = parent::doRequest();
+		
+		/* Uncomment if ou want to display the XML content */
+		//echo '<textarea>'.$source.'</textarea>';
+		
+		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
       parent::parseResponse($source);
-      $contents = $this->xpath->query("/contents/content");
-      foreach($contents as $c => $content) {
-        $categoryId = $this->xpath->evaluate(".//category")->item($c)->nodeValue;
-        $i = count($this->contents[$categoryId]);
-        $this->contents[$categoryId][$i] = array(
-          "code" => $this->xpath->evaluate(".//code")->item($c)->nodeValue,
-          "label" => $this->xpath->evaluate(".//label")->item($c)->nodeValue,
-          "category" => $categoryId
-        );
-      }
+	  	if(count($this->respErrorsList) == 0) {
+				
+				/* The XML file is loaded, we now gather the datas */
+				$contents = $this->xpath->query("/contents/content");
+				foreach($contents as $c => $content) {
+					$categoryId = $this->xpath->query('./category',$content)->item(0)->nodeValue;
+					$i = count($this->contents[$categoryId]);
+					$this->contents[$categoryId][$i] = array(
+						'code' => $this->xpath->query('./code',$content)->item(0)->nodeValue,
+						'label' => $this->xpath->query('./label',$content)->item(0)->nodeValue,
+						'category' => $categoryId
+						);
+				}
+			}
     }
   }
 
   /** 
-   *  Class getter to obtain the contents of one category.
+   *  Getter to obtain the contents of one category.
+	 *  @param $code : category code
    *  @access public
    *  @return void
    */

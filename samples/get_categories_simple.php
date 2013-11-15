@@ -20,11 +20,11 @@ $child = $contentCl->getChild(10000);
 <select name="categories">
 <option value="<?php echo $contentCl->contents[0][0]['code'];?>"><?php echo $contentCl->contents[0][0]['label'];?></option>
 <?php foreach($contentCl->categories as $c => $category) { ?>
-  <optgroup label="<?php echo $category['label'];?>">
-    <?php foreach($contentCl->contents[$category['code']] as $ch => $child) { ?>
-      <option value="<?php echo $child['code'];?>"><?php echo $child['label'];?></option>
-    <?php } ?>
-  </optgroup>
+		<optgroup label="<?php echo $category['label'];?>">
+<?php foreach($contentCl->contents[$category['code']] as $ch => $child) { ?>
+				<option value="<?php echo $child['code'];?>"><?php echo $child['label'];?></option>
+<?php } ?>
+		</optgroup>
 <?php } ?>
 </select></p>
 <?php require_once('../utils/footer.php');?> 

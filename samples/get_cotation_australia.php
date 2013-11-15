@@ -9,21 +9,41 @@ require_once('../utils/autoload.php');
 $quotationPSStyle = 'style="font-weight:bold;"';
 
 // Expéditeur et destinataire
-$from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
-"ville" => "Paris");
-$to = array("pays" => "AU", "code_postal" => "2000", "type" => "particulier",
-"ville" => "Sydney");
+$from = array(
+	"pays" => "FR", 
+	"code_postal" => 
+	"75002", 
+	"type" => "particulier",
+	"ville" => "Paris"
+	);
+$to = array(
+	"pays" => "AU", 
+	"code_postal" => "2000", 
+	"type" => "particulier",
+	"ville" => "Sydney"
+	);
 
 // Informations sur l'envoi
-$quotInfo = array("collecte" => date("Y-m-d"), "delai" => "aucun",  "code_contenu" => 10120,
-"colis.valeur" => 1200,
-"colis.description" => "Des journaux");
+$quotInfo = array(
+	"collecte" => date("Y-m-d"), 
+	"delai" => "aucun",  
+	"code_contenu" => 10120,
+	"colis.valeur" => 1200,
+	"colis.description" => "Des journaux"
+	);
 $cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setType("colis", array(
-  1 => array("poids" => 4, "longueur" => 7, "largeur" => 8, "hauteur" => 11)
-));
+  1 => array(
+		"poids" => 4, 
+		"longueur" => 7, 
+		"largeur" => 8, 
+		"hauteur" => 11
+		)
+	)
+);
+
 $orderPassed = $cotCl->getQuotation($quotInfo); 
 // Si pas d'erreur CURL
 if(!$cotCl->curlError) { print_r($pointCl->respErrorsList);
@@ -35,31 +55,36 @@ if(!$cotCl->curlError) { print_r($pointCl->respErrorsList);
 table tr td {border:1px solid #000000; padding:5px; }
 </style>
 <table>
-<thead><tr>
-<td>Transp / Service</td><td>Prix</td><td>Collection</td><td>Livraison</td><td>Détails</td><td>Alertes</td>
-<td>Informations <br />à fournir</td>
-</tr></thead>
+	<thead>
+		<tr>
+		<td>Transp / Service</td>
+		<td>Prix</td>
+		<td>Collection</td>
+		<td>Livraison</td>
+		<td>Détails</td>
+		<td>Alertes</td>
+		<td>Informations <br />à fournir</td>
+	</tr>
+</thead>
 <tbody>
 <?php foreach($cotCl->offers as $o => $offre) { ?>
-<tr>
-<td><b><?php echo $o;?></b>. <?php echo $offre['operator']['label'];?> / <?php echo $offre['service']['code'];?></td>
-<td><?php echo $offre['price']['tax-exclusive'];?> <?php echo $offre['price']['currency'];?></td>
-<td><?php echo $offre['collection']['type'];?></td>
-<td><?php echo $offre['delivery']['type'];?></td>
-<td>
-<?php echo implode('<br /> - ', $offre['characteristics']); ?>
-</td>
-<td>
-<?php echo $offre['alert']; ?>
-</td>
-<td>
-<?php foreach($offre['mandatory'] as $m => $mandatory) { ?>
-- <?php echo $m; ?><br />
+		<tr>
+			<td><b><?php echo $o;?></b>. <?php echo $offre['operator']['label'];?> / <?php echo $offre['service']['code'];?></td>
+			<td><?php echo $offre['price']['tax-exclusive'];?> <?php echo $offre['price']['currency'];?></td>
+			<td><?php echo $offre['collection']['type'];?></td>
+			<td><?php echo $offre['delivery']['type'];?></td>
+			<td><?php echo implode('<br /> - ', $offre['characteristics']); ?></td>
+			<td><?php echo $offre['alert']; ?></td>
+			<td>
+<?php 
+				foreach($offre['mandatory'] as $m => $mandatory) {
+					echo ' - '.$m. '<br />'; 
+				} 
+?>
+			</td>
+		</tr>
 <?php } ?>
-</td>
-</tr>
-<?php } ?>
-</tbody>
+	</tbody>
 </table>
 <?php
   } 

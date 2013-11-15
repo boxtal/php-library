@@ -2,7 +2,7 @@
 /** 
  * EnvoiMoinsCher API parcel points class.
  * 
- * It can be used to load one or more parcel points (for pickup and dropoff).
+ * It can be used to load informations about one or more parcel points (for pickup and dropoff).
  * @package Env 
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
@@ -15,10 +15,27 @@ class Env_ParcelPoint extends Env_WebService {
    *  @access protected
    *  @var array
    */
-  protected $types = array("pickup_point", "dropoff_point");
+  protected $types = array('pickup_point', 'dropoff_point');
 
   /** 
    *  Public array with parcel points. It takes pickup_point or dropoff_point as the keys.
+	 *  Organisation :
+	 *	$points['pickup_point'|'dropoff_point'][x] => array(
+	 *  	['code'] 				=> data
+	 *  	['name'] 				=> data
+	 *  	['address'] 		=> data
+	 *  	['city'] 				=> data
+	 *  	['zipcode'] 		=> data
+	 *  	['country'] 		=> data
+	 *  	['description'] => data
+	 *  	['schedule'][x]	=> array(
+	 *			['weekday'] 		=> data
+	 *			['open_am'] 		=> data
+	 *			['close_am']		=> data
+	 *			['open_pm'] 		=> data
+	 *			['close_pm']	 	=> data
+	 *		)
+	 *  )
    *  @access public
    *  @var array
    */
@@ -34,17 +51,17 @@ class Env_ParcelPoint extends Env_WebService {
   public $constructList = false;
   
   /** 
-   *  Getter function to one parcel point. 
+   *  Function load one parcel point. 
    *  @access public
-   *  @param string $type Parcel point type to load.
-   *  @param string $code Parcel point code composed by operator code and point id 
-   *  @param string $country Parcel point country.
+   *  @param $type : Parcel point type to load.
+   *  @param $code : Parcel point code composed by operator code and point id 
+   *  @param $country : Parcel point country.
    *  @return void
    */
   public function getParcelPoint($type = "", $code = "", $country = "FR") {
     if(in_array($type, $this->types)) {
       $this->setOptions(array("action" => "/api/v1/$type/$code/$country/informations",
-	  )); 
+			)); 
       $this->doSimpleRequest($type);
     }
     else {
@@ -54,49 +71,56 @@ class Env_ParcelPoint extends Env_WebService {
   }
   
   /** 
-   *  Function executes getParcelPoint() request and prepares the $points array.
+   *  Function executes parcel point request and prepares the $points array.
    *  @access private
    *  @return void
    */
   private function doSimpleRequest($type) {
     $source = parent::doRequest();
+		
+		/* Uncomment if ou want to display the XML content */
+		//echo '<textarea>'.$source.'</textarea>';
+		
+		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
-      $domCl = new DOMDocument(); 
-      $domCl->loadXML($source);
-      $xpath = new DOMXPath($domCl);
-      $pointDetail = array("code" => $xpath->evaluate("/$type/code")->item(0)->nodeValue,
-        "name" =>  $xpath->evaluate("/$type/name")->item(0)->nodeValue,
-        "address" =>  $xpath->evaluate("/$type/address")->item(0)->nodeValue,
-        "city" =>  $xpath->evaluate("/$type/city")->item(0)->nodeValue,
-        "zipcode" =>  $xpath->evaluate("/$type/zipcode")->item(0)->nodeValue,
-        "country" =>  $xpath->evaluate("/$type/country")->item(0)->nodeValue,
-        "phone" =>  $xpath->evaluate("/$type/phone")->item(0)->nodeValue,
-        "description" => $xpath->evaluate("/$type/description")->item(0)->nodeValue
+			parent::parseResponse($source);
+			
+			$point = $this->xpath->query('/'.$type)->item(0);
+      $pointDetail = array(
+				'code' => $this->xpath->query('./code',$point)->item(0)->nodeValue,
+        'name' =>  $this->xpath->query('./name',$point)->item(0)->nodeValue,
+        'address' =>  $this->xpath->query('./address',$point)->item(0)->nodeValue,
+        'city' =>  $this->xpath->query('./city',$point)->item(0)->nodeValue,
+        'zipcode' =>  $this->xpath->query('./zipcode',$point)->item(0)->nodeValue,
+        'country' =>  $this->xpath->query('./country',$point)->item(0)->nodeValue,
+        'phone' =>  $this->xpath->query('./phone',$point)->item(0)->nodeValue,
+        'description' => $this->xpath->query('./description',$point)->item(0)->nodeValue
       );
-      // get open and close informations 
+			
+      /* We get open and close informations  */
       $schedule = array();
-      foreach($xpath->evaluate("/$type/schedule/day") as $d => $dayNode) {
+      foreach($this->xpath->query('./schedule/day',$point) as $d => $dayNode) {
         foreach($dayNode->childNodes as $c => $childNode) {
-          if($childNode->nodeName != "#text") {
+          if($childNode->nodeName != '#text') {
             $schedule[$d][$childNode->nodeName] = $childNode->nodeValue;
           }
         }
       }
       $pointDetail['schedule'] = $schedule;
+			
+			/* We store the data in the right array (defined by $type) */
       if($this->constructList) {
         if(!isset($this->points[$type]))
         {
           $this->points[$type] = array();
         }
-        $t = count($this->points[$type]);
-        $this->points[$type][$t] = $pointDetail;
+        $this->points[$type][count($this->points[$type])] = $pointDetail;
       }
       else {
         $this->points[$type] = $pointDetail;
       }
     }
   }
-
 
 }
 ?>

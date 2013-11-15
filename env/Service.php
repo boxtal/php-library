@@ -2,7 +2,7 @@
 /** 
  * EnvoiMoinsCher API carrier's services class.
  * 
- * It can be used to load carrier's services.
+ * It can be used to load informations about carrier's services.
  * @package Env
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
@@ -16,13 +16,13 @@ class Env_Service extends Env_Carrier {
    *  @return void
    */
   public function getServices() { 
-    $this->setOptions(array("action" => "/api/v1/services",
-	));
+    $this->setOptions(array('action' => '/api/v1/services',
+		));
     $this->doServicesRequest();
   }
 
   /**
-   *  Parser for get_services resource.
+   *  Function executes services request and prepares the $carriers array.
    *  @access private
    *  @return void
    */
@@ -30,7 +30,7 @@ class Env_Service extends Env_Carrier {
     $source = $this->doRequest();
     if($source !== false) {
       parent::parseResponse($source);
-      $carriers = $this->xpath->query("/operators/operator");
+      $carriers = $this->xpath->query('/operators/operator');
       foreach($carriers as $c => $carrier) {
         $index = $c + 1;
         $result = $this->parseCarrierNode($index);
@@ -49,46 +49,64 @@ class Env_Service extends Env_Carrier {
     if(isset($this->carriers[$code]["services"])) {
       return $this->carriers[$code]["services"];
     }
-    $this->setOptions(array("action" => "/api/v1/carrier/$code/services"));
+    $this->setOptions(array("action" => '/api/v1/carrier/'.$code.'/services'));
     $this->doServicesRequest();
   }
 
   /** 
    *  Parser for service node list.
    *  @access private
-   *  @param int $c Node index.
+   *  @param $c : Node index.
    *  @return array Array with all available informations about the service
+	 *  Organisation :
+	 *	$return[code] 			=> array(
+	 *  	['code'] 						=> data
+	 *  	['label'] 					=> data
+	 *  	['mode'] 						=> data
+	 *  	['alert'] 					=> data
+	 *  	['collection'] 			=> data
+	 *  	['delivery'] 				=> data
+	 *  	['is_pluggable'] 		=> data
+	 *  	['options'][code]		=> array(
+	 *			['name'] 						=> data
+	 *		)
+	 *  	['exclusions'][id]	=> array(
+	 *			['label'] 				=> data
+	 *		)
+	 *  	['apiOptions'][option][option2]	=> data
+	 *  )
    */
   private function parseServicesNode($c) {
     $result = array();
-    $services = $this->xpath->query("/operators/operator[$c]/services/service");
+    $services = $this->xpath->query('/operators/operator['.$c.']/services/service');
     foreach($services as $se => $service) {
       $s = $se + 1;
-      $code = $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/code")->item(0)->nodeValue;
-      $result[$code] = array("code" => $code,
-        "label" => $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/label")->item(0)->nodeValue,
-        "mode" => $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/mode")->item(0)->nodeValue,
-        "alert" => $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/alert")->item(0)->nodeValue,
-        "collection" => $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/collection_type")->item(0)->nodeValue,
-        "delivery" => $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/delivery_type")->item(0)->nodeValue,
-        "is_pluggable" => ($this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/plug_available")->item(0)->nodeValue == "true" ? true : false)
+      $code = $this->xpath->query('./code',$service)->item(0)->nodeValue;
+      $result[$code] = array(
+				"code" => $code,
+        "label" => $this->xpath->query('./label',$service)->item(0)->nodeValue,
+        "mode" => $this->xpath->query('./mode',$service)->item(0)->nodeValue,
+        "alert" => $this->xpath->query('./alert',$service)->item(0)->nodeValue,
+        "collection" => $this->xpath->query('./collection_type',$service)->item(0)->nodeValue,
+        "delivery" => $this->xpath->query('./delivery_type',$service)->item(0)->nodeValue,
+        "is_pluggable" => ($this->xpath->query('./plug_available',$service)->item(0)->nodeValue == "true" ? true : false)
       );
       $options = array();
       $exclusions = array();
       $apiOptions = array();
-      foreach($this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/options/option") as $o => $option) {
-        $options[$this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/options/option/code")->item($o)->nodeValue] = $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/options/option/name")->item($o)->nodeValue;
+      foreach($this->xpath->evaluate('./options/option',$service) as $o => $option) {
+        $options[$this->xpath->evaluate('./code',$option)->item(0)->nodeValue] = $this->xpath->evaluate('./name',$option)->item(0)->nodeValue;
       }
-      $result[$code]["options"] = $options;
-      foreach($this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/excluded_contents/contenu") as $e => $exclusion) {
-        $exclusions[$this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/excluded_contents/contenu/id")->item($e)->nodeValue] = $this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/excluded_contents/contenu/label")->item($e)->nodeValue;
+      $result[$code]['options'] = $options;
+      foreach($this->xpath->evaluate('./excluded_contents/contenu',$service) as $e => $exclusion) {
+        $exclusions[$this->xpath->evaluate('./id',$exclusion)->item(0)->nodeValue] = $this->xpath->evaluate("./label",$exclusion)->item(0)->nodeValue;
       }
-      $result[$code]["exclusions"] = $exclusions;
-      foreach($this->xpath->evaluate("/operators/operator[$c]/services/service[$s]/api_options") as $o => $option) {
+      $result[$code]['exclusions'] = $exclusions;
+      foreach($this->xpath->evaluate('./api_options',$service) as $o => $option) {
         for($i = 1; $i < $option->childNodes->length; $i++) {
-// foreach($option->childNodes as $s => $sourceNode) {
+				// foreach($option->childNodes as $s => $sourceNode) {
           $apiNode = $option->childNodes->item($i);
-                  $apiNodeChild = $apiNode->childNodes;
+          $apiNodeChild = $apiNode->childNodes;
           $apiOptions[$apiNode->nodeName] = array();
           for($a = 1; $a < $apiNodeChild->length; $a++) {
             $apiOptions[$apiNode->nodeName][$apiNodeChild->item($a)->nodeName] = $apiNodeChild->item($a)->nodeValue;
@@ -97,7 +115,7 @@ class Env_Service extends Env_Carrier {
           $i++; 
         }
       }
-      $result[$code]["apiOptions"] = $apiOptions;
+      $result[$code]['apiOptions'] = $apiOptions;
     }
     return $result;
   }

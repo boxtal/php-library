@@ -2,7 +2,7 @@
 /** 
  * EnvoiMoinsCher API quotation class.
  * 
- * The class is used to obtain a quotation and, if possibly, order it.
+ * The class is used to obtain informations about a quotation and, if possibly, order it.
  * @package Env
  * @author EnvoiMoinsCher <dev@envoimoinscher.com>
  * @version 1.0
@@ -12,11 +12,43 @@ class Env_Quotation extends Env_WebService {
 
   /** 
    *  Public variable represents offers array. 
+	 *  Organisation :
+	 *	$offers[x] 					=> array(
+	 *  	['mode'] 						=> data
+	 *  	['url'] 						=> data
+	 *  	['operator'] 				=> array(
+	 *			['code'] 						=> data
+	 *			['label'] 					=> data
+	 *			['logo']						=> data
+	 *		)
+	 *  	['service'] 				=> array(
+	 *			['code'] 						=> data
+	 *			['label'] 					=> data
+	 *		)
+	 *  	['price'] 					=> array(
+	 *			['currency'] 				=> data
+	 *			['tax-exclusive'] 	=> data
+	 *			['tax-inclusive']		=> data
+	 *		)
+	 *  	['collection'] 			=> array(
+	 *			['type'] 						=> data
+	 *			['date'] 						=> data
+	 *			['label']						=> data
+	 *		)
+	 *  	['delivery'] 				=> array(
+	 *			['type'] 						=> data
+	 *			['date'] 						=> data
+	 *			['label']						=> data
+	 *		)
+	 *  	['characteristics'] => data
+	 *  	['alert'] 					=> data
+	 *  	['mandatory'] 			=> array([...])
+	 *  )
    *  @access public
    *  @var array
    */
   public $offers = array();
-
+	
   /** 
    *  Public array containing order informations like order number, order date...
    *  @access public
@@ -35,40 +67,38 @@ class Env_Quotation extends Env_WebService {
    *  @access protected
    *  @var array
    */
-  protected $palletDims = array(130110 => "130x110", 122102 => "122x102", 120120 => "120x120", 120100 => "120x100",
-                           12080 => "120x80" , 114114 => "114x114", 11476 => "114x76", 110110 => "110x110",
-                           107107 => "107x107", 8060 => "80x60"
+  protected $palletDims = array(130110 => '130x110', 122102 => '122x102', 120120 => '120x120', 120100 => '120x100',
+                           12080 => '120x80' , 114114 => '114x114', 11476 => '114x76', 110110 => '110x110',
+                           107107 => '107x107', 8060 => '80x60'
                           );
 
   /** 
    *  Protected variable with shipment reasons. It is used to generate proforma invoice.
    *  Exemple of utilisation : 
    *  $quotInfo = array("collecte_date" => "2015-04-29", "delay" => "aucun",  "content_code" => 10120,
-   *  "operator" => "UPSE", <b>"reason" => "repair"</b>);
-   *  <br />$this->makeOrder($quotInfo, true);
+   *  "operator" => "UPSE", <b>"reason" => "repair");
+   *  $this->makeOrder($quotInfo, true);
    *  @access protected
    *  @var array
    */
-  protected $shipReasons = array("sale" => "sale", "repair" => "repr", "return" => "rtrn", "gift" => "gift",
-                           "sample" => "smpl" , "personnal" => "prsu", "document" => "icdt", "other" => "othr");
+  protected $shipReasons = array('sale' => 'sale', 'repair' => 'repr', 'return' => 'rtrn', 'gift' => 'gift',
+                           'sample' => 'smpl' , 'personnal' => 'prsu', 'document' => 'icdt', 'other' => 'othr');
 
   /** 
    *  Public setter used to pass proforma parameters into the api request.
-   *  <br />You must pass a multidimentional array, even for one line.
-   *  <br /><b>The array keys must start with 1, not with 0.</b>
-   *  <br />Exemple : 
+   *  You must pass a multidimentional array, even for one line.
+   *  The array keys must start with 1, not with 0.
+   *  Exemple : 
    *  $this->setProforma(array(1 => array("description_en" => "english description for this item",
    *  "description_fr" => "la description française pour ce produit", "origine" => "FR", 
    *  "number" => 2, "value" => 500)));
-   *  <br />The sense of keys in the proforma array : 
-   *  <ul>
-   *  <li><i>description_en</i> => description of your item in English</li>
-   *  <li><i>description_fr</i> => description of your item in French</li>
-   *  <li><i>origine</i> => origin of your item (you can put EEE four every product which comes 
-   *  from EEA (European Economic Area))</li>
-   *  <li><i>number</i> => quantity of items which you send</li>
-   *  <li><i>value</i> => unitary value of <b>one</b> item </li>
-   *  </ul>
+   *  The sense of keys in the proforma array : 
+   *   - description_en => description of your item in English
+   *   - description_fr => description of your item in French
+   *   - origine => origin of your item (you can put EEE four every product which comes 
+   *     from EEA (European Economic Area))
+   *   - number => quantity of items which you send
+   *   - value => unitary value of one item 
    *  @access public
    *  @param array $data Array with proforma informations.
    *  @return void
@@ -76,14 +106,14 @@ class Env_Quotation extends Env_WebService {
   public function setProforma($data) {
     foreach($data as $key => $value) {
       foreach($value as $lineKey => $lineValue) {
-        $this->param["proforma_".$key.".".$lineKey] = $lineValue;
+        $this->param['proforma_'.$key.'.'.$lineKey] = $lineValue;
       }
     }
   }
 
   /** 
    *  Function which sets informations about package. 
-   *  <br />Please note that if you send the pallet cotation, you can't indicate the dimensions like for
+   *  Please note that if you send the pallet cotation, you can't indicate the dimensions like for
    *  other objects. In this case, you must pass the key from $palletDims protected variable. If the key
    *  is not passed, the request will return an empty result. 
    *  @access public
@@ -93,16 +123,16 @@ class Env_Quotation extends Env_WebService {
    */
   public function setType($type, $dimensions) {
     foreach($dimensions as $d => $data) {
-      $this->param[$type."_$d.poids"] = $data["poids"];
-      if($type == "palette") {
-        $palletDim = explode("x", $this->palletDims[$data['palletDims']]);
-        $data[$type."_$d.longueur"] = (int)$palletDim[0];
-        $data[$type."_$d.largeur"] = (int)$palletDim[1];
+      $this->param[$type.'_'.$d.'.poids'] = $data['poids'];
+      if($type == 'palette') {
+        $palletDim = explode('x', $this->palletDims[$data['palletDims']]);
+        $data[$type.'_'.$d.'.longueur'] = (int)$palletDim[0];
+        $data[$type.'_'.$d.'.largeur'] = (int)$palletDim[1];
       }
-      $this->param[$type."_$d.longueur"] = $data["longueur"];
-      $this->param[$type."_$d.largeur"] = $data["largeur"];
-      if($type != "pli") {
-        $this->param[$type."_$d.hauteur"] = $data["hauteur"];
+      $this->param[$type.'_'.$d.'.longueur'] = $data['longueur'];
+      $this->param[$type.'_'.$d.'.largeur'] = $data['largeur'];
+      if($type != 'pli') {
+        $this->param[$type.'_'.$d.'.hauteur'] = $data['hauteur'];
       }
     }
   }
@@ -116,7 +146,7 @@ class Env_Quotation extends Env_WebService {
    */
   public function setPerson($type, $data) {
     foreach($data as $key => $value) {
-      $this->param["$type.$key"] = $value;
+      $this->param[$type.'.'.$key] = $value;
     }
   }
 
@@ -129,7 +159,7 @@ class Env_Quotation extends Env_WebService {
   public function getQuotation($quotInfo) {
     $this->param = array_merge($this->param, $quotInfo);
     $this->setGetParams(array());
-    $this->setOptions(array("action" => "/api/v1/cotation"));
+    $this->setOptions(array('action' => '/api/v1/cotation'));
     return $this->doSimpleRequest();
   }
 
@@ -139,44 +169,45 @@ class Env_Quotation extends Env_WebService {
    *  @return false if server response isn't correct; true if it is
    */
   private function doSimpleRequest() {
-    $source = parent::doRequest();
+    $source = parent::doRequest();		
+		/* Uncomment if ou want to display the XML content */
+		//echo '<textarea>'.$source.'</textarea>';
+		
+		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
       parent::parseResponse($source);
-      return true;
+      return (count($this->respErrorsList) == 0);
     }
     return false;
   }
 
   /** 
-   *  Public getter to parse and prepare offers array.
+   *  Function load all offers
    *  @access public
    *  @param bool $onlyCom If true, we have to get only offers in the "order" mode.
    *  @return void
    */
   public function getOffers($onlyCom = false) {
-    $offers = $this->xpath->evaluate("/cotation/shipment/offer");
-    $of = 0;
-    $l = 0;
+    $offers = $this->xpath->query('/cotation/shipment/offer');
     foreach($offers as $o => $offer) {
-      $offerMode = $this->xpath->evaluate(".//offer/mode")->item($o)->nodeValue;
-      if(!$onlyCom || ($onlyCom && $offerMode == "COM")) {
-        $node = $o + 1; // node number (from 1)
+      $offerMode = $this->xpath->query('./mode',$offer)->item(0)->nodeValue;
+      if(!$onlyCom || ($onlyCom && $offerMode == 'COM')) {
         
-        // mandatory informations - you must fill it up when you want to order this offer
-        $informations = $this->xpath->evaluate("/cotation/shipment/offer[$node]/mandatory_informations/parameter");
-	    $mandInfos = array();
+        // Mandatory informations - you must fill it up when you want to order this offer
+        $informations = $this->xpath->query('./mandatory_informations/parameter',$offer);
+				$mandInfos = array();
         foreach($informations as $m => $mandatory) {
-          $arrKey = $mandatory->getElementsByTagName("code")->item(0)->nodeValue;
+          $arrKey = $this->xpath->query('./code',$mandatory)->item(0)->nodeValue;
           $mandInfos[$arrKey] = array();
           foreach($mandatory->childNodes as $mc => $mandatoryChild) {
             $mandInfos[$arrKey][$mandatoryChild->nodeName] = trim($mandatoryChild->nodeValue);
-            if($mandatoryChild->nodeName == "type") {
-              foreach($mandatoryChild->childNodes as $node) { 
-	            if($node->nodeName == "enum") {
-                  $mandInfos[$arrKey][$mandatoryChild->nodeName] = "enum";
+            if($mandatoryChild->nodeName == 'type') {
+              foreach($mandatoryChild->childNodes as $node) {
+								if($node->nodeName == 'enum') {
+                  $mandInfos[$arrKey][$mandatoryChild->nodeName] = 'enum';
                   $mandInfos[$arrKey]['array'] = array();
                   foreach($node->childNodes as $child) {
-                    if(trim($child->nodeValue) != "") {
+                    if(trim($child->nodeValue) != '') {
                       $mandInfos[$arrKey]['array'][] = $child->nodeValue;
                     }
                   }
@@ -187,53 +218,56 @@ class Env_Quotation extends Env_WebService {
               }
             }
           }
-          unset($mandInfos[$arrKey]["#text"]);
+          unset($mandInfos[$arrKey]['#text']);
         }
-        // characteristics generation
-        $charactDetail = $this->xpath->evaluate("/cotation/shipment/offer/characteristics")->item($o)->childNodes;
+
+        $charactDetail = $this->xpath->query('./characteristics/label',$offer);
         $charactArray = array();
         foreach($charactDetail as $c => $char) {
-// TODO : enlever cette validation après avoir détecté pourquoi il multiplie le nombre des nodes par 2
-          if(trim($char->nodeValue) != "") {
-            $charactArray[$c] = $char->nodeValue;
-          }
+           $charactArray[$c] = $char->nodeValue;
         }
-        $alert = "";
-        if(!empty($this->xpath->evaluate(".//offer/alert")->item($o)->nodeValue)) {
-          $alert = $this->xpath->evaluate(".//offer/alert")->item($o)->nodeValue;
+				
+				$alert = '';
+        $alertNode = $this->xpath->query('./alert',$offer)->item(0);
+        if(!empty($alertNode)) {
+          $alert = $alertNode->nodeValue;
         }
-        $this->offers[$of] = array(
-          "mode" => $offerMode,
-          "url" => $this->xpath->evaluate(".//offer/url")->item($o)->nodeValue,
-          "operator" => array(
-            "code" => $this->xpath->evaluate(".//offer/operator/code")->item($o)->nodeValue,
-            "label" => $this->xpath->evaluate(".//offer/operator/label")->item($o)->nodeValue,
-            "logo" => $this->xpath->evaluate(".//offer/operator/logo")->item($o)->nodeValue 
+				else
+				{
+					$alert = '';
+				}
+				
+        $this->offers[$o] = array(
+          'mode' => $offerMode,
+          'url' => $this->xpath->query('./url',$offer)->item(0)->nodeValue,
+          'operator' => array(
+            'code' => $this->xpath->query('./operator/code',$offer)->item(0)->nodeValue,
+            'label' => $this->xpath->query('./operator/label',$offer)->item(0)->nodeValue,
+            'logo' => $this->xpath->query('./operator/logo',$offer)->item(0)->nodeValue 
           ),
-          "service" => array(
-            "code" => $this->xpath->evaluate(".//service/code")->item($o)->nodeValue,
-            "label" => $this->xpath->evaluate(".//service/label")->item($o)->nodeValue
+          'service' => array(
+            'code' => $this->xpath->query('./service/code',$offer)->item(0)->nodeValue,
+            'label' => $this->xpath->query('./service/label',$offer)->item(0)->nodeValue
           ), 
-          "price" => array(
-            "currency" => $this->xpath->evaluate(".//offer/price/currency")->item($o)->nodeValue,
-            "tax-exclusive" => $this->xpath->evaluate(".//offer/price/tax-exclusive")->item($o)->nodeValue,
-            "tax-inclusive" => $this->xpath->evaluate(".//offer/price/tax-inclusive")->item($o)->nodeValue
+          'price' => array(
+            'currency' => $this->xpath->query('./price/currency',$offer)->item(0)->nodeValue,
+            'tax-exclusive' => $this->xpath->query('./price/tax-exclusive',$offer)->item(0)->nodeValue,
+            'tax-inclusive' => $this->xpath->query('./price/tax-inclusive',$offer)->item(0)->nodeValue
           ), 
-          "collection" => array(
-            "type" => $this->xpath->evaluate(".//collection/type/code")->item($o)->nodeValue,
-            "date" => $this->xpath->evaluate(".//collection/date")->item($o)->nodeValue,
-            "label" => $this->xpath->evaluate(".//collection/type/label")->item($o)->nodeValue
+          'collection' => array(
+            'type' => $this->xpath->query('./collection/type/code',$offer)->item(0)->nodeValue,
+            'date' => $this->xpath->query('./collection/date',$offer)->item(0)->nodeValue,
+            'label' => $this->xpath->query('./collection/type/label',$offer)->item(0)->nodeValue
           ),
-          "delivery" => array(
-            "type" => $this->xpath->evaluate(".//delivery/type/code")->item($o)->nodeValue,
-            "date" => $this->xpath->evaluate(".//delivery/date")->item($o)->nodeValue,
-            "label" => $this->xpath->evaluate(".//delivery/type/label")->item($o)->nodeValue
+          'delivery' => array(
+            'type' => $this->xpath->query('./delivery/type/code',$offer)->item(0)->nodeValue,
+            'date' => $this->xpath->query('./delivery/date',$offer)->item(0)->nodeValue,
+            'label' => $this->xpath->query('./delivery/type/label',$offer)->item(0)->nodeValue
           ),
-          "characteristics" => $charactArray,
-          "alert" => $alert,
-          "mandatory" => $mandInfos
+          'characteristics' => $charactArray,
+          'alert' => $alert,
+          'mandatory' => $mandInfos
         );
-        $of++;
       }
     }
   }
@@ -245,76 +279,79 @@ class Env_Quotation extends Env_WebService {
    *  @return void
    */
   private function getOrderInfos() {
-    $this->order["url"] = $this->xpath->evaluate(".//url")->item(0)->nodeValue;
-    $this->order["mode"] = $this->xpath->evaluate(".//mode")->item(0)->nodeValue;
-    $this->order["offer"]["operator"]["code"] = $this->xpath->evaluate(".//operator/code")->item(0)->nodeValue;
-    $this->order["offer"]["operator"]["label"] = $this->xpath->evaluate(".//operator/label")->item(0)->nodeValue;
-    $this->order["offer"]["operator"]["logo"] = $this->xpath->evaluate(".//operator/logo")->item(0)->nodeValue;
-    $this->order["service"]["code"] = $this->xpath->evaluate(".//service/code")->item(0)->nodeValue;
-    $this->order["service"]["label"] = $this->xpath->evaluate(".//service/label")->item(0)->nodeValue;
-    $this->order["price"]["currency"] = $this->xpath->evaluate(".//service/code")->item(0)->nodeValue;
-    $this->order["price"]["tax-exclusive"] = $this->xpath->evaluate(".//price/tax-exclusive")->item(0)->nodeValue;
-    $this->order["price"]["tax-inclusive"] = $this->xpath->evaluate(".//price/tax-inclusive")->item(0)->nodeValue;
-    $this->order["collection"]["code"] = $this->xpath->evaluate(".//collection/type/code")->item(0)->nodeValue;
-    $this->order["collection"]["type_label"] = $this->xpath->evaluate(".//collection/type/label")->item(0)->nodeValue;
-    $this->order["collection"]["date"] = $this->xpath->evaluate(".//collection/date")->item(0)->nodeValue;
-    $this->order["collection"]["time"] = $this->xpath->evaluate(".//collection/time")->item(0)->nodeValue;
-    $this->order["collection"]["label"] = $this->xpath->evaluate(".//collection/label")->item(0)->nodeValue;
-    $this->order["delivery"]["code"] = $this->xpath->evaluate(".//delivery/type/code")->item(0)->nodeValue;
-    $this->order["delivery"]["type_label"] = $this->xpath->evaluate(".//delivery/type/label")->item(0)->nodeValue;
-    $this->order["delivery"]["date"] = $this->xpath->evaluate(".//delivery/date")->item(0)->nodeValue;
-    $this->order["delivery"]["time"] = $this->xpath->evaluate(".//delivery/time")->item(0)->nodeValue;
-    $this->order["delivery"]["label"] = $this->xpath->evaluate(".//delivery/label")->item(0)->nodeValue;
-    $this->order["proforma"] = $this->xpath->evaluate(".//proforma")->item(0)->nodeValue;
-    $this->order["alerts"] = array(); 
-    $alertsNodes = $this->xpath->evaluate(".//alert");
+		$order = $this->xpath->query('/cotation/shipment/offer')->item(0);
+    $this->order['url'] = $this->xpath->query('./url',$order)->item(0)->nodeValue;
+    $this->order['mode'] = $this->xpath->query('./mode',$order)->item(0)->nodeValue;
+    $this->order['offer']["operator"]["code"] = $this->xpath->query('./operator/code',$order)->item(0)->nodeValue;
+    $this->order['offer']['operator']['label'] = $this->xpath->query('./operator/label',$order)->item(0)->nodeValue;
+    $this->order['offer']['operator']['logo'] = $this->xpath->query('./operator/logo',$order)->item(0)->nodeValue;
+    $this->order['service']['code'] = $this->xpath->query('./service/code',$order)->item(0)->nodeValue;
+    $this->order['service']['label'] = $this->xpath->query('./service/label',$order)->item(0)->nodeValue;
+    $this->order['price']['currency'] = $this->xpath->query('./service/code',$order)->item(0)->nodeValue;
+    $this->order['price']['tax-exclusive'] = $this->xpath->query('./price/tax-exclusive',$order)->item(0)->nodeValue;
+    $this->order['price']['tax-inclusive'] = $this->xpath->query('./price/tax-inclusive',$order)->item(0)->nodeValue;
+    $this->order['collection']['code'] = $this->xpath->query('./collection/type/code',$order)->item(0)->nodeValue;
+    $this->order['collection']['type_label'] = $this->xpath->query('./collection/type/label',$order)->item(0)->nodeValue;
+    $this->order['collection']['date'] = $this->xpath->query('./collection/date',$order)->item(0)->nodeValue;
+    $this->order['collection']['time'] = $this->xpath->query('./collection/time',$order)->item(0)->nodeValue;
+    $this->order['collection']['label'] = $this->xpath->query('./collection/label',$order)->item(0)->nodeValue;
+    $this->order['delivery']['code'] = $this->xpath->query('./delivery/type/code',$order)->item(0)->nodeValue;
+    $this->order['delivery']['type_label'] = $this->xpath->query('./delivery/type/label',$order)->item(0)->nodeValue;
+    $this->order['delivery']['date'] = $this->xpath->query('./delivery/date',$order)->item(0)->nodeValue;
+    $this->order['delivery']['time'] = $this->xpath->query('./delivery/time',$order)->item(0)->nodeValue;
+    $this->order['delivery']['label'] = $this->xpath->query('./delivery/label',$order)->item(0)->nodeValue;
+    $this->order['proforma'] = $this->xpath->query('./proforma',$order)->item(0)->nodeValue;
+    $this->order['alerts'] = array(); 
+    $alertsNodes = $this->xpath->query('./alert',$offer);
     foreach($alertsNodes as $a => $alert) {
-      $this->order["alerts"][$a] = $alert->nodeValue;  
+      $this->order['alerts'][$a] = $alert->nodeValue;  
     }
-    $charNodes = $this->xpath->evaluate(".//characteristics/label");
+		$this->order['chars'] = array(); 
+    $charNodes = $this->xpath->query('./characteristics/label',$offer);
     foreach($charNodes as $c => $char) {
-      $this->order["chars"][$c] = $char->nodeValue;
+      $this->order['chars'][$c] = $char->nodeValue;
     }
-    $this->order["labels"] = array();
-    $labelNodes = $this->xpath->evaluate(".//labels/label");
+    $this->order['labels'] = array();
+    $labelNodes = $this->xpath->evaluate('./labels/label',$offer);
     foreach($labelNodes as $l => $label) {
-      $this->order["labels"][$l] = trim($label->nodeValue);  
+      $this->order['labels'][$l] = trim($label->nodeValue);  
     }
   }
 
   /** 
    *  Public function which sends order request.
-   *  <br />If you don't want to pass insurance parameter, you have to make insurance to false
+   *  If you don't want to pass insurance parameter, you have to make insurance to false
    *  in your parameters array ($quotInfo). It checks also if you pass insurance parameter 
    *  which is obligatory to order a transport service.
-   *  <br />The response should contains a order number composed by 10 numbers, 4 letters, 4
+   *  The response should contains a order number composed by 10 numbers, 4 letters, 4
    *  number and 2 letters. We use this rule to check if the order was correctly executed 
    *  by API server.
+   *  @param $data    : Array with order informations (date, type, delay).
+   *  @param $getInfo : Precise if we want to get more informations about order.
+   *  @return boolean : True if order was passed successfully; false if an error occured. 
    *  @access public
-   *  @param array $data Array with order informations (date, type, delay).
-   *  @param boolean $getInfo Precise if we want to get more informations about order.
-   *  @return boolean True if order was passed successfully; false if an error occured. 
    */
   public function makeOrder($quotInfo, $getInfo = false) {
     $this->quotInfo = $quotInfo;
     $this->getInfo = $getInfo;
-    if($quotInfo["reason"]) {
-      $quotInfo["envoi.raison"] = $this->shipReasons[$quotInfo["reason"]];
-      unset($quotInfo["reason"]);
+    if($quotInfo['reason']) {
+      $quotInfo['envoi.raison'] = $this->shipReasons[$quotInfo['reason']];
+      unset($quotInfo['reason']);
     }
-    if($quotInfo["assurance.selected"] == "") {
-      $quotInfo["assurance.selected"] = false;
+    if($quotInfo['assurance.selected'] == '') {
+      $quotInfo['assurance.selected'] = false;
     }
     $this->param = array_merge($this->param, $quotInfo);
-    $this->setOptions(array("action" => "/api/v1/order"));
+    $this->setOptions(array('action' => '/api/v1/order'));
     $this->setPost();
+		
     if($this->doSimpleRequest() && !$this->respError) {
-      // check the order reference
-	  $nodes = $this->xpath->evaluate("/order/shipment");
-      $reference = $nodes->item(0)->getElementsByTagName("reference")->item(0)->nodeValue;
-	  if(preg_match("/^[0-9]{10}[A-Z]{4}[0-9]{4}[A-Z]{2}$/", $reference)) {
-        $this->order["ref"] = $reference;
-        $this->order["date"] = date("Y-m-d H:i:s");
+			// The request is ok, we check the order reference
+			$nodes = $this->xpath->query('/order/shipment');
+			$reference = $nodes->item(0)->getElementsByTagName('reference')->item(0)->nodeValue;
+			if(preg_match("/^[0-9]{10}[A-Z]{4}[0-9]{4}[A-Z]{2}$/", $reference)) {
+        $this->order['ref'] = $reference;
+        $this->order['date'] = date('Y-m-d H:i:s');
         if($getInfo) {
           $this->getOrderInfos();
         }
@@ -372,8 +409,8 @@ class Env_Quotation extends Env_WebService {
    */
   private function switchPeople() {
     $localParams = $this->param;
-    $old = array("expediteur", "destinataire", "tmp_exp", "tmp_dest");
-    $new = array("tmp_exp", "tmp_dest", "destinataire", "expediteur");
+    $old = array('expediteur', 'destinataire', 'tmp_exp', 'tmp_dest');
+    $new = array('tmp_exp', 'tmp_dest', 'destinataire', 'expediteur');
     foreach($localParams as $key => $value) {
       $this->param[str_replace($old, $new, $key)] = $value;
     }

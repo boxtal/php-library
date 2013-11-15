@@ -1,6 +1,6 @@
 <?php 
-/*  Ce document a pour but d'exploiter des différentes méthodes de récupération des catégories et des contenus (sous-catégories). 
- *  Vous pouvez ainsi télécharger uniquement les catégories, lister les sous-catégories pour une seule ou pour toutes les catégories. 
+/*  Ce document a pour but d'exploiter des différentes méthodes de récupération des points de livraisons ou de retraits
+ *  Chaque requête doit se faire une par une, et tous les résultat sont stoqués dans une même variable 
  */ 
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
@@ -18,26 +18,27 @@ $pointCl = new Env_ParcelPoint(array("user" => $userData["login"], "pass" => $us
 // on doit mettre $constructList en true
 $pointCl->constructList = true;
 // Récupération des points relais, un par un
-$pointCl->getParcelPoint("dropoff_point", "SOGP-C3051");
-$pointCl->getParcelPoint("dropoff_point", "SOGP-Z9014"); 
-$pointCl->getParcelPoint("dropoff_point", "SOGP-A1153"); 
-$pointCl->getParcelPoint("dropoff_point", "SOGP-O1164");  
-$pointCl->getParcelPoint("pickup_point", "SERN-206078"); 
-$pointCl->getParcelPoint("pickup_point", "SERN-206069"); 
-$pointCl->getParcelPoint("pickup_point", "SERN-206044"); 
+// Chaque point relai est rajouté avec les autres dans $pointCl->points
+$pointCl->getParcelPoint("dropoff_point", "SOGP-C3084");
+$pointCl->getParcelPoint("dropoff_point", "SOGP-C3159"); 
+$pointCl->getParcelPoint("dropoff_point", "SOGP-C3065"); 
+$pointCl->getParcelPoint("dropoff_point", "SOGP-C3137");  
+$pointCl->getParcelPoint("pickup_point", "SOGP-C3059"); 
+$pointCl->getParcelPoint("pickup_point", "SOGP-C3210"); 
+$pointCl->getParcelPoint("pickup_point", "SOGP-C3138"); 
 
 // Vérificiation si la requête n'a pas provoqué d'erreur; sinon, on affiche les informations
 if(!$pointCl->curlError && !$pointCl->respError) {
    // print_r($pointCl->points); 
 ?>
-<p><b>Les points de dépôt:</b></p>
+<p><b>Les points de retrait:</b></p>
 <ul>
 <?php foreach($pointCl->points["pickup_point"] as $point) { ?>
   <li><?php echo $point["name"];?> <br /><?php echo $point["description"];?></li>
 <?php } ?>
 </ul>
 <br /><br />
-<p><b>Les points de retrait:</b></p>
+<p><b>Les points de dépôt:</b></p>
 <ul>
 <?php foreach($pointCl->points["dropoff_point"] as $point) { ?>
   <li><?php echo $point["name"];?> <br /><?php echo $point["address"];?>, <?php echo $point["zipcode"];?> <?php echo $point["city"];?></li>
