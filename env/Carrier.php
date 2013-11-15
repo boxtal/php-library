@@ -50,7 +50,7 @@ class Env_Carrier extends Env_WebService {
     $source = $this->doRequest();
 		
 		/* Uncomment if ou want to display the XML content */
-		echo '<textarea>'.$source.'</textarea>';
+		//echo '<textarea>'.$source.'</textarea>';
 		
 		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
