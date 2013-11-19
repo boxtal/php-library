@@ -11,9 +11,9 @@
 class Env_Service extends Env_Carrier {
 
   /**
-   *  Function loads services of all carriers.
-   *  @access public
-   *  @return void
+   * Function loads services of all carriers.
+   * @access public
+   * @return Void
    */
   public function getServices() { 
     $this->setOptions(array('action' => '/api/v1/services',
@@ -22,28 +22,37 @@ class Env_Service extends Env_Carrier {
   }
 
   /**
-   *  Function executes services request and prepares the $carriers array.
-   *  @access private
-   *  @return void
+   * Function executes services request and prepares the $carriers array.
+   * @access private
+   * @return Void
    */
   private function doServicesRequest() {
     $source = $this->doRequest();
+		
+		/* Uncomment if ou want to display the XML content */
+		//echo '<textarea>'.$source.'</textarea>';
+		
+		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
       parent::parseResponse($source);
-      $carriers = $this->xpath->query('/operators/operator');
-      foreach($carriers as $c => $carrier) {
-        $index = $c + 1;
-        $result = $this->parseCarrierNode($index);
-        $this->carriers[$result["code"]] = $result;
-        $this->carriers[$result["code"]]["services"] = $this->parseServicesNode($index);
-      }
+	  	if(count($this->respErrorsList) == 0) {
+				
+				/* The XML file is loaded, we now gather the datas */
+				$carriers = $this->xpath->query('/operators/operator');
+				foreach($carriers as $c => $carrier) {
+					$index = $c + 1;
+					$result = $this->parseCarrierNode($carrier);
+					$this->carriers[$result["code"]] = $result;
+					$this->carriers[$result["code"]]["services"] = $this->parseServicesNode($index);
+				}
+			}
     }
   }
 
   /** 
-   *  Getter for one carrier's code.
-   *  @access private
-   *  @return void
+   * Getter for one carrier's code.
+   * @access private
+   * @return Void
    */
   public function getServicesByCarrier($code) {
     if(isset($this->carriers[$code]["services"])) {
@@ -54,27 +63,29 @@ class Env_Service extends Env_Carrier {
   }
 
   /** 
-   *  Parser for service node list.
-   *  @access private
-   *  @param $c : Node index.
-   *  @return array Array with all available informations about the service
-	 *  Organisation :
-	 *	$return[code] 			=> array(
-	 *  	['code'] 						=> data
-	 *  	['label'] 					=> data
-	 *  	['mode'] 						=> data
-	 *  	['alert'] 					=> data
-	 *  	['collection'] 			=> data
-	 *  	['delivery'] 				=> data
-	 *  	['is_pluggable'] 		=> data
-	 *  	['options'][code]		=> array(
-	 *			['name'] 						=> data
-	 *		)
-	 *  	['exclusions'][id]	=> array(
-	 *			['label'] 				=> data
-	 *		)
-	 *  	['apiOptions'][option][option2]	=> data
-	 *  )
+   * Parser for service node list.
+	 * <samp>
+	 * Organisation :<br>
+	 * $return[code] 			=> array(<br>
+	 * &nbsp;&nbsp;['code'] 						=> data<br>
+	 * &nbsp;&nbsp;['label'] 					=> data<br>
+	 * &nbsp;&nbsp;['mode'] 						=> data<br>
+	 * &nbsp;&nbsp;['alert'] 					=> data<br>
+	 * &nbsp;&nbsp;['collection'] 			=> data<br>
+	 * &nbsp;&nbsp;['delivery'] 				=> data<br>
+	 * &nbsp;&nbsp;['is_pluggable'] 		=> data<br>
+	 * &nbsp;&nbsp;['options'][code]		=> array(<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['name'] 						=> data<br>
+	 * &nbsp;&nbsp;)<br>
+	 * &nbsp;&nbsp;['exclusions'][id]	=> array(<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['label'] 				=> data<br>
+	 * &nbsp;&nbsp;)<br>
+	 * &nbsp;&nbsp;['apiOptions'][option][option2]	=> data<br>
+	 * )
+	 * </samp>
+   * @access private
+   * @param $c : Node index.
+   * @return Array Array with all available informations about the service
    */
   private function parseServicesNode($c) {
     $result = array();

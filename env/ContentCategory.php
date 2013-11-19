@@ -11,34 +11,38 @@
 class Env_ContentCategory extends Env_WebService {
 
   /** 
-   *  Public variable with categories array. The categories ids are the array keys.
-   *  Organisation :
-	 *	$categories[code]	=> array(
-	 *		['label']						=> data
-	 *		['code']						=> data
+   * Public variable with categories array. The categories ids are the array keys.
+	 * <samp>
+   * Structure :<br>
+	 * $categories[code]	=> array(<br>
+	 * &nbsp;&nbsp;['label']						=> data<br>
+	 * &nbsp;&nbsp;['code']						=> data<br>
 	 *	)
-   *  @access public
-   *  @var array
+	 * </samp>
+   * @access public
+   * @var array
    */
   public $categories = array();
 
   /** 
-   *  Public variable with contents array. Every content element is attached to one category by
-   *  Organisation :
-	 *	$contents[category][x]	=> array(
-	 *		['code']								=> data
-	 *		['label']								=> data
-	 *		['category']						=> data
-	 *	)
-   *  @access public
-   *  @var array
+   * Public variable with contents array. Every content element is attached to one category.
+	 * <samp>
+   * Structure :<br>
+	 * $contents[category][x]	=> array(<br>
+	 * &nbsp;&nbsp;['code']								=> data<br>
+	 * &nbsp;&nbsp;['label']								=> data<br>
+	 * &nbsp;&nbsp;['category']						=> data<br>
+	 * )
+	 * </samp>
+   * @access public
+   * @var array
    */
   public $contents = array();
 
   /** 
-   *  Function loads all categories.
-   *  @access public
-   *  @return void
+   * Function loads all categories.
+   * @access public
+   * @return Void
    */
   public function getCategories() { 
     $this->setOptions(array("action" => "/api/v1/content_categories",
@@ -47,9 +51,9 @@ class Env_ContentCategory extends Env_WebService {
   }
 
   /** 
-   *  Function loads all contents.
-   *  @access public
-   *  @return string
+   * Function loads all contents.
+   * @access public
+   * @return String
    */
   public function getContents() { 
     $this->setOptions(array("action" => "/api/v1/contents",
@@ -58,9 +62,9 @@ class Env_ContentCategory extends Env_WebService {
   }
   
   /** 
-   *  Function executes categories request and prepares the $categories array.
-   *  @access private
-   *  @return void
+   * Function executes categories request and prepares the $categories array.
+   * @access private
+   * @return Void
    */
   private function doCatRequest() {
     $source = parent::doRequest();
@@ -87,9 +91,9 @@ class Env_ContentCategory extends Env_WebService {
   }
 
   /** 
-   *  Function executes content request and prepares the $contents array.
-   *  @access private
-   *  @return void
+   * Function executes content request and prepares the $contents array.
+   * @access private
+   * @return Void
    */
   private function doConRequest() {
     $source = parent::doRequest();
@@ -118,10 +122,10 @@ class Env_ContentCategory extends Env_WebService {
   }
 
   /** 
-   *  Getter to obtain the contents of one category.
-	 *  @param $code : category code
-   *  @access public
-   *  @return void
+   * Getter to obtain the contents of one category.
+	 * @param $code : category code
+   * @access public
+   * @return Void
    */
   public function getChild($code) {
     return $this->contents[$code];

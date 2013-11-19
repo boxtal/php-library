@@ -12,86 +12,86 @@
 class Env_WebService {
 
   /** 
-   *  A public variable which determines the API server host used by curl request.
-   *  @access public
-   *  @var string
+   * A public variable which determines the API server host used by curl request.
+   * @access public
+   * @var string
    */
   public $server = "https://test.envoimoinscher.com/"; // test environment by default
 
   /** 
-   *  API test server host.
-   *  @access public
-   *  @var string
+   * API test server host.
+   * @access public
+   * @var string
    */
   private $serverTest = "https://test.envoimoinscher.com/";
 
   /** 
-   *  API production server host.
-   *  @access public
-   *  @var string
+   * API production server host.
+   * @access public
+   * @var string
    */
   private $serverProd = "https://www.envoimoinscher.com/";
 
   /** 
-   *  A private variable which stocks options to pass into curl query.
-   *  @access private
-   *  @var array
+   * A private variable which stocks options to pass into curl query.
+   * @access private
+   * @var array
    */
   private $options = array();
   
   /** 
-   *  A private variable with authentication credentials (login, password and api key).
-   *  @access private
-   *  @var array
+   * A private variable with authentication credentials (login, password and api key).
+   * @access private
+   * @var array
    */
   private $auth = array();
 
   /** 
-   *  A public variable with _POST data sent by curl function.
-   *  @access public
-   *  @var array
+   * A public variable with _POST data sent by curl function.
+   * @access public
+   * @var array
    */
   public $quotPost = array();
 
   /** 
-   *  A public boolean which indicates if curl query was executed successful.
-   *  @access public
-   *  @var boolean
+   * A public boolean which indicates if curl query was executed successful.
+   * @access public
+   * @var boolean
    */
   public $curlError = false;
   
   /** 
-   *  A public variable with curl error text.
-   *  @access public
-   *  @var string
+   * A public variable with curl error text.
+   * @access public
+   * @var string
    */
   public $curlErrorText = "";
   
   /** 
-   *  A public variable indicates if response was executed correctly.
-   *  @access public
-   *  @var boolean
+   * A public variable indicates if response was executed correctly.
+   * @access public
+   * @var boolean
    */
   public $respError = false;
 
   /** 
-   *  A public variable contains error messages.
-   *  @access public
-   *  @var array
+   * A public variable contains error messages.
+   * @access public
+   * @var array
    */
   public $respErrorsList = array();
 
   /** 
-   *  A public DOMXPath variable with parsed response.
-   *  @access public
-   *  @var DOMXPath
+   * A public DOMXPath variable with parsed response.
+   * @access public
+   * @var DOMXPath
    */
   public $xpath = null;
 
   /** 
-   *  A public variable determines if we have check certificate in function of your request environment.
-   *  @access protected
-   *  @var array
+   * A public variable determines if we have check certificate in function of your request environment.
+   * @access protected
+   * @var array
    */
   protected $sslCheck = array("peer" => true, "host" => 2);
 
@@ -110,29 +110,29 @@ class Env_WebService {
   protected $param; 
 
   /** 
-   *  Class constructor.
-   *  @access public
-   *  @param array $auth Array with authentication credentials.
-   *  @return void
+   * Class constructor.
+   * @access public
+   * @param Array $auth Array with authentication credentials.
+   * @return Void
    */
   public function __construct($auth) {
     $this->auth = $auth;
   }
 
   /** 
-   *  Function which executes api request. 
-	 *  If an error occurs, we close curl call and put error details in $this->errorText variable.
-   *  We distinguish two situations with 404 code returned in the response : 
-   *  	1) The API sets 404 code for valid request which doesn't contain any result. The type of response
-   *     is application/xml.
-   *  	2) The server sets 404 code too. It does it for resources which don't exist (like every 404
-   *     web page). In this case the responses' type is text/html.
-   *  If the response returns 404 server code, we cancel the operation by setting $result to false,
-   *  $respError to true and by adding an error message to $respErrorsList (with http_file_not_found value). 
-   *  In the case of 404 API error code, we don't break the operation. We show error messages in
-   *  setResponseError().
-   *  @access public
-   *  @return string
+   * Function which executes api request.
+	 *
+	 * If an error occurs, we close curl call and put error details in $this->errorText variable.
+   * We distinguish two situations with 404 code returned in the response : <br>
+   * &nbsp;&nbsp;1) The API sets 404 code for valid request which doesn't contain any result. The type of response is application/xml.<br>
+   * &nbsp;&nbsp;2) The server sets 404 code too. It does it for resources which don't exist (like every 404 web page). In this case the responses' type is text/html.<br>
+	 *
+   * If the response returns 404 server code, we cancel the operation by setting $result to false,
+   * $respError to true and by adding an error message to $respErrorsList (with http_file_not_found value). 
+	 *
+   * In the case of 404 API error code, we don't break the operation. We show error messages in setResponseError().
+   * @access public
+   * @return String
    */
   public function doRequest() {
     $req = curl_init();
@@ -165,10 +165,10 @@ class Env_WebService {
   }
 
   /** 
-   *  Request options setter. If prod environment, sets Verisign's certificate.
-   *  @access public
-   *  @param array $options The request options.
-   *  @return void
+   * Request options setter. If prod environment, sets Verisign's certificate.
+   * @access public
+   * @param Array $options The request options.
+   * @return Void
    */
   public function setOptions($options) {
     $this->setSSLProtection();
@@ -181,9 +181,9 @@ class Env_WebService {
   }
 
   /** 
-   *  It determines if CURL has to check SSL connection or not.
-   *  @access private
-   *  @return void
+   * It determines if CURL has to check SSL connection or not.
+   * @access private
+   * @return Void
    */
   private function setSSLProtection() {
     if($this->server != "https://www.envoimoinscher.com/") {
@@ -193,9 +193,9 @@ class Env_WebService {
   }
   
   /** 
-   *  Function which sets the post request. 
-   *  @access public
-   *  @return void
+   * Function which sets the post request. 
+   * @access public
+   * @return Void
    */
   public function setPost() {
     $this->options[CURLOPT_POST] = true;
@@ -203,22 +203,22 @@ class Env_WebService {
   }
   
   /** 
-   *  Function sets the get params passed into the request. 
-   *  @access public
-   *  @return void
+   * Function sets the get params passed into the request. 
+   * @access public
+   * @return Void
    */
   public function setGetParams() {
     $this->getParams = '?'.http_build_query($this->param);
   }
 
   /** 
-   *  Function parses api server response. 
-   *  <br />First, it checks if the parsed response doesn't contain <error /> tag. If not, it does nothing.
-   *  <br />Otherwise, it makes $respError parameter to true, parses the reponse and sets error messages to $respErrorsList array.
-   *  @access public
-   *  @param String $document The response returned by API. For use it like a XPath object, we have to 
-   *                          parse it with PHPs' DOMDocument class.
-   *  @return void
+   * Function parses api server response. 
+   * 
+	 * First, it checks if the parsed response doesn't contain <error /> tag. If not, it does nothing.
+   * Otherwise, it makes $respError parameter to true, parses the reponse and sets error messages to $respErrorsList array.
+   * @access public
+   * @param String $document The response returned by API. For use it like a XPath object, we have to parse it with PHPs' DOMDocument class.
+   * @return Void
    */
   public function parseResponse($document) {
     $domCl = new DOMDocument();
@@ -230,9 +230,9 @@ class Env_WebService {
   }
 
   /** 
-   *  Function detects if xml document has error tag.
-   *  @access private
-   *  @return boolean true if xml document has error tag, false if it hasn't.
+   * Function detects if xml document has error tag.
+   * @access private
+   * @return boolean true if xml document has error tag, false if it hasn't.
    */
   private function hasErrors() {
     if((int)$this->xpath->evaluate("count(/error)") > 0) {
@@ -243,9 +243,9 @@ class Env_WebService {
   }
 
   /** 
-   *  Function sets error messages to $respErrorsList. 
-   *  @access private
-   *  @return boolean true if xml document has error tag, false if it hasn't.
+   * Function sets error messages to $respErrorsList. 
+   * @access private
+   * @return boolean true if xml document has error tag, false if it hasn't.
    */
   private function setResponseErrors() {
     $errors = $this->xpath->evaluate("/error");
@@ -257,10 +257,10 @@ class Env_WebService {
   }
 
   /**
-   *  Sets environment.
-   *  @access public
-   *  @param string $env Server's environment : test or prod .
-   *  @return void
+   * Sets environment.
+   * @access public
+   * @param String $env Server's environment : test or prod .
+   * @return Void
    */
   public function setEnv($env)
   {

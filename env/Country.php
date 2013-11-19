@@ -11,44 +11,48 @@
 class Env_Country extends Env_WebService {
 
   /** 
-   *  Protected array with countries relations by ISO codes.
-   *  For example it contains the relation between the Canary Islands and Spain which haven't the same 
-   *  ISO code.
-   *  @access protected
-   *  @var array
+   * Protected array with countries relations by ISO codes.
+   * For example it contains the relation between the Canary Islands and Spain which haven't the same 
+   * ISO code.
+   * @access protected
+   * @var array
    */
   protected $codesRel = array("NL" => "A", "PT" => "P", "DE" => "D", "IT" => "I", "ES" => "E", 
                               "VI" => "V", "GR" => "G");
 
   /** 
-   *  Public variable with categories array. The categories codes are the array keys. 
-	 *  Organisation :
-	 *	$countries[code] 	=> array(
-	 *  	['label'] 				=> data
-	 *  	['code'] 					=> data
-	 *  )
-   *  @access public
-   *  @var array
+   * Public variable with categories array. The categories codes are the array keys. 
+	 * <samp>
+	 * Structure :<br>
+	 * $countries[code] 	=> array(<br>
+	 * &nbsp;&nbsp;['label'] 				=> data<br>
+	 * &nbsp;&nbsp;['code'] 					=> data<br>
+	 * )
+	 * </samp>
+   * @access public
+   * @var array
    */
   public $countries = array();
 
   /** 
-   *  Public variable with country array which contains main country and possibly the 
-   *  iso relations.
-	 *  Organisation :
-	 *	$country[x] 	=> array(
-	 *  	['label'] 		=> data
-	 *  	['code'] 			=> data
-	 *  )
-   *  @access public
-   *  @var array
+   * Public variable with country array which contains main country and possibly the 
+   * iso relations.
+	 * <samp>
+	 * Structure :<br>
+	 * $country[x] 	=> array(<br>
+	 * &nbsp;&nbsp;['label'] 		=> data<br>
+	 * &nbsp;&nbsp;['code'] 			=> data<br>
+	 * )
+	 * </samp>
+   * @access public
+   * @var array
    */
   public $country = array();
 
   /** 
-   *  Function loads all countries.
-   *  @access public
-   *  @return void
+   * Function loads all countries.
+   * @access public
+   * @return Void
    */
   public function getCountries() { 
     $this->setOptions(array("action" => "/api/v1/countries",
@@ -57,9 +61,9 @@ class Env_Country extends Env_WebService {
   }
   
   /** 
-   *  Function executes countries request and prepares the $countries array.
-   *  @access private
-   *  @return void
+   * Function executes countries request and prepares the $countries array.
+   * @access private
+   * @return Void
    */
   private function doCtrRequest() {
     $source = parent::doRequest();
@@ -86,11 +90,11 @@ class Env_Country extends Env_WebService {
   }
 
   /** 
-   *  Getter function for one country. If the country code is placed in $codesRel array, 
-   *  we take also his relations.
-   *  @param $code : String with country code.
-   *  @access public
-   *  @return void
+   * Getter function for one country. If the country code is placed in $codesRel array, 
+   * we take also his relations.
+   * @param $code : String with country code.
+   * @access public
+   * @return Void
    */
   public function getCountry($code) {
     $this->country = array(0 => $this->countries[$code]);

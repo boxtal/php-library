@@ -23,6 +23,7 @@ if(count($notLoaded) > 0) {
 } else {
 ?>
 <p>Toutes les extensions sont correctement installées.</p>
+<a href="test_module.php">Tester les modules.</a>
 <?php
 }
 ?>

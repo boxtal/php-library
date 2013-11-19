@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" id="logo" href="http://ecommerce.envoimoinscher.com/module-plugin/script-php/"><img src="../images/logo.png" /></a><a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                    </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                    <i class="icon-list-alt"></i>&#160;Errors
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                    <i class="icon-list-alt"></i>&#160;Markers
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1181466437"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1181466437" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Env_Carrier.html">Env_Carrier</a></li>
+                                                    <li class="class"><a href="../classes/Env_WebService.html">Env_WebService</a></li>
+                                                    <li class="class"><a href="../classes/Env_ParcelPoint.html">Env_ParcelPoint</a></li>
+                                                    <li class="class"><a href="../classes/Env_User.html">Env_User</a></li>
+                                                    <li class="class"><a href="../classes/Env_ContentCategory.html">Env_ContentCategory</a></li>
+                                                    <li class="class"><a href="../classes/Env_Service.html">Env_Service</a></li>
+                                                    <li class="class"><a href="../classes/Env_Quotation.html">Env_Quotation</a></li>
+                                                    <li class="class"><a href="../classes/Env_Country.html">Env_Country</a></li>
+                                                    <li class="class"><a href="../classes/Env_OrderStatus.html">Env_OrderStatus</a></li>
+                                                    <li class="class"><a href="../classes/Env_ListPoints.html">Env_ListPoints</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>Env_Quotation</h1>
+                    <p><em>EnvoiMoinsCher API quotation class.</em></p>
+                    <p>The class is used to obtain informations about a quotation and, if possibly, order it.</p>
+
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Env_Quotation.html#method_setProforma" class="">setProforma()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_setType" class="">setType()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_setPerson" class="">setPerson()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_getQuotation" class="">getQuotation()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_getOffers" class="">getOffers()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_makeOrder" class="">makeOrder()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_getReasons" class="">getReasons()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_makeDoubleOrder" class="">makeDoubleOrder()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_unsetParams" class="">unsetParams()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_doRequest" class="">doRequest()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setOptions" class="">setOptions()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setPost" class="">setPost()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setGetParams" class="">setGetParams()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_parseResponse" class="">parseResponse()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setEnv" class="">setEnv()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setParam" class="">setParam()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Env_Quotation.html#property_offers" class="">$offers</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#property_order" class="">$order</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_server" class="">$server</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_quotPost" class="">$quotPost</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_curlError" class="">$curlError</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_curlErrorText" class="">$curlErrorText</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_respError" class="">$respError</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_respErrorsList" class="">$respErrorsList</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_xpath" class="">$xpath</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Env_Quotation.html#property_palletDims" class="">$palletDims</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#property_shipReasons" class="">$shipReasons</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_sslCheck" class="">$sslCheck</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_getParams" class="">$getParams</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_param" class="">$param</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/Env_Quotation.html#method_doSimpleRequest" class="">doSimpleRequest()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_getOrderInfos" class="">getOrderInfos()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_switchPeople" class="">switchPeople()</a><br />
+                                                                    <a href="../classes/Env_Quotation.html#method_setNewQuotInfo" class="">setNewQuotInfo()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setSSLProtection" class="">setSSLProtection()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_hasErrors" class="">hasErrors()</a><br />
+                                                                    <a href="../classes/Env_WebService.html#method_setResponseErrors" class="">setResponseErrors()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Env_WebService.html#property_serverTest" class="">$serverTest</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_serverProd" class="">$serverProd</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_options" class="">$options</a><br />
+                                                                    <a href="../classes/Env_WebService.html#property_auth" class="">$auth</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Quotation.php.html"><div class="path-wrapper">Quotation.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Env</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/Env_WebService.html">\Env_WebService</a></div>
+                                                                                                    <div class="namespace-wrapper">\Env_Quotation</div>
+                            </dd>
+
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>EnvoiMoinsCher <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;:&#x64;&#x65;&#x76;&#x40;&#101;&#110;&#118;o&#x69;&#x6d;&#x6f;&#105;&#110;&#115;&#99;h&#x65;&#x72;&#x2e;&#99;&#111;&#109;">&#x64;&#x65;&#x76;&#x40;&#101;&#110;&#118;o&#x69;&#x6d;&#x6f;&#105;&#110;&#115;&#99;h&#x65;&#x72;&#x2e;&#99;&#111;&#109;</a></p>
+
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                version
+                            </th>
+                            <td>
+                                                                    
+
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_offers" name="property_offers" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$offers</h3>
+                <pre class="signature">$offers : array</pre>
+                <p><em>Public variable represents offers array.</em></p>
+                <p><samp>
+Structure :<br>
+$offers[x]                  => array(<br>
+&nbsp;&nbsp;['mode']                        => data<br>
+&nbsp;&nbsp;['url']                         => data<br>
+&nbsp;&nbsp;['operator']                => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['code']                        => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                   => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['logo']                        => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['service']                 => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['code']                        => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                   => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['price']                   => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['currency']                => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['tax-exclusive']   => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['tax-inclusive']       => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['collection']          => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['type']                        => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['date']                        => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                       => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['delivery']                => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['type']                        => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['date']                        => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                       => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['characteristics'] => data<br>
+&nbsp;&nbsp;['alert']                   => data<br>
+&nbsp;&nbsp;['mandatory']           => array([...])<br>
+)
+</samp></p>
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_order" name="property_order" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$order</h3>
+                <pre class="signature">$order : array</pre>
+                <p><em>Public array containing order informations like order number, order date.</em></p>
+                <p>..
+<samp>
+Structure :<br>
+&nbsp;&nbsp;$orders[x]                      => array(<br>
+&nbsp;&nbsp;['ref']                             => data<br>
+&nbsp;&nbsp;['date']                            => data<br>
+&nbsp;&nbsp;['url']                             => data<br>
+&nbsp;&nbsp;['mode']                            => data<br>
+&nbsp;&nbsp;['offer']['operator']   => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['code']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                       => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['logo']                            => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['service']                     => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['code']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                       => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['price']                       => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['currency']                    => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['tax-exclusive']       => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['tax-inclusive']           => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['collection']              => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['code']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['type_label']              => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['date']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['time']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                           => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['delivery']                    => array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['code']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['type_label']              => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['date']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['time']                            => data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;['label']                           => data<br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;['proforma']                        => data<br>
+&nbsp;&nbsp;['alert'][x]                        => data<br>
+&nbsp;&nbsp;['chars'][x]                        => data<br>
+&nbsp;&nbsp;['labels'][x]                       => data<br>
+)
+</samp></p>
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_server" name="property_server" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$server</h3>
+                <pre class="signature">$server : string</pre>
+                <p><em>A public variable which determines the API server host used by curl request.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_quotPost" name="property_quotPost" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$quotPost</h3>
+                <pre class="signature">$quotPost : array</pre>
+                <p><em>A public variable with _POST data sent by curl function.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_curlError" name="property_curlError" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$curlError</h3>
+                <pre class="signature">$curlError : boolean</pre>
+                <p><em>A public boolean which indicates if curl query was executed successful.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_curlErrorText" name="property_curlErrorText" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$curlErrorText</h3>
+                <pre class="signature">$curlErrorText : string</pre>
+                <p><em>A public variable with curl error text.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_respError" name="property_respError" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$respError</h3>
+                <pre class="signature">$respError : boolean</pre>
+                <p><em>A public variable indicates if response was executed correctly.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_respErrorsList" name="property_respErrorsList" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$respErrorsList</h3>
+                <pre class="signature">$respErrorsList : array</pre>
+                <p><em>A public variable contains error messages.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_xpath" name="property_xpath" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$xpath</h3>
+                <pre class="signature">$xpath : \DOMXPath</pre>
+                <p><em>A public DOMXPath variable with parsed response.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                \DOMXPath
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_palletDims" name="property_palletDims" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$palletDims</h3>
+                <pre class="signature">$palletDims : array</pre>
+                <p><em>Protected variable with pallet dimensions accepted by EnvoiMoinsCher.com. The dimensions are given
+in format &quot;length cm x width cm&quot;. They are sorted from the longest to the shortest.</em></p>
+                <p>To pass a correct pallet values, use the $palletDimss' key in your "pallet" parameter.
+<samp>
+Example : <br>
+$quotInfo = array(<br>
+&nbsp;&nbsp;"collecte_date" => "2015-04-29", <br>
+&nbsp;&nbsp;"delay" => "aucun",  <br>
+&nbsp;&nbsp;"content_code" => 10120,<br>
+&nbsp;&nbsp;<b>"pallet" => 130110</b><br>
+);<br>
+$this->makeOrder($quotInfo, true);
+</samp></p>
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_shipReasons" name="property_shipReasons" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$shipReasons</h3>
+                <pre class="signature">$shipReasons : array</pre>
+                <p><em>Protected variable with shipment reasons. It is used to generate proforma invoice.</em></p>
+                <p><samp>
+Example :
+$quotInfo = array(<br>
+&nbsp;&nbsp;"collecte_date" => "2015-04-29", <br>
+&nbsp;&nbsp;"delay" => "aucun", <br>
+&nbsp;&nbsp;"content_code" => 10120,<br>
+&nbsp;&nbsp;"operator" => "UPSE", <br>
+&nbsp;&nbsp;<b>"reason" => "repair"</b><br>
+);<br>
+$this->makeOrder($quotInfo, true);
+</samp></p>
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sslCheck" name="property_sslCheck" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$sslCheck</h3>
+                <pre class="signature">$sslCheck : array</pre>
+                <p><em>A public variable determines if we have check certificate in function of your request environment.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_getParams" name="property_getParams" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$getParams</h3>
+                <pre class="signature">$getParams : string</pre>
+                <p><em>Protected variable with GET parameters.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_param" name="property_param" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$param</h3>
+                <pre class="signature">$param : array</pre>
+                <p><em>Parameters array used by http_query_build.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_serverTest" name="property_serverTest" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$serverTest</h3>
+                <pre class="signature">$serverTest : string</pre>
+                <p><em>API test server host.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_serverProd" name="property_serverProd" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$serverProd</h3>
+                <pre class="signature">$serverProd : string</pre>
+                <p><em>API production server host.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_options" name="property_options" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$options</h3>
+                <pre class="signature">$options : array</pre>
+                <p><em>A private variable which stocks options to pass into curl query.</em></p>
+                
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_auth" name="property_auth" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$auth</h3>
+                <pre class="signature">$auth : array</pre>
+                <p><em>A private variable with authentication credentials (login, password and api key).</em></p>
+                
+
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setProforma" name="method_setProforma" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setProforma()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setProforma( <span class="argument">$data</span>)</pre>
+                <p><em></em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$data</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setType" name="method_setType" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setType()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setType(String <span class="argument">$type</span>,  <span class="argument">$dimensions</span>) : Void</pre>
+                <p><em>Function which sets informations about package.</em></p>
+                <p>Please note that if you send the pallet cotation, you can't indicate the dimensions like for
+other objects. In this case, you must pass the key from $palletDims protected variable. If the key
+is not passed, the request will return an empty result.</p>
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$type</td>
+                                <td><p>Type : pli, colis, encombrant, palette.</p>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$dimensions</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setPerson" name="method_setPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setPerson(String <span class="argument">$type</span>, Array <span class="argument">$data</span>) : Void</pre>
+                <p><em>Public function which sets shipper and recipient objects.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$type</td>
+                                <td><p>Person type (shipper or recipient).</p>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td>Array</td>
+                                <td>$data</td>
+                                <td><p>Array with person informations.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getQuotation" name="method_getQuotation" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getQuotation()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getQuotation( <span class="argument">$quotInfo</span>) : true</pre>
+                <p><em>Public function which receives the quotation.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$quotInfo</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    true
+                                            &mdash; <p>if request was executed correctly, false if not</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOffers" name="method_getOffers" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOffers()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOffers(bool <span class="argument">$onlyCom</span>) : Void</pre>
+                <p><em>Function load all offers</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>bool</td>
+                                <td>$onlyCom</td>
+                                <td><p>If true, we have to get only offers in the "order" mode.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_makeOrder" name="method_makeOrder" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">makeOrder()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">makeOrder( <span class="argument">$quotInfo</span>, mixed <span class="argument">$getInfo</span>) : boolean</pre>
+                <p><em>Public function which sends order request.</em></p>
+                <p>If you don't want to pass insurance parameter, you have to make insurance to false
+in your parameters array ($quotInfo). It checks also if you pass insurance parameter
+which is obligatory to order a transport service.</p>
+
+<p>The response should contains a order number composed by 10 numbers, 4 letters, 4
+number and 2 letters. We use this rule to check if the order was correctly executed
+by API server.</p>
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$quotInfo</td>
+                                <td>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$getInfo</td>
+                                <td><p>: Precise if we want to get more informations about order.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>: True if order was passed successfully; false if an error occured.</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getReasons" name="method_getReasons" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getReasons()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getReasons(Array <span class="argument">$translations</span>) : Array</pre>
+                <p><em>Public getter of shippment reasons</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Array</td>
+                                <td>$translations</td>
+                                <td><p>Array with reasons' translations. You must translate by $this->shipReasons values,
+not the keys.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Array with shippment reasons, may by used to pro forma generation.</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_makeDoubleOrder" name="method_makeDoubleOrder" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">makeDoubleOrder()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">makeDoubleOrder( <span class="argument">$quotInfo</span>,  <span class="argument">$getInfo</span>) : boolean</pre>
+                <p><em>Method which allowes you to make double order (the same order in two directions : from shipper
+to recipient and from recipient to shipper). It can be used by some stores for send a test product
+to customer and receive it back if the customer isn&#039;t satisfied.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$quotInfo</td>
+                                <td>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$getInfo</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>True if second order was passed successfully; false if an error occured.</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_unsetParams" name="method_unsetParams" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">unsetParams()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">unsetParams( <span class="argument">$quotInfo</span>) : Void</pre>
+                <p><em>Method which removes old quotation parameters.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$quotInfo</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(Array <span class="argument">$auth</span>) : Void</pre>
+                <p><em>Class constructor.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Array</td>
+                                <td>$auth</td>
+                                <td><p>Array with authentication credentials.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_doRequest" name="method_doRequest" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">doRequest()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">doRequest() : String</pre>
+                <p><em>Function which executes api request.</em></p>
+                <p>If an error occurs, we close curl call and put error details in $this->errorText variable.
+We distinguish two situations with 404 code returned in the response : <br>
+&nbsp;&nbsp;1) The API sets 404 code for valid request which doesn't contain any result. The type of response is application/xml.<br>
+&nbsp;&nbsp;2) The server sets 404 code too. It does it for resources which don't exist (like every 404 web page). In this case the responses' type is text/html.<br></p>
+
+<p>If the response returns 404 server code, we cancel the operation by setting $result to false,
+$respError to true and by adding an error message to $respErrorsList (with http_file_not_found value).</p>
+
+<p>In the case of 404 API error code, we don't break the operation. We show error messages in setResponseError().</p>
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    String
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setOptions" name="method_setOptions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setOptions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setOptions(Array <span class="argument">$options</span>) : Void</pre>
+                <p><em>Request options setter. If prod environment, sets Verisign&#039;s certificate.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Array</td>
+                                <td>$options</td>
+                                <td><p>The request options.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setPost" name="method_setPost" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setPost()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setPost() : Void</pre>
+                <p><em>Function which sets the post request.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setGetParams" name="method_setGetParams" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setGetParams()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setGetParams() : Void</pre>
+                <p><em>Function sets the get params passed into the request.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_parseResponse" name="method_parseResponse" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">parseResponse()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">parseResponse(String <span class="argument">$document</span>) : Void</pre>
+                <p><em>Function parses api server response.</em></p>
+                <p>First, it checks if the parsed response doesn't contain <error /> tag. If not, it does nothing.
+Otherwise, it makes $respError parameter to true, parses the reponse and sets error messages to $respErrorsList array.</p>
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$document</td>
+                                <td><p>The response returned by API. For use it like a XPath object, we have to parse it with PHPs' DOMDocument class.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setEnv" name="method_setEnv" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setEnv()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setEnv(String <span class="argument">$env</span>) : Void</pre>
+                <p><em>Sets environment.</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$env</td>
+                                <td><p>Server's environment : test or prod .</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setParam" name="method_setParam" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setParam()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setParam( <span class="argument">$param</span>)</pre>
+                <p><em></em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$param</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_doSimpleRequest" name="method_doSimpleRequest" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">doSimpleRequest()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">doSimpleRequest() : false</pre>
+                <p><em>Function which gets quotation details.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    false
+                                            &mdash; <p>if server response isn't correct; true if it is</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrderInfos" name="method_getOrderInfos" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getOrderInfos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrderInfos() : Void</pre>
+                <p><em>Get order informations about collection, delivery, offer, price, service, operator, alerts
+and characteristics.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_switchPeople" name="method_switchPeople" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">switchPeople()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">switchPeople() : Void</pre>
+                <p><em>Person switcher; it switchs shipper to recipient and recipient to shipper.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setNewQuotInfo" name="method_setNewQuotInfo" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">setNewQuotInfo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setNewQuotInfo( <span class="argument">$quotInfo</span>) : Array</pre>
+                <p><em>Setter for new request parameters. If a new parameter is defined, it overriddes the old one (for exemple new service,
+new hour disponibility).</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$quotInfo</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Array containing new quotation informations.</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setSSLProtection" name="method_setSSLProtection" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">setSSLProtection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setSSLProtection() : Void</pre>
+                <p><em>It determines if CURL has to check SSL connection or not.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Void
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_hasErrors" name="method_hasErrors" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">hasErrors()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">hasErrors() : boolean</pre>
+                <p><em>Function detects if xml document has error tag.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if xml document has error tag, false if it hasn't.</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setResponseErrors" name="method_setResponseErrors" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">setResponseErrors()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setResponseErrors() : boolean</pre>
+                <p><em>Function sets error messages to $respErrorsList.</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if xml document has error tag, false if it hasn't.</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Env_WebService.html"><div class="path-wrapper">\Env_WebService</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Quotation.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Quotation.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="">Errors</a></li>
+                                    <li><a href="">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on November 19th, 2013 at 10:17.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -20,7 +20,7 @@ class Env_User extends Env_WebService {
   /**
    * Gets information about e-mail configuration for logged user.
    * @access public
-   * @return void
+   * @return Void
    */
   public function getEmailConfiguration() {
     $this->setOptions(array('action' => '/api/v1/emails_configuration'));
@@ -32,8 +32,8 @@ class Env_User extends Env_WebService {
    * Accepted keys are : label, notification, bill. If you want to remove the e-mail sending
    * for one of these keys, you must put into it an empty string like "".
    * @access public
-   * @param array $params Params with new e-mail configuration
-   * @return void
+   * @param Array $params Params with new e-mail configuration
+   * @return Void
    */
   public function postEmailConfiguration($params) {
     $this->setOptions(array('action' => '/api/v1/emails_configuration'));
@@ -45,7 +45,7 @@ class Env_User extends Env_WebService {
   /**
    * Parses API response and puts the values into e-mail configuration array.
    * @access private
-   * @return void
+   * @return Void
    */
   private function setEmailConfiguration() {
     $source = parent::doRequest();

@@ -11,36 +11,46 @@
 class Env_ListPoints extends Env_WebService {
 
   /** 
-   *  Contains Points informations
-	 *  Organisation :
-	 *	$listPoints[x] 	=> array(
-	 *  	['code'] 				=> data
-	 *  	['name'] 				=> data
-	 *  	['address'] 		=> data
-	 *  	['city'] 				=> data
-	 *  	['zipcode'] 		=> data
-	 *  	['country'] 		=> data
-	 *  	['description'] => data
-	 *  	['days'][x]			=> array(
-	 *			['weekday'] 		=> data
-	 *			['open_am'] 		=> data
-	 *			['close_am']		=> data
-	 *			['open_pm'] 		=> data
-	 *			['close_pm']	 	=> data
-	 *		)
-	 *  )
-   *  @access public
-   *  @var array
+   * Contains Points informations.
+	 *
+	 * <samp>
+	 * Structure :<br>
+	 * $listPoints[x] 	=> array(<br>
+	 * &nbsp;&nbsp;['code'] 				=> data<br>
+	 * &nbsp;&nbsp;['name'] 				=> data<br>
+	 * &nbsp;&nbsp;['address'] 		=> data<br>
+	 * &nbsp;&nbsp;['city'] 				=> data<br>
+	 * &nbsp;&nbsp;['zipcode'] 		=> data<br>
+	 * &nbsp;&nbsp;['country'] 		=> data<br>
+	 * &nbsp;&nbsp;['description'] => data<br>
+	 * &nbsp;&nbsp;['days'][x]			=> array(<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['weekday'] 		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['open_am'] 		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['close_am']		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['open_pm'] 		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['close_pm']	 	=> data<br>
+	 * &nbsp;&nbsp;)<br>
+	 * )
+	 * </samp>
+   * @access public
+   * @var array
    */
   public $listPoints = array();
 
   /**
-   *  Function loads all points
-	 *  @param $ope : folder ope
-	 *  @param $infos : parameters for the request to the api
-	 *           example : array('srv_code' => 'RelaisColis', 'pays' => 'FR', 'cp' => '75011', 'ville' => 'PARIS')
-   *  @access public
-   *  @return void
+   * Function loads all points.
+	 * @param $ope Folder ope
+	 * @param $infos Parameters for the request to the api<br>
+	 * <samp>
+	 * Example : <br>
+	 * array(<br>
+	 * &nbsp;&nbsp;"srv_code" => "RelaisColis", <br>
+	 * &nbsp;&nbsp;"pays" => "FR", <br>
+	 * &nbsp;&nbsp;"cp" => "75011", <br>
+	 * &nbsp;&nbsp;"ville" => "PARIS"<br>
+	 * )
+   * @access public
+   * @return Void
    */
   public function getListPoints($ope, $infos) {
 		$this->param = $infos;
@@ -50,9 +60,9 @@ class Env_ListPoints extends Env_WebService {
   }
   
   /** 
-   *  Function executes points request and prepares the $listPoints array.
-   *  @access private
-   *  @return void
+   * Function executes points request and prepares the $listPoints array.
+   * @access private
+   * @return Void
    */
   private function doListRequest() {
     $source = parent::doRequest();

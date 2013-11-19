@@ -11,37 +11,40 @@
 class Env_OrderStatus extends Env_WebService {
 
   /** 
-   *  Contains order informations.
-	 *  Organisation :
-	 *	$orderInfo		 			=> array(
-	 *  	['emcRef'] 					=> data
-	 *  	['state'] 					=> data
-	 *  	['opeRef'] 					=> data
-	 *  	['labelAvailable']	=> data
-	 *  	['labelUrl'] 				=> data|null
-	 *  	['labels'][x]				=> data|null
-	 *  )
-   *  @access public
-   *  @var array
+   * Contains order informations.
+	 * <samp>
+	 * Structure :<br>
+	 * $orderInfo		 			=> array(<br>
+	 * &nbsp;&nbsp;['emcRef'] 					=> data<br>
+	 * &nbsp;&nbsp;['state'] 					=> data<br>
+	 * &nbsp;&nbsp;['opeRef'] 					=> data<br>
+	 * &nbsp;&nbsp;['labelAvailable']	=> data<br>
+	 * &nbsp;&nbsp;['labelUrl'] 				=> data<br>
+	 * &nbsp;&nbsp;['labels'][x]				=> data<br>
+	 * )
+	 * </samp>
+   * @access public
+   * @var array
    */
   public $orderInfo = array("emcRef" => "", "state" => "", "opeRef" => "", "labelAvailable" => false);
 
   /**
-   *  Function loads all categories.
-	 *  @param $reference : folder reference
-   *  @access public
-   *  @return void
+   * Function loads all categories.
+	 * @param $reference : folder reference
+   * @access public
+   * @return Void
    */
   public function getOrderInformations($reference) { 
-    $this->setOptions(array("action" => "/api/v1/order_status/$reference/informations",
-		));
+    $this->setOptions(
+			array("action" => "/api/v1/order_status/$reference/informations",)
+		);
     $this->doStatusRequest();
   }
   
   /** 
-   *  Function executes order request and prepares the $orderInfo array.
-   *  @access private
-   *  @return void
+   * Function executes order request and prepares the $orderInfo array.
+   * @access private
+   * @return Void
    */
   private function doStatusRequest() {
     $source = parent::doRequest();

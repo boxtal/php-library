@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * EnvoiMoinsCher API parcel points class.
  * 
  * It can be used to load informations about one or more parcel points (for pickup and dropoff).
@@ -11,52 +11,54 @@
 class Env_ParcelPoint extends Env_WebService {
 
   /** 
-   *  Protected array which indicates the possibles root elements in the server reply document.
-   *  @access protected
-   *  @var array
+   * Protected array which indicates the possibles root elements in the server reply document.
+   * @access protected
+   * @var array
    */
   protected $types = array('pickup_point', 'dropoff_point');
 
   /** 
-   *  Public array with parcel points. It takes pickup_point or dropoff_point as the keys.
-	 *  Organisation :
-	 *	$points['pickup_point'|'dropoff_point'][x] => array(
-	 *  	['code'] 				=> data
-	 *  	['name'] 				=> data
-	 *  	['address'] 		=> data
-	 *  	['city'] 				=> data
-	 *  	['zipcode'] 		=> data
-	 *  	['country'] 		=> data
-	 *  	['description'] => data
-	 *  	['schedule'][x]	=> array(
-	 *			['weekday'] 		=> data
-	 *			['open_am'] 		=> data
-	 *			['close_am']		=> data
-	 *			['open_pm'] 		=> data
-	 *			['close_pm']	 	=> data
-	 *		)
-	 *  )
-   *  @access public
-   *  @var array
+   * Public array with parcel points. It takes pickup_point or dropoff_point as the keys.
+	 *
+	 * <samp>
+	 * Structure :<br>
+	 * $points['pickup_point'|'dropoff_point'][x] => array(<br>
+	 * &nbsp;&nbsp;['code'] 				=> data<br>
+	 * &nbsp;&nbsp;['name'] 				=> data<br>
+	 * &nbsp;&nbsp;['address'] 		=> data<br>
+	 * &nbsp;&nbsp;['city'] 				=> data<br>
+	 * &nbsp;&nbsp;['zipcode'] 		=> data<br>
+	 * &nbsp;&nbsp;['country'] 		=> data<br>
+	 * &nbsp;&nbsp;['description'] => data<br>
+	 * &nbsp;&nbsp;['schedule'][x]	=> array(<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['weekday'] 		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['open_am'] 		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['close_am']		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['open_pm'] 		=> data<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;['close_pm']	 	=> data<br>
+	 * &nbsp;&nbsp;)<br>
+	 * )
+   * @access public
+   * @var array
    */
   public $points = array();
 
 
   /** 
-   *  Public boolean variable which specifies if the public $points variable will contain one 
-   *  or more parcel points. 
-   *  @access public
-   *  @var array
+   * Public boolean variable which specifies if the public $points variable will contain one 
+   * or more parcel points. 
+   * @access public
+   * @var array
    */
   public $constructList = false;
   
   /** 
-   *  Function load one parcel point. 
-   *  @access public
-   *  @param $type : Parcel point type to load.
-   *  @param $code : Parcel point code composed by operator code and point id 
-   *  @param $country : Parcel point country.
-   *  @return void
+   * Function load one parcel point. 
+   * @access public
+   * @param $type : Parcel point type to load.
+   * @param $code : Parcel point code composed by operator code and point id 
+   * @param $country : Parcel point country.
+   * @return Void
    */
   public function getParcelPoint($type = "", $code = "", $country = "FR") {
     if(in_array($type, $this->types)) {
@@ -71,9 +73,9 @@ class Env_ParcelPoint extends Env_WebService {
   }
   
   /** 
-   *  Function executes parcel point request and prepares the $points array.
-   *  @access private
-   *  @return void
+   * Function executes parcel point request and prepares the $points array.
+   * @access private
+   * @return Void
    */
   private function doSimpleRequest($type) {
     $source = parent::doRequest();
