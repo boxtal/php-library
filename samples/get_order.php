@@ -10,7 +10,7 @@ require_once('../utils/header.php');
 require_once('../utils/autoload.php');
 $orderPMStyle = 'style="font-weight:bold;"';
 // Informations sur l'expéditeur et le destinataire 
-$from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
+$from = array("pays" => "FR", "code_postal" => "75002", "type" => "entreprise","societe" => "maSociete",
 "ville" => "Paris", "adresse" => "41, rue Saint-Augustin | 3e étage", 
 "civilite" => "M", "prenom" => "Développeur", "nom" => "Boxtale", "email" => "dev@boxtale.com",
 "tel" => "0601010101", "infos" => "Frapper 3 fois");
@@ -27,10 +27,10 @@ $quotInfo = array(
 	"code_contenu" => 10120,
 	"code_contenu" => 10120,
   "type_emballage.emballage" => 1, // <== Type emballage
-	"operateur" => "CHRP",
+	"operateur" => "POFR",
 	"collection_type" => "DROPOFF_POINT",
 	"delivery_type" => "PICKUP_POINT",
-	"depot.pointrelais" => "SOGP-I1151", 
+	"depot.pointrelais" => "POFR-POST", 
 	"retrait.pointrelais" => "SOGP-I1151", 
 	"colis.description" => "Le Monde, années 1990-1992"
 );
@@ -40,10 +40,10 @@ $cotCl->setPerson("destinataire", $to);
 $cotCl->setEnv('test'); 
 $cotCl->setType("colis", array(
 	1 => array(
-		"poids" => 4, 
-		"longueur" => 7, 
-		"largeur" => 8, 
-		"hauteur" => 11)
+		"poids" => 1, 
+		"longueur" => 20, 
+		"largeur" => 20, 
+		"hauteur" => 20)
 	)
 );
 
