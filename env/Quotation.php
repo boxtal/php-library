@@ -227,7 +227,7 @@ class Env_Quotation extends Env_WebService {
   private function doSimpleRequest() {
     $source = parent::doRequest();		
 		/* Uncomment if ou want to display the XML content */
-		//echo '<textarea>'.$source.'</textarea>';
+		echo '<textarea>'.$source.'</textarea><br>';
 		
 		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
@@ -324,6 +324,14 @@ class Env_Quotation extends Env_WebService {
           'alert' => $alert,
           'mandatory' => $mandInfos
         );
+				// Ajout de l'insurance si elle est retournée
+				if ($this->xpath->evaluate('boolean(/insurance)',$offer)) {
+          $this->offers[$o]['insurance'] = array(
+            'currency' => $this->xpath->query('./insurance/currency',$offer)->item(0)->nodeValue,
+            'tax-exclusive' => $this->xpath->query('./insurance/tax-exclusive',$offer)->item(0)->nodeValue,
+            'tax-inclusive' => $this->xpath->query('./insurance/tax-inclusive',$offer)->item(0)->nodeValue
+          );
+				}
       }
     }
   }
@@ -350,14 +358,32 @@ class Env_Quotation extends Env_WebService {
     $this->order['collection']['code'] = $this->xpath->query('./collection/type/code',$offer)->item(0)->nodeValue;
     $this->order['collection']['type_label'] = $this->xpath->query('./collection/type/label',$offer)->item(0)->nodeValue;
     $this->order['collection']['date'] = $this->xpath->query('./collection/date',$offer)->item(0)->nodeValue;
-    $this->order['collection']['time'] = $this->xpath->query('./collection/time',$offer)->item(0)->nodeValue;
+		$time = $this->xpath->query('./collection/time',$offer)->item(0);
+		if ($time) {
+			$this->order['collection']['time'] = $time->nodeValue;
+		}
+		else {
+			$this->order['collection']['time'] = '';
+		}
     $this->order['collection']['label'] = $this->xpath->query('./collection/label',$offer)->item(0)->nodeValue;
     $this->order['delivery']['code'] = $this->xpath->query('./delivery/type/code',$offer)->item(0)->nodeValue;
     $this->order['delivery']['type_label'] = $this->xpath->query('./delivery/type/label',$offer)->item(0)->nodeValue;
     $this->order['delivery']['date'] = $this->xpath->query('./delivery/date',$offer)->item(0)->nodeValue;
-    $this->order['delivery']['time'] = $this->xpath->query('./delivery/time',$offer)->item(0)->nodeValue;
+		$time = $this->xpath->query('./delivery/time',$offer)->item(0);
+		if ($time) {
+			$this->order['delivery']['time'] = $time->nodeValue;
+		}
+		else {
+			$this->order['delivery']['time'] = '';
+		}
     $this->order['delivery']['label'] = $this->xpath->query('./delivery/label',$offer)->item(0)->nodeValue;
-    $this->order['proforma'] = $this->xpath->query('./proforma',$shipment)->item(0)->nodeValue;
+		$proforma = $this->xpath->query('./proforma',$shipment)->item(0);
+		if ($proforma) {
+			$this->order['proforma'] = $proforma->nodeValue;
+		}
+		else {
+			$this->order['proforma'] = '';
+		}
     $this->order['alerts'] = array(); 
     $alertsNodes = $this->xpath->query('./alert',$offer);
     foreach($alertsNodes as $a => $alert) {
@@ -369,7 +395,7 @@ class Env_Quotation extends Env_WebService {
       $this->order['chars'][$c] = $char->nodeValue;
     }
     $this->order['labels'] = array();
-    $labelNodes = $this->xpath->evaluate('./labels/label',$shipment);
+    $labelNodes = $this->xpath->query('./labels/label',$shipment);
     foreach($labelNodes as $l => $label) {
       $this->order['labels'][$l] = trim($label->nodeValue);  
     }
@@ -390,13 +416,14 @@ class Env_Quotation extends Env_WebService {
    * @access public
    */
   public function makeOrder($quotInfo, $getInfo = false) {
+		echo '<textarea>quotInfo : ';print_r($quotInfo);echo '</textarea><br>';
     $this->quotInfo = $quotInfo;
     $this->getInfo = $getInfo;
-    if($quotInfo['reason']) {
+    if(isset($quotInfo['reason']) && $quotInfo['reason']) {
       $quotInfo['envoi.raison'] = $this->shipReasons[$quotInfo['reason']];
       unset($quotInfo['reason']);
     }
-    if($quotInfo['assurance.selected'] == '') {
+    if(!isset($quotInfo['assurance.selected']) || $quotInfo['assurance.selected'] == '') {
       $quotInfo['assurance.selected'] = false;
     }
     $this->param = array_merge($this->param, $quotInfo);
