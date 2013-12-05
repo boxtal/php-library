@@ -227,7 +227,6 @@ class Env_Quotation extends Env_WebService {
   private function doSimpleRequest() {
     $source = parent::doRequest();		
 		/* Uncomment if ou want to display the XML content */
-		echo '<textarea>'.$source.'</textarea><br>';
 		
 		/* We make sure there is an XML answer and try to parse it */
     if($source !== false) {
@@ -276,11 +275,44 @@ class Env_Quotation extends Env_WebService {
           }
           unset($mandInfos[$arrKey]['#text']);
         }
-
-        $charactDetail = $this->xpath->query('./characteristics/label',$offer);
+        // options        
+        $optionsXpath = $this->xpath->query('./options/option',$offer);
+        $options = array();
+        foreach($optionsXpath as $oKey => $option)
+        {
+          $codeOption = $this->xpath->query('./code',$option)->item(0)->nodeValue;
+					$s = $oKey + 1;
+          $options[$codeOption] = array("name" => $this->xpath->query('./name',$option)->item(0)->nodeValue,
+            "parameters" => array()
+          );
+          $parameters = $this->xpath->query('./parameter',$option);
+          foreach($parameters as $p => $parameter)
+          {
+            $paramCode = $this->xpath->query('./code',$parameter)->item(0);
+            $paramLabel = $this->xpath->query('./label',$parameter)->item(0);
+            $paramType = $this->xpath->query('./type',$parameter)->item(0);
+            $options[$codeOption]["parameters"][$paramCode->nodeValue] = array("code" => $paramCode->nodeValue, "label" => $paramLabel->nodeValue,
+            "values" => array());
+            if(trim($paramType->nodeValue) != "")
+            {
+              $values = array();
+              foreach($paramType->getElementsByTagName("enum")->item(0)->childNodes as $po => $paramOption)
+              {
+                if(trim($paramOption->nodeValue) != "") $values[$paramOption->nodeValue] = $paramOption->nodeValue;
+              }
+              $options[$codeOption]["parameters"][$paramCode->nodeValue]["values"] = $values;
+            }
+          }
+        }
+				
+        // characteristics generation
+        $charactDetail = $this->xpath->evaluate('./characteristics',$offer)->item(0)->childNodes;
         $charactArray = array();
         foreach($charactDetail as $c => $char) {
-           $charactArray[$c] = $char->nodeValue;
+// TODO : enlever cette validation après avoir détecté pourquoi il multiplie le nombre des nodes par 2
+          if(trim($char->nodeValue) != "") {
+            $charactArray[$c] = $char->nodeValue;
+          }
         }
 				
 				$alert = '';
@@ -322,7 +354,8 @@ class Env_Quotation extends Env_WebService {
           ),
           'characteristics' => $charactArray,
           'alert' => $alert,
-          'mandatory' => $mandInfos
+          'mandatory' => $mandInfos,
+					'options' =>$options
         );
 				// Ajout de l'insurance si elle est retournée
 				if ($this->xpath->evaluate('boolean(/insurance)',$offer)) {
@@ -331,6 +364,11 @@ class Env_Quotation extends Env_WebService {
             'tax-exclusive' => $this->xpath->query('./insurance/tax-exclusive',$offer)->item(0)->nodeValue,
             'tax-inclusive' => $this->xpath->query('./insurance/tax-inclusive',$offer)->item(0)->nodeValue
           );
+					$this->offers[$o]['hasInsurance'] = true;
+				}
+				else
+				{
+					$this->offers[$o]['hasInsurance'] = false;
 				}
       }
     }
@@ -416,7 +454,6 @@ class Env_Quotation extends Env_WebService {
    * @access public
    */
   public function makeOrder($quotInfo, $getInfo = false) {
-		echo '<textarea>quotInfo : ';print_r($quotInfo);echo '</textarea><br>';
     $this->quotInfo = $quotInfo;
     $this->getInfo = $getInfo;
     if(isset($quotInfo['reason']) && $quotInfo['reason']) {
