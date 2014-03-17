@@ -161,6 +161,11 @@ class Env_Quotation extends Env_WebService {
    */
   public function setProforma($data) {
     foreach($data as $key => $value) {
+			// we ignore proforma with an incorrect quantity value
+			if (((!isset($value['number']) || $value['number'] <= 0) && (!isset($value['nombre']) || $value['nombre'] <= 0))
+				|| isset($value['number']) && isset($value['nombre'])){
+				continue;
+			}
       foreach($value as $lineKey => $lineValue) {
         $this->param['proforma_'.$key.'.'.$lineKey] = $lineValue;
       }
@@ -358,7 +363,7 @@ class Env_Quotation extends Env_WebService {
 					'options' =>$options
         );
 				// Ajout de l'insurance si elle est retournée
-				if ($this->xpath->evaluate('boolean(/insurance)',$offer)) {
+				if ($this->xpath->evaluate('boolean(./insurance)',$offer)) {
           $this->offers[$o]['insurance'] = array(
             'currency' => $this->xpath->query('./insurance/currency',$offer)->item(0)->nodeValue,
             'tax-exclusive' => $this->xpath->query('./insurance/tax-exclusive',$offer)->item(0)->nodeValue,
