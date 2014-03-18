@@ -544,13 +544,17 @@ function test_Env_ParcelPoint($userData){
 	return $result;
 }
 function test_Env_OrderStatus($userData){
+	/* Create an order for the test */
+	/* Initialisation */
+	$orderPassed = "1306261940UPSE8302AU";
+	
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
 	$env = new Env_OrderStatus(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 	$env->setEnv('test'); 
-	$env->getOrderInformations("1311122301MONR4245FR");
+	$env->getOrderInformations($orderPassed);
 	
 	/* Reception test */
 	if($env->curlError){
