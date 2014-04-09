@@ -80,7 +80,7 @@ table tr td {border:1px solid #000000; padding:5px; }
 ?>
 	<tr id="ope-<?php echo $o;?>-tr">
 		<td><input type="radio" name="ope" id="ope-<?php echo $o;?>" value="<?php echo $offre["operator"]["code"];?>" class="chkbox selectOpe" /> <label for="ope-<?php echo $o;?>">choisir cette offre</label></td>
-		<td><img src="//www.envoimoinscher.com/images/logo_<?php echo strtolower($offre["operator"]["code"]);?>.gif" alt="" /></td>
+		<td><img src="<?php echo $offre["operator"]["logo"];?>" alt="" /></td>
 		<td>
 <?php 
 			foreach($offre["characteristics"] as $c => $char) {
@@ -92,8 +92,8 @@ table tr td {border:1px solid #000000; padding:5px; }
 			}  
 ?>
 			<span id="char-<?php echo $o;?>" class="hidden"><?php echo implode("<br /> - ", $offre["characteristics"]); ?></span>
-			<p id="char-<?php echo $o;?>-show" class="arrow"><a href="#" rel="#char-<?php echo $o;?>" class="showMoreOpt">toutes les options</a></p>	
-			<p id="char-<?php echo $o;?>-hide" class="arrow hidden"><a href="#" rel="#char-<?php echo $o;?>" class="hideMoreOpt">moins d'options</a></p>	
+			<p>Mandatory : </p>
+			<ul><?php foreach($offre['mandatory'] as $m => $mandatory) { ?><li><?php echo $m; ?></li><?php } ?></ul>
 		</td>
 		<td class="price">
 <?php echo $offre['price']['tax-exclusive'];?>€
@@ -104,16 +104,12 @@ table tr td {border:1px solid #000000; padding:5px; }
 		</td>
 		<td>
 <?php   	
-				$time = time().rand(0,200000); if(count($offre['mandatory']['depot.pointrelais']) > 0) {
-					$pr = explode(" ", $offre['mandatory']['depot.pointrelais']['type']);
-					foreach($pr as $p => $point) {
-						if(trim($point) != "") {
-							$poi[$p] = trim($point);
-						}
-					}
+				if(count($offre['mandatory']['depot.pointrelais']) > 0) {
 ?>
-					<a href="/api/demo/demo_relais.php?type=exp&points=<?php echo implode(",", $poi);?>" rel="#pointsExp-<?php echo $time;?>" class="arrow smaller selectPr">sélectionnez le point de proximité de départ</a>
-					<div id="pointsExp-<?php echo $time;?>"></div>
+					<p class="arrow smaller selectPr">Points de proximité de départ</p>
+					<ul>
+						<?php foreach($offre['mandatory']['depot.pointrelais']['array'] as $p) echo '<li>'.$p.'</li>'; ?>
+					</ul>
 <?php 	} ?>
 				<br />
 <?php 	
@@ -125,8 +121,10 @@ table tr td {border:1px solid #000000; padding:5px; }
 						}
 					}
 ?>
-					<a href="/api/demo/demo_relais.php?type=dest&points=<?php echo implode(",", $poi);?>" rel="#pointsLiv-<?php echo $time;?>" class="arrow smaller selectPr">sélectionnez le point de proximité d'arrivée</a>
-					<div id="pointsLiv-<?php echo $time;?>"></div>
+					<p class="arrow smaller selectPr">Points de proximité d'arrivée</p>
+					<ul>
+						<?php foreach($offre['mandatory']['depot.pointrelais']['array'] as $p) echo '<li>'.$p.'</li>'; ?>
+					</ul>
 <?php 	} ?>
 		</td>
 </tr>

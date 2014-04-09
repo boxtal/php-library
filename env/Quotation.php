@@ -476,7 +476,7 @@ class Env_Quotation extends Env_WebService {
 			// The request is ok, we check the order reference
 			$nodes = $this->xpath->query('/order/shipment');
 			$reference = $nodes->item(0)->getElementsByTagName('reference')->item(0)->nodeValue;
-			if(preg_match("/^[0-9]{10}[A-Z]{4}[0-9]{4}[A-Z]{2}$/", $reference)) {
+			if(preg_match("/^[0-9a-zA-Z]{20}$/", $reference)) {
         $this->order['ref'] = $reference;
         $this->order['date'] = date('Y-m-d H:i:s');
         if($getInfo) {
