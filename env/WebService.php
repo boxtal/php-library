@@ -110,6 +110,27 @@ class Env_WebService {
   protected $param; 
 
   /** 
+	 * Platform used
+	 * @access protected
+	 * @var string
+	 */
+  protected $platform = "library"; 
+
+	/** 
+	 * Platform version
+	 * @access protected
+	 * @var string
+	 */
+  protected $platform_version = ""; 
+
+	/** 
+	 * Module version
+	 * @access protected
+	 * @var string
+	 */
+  protected $module_version = "1.1.3"; 
+	
+  /** 
    * Class constructor.
    * @access public
    * @param Array $auth Array with authentication credentials.
@@ -139,7 +160,7 @@ class Env_WebService {
     curl_setopt_array($req, $this->options);
     $result = curl_exec($req);
 		// You can uncomment this fragment to see the content returned by API  
-		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
     $curlInfo = curl_getinfo($req);
     $contentType = explode(";", $curlInfo["content_type"]);
     if(curl_errno($req) > 0) {
@@ -161,6 +182,7 @@ class Env_WebService {
                                  questionne le bon serveur (https et non pas http). Si le problème persiste, contactez notre équipe de développement");
     }
     curl_close($req); 
+		
     return $result;
   }
 
@@ -198,6 +220,9 @@ class Env_WebService {
    * @return Void
    */
   public function setPost() {
+		$this->param['platform'] = $this->platform;
+		$this->param['platform_version'] = $this->platform_version;
+		$this->param['module_version'] = $this->module_version;
     $this->options[CURLOPT_POST] = true;
     $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
   }
@@ -208,6 +233,9 @@ class Env_WebService {
    * @return Void
    */
   public function setGetParams() {
+		$this->param['platform'] = $this->platform;
+		$this->param['platform_version'] = $this->platform_version;
+		$this->param['module_version'] = $this->module_version;
     $this->getParams = '?'.http_build_query($this->param);
   }
 
@@ -277,6 +305,13 @@ class Env_WebService {
     $this->param = $param;
   }
 
+	public function setPlatformParams($platform,$platform_version,$module_version)
+	{
+		$this->platform = strtolower($platform);
+		$this->platform_version = strtolower($platform_version);
+		$this->module_version = strtolower($module_version);
+	}
+	
 }
 
 ?>
