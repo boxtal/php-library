@@ -45,6 +45,7 @@ class Env_ListPoints extends Env_WebService {
 	 * Example : <br>
 	 * array(<br>
 	 * &nbsp;&nbsp;"srv_code" => "RelaisColis", <br>
+	 * &nbsp;&nbsp;"collecte" => "exp", <br>
 	 * &nbsp;&nbsp;"pays" => "FR", <br>
 	 * &nbsp;&nbsp;"cp" => "75011", <br>
 	 * &nbsp;&nbsp;"ville" => "PARIS"<br>

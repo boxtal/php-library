@@ -13,7 +13,7 @@ $orderPMStyle = 'style="font-weight:bold;"';
 /* Préparation, envoi de la requête à l'API et reception de la réponse */
 $lpCl = new Env_ListPoints(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $lpCl->setEnv('test');
-$params = array('srv_code' => 'RelaisColis', 'pays' => 'FR', 'cp' => '75011', 'ville' => 'PARIS');
+$params = array('srv_code' => 'RelaisColis', "collecte"=> "exp", 'pays' => 'FR', 'cp' => '75011', 'ville' => 'PARIS');
 $lpCl->getListPoints("SOGP", $params);
 
 /* If there is no errors, we display the datas */

@@ -128,7 +128,7 @@ class Env_WebService {
 	 * @access protected
 	 * @var string
 	 */
-  protected $module_version = "1.1.3"; 
+  protected $module_version = "1.1.4"; 
 	
   /** 
    * Class constructor.
