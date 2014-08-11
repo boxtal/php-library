@@ -63,13 +63,19 @@ class Env_OrderStatus extends Env_WebService {
 				foreach($orderLabels as $labelIndex => $label) {
 					$labels[$labelIndex] = $label->nodeValue;  
 				}
+				$documents = array();
+				$orderDocuments = $this->xpath->evaluate("/order/documents");
+				foreach($orderDocuments as $docs) {
+					$documentss[$docs->tagName] = $docs->nodeValue;  
+				}
 				$this->orderInfo = array(
 					'emcRef' => $this->xpath->evaluate("/order/emc_reference")->item(0)->nodeValue, 
 					'state' => $this->xpath->evaluate("/order/state")->item(0)->nodeValue, 
 					'opeRef' => $this->xpath->evaluate("/order/carrier_reference")->item(0)->nodeValue, 
 					'labelAvailable' => (bool)$this->xpath->evaluate("/order/label_available")->item(0)->nodeValue, 
 					'labelUrl' => $this->xpath->evaluate("/order/label_url")->item(0)->nodeValue,
-					'labels' => $labels
+					'labels' => $labels,
+					'documents' => $documents
 					);
 			}
     }
