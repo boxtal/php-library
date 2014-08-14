@@ -66,7 +66,7 @@ class Env_OrderStatus extends Env_WebService {
 				$documents = array();
 				$orderDocuments = $this->xpath->evaluate("/order/documents");
 				foreach($orderDocuments as $docs) {
-					$documentss[$docs->nodeName] = $docs->nodeValue;  
+					$documents[$docs->nodeName] = $docs->nodeValue;  
 				}
 				$this->orderInfo = array(
 					'emcRef' => $this->xpath->evaluate("/order/emc_reference")->item(0)->nodeValue, 
