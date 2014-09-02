@@ -15,7 +15,7 @@ class Env_User extends Env_WebService {
    * @access public
    * @var array
    */
-  public $userConfiguration = array('emails' => array());
+  public $user_configuration = array('emails' => array());
   
   /**
    * String with user partnership code. 
@@ -70,7 +70,7 @@ class Env_User extends Env_WebService {
       parent::parseResponse($source);
       foreach($this->xpath->evaluate('/user/mails')->item(0)->childNodes as $config_line) {
         if(!($config_line instanceof DOMText)) {
-          $this->userConfiguration['emails'][$config_line->nodeName] = $config_line->nodeValue;
+          $this->user_configuration['emails'][$config_line->nodeName] = $config_line->nodeValue;
         }
       }
     }
