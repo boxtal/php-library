@@ -56,7 +56,7 @@ class Env_Parameters extends Env_WebService {
   {
     $source = parent::doRequest();	
 	/* Uncomment if ou want to display the XML content */
-	echo "<textarea>".print_r($source,true)."</textarea>";	
+	//echo "<textarea>".print_r($source,true)."</textarea>";	
 	/* We make sure there is an XML answer and try to parse it */
     if($source !== false)
 	{
