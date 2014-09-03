@@ -57,13 +57,13 @@ class Env_CarriersList extends Env_WebService
 	 */
 	public function getCarriersList($channel, $version)
 	{
-		$this->param['channel'] = $channel;
-		$this->param['version'] = $version;
+		$this->param['channel'] = strtolower($channel);
+		$this->param['version'] = strtolower($version);
 		$this->setGetParams(array());
 		$this->setOptions(array('action' => '/api/v1/carriers_list'));
 		if ($this->doSimpleRequest())
 		{
-			$this->getCarriersList();
+			$this->loadCarriersList();
 			return true;
 		}
 		return false;
