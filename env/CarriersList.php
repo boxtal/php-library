@@ -55,7 +55,7 @@ class Env_CarriersList extends Env_WebService
 	 * @param String $version platform's version.
 	 * @return true if request was executed correctly, false if not
 	 */
-	public function loadCarriersList($channel, $version)
+	public function getCarriersList($channel, $version)
 	{
 		$this->param['channel'] = $channel;
 		$this->param['version'] = $version;
@@ -94,7 +94,7 @@ class Env_CarriersList extends Env_WebService
 	 * @param bool $only_com If true, we have to get only offers in the 'order' mode.
 	 * @return Void
 	 */
-	public function getCarriersList()
+	private function loadCarriersList()
 	{
 		$this->carriers = array();
 		$operators = $this->xpath->query('/operators/operator');

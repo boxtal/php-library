@@ -33,7 +33,7 @@ class Env_Parameters extends Env_WebService {
    * @param String $version platform's version.
    * @return true if request was executed correctly, false if not
    */
-  public function loadParameters($channel,$version)
+  public function getParameters($channel,$version)
   {
 	$this->param["channel"] = strtolower($channel);
 	$this->param["version"] = strtolower($version);
@@ -41,7 +41,7 @@ class Env_Parameters extends Env_WebService {
     $this->setOptions(array('action' => '/api/v1/parameters'));
     if ($this->doSimpleRequest())
 	{
-		$this->getParameters();
+		$this->loadParameters();
 		return true;
 	}
 	return false;
@@ -71,7 +71,7 @@ class Env_Parameters extends Env_WebService {
    * @access public
    * @return Void
    */
-  private function getParameters()
+  private function loadParameters()
   {
 	$this->parameters = array();
     $parameters = $this->xpath->query('/parameters/parameter');
@@ -90,7 +90,5 @@ class Env_Parameters extends Env_WebService {
 		$this->parameters[$parameter_data['code']] = $parameter_data;
     }
   }
-
-
 }
 ?>
