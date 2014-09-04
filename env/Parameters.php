@@ -12,31 +12,39 @@ class Env_Parameters extends Env_WebService {
 
   /** 
    * Public variable represents parameters array. 
-	 * <samp>
-	 * Structure :<br>
-	 * $parameters[x]	=> array(<br>
-	 * &nbsp;&nbsp;['code'] => data<br>
-	 * &nbsp;&nbsp;['label'] => data<br>
-	 * &nbsp;&nbsp;['type'] => data<br>
-	 * &nbsp;&nbsp;['values'] => array([...])<br>
-	 * )
-	 * </samp>
+   * The parameters array contain the parameters for each service for each operators
+   * <samp> TODO
+   * Structure :<br>
+   * $parameters[x]	=> array(<br>
+   * &nbsp;&nbsp;['name'] => data<br>
+   * &nbsp;&nbsp;['code'] => data<br>
+   * &nbsp;&nbsp;['services'] => array(<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;['code'] => array([...])<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;['en'] => array([...])<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;['fr'] => array([...])<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;['label'] => data<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;['type'] => data<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;['values'] => array(<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[x] => data)<br>
+   * &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+   * &nbsp;&nbsp;)<br>
+   * )
+   * </samp>
    * @access public
    * @var array
    */
   public $parameters = array();
 	
   /** 
-   * Public function which receives the carriers list. 
+   * Public function which receives the parameters list. 
    * @access public
    * @param String $channel platform used (prestashop, magento etc.).
    * @param String $version platform's version.
    * @return true if request was executed correctly, false if not
    */
-  public function getParameters($channel,$version)
+  public function getParameters()
   {
-	$this->param["channel"] = strtolower($channel);
-	$this->param["version"] = strtolower($version);
     $this->setGetParams(array());
     $this->setOptions(array('action' => '/api/v1/parameters'));
     if ($this->doSimpleRequest())
@@ -71,24 +79,44 @@ class Env_Parameters extends Env_WebService {
    * @access public
    * @return Void
    */
-  private function loadParameters()
-  {
-	$this->parameters = array();
-    $parameters = $this->xpath->query('/parameters/parameter');
-    foreach($parameters as $parameter)
+	private function loadParameters()
 	{
-		$parameter_data = array();
-		$parameter_data['code'] = $this->xpath->query('code',$parameter)->item(0)->nodeValue;
-		$parameter_data['label'] = $this->xpath->query('label',$parameter)->item(0)->nodeValue;
-		$parameter_data['type'] = $this->xpath->query('type',$parameter)->item(0)->nodeValue;
-		$parameter_values = $this->xpath->query('values/value',$parameter);
-		$parameter_data['values'] = array();
-		foreach($parameter_values as $parameter_value)
+		$this->parameters = array();
+		$operators = $this->xpath->query('/operators/operator');
+		$operator_data = array();
+		foreach($operators as $operator)
 		{
-			$parameter_data['values'][] = $parameter_value->nodeValue;
+			$operator_data['name'] = $this->xpath->query('name',$operator)->item(0)->nodeValue;
+			$operator_data['code'] = $this->xpath->query('code',$operator)->item(0)->nodeValue;
+			$operator_data['services'] = array();
+			$service_data = array();
+			$services = $this->xpath->query('services/service',$operator);
+			foreach($services as $service)
+			{
+				$service_data['code'] = $this->xpath->query('code',$service)->item(0)->nodeValue;
+				$service_data['parameters'] = array();
+				$parameters = $this->xpath->query('parameters/parameter',$service);
+				$parameter_data = array();
+				foreach($parameters as $parameter)
+				{
+					$parameter_data['code'] = array();
+					$parameter_data['code']['en'] = $this->xpath->query('code/en',$parameter)->item(0)->nodeValue;
+					$parameter_data['code']['fr'] = $this->xpath->query('code/fr',$parameter)->item(0)->nodeValue;
+					$parameter_data['label'] = $this->xpath->query('label',$parameter)->item(0)->nodeValue;
+					$parameter_data['type'] = $this->xpath->query('type',$parameter)->item(0)->nodeValue;
+					$parameter_data['values'] = array();
+					$values = $this->xpath->query('values/value',$parameter);
+					foreach($values as $value)
+					{
+						$parameter_data['values'][] = $value->nodeValue;
+					}
+				}
+				$service_data['parameters'][$parameter_data['code']['fr']] = $parameter_data;
+				
+			}
+			$operator_data['services'][$service_data['code']] = $service_data;
 		}
-		$this->parameters[$parameter_data['code']] = $parameter_data;
-    }
-  }
+		$this->parameters[$operator_data['code']] = $operator_data;
+	}
 }
 ?>
