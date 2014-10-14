@@ -4,7 +4,7 @@
  * 
  * Actually can be used only to configure e-mail send by EnvoiMoinsCher.com to user, shipper and receiver. 
  * @package Env
- * @author EnvoiMoinsCher <dev@envoimoinscher.com>
+ * @author EnvoiMoinsCher <informationAPI@envoimoinscher.com>
  * @version 1.0
  */
 

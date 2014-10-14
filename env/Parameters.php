@@ -4,7 +4,7 @@
  * 
  * The class is used to obtain parameters needed for a module.
  * @package Env
- * @author EnvoiMoinsCher <dev@envoimoinscher.com>
+ * @author EnvoiMoinsCher <informationAPI@envoimoinscher.com>
  * @version 1.0
  */
 

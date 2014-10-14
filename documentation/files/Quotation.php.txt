@@ -4,7 +4,7 @@
  * 
  * The class is used to obtain informations about a quotation and, if possibly, order it.
  * @package Env
- * @author EnvoiMoinsCher <dev@envoimoinscher.com>
+ * @author EnvoiMoinsCher <informationAPI@envoimoinscher.com>
  * @version 1.0
  */
 

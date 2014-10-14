@@ -5,7 +5,7 @@
  * The class handles request operations like : putting post and get parameters, calling 
  * API and getting the result of this request.
  * @package Env
- * @author EnvoiMoinsCher <dev@envoimoinscher.com>
+ * @author EnvoiMoinsCher <informationAPI@envoimoinscher.com>
  * @version 1.0
  */
 
