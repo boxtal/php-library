@@ -15,7 +15,24 @@ class Env_User extends Env_WebService {
    * @access public
    * @var array
    */
-  public $userConfiguration = array('emails' => array());
+  public $user_configuration = array('emails' => array());
+  
+  /**
+   * String with user partnership code. 
+   * @access public
+   * @var string
+   */
+  public $partnership = "";
+
+  /**
+   * Gets information about partnership for logged user.
+   * @access public
+   * @return Void
+   */
+  public function getPartnership() {
+    $this->setOptions(array('action' => '/api/v1/partnership'));
+    $this->setPartnership();
+  }
 
   /**
    * Gets information about e-mail configuration for logged user.
@@ -51,11 +68,29 @@ class Env_User extends Env_WebService {
     $source = parent::doRequest();
     if($source !== false) {
       parent::parseResponse($source);
-      foreach($this->xpath->evaluate('/user/mails')->item(0)->childNodes as $configLine) {
-        if(!($configLine instanceof DOMText)) {
-          $this->userConfiguration['emails'][$configLine->nodeName] = $configLine->nodeValue;
+      foreach($this->xpath->evaluate('/user/mails')->item(0)->childNodes as $config_line) {
+        if(!($config_line instanceof DOMText)) {
+          $this->user_configuration['emails'][$config_line->nodeName] = $config_line->nodeValue;
         }
       }
+    }
+  }
+
+  /**
+   * Parses API response and puts the values into partnership attribute.
+   * @access private
+   * @return Void
+   */
+  private function setPartnership() {
+    $source = parent::doRequest();
+    if($source !== false)
+	{
+      parent::parseResponse($source);
+	  $node = $this->xpath->evaluate('/user/partnership');
+	  if ($node)
+	  {
+		$this->partnership = $node->item(0)->nodeValue;
+	  }
     }
   }
 
