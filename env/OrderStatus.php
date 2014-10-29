@@ -62,7 +62,7 @@ class Env_OrderStatus extends Env_WebService
 				foreach ($order_labels as $label_index => $label)
 					$labels[$label_index] = $label->nodeValue;
 				$documents = array();
-				$order_documents = $this->xpath->evaluate('/order/documents');
+				$order_documents = $this->xpath->evaluate('/order/documents/*');
 				foreach ($order_documents as $docs)
 					$documents[$docs->nodeName] = $docs->nodeValue;
 				$this->order_info = array(
