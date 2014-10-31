@@ -103,10 +103,12 @@ class Env_ParcelPoint extends Env_WebService
 			/* We get open and close informations  */
 			$schedule = array();
 			foreach ($this->xpath->query('./schedule/day', $point) as $d => $day_node)
+			{
 				$childs = $this->xpath->query('*', $day_node);
 				foreach ($childs as $child_node)
 					if ($child_node->nodeName != '#text')
 						$schedule[$d][$child_node->nodeName] = $child_node->nodeValue;
+			}
 			$point_detail['schedule'] = $schedule;
 
 			/* We store the data in the right array (defined by $type) */
