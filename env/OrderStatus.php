@@ -74,7 +74,7 @@ class Env_OrderStatus extends Env_WebService
 			{
 				/* The XML file is loaded, we now gather the datas */
 				$labels = array();
-				$order_labels = $this->xpath->evaluate('/order/labels');
+				$order_labels = $this->xpath->evaluate('/order/labels/*');
 				foreach ($order_labels as $label_index => $label)
 					$labels[$label_index] = $label->nodeValue;
 				$documents = array();
