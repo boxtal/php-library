@@ -1,28 +1,24 @@
 <?php
-/*  Cet exemple vous permet de passer une commande. L'envoi est composé d'informations basiques (expéditeur, destinataire, type) 
- *  et ne contient pas d'options supplémentaires. Il possède uniquement un filtre selon lequel le montant de la commande ne peut 
- *  pas dépasser 50€ ttc.
- */ 
-ob_start();
-header('Content-Type: text/html; charset=utf-8');
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once('../utils/header.php');
-require_once('../utils/autoload.php');
-$orderPMStyle = 'style="font-weight:bold;"';
+/* Example of use for Env_OrderStatus class  
+ * Get the status of a passed order
+ */
 
-$cotCl = new Env_OrderStatus(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-$cotCl->getOrderInformations("1310211971LOCO3917FR");
-if(!$cotCl->curlError && !$cotCl->respError) { 
-	var_dump($cotCl);
+require_once('../utils/config.php');
+require_once('../env/WebService.php');
+require_once('../env/OrderStatus.php');
+ 
+// Prepare and execute the request
+$env = 'test';
+$lib = new Env_OrderStatus($credentials[$env]);
+$lib->setEnv($env);
+$lib->getOrderInformations("1306261940MONR01PHFR");
+
+if(!$lib->curl_error && !$lib->resp_error)
+{
+	// If you want to recieve order's status changes or documents, check for "url_push" param in samples/make_order.php
+	echo '<pre>'.print_r($lib->order_info,true).'</pre>';
 }
-elseif($cotCl->respError) {
-  echo "La requête n'est pas valide : ";
-  foreach($cotCl->respErrorsList as $m => $message) { 
-    echo "<br />".$message['message'];
-  }
-}
-else {
-  echo "<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText; 
-}
-require_once('../utils/footer.php');?>
+
+handle_errors($lib);
+?>
  

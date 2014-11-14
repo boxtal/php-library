@@ -1,72 +1,63 @@
 <?php
-/*  Cet exemple vous permet de passer une commande. L'envoi est composé d'informations basiques (expéditeur, destinataire, type) 
- *  et ne contient pas d'options supplémentaires. Il possède uniquement un filtre selon lequel le montant de la commande ne peut 
- *  pas dépasser 50€ ttc.
- */ 
-ob_start();
-header('Content-Type: text/html; charset=utf-8');
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-require_once('../utils/header.php');
-require_once('../utils/autoload.php');
-$orderPMStyle = 'style="font-weight:bold;"';
-
-/* Préparation, envoi de la requête à l'API et reception de la réponse */
-$lcCl = new Env_CarriersList(array("user" => $userData['login'], "pass" => $userData['password'], "key" => $userData['api_key']));
-$lcCl->setEnv("test");
-
-$lcCl->loadCarriersList("Prestashop","3.0.0");
+/* Example of use for Env_CarriersList class
+ * Get all available carriers for a platform
+ * Note that you need this request only if you plan to develop your own platform or module.
+ */
+ 
+require_once('../utils/config.php');
+require_once('../env/WebService.php');
+require_once('../env/CarriersList.php');
 
 $family = array(
-	"1" => "Economique",
-	"2" => "Expressiste"
+	'1' => 'Economic',
+	'2' => 'Express'
 );
 $zone = array(
-	"1" => "France",
-	"2" => "International",
-	"3" => "Europe"
+	'1' => 'France',
+	'2' => 'International',
+	'3' => 'Europe'
 );
 
-echo "<pre>".print_r($lcCl->carriers,true)."</pre>";
+/* Prepare and execute the request */
+$env = 'test';
+$module_platform = 'prestashop';
+$module_version = '3.0.0';
+$lib = new Env_CarriersList($credentials[$env]);
+$lib->setEnv($env);
+$lib->getCarriersList($module_platform,$module_version);
 
-/* If there is no errors, we display the datas */
-if(!$lpCl->curlError && !$lpCl->respError) { 
+/* Show an array with carrier's informations */
+if(!$lib->curl_error && !$lib->resp_error)
+{ 
 ?>
-<style type="text/css">
+<style type='text/css'>
 	table tr td {border:1px solid #000000; padding:5px; }
 </style>
 <table>
 	<tr>
-		<td>Opérateur</td>
+		<td>Operator</td>
 		<td>Service</td>
 		<td>Description</td>
-		<td>Famille</td>
+		<td>Family</td>
 		<td>Zone</td>
-		<td>Depot point relais</td>
-		<td>Retrait point relais</td>
+		<td>Dropoff on parcel point</td>
+		<td>Pickup on parcel point</td>
 	</tr>
-<?php	foreach($lcCl->carriers as $carrier){	?>
+<?php	foreach($lib->carriers as $carrier){	?>
 		<tr>
-			<td><?php echo $carrier['ope_name']." (".$carrier['ope_code'].")"; ?></td>
-			<td><?php echo $carrier['srv_name']." (".$carrier['srv_code'].")"; ?></td>
-			<td><?php echo "<u>Label</u> : ".$carrier['label_store']."<br/><u>Description</u> : ".$carrier['description']." (".$carrier['description_store'].")"; ?></td>
+			<td><?php echo $carrier['ope_name'].' ('.$carrier['ope_code'].')'; ?></td>
+			<td><?php echo $carrier['srv_name'].' ('.$carrier['srv_code'].')'; ?></td>
+			<td><?php echo '<u>Label</u> : '.$carrier['label_store'].'<br/><u>Description</u> : '.$carrier['description'].' ('.$carrier['description_store'].')'; ?></td>
 			<td><?php echo $family[$carrier['family']]; ?></td>
 			<td><?php echo $zone[$carrier['zone']]; ?></td>
-			<td><?php echo $carrier['parcel_pickup_point']=="1"?"Oui":"Non"; ?></td>
-			<td><?php echo $carrier['parcel_dropoff_point']=="1"?"Oui":"Non"; ?></td>
+			<td><?php echo $carrier['parcel_pickup_point']=='1'?'Yes':'No'; ?></td>
+			<td><?php echo $carrier['parcel_dropoff_point']=='1'?'Yes':'No'; ?></td>
 		</tr>
 <?php	}	?>
 </table>
 <?php
 }
-/* Cas d'erreur */
-elseif($lcCl->respError) {
-  echo "La requête n'est pas valide : ";
-  foreach($lcCl->respErrorsList as $m => $message) { 
-    echo "<br />".$message['message'];
-  }
-}
-else {
-	"<b>Une erreur pendant l'envoi de la requête </b> : ".$cotCl->curlErrorText; 
-}
-require_once('../utils/footer.php');?>
+
+handle_errors($lib);
+?>
  
