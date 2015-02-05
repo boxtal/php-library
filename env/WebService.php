@@ -199,16 +199,21 @@ class Env_WebService
 			curl_close($req);
 			return false;
 		}
-		elseif (trim($content_type[0]) == 'text/html' && $curl_info['http_code'] == '404')
+		elseif ($curl_info['http_code'] != '200')
 		{
 			$result = false;
 			$this->resp_error = true;
-			$i = 0;
-			$i = count($this->resp_errors_list);
-			$this->resp_errors_list[$i] = array('code' => 'http_file_not_found',
+			$this->resp_errors_list[] = array('code' => 'http_error_'.$curl_info['http_code'],
 														'url' => $curl_info['url'],
-														'message' => 'Votre requête n\'a pas été correctement envoyée. Veuillez vous rassurer qu\'elle
-														 questionne le bon serveur (https et non pas http). Si le problème persiste, contactez notre équipe de développement');
+														'message' => 'Echec lors de l\'envoi de la requête, le serveur n\'a pas pu répondre correctement (erreur :'.$curl_info['http_code'].')');
+		}
+		elseif (trim($content_type[0]) != 'application/xml')
+		{
+			$result = false;
+			$this->resp_error = true;
+			$this->resp_errors_list[] = array('code' => 'bad_response_format',
+														'url' => $curl_info['url'],
+														'message' => 'Echec lors de l\'envoi de la requête, le serveur a envoyé une réponse invalide (format de la réponse : '.$content_type[0].')');
 		}
 		curl_close($req);
 
@@ -285,16 +290,21 @@ class Env_WebService
 				curl_multi_close($mh);
 				return false;
 			}
-			elseif (trim($content_type[0]) == 'text/html' && $curl_info['http_code'] == '404')
+			elseif ($curl_info['http_code'] != '200')
 			{
-				$data[$k] = false;
+				$result = false;
 				$this->resp_error = true;
-				$i = 0;
-				$i = count($this->resp_errors_list);
-				$this->resp_errors_list[$i] = array('code' => 'http_file_not_found',
-													'url' => $curl_info['url'],
-													'message' => 'Votre requête n\'a pas été correctement envoyée. Veuillez vous rassurer qu\'elle
-													 questionne le bon serveur (https et non pas http). Si le problème persiste, contactez notre équipe de développement');
+				$this->resp_errors_list[] = array('code' => 'http_error_'.$curl_info['http_code'],
+															'url' => $curl_info['url'],
+															'message' => 'Echec lors de l\'envoi de la requête, le serveur n\'a pas pu répondre correctement (erreur :'.$curl_info['http_code'].')');
+			}
+			elseif (trim($content_type[0]) != 'application/xml')
+			{
+				$result = false;
+				$this->resp_error = true;
+				$this->resp_errors_list[] = array('code' => 'bad_response_format',
+															'url' => $curl_info['url'],
+															'message' => 'Echec lors de l\'envoi de la requête, le serveur a envoyé une réponse invalide (format de la réponse : '.$content_type[0].')');
 			}
 		}
 		curl_multi_close($mh);

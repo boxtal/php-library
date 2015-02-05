@@ -49,7 +49,7 @@ $quot_params = array(
 	'assurance.selected' => false,
 	'depot.pointrelais' => 'CHRP-POST',
 	// you can find more informations about what is sent on this url here : http://ecommerce.envoimoinscher.com/api/documentation/url-de-push
-	'url_push' => 'www.my-website.com/push.php&order=N'
+	'url_push' => 'www.my-website.com/push.php&order=N',
 	// even if these parameters are optional we highly recommend you to set the operator and service you want
 	'operator' => 'CHRP',
 	'service' => 'Chrono18',
