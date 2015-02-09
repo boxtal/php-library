@@ -165,6 +165,7 @@ class Env_WebService
 	public function __construct($auth)
 	{
 		$this->auth = $auth;
+		$this->param = array();
 	}
 
 	/** 
@@ -199,7 +200,7 @@ class Env_WebService
 			curl_close($req);
 			return false;
 		}
-		elseif ($curl_info['http_code'] != '200')
+		elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400')
 		{
 			$result = false;
 			$this->resp_error = true;
@@ -290,7 +291,7 @@ class Env_WebService
 				curl_multi_close($mh);
 				return false;
 			}
-			elseif ($curl_info['http_code'] != '200')
+			elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400')
 			{
 				$result = false;
 				$this->resp_error = true;
