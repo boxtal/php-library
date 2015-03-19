@@ -84,11 +84,14 @@ class Env_User extends Env_WebService {
     $source = parent::doRequest();
     if($source !== false) {
       parent::parseResponse($source);
-      foreach($this->xpath->evaluate('/user/mails')->item(0)->childNodes as $config_line) {
-        if(!($config_line instanceof DOMText)) {
-          $this->user_configuration['emails'][$config_line->nodeName] = $config_line->nodeValue;
-        }
-      }
+			$mails = $this->xpath->evaluate('/user/mails')->item(0);
+      if($mails) {
+				foreach($mails->childNodes as $config_line) {
+					if(!($config_line instanceof DOMText)) {
+						$this->user_configuration['emails'][$config_line->nodeName] = $config_line->nodeValue;
+					}
+				}
+			}
     }
   }
 
