@@ -190,7 +190,7 @@ class Env_WebService
 		curl_setopt_array($req, $this->options);
 		$result = curl_exec($req);
 		// You can uncomment this fragment to see the content returned by API
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $result);
 		$curl_info = curl_getinfo($req);
 		$content_type = explode(';', $curl_info['content_type']);
 		if (curl_errno($req) > 0)
@@ -200,7 +200,7 @@ class Env_WebService
 			curl_close($req);
 			return false;
 		}
-		elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400')
+		elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400' && $curl_info['http_code'] != '401')
 		{
 			$result = false;
 			$this->resp_error = true;
@@ -277,7 +277,7 @@ class Env_WebService
 		{
 				$data[$k] = curl_multi_getcontent($c);
 				curl_multi_remove_handle($mh, $c);
-				file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $data[$k]);
+				//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/return.xml', $data[$k]);
 		}
 
 		foreach ($ch as $k => $c)
@@ -291,7 +291,7 @@ class Env_WebService
 				curl_multi_close($mh);
 				return false;
 			}
-			elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400')
+			elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400' && $curl_info['http_code'] != '401')
 			{
 				$result = false;
 				$this->resp_error = true;
