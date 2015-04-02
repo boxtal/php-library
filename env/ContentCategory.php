@@ -126,13 +126,11 @@ class Env_ContentCategory extends Env_WebService
 				foreach ($contents as $content)
 				{
 					$category_id = $this->xpath->query('./category', $content)->item(0)->nodeValue;
-					if (isset($this->contents[$category_id]))
-					{
-						$i = count($this->contents[$category_id]);
-						$this->contents[$category_id][$i] = array(
-							'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
-							'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
-							'category' => $category_id);
+					$i = isset($this->contents[$category_id]) ? count($this->contents[$category_id]) : 0;
+					$this->contents[$category_id][$i] = array(
+						'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
+						'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
+						'category' => $category_id);
 					}
 				}
 			}
