@@ -1,5 +1,5 @@
 <?php  
-/* Example of use for Env_Country class  
+/* Example of use for EnvCountry class  
  * Load all available countries or destinations from a country
  */ 
  
@@ -9,7 +9,7 @@ require_once('../env/Country.php');
 
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_Country($credentials[$env]);
+$lib = new EnvCountry($credentials[$env]);
 $lib->setEnv($env);
 $lib->getCountries();
 

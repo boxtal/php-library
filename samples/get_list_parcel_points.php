@@ -1,5 +1,5 @@
 <?php
-/* Example of use for Env_ListPoints class  
+/* Example of use for EnvListPoints class  
  * Load a list of parcel points around a given address
  */ 
  
@@ -9,7 +9,7 @@ require_once('../env/ListPoints.php');
 
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_ListPoints($credentials[$env]);
+$lib = new EnvListPoints($credentials[$env]);
 $lib->setEnv($env);
 $params = array(
 	'srv_code' => 'RelaisColis',

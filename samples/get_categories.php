@@ -1,5 +1,5 @@
 <?php 
-/* Example of use for Env_ListPoints class  
+/* Example of use for EnvListPoints class  
  * Make an international order, the difference with a "normal" make order is in the proforma
  */
 
@@ -10,7 +10,7 @@ require_once('../env/ContentCategory.php');
 
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_ContentCategory($credentials[$env]);
+$lib = new EnvContentCategory($credentials[$env]);
 $lib->setEnv($env);
 $lib->getCategories();  // load all content categories
 $lib->getContents(); 	// load all contents type

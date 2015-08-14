@@ -1,5 +1,5 @@
 <?php  
-/* Example of use for Env_Quotation class  
+/* Example of use for EnvQuotation class  
  * Get all available offers for your send
  * You can find more informations about quotation's request here : http://ecommerce.envoimoinscher.com/api/documentation/cotations/
  */
@@ -36,7 +36,7 @@ $quot_params = array(
 	
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_Quotation($credentials[$env]);
+$lib = new EnvQuotation($credentials[$env]);
 $lib->setPerson('shipper', $from);
 $lib->setPerson('recipient', $to);
 $lib->setEnv($env); 

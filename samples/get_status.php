@@ -1,5 +1,5 @@
 <?php
-/* Example of use for Env_OrderStatus class  
+/* Example of use for EnvOrderStatus class  
  * Get the status of a passed order
  */
 
@@ -9,7 +9,7 @@ require_once('../env/OrderStatus.php');
  
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_OrderStatus($credentials[$env]);
+$lib = new EnvOrderStatus($credentials[$env]);
 $lib->setEnv($env);
 $lib->getOrderInformations("1306261940MONR01PHFR");
 

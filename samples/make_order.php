@@ -1,5 +1,5 @@
 <?php
-/* Example of use for Env_ListPoints class  
+/* Example of use for EnvListPoints class  
  * Make an order
  */
 
@@ -57,7 +57,7 @@ $quot_params = array(
 
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_Quotation($credentials[$env]);
+$lib = new EnvQuotation($credentials[$env]);
 $lib->setPerson('shipper', $from);
 $lib->setPerson('recipient', $to);
 $lib->setEnv($env);

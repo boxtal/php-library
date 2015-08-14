@@ -34,7 +34,7 @@ $quotInfo = array(
 	"retrait.pointrelais" => "SOGP-I1151", 
 	"colis.description" => "Le Monde, années 1990-1992"
 );
-$cotCl = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+$cotCl = new EnvQuotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
 $cotCl->setPerson("expediteur", $from);
 $cotCl->setPerson("destinataire", $to);
 $cotCl->setEnv('test'); 

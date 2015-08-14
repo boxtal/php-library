@@ -1,5 +1,5 @@
 <?php 
-/* Example of use for Env_ParcelPoint class  
+/* Example of use for EnvParcelPoint class  
  * Load parcel point informations from their codes
  */ 
  
@@ -9,7 +9,7 @@ require_once('../env/ParcelPoint.php');
 
 // Prepare and execute the request
 $env = 'test';
-$lib = new Env_ParcelPoint($credentials[$env]);
+$lib = new EnvParcelPoint($credentials[$env]);
 $lib->setEnv($env);
 // add all the points to the same list
 $lib->construct_list = true;

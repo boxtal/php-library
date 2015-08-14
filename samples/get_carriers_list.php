@@ -1,5 +1,5 @@
 <?php
-/* Example of use for Env_CarriersList class
+/* Example of use for EnvCarriersList class
  * Get all available carriers for a platform
  * Note that you need this request only if you plan to develop your own platform or module.
  */
@@ -22,7 +22,7 @@ $zone = array(
 $env = 'test';
 $module_platform = 'prestashop';
 $module_version = '3.0.0';
-$lib = new Env_CarriersList($credentials[$env]);
+$lib = new EnvCarriersList($credentials[$env]);
 $lib->setEnv($env);
 $lib->getCarriersList($module_platform,$module_version);
 
