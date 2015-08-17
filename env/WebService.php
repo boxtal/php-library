@@ -363,10 +363,10 @@ class EnvWebService
 
         // Hard set in french
         foreach ($this->options as $value) {
-            if (strpos($value['CURLOPT_URL'], "?")) {
-                $value['CURLOPT_URL'] .= "&locale=fr_FR";
+            if (strpos($value[CURLOPT_URL], "?")) {
+                $value[CURLOPT_URL] .= "&locale=fr_FR";
             } else {
-                $value['CURLOPT_URL'] .= "?locale=fr_FR";
+                $value[CURLOPT_URL] .= "?locale=fr_FR";
             }
         }
     }
