@@ -157,6 +157,13 @@ class EnvWebService
     protected $module_version = '1.1.5';
 
     /**
+     * Return.xml upload directory
+     * @access protected
+     * @var string
+     */
+    protected $uploadDir = '';
+
+    /**
      * Class constructor.
      * @access public
      * @param Array $auth Array with authentication credentials.
@@ -166,6 +173,9 @@ class EnvWebService
     {
         $this->auth = $auth;
         $this->param = array();
+
+        /* set upload directory default value */
+        $this->setUploadDir($_SERVER['DOCUMENT_ROOT']);
     }
 
     /**
@@ -192,7 +202,7 @@ class EnvWebService
         curl_setopt_array($req, $this->options);
         $result = curl_exec($req);
         // You can uncomment this fragment to see the content returned by API
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/return.xml', $result);
+        file_put_contents($this->uploadDir . '/return.xml', $result);
         $curl_info = curl_getinfo($req);
         $content_type = explode(';', $curl_info['content_type']);
         if (curl_errno($req) > 0) {
@@ -279,7 +289,7 @@ class EnvWebService
         foreach ($ch as $k => $c) {
             $data[$k] = curl_multi_getcontent($c);
             curl_multi_remove_handle($mh, $c);
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/return.xml', $data[$k]);
+            file_put_contents($this->uploadDir . '/return.xml', $data[$k]);
         }
 
         foreach ($ch as $k => $c) {
@@ -572,6 +582,17 @@ class EnvWebService
             $var = 'server_' . $env;
             $this->server = $this->$var;
         }
+    }
+
+    /**
+     * Sets return.xml upload directory.
+     * @access public
+     * @param String $url upload directory.
+     * @return Void
+     */
+    public function setUploadDir($url)
+    {
+        $this->uploadDir = $url;
     }
 
     public function setParam($param)
