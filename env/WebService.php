@@ -1,27 +1,22 @@
 <?php
 /**
-* 2007-2015 PrestaShop
+* 2011-2015 Boxtale
 *
 * NOTICE OF LICENSE
 *
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* DISCLAIMER
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
 *
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-* @author    EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2007-2015 PrestaShop SA / 2011-2015 EnvoiMoinsCher
-* @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-* International Registred Trademark & Property of PrestaShop SA
+* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
+* @copyright 2011-2015 Boxtale
+* @license   http://www.gnu.org/licenses/
 */
 
 define('ENV_TEST', 'test');
@@ -106,6 +101,13 @@ class EnvWebService
      * @var DOMXPath
      */
     public $xpath = null;
+
+    /**
+     * cUrl Timeout
+     * @access public
+     * @var int
+     */
+    public $timeout =  null;
 
     /**
      * A public variable determines if we have check certificate in function of your request environment.
@@ -347,6 +349,9 @@ class EnvWebService
         } else {
             $this->options[CURLOPT_URL] .= "?locale=fr_FR";
         }
+        if ($this->timeout != null) {
+            $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
+        }
     }
 
     /**
@@ -367,8 +372,8 @@ class EnvWebService
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
                     'access_key : ' . $this->auth['key'] . ''),
-                CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
-
+                CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt')
+               + ( ($this->timeout != null) ? array(CURLOPT_TIMEOUT_MS => $this->timeout) : array());
         }
 
         // Hard set in french
@@ -406,6 +411,19 @@ class EnvWebService
         $this->param['module_version'] = $this->module_version;
         $this->options[CURLOPT_POST] = true;
         $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
+    }
+
+    /**
+     * Sets The maximum number of milliseconds to allow cURL functions to execute.
+     * @access public
+     * @param Integer $time The timeout in milliseconds.
+     * @return Void
+     */
+    public function setTimeout($time)
+    {
+        if ($time != null) {
+            $this->timeout = $time;
+        }
     }
 
     /**
