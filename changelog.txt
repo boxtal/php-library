@@ -1,0 +1,2 @@
+Release 1.1.5 25/01/2016
+ - [AD] Fixed examples and index, updated library with setLocale
