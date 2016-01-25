@@ -9,17 +9,19 @@ $credentials = array
   ),
   'prod' => array
   (
-    'user'	=> 'lionelT',
-    'pass'	=> 'lionelT',
-    'key'	=> 'lyzysyj1'
+    'user'	=> 'arnauddutant',
+    'pass'	=> 'developpeur',
+    'key'	=> 'k1t40vnf'
   ),
 );
+
+$env = 'test'; // change to 'prod' to test production server (this WILL make an order if you test makeOrder function !)
 
 function handle_errors($lib)
 {
 	if ($lib->resp_error)
 	{
-    echo "Invalid request : ";
+    echo "Invalid request: ";
     foreach($lib->resp_errors_list as $m => $message)
     { 
       echo "<br />".$message["message"];
@@ -27,7 +29,7 @@ function handle_errors($lib)
 	}
 	elseif($lib->curl_error)
 	{
-		echo "Unable tu send the request : ".$lib->curl_error_text;
+		echo "Unable to send the request: ".$lib->curl_error_text;
 	}
 }
 

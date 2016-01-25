@@ -1,7 +1,25 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 require_once('../utils/header.php');
-require_once('../utils/autoload.php');
+
+// load config
+require_once('../utils/config.php');
+
+// load all classes
+require_once('../env/WebService.php');
+require_once('../env/Carrier.php');
+require_once('../env/CarriersList.php');
+require_once('../env/ContentCategory.php');
+require_once('../env/Country.php');
+require_once('../env/ListPoints.php');
+require_once('../env/News.php');
+require_once('../env/OrderStatus.php');
+require_once('../env/Parameters.php');
+require_once('../env/ParcelPoint.php');
+require_once('../env/Quotation.php');
+require_once('../env/Service.php');
+require_once('../env/User.php');
+
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 
@@ -15,16 +33,16 @@ define('ERROR',3);			// At least one critical error
  * To add a new class to the test, add it in this array, and create the corresponding test function
  */
 $_CLASSES = array(
-	'Env_Carrier',
-	'Env_ContentCategory',
-	'Env_ListPoints',
-	'Env_Country',
-	'Env_ParcelPoint',
-	'Env_OrderStatus',
-	'Env_Service',
-	'Env_User',
-	'Env_Quotation'
-	);
+	'EnvCarrier',
+	'EnvContentCategory',
+	'EnvListPoints',
+	'EnvCountry',
+	'EnvParcelPoint',
+	'EnvOrderStatus',
+	'EnvService',
+	'EnvUser',
+	'EnvQuotation'
+);
 	
 /* Test functions corresponding to their classes, each one must return an array of this configuration :
  * $result 							=> array(
@@ -89,24 +107,24 @@ function microtime_float(){
     return ((float)$usec + (float)$sec);
 }
  
-function test_Env_Carrier($userData){
+function test_EnvCarrier($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_Carrier(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
+	$env = new EnvCarrier($userData);
+	$env->setEnv($env); 
 	$env->getCarriers();
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -169,31 +187,31 @@ function test_Env_Carrier($userData){
 			}
 		}
 	}
-	
+
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_ContentCategory($userData){
+function test_EnvContentCategory($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_ContentCategory(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
+	$env = new EnvContentCategory($userData);
+	$env->setEnv($env); 
 	// Gather categories
 	$env->getCategories();
 	// Gather contents
 	$env->getContents(); 
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -250,25 +268,25 @@ function test_Env_ContentCategory($userData){
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_ListPoints($userData){
+function test_EnvListPoints($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_ListPoints(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
-	$params = array('srv_code' => 'RelaisColis', 'pays' => 'FR', 'cp' => '75011', 'ville' => 'PARIS');
-	$env->getListPoints("SOGP", $params);
+	$env = new EnvListPoints($userData);
+	$env->setEnv($env); 
+	$params = array('srv_code' => 'CpourToi', 'pays' => 'FR', 'cp' => '75011', 'ville' => 'PARIS');
+	$env->getListPoints("MONR", $params);
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -283,69 +301,69 @@ function test_Env_ListPoints($userData){
 	/* Test for the result structure */
 	$result['additionals'][0]['name'] = 'Structure';
 	$result['additionals'][0]['state'] = OK;
-	if (count($env->listPoints) == 0){
+	if (count($env->list_points) == 0){
 		$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-		$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$listPoints array is empty';
+		$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$list_points array is empty';
 	}
 	else{
-		foreach($env->listPoints as $x => $content){
-			if (!isset($env->listPoints[$x]['code'])){
+		foreach($env->list_points as $x => $content){
+			if (!isset($env->list_points[$x]['code'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['name'])){
+			if (!isset($env->list_points[$x]['name'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"name" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"name" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['address'])){
+			if (!isset($env->list_points[$x]['address'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['city'])){
+			if (!isset($env->list_points[$x]['city'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"city" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"city" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['zipcode'])){
+			if (!isset($env->list_points[$x]['zipcode'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"zipcode" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"zipcode" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['country'])){
+			if (!isset($env->list_points[$x]['country'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"country" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"country" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['description'])){
+			if (!isset($env->list_points[$x]['description'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->listPoints[$x]['days'])){
+			if (!isset($env->list_points[$x]['days'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $listPoints['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $list_points['.$x.'] array';
 			}
-			else if (count($env->listPoints[$x]['days']) != 7){
+			else if (count($env->list_points[$x]['days']) != 7){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" should contains 7 days info, but contains ' . count($env->contents[$x]['days']) . ' instead';
 			}
-			if (isset($env->listPoints[$x]['days'])){
-				foreach($env->listPoints[$x]['days'] as $j => $day){
-					if (!isset($env->listPoints[$x]['days'][$j]['weekday'])){
+			if (isset($env->list_points[$x]['days'])){
+				foreach($env->list_points[$x]['days'] as $j => $day){
+					if (!isset($env->list_points[$x]['days'][$j]['weekday'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $listPoints['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $list_points['.$x.']["days"]['.$j.'] array';
 					}
-					if (!isset($env->listPoints[$x]['days'][$j]['open_am'])){
+					if (!isset($env->list_points[$x]['days'][$j]['open_am'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $listPoints['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $list_points['.$x.']["days"]['.$j.'] array';
 					}
-					if (!isset($env->listPoints[$x]['days'][$j]['close_am'])){
+					if (!isset($env->list_points[$x]['days'][$j]['close_am'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $listPoints['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $list_points['.$x.']["days"]['.$j.'] array';
 					}
-					if (!isset($env->listPoints[$x]['days'][$j]['open_pm'])){
+					if (!isset($env->list_points[$x]['days'][$j]['open_pm'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $listPoints['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $list_points['.$x.']["days"]['.$j.'] array';
 					}
-					if (!isset($env->listPoints[$x]['days'][$j]['close_pm'])){
+					if (!isset($env->list_points[$x]['days'][$j]['close_pm'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $listPoints['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $list_points['.$x.']["days"]['.$j.'] array';
 					}
 				}
 			}
@@ -355,25 +373,25 @@ function test_Env_ListPoints($userData){
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_Country($userData){
+function test_EnvCountry($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_Country(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
+	$env = new EnvCountry($userData);
+	$env->setEnv($env); 
 	$env->getCountries();
 	$env->getCountry("NL");
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -424,33 +442,31 @@ function test_Env_Country($userData){
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_ParcelPoint($userData){
+function test_EnvParcelPoint($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_ParcelPoint(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
-	$env->constructList = true;
-	$env->getParcelPoint("dropoff_point", "SOGP-C3084");
-	$env->getParcelPoint("dropoff_point", "SOGP-C3159"); 
-	$env->getParcelPoint("dropoff_point", "SOGP-C3065"); 
-	$env->getParcelPoint("dropoff_point", "SOGP-C3137");  
-	$env->getParcelPoint("pickup_point", "SOGP-C3059"); 
-	$env->getParcelPoint("pickup_point", "SOGP-C3210"); 
-	$env->getParcelPoint("pickup_point", "SOGP-C3138"); 
+	$env = new EnvParcelPoint($userData);
+	$env->setEnv($env); 
+	$env->construct_list = true;
+	$env->getParcelPoint("dropoff_point", "SOGP-C1160");
+	$env->getParcelPoint("dropoff_point", "SOGP-C1258"); 
+	$env->getParcelPoint("dropoff_point", "SOGP-C1046"); 
+	$env->getParcelPoint("dropoff_point", "SOGP-C1149");  
+	$env->getParcelPoint("pickup_point", "SOGP-C1250"); 
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
-		}  
+		}
 	}
 	else
 	{
@@ -475,75 +491,73 @@ function test_Env_ParcelPoint($userData){
 			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$points["'.$type.'"] array is empty';
 		}
 		else{
-			foreach($env->points[$type] as $x => $content){
-				if (!isset($env->points[$type][$x]['code'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['name'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"name" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['address'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['city'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"city" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['zipcode'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"zipcode" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['country'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"country" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['description'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				if (!isset($env->points[$type][$x]['schedule'])){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $points["'.$type.'"]['.$x.'] array';
-				}
-				else if (count($env->points[$type][$x]['schedule']) != 7){
-					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" should contains 7 days info, but contains ' . count($env->contents[$x]['days']) . ' instead';
-				}
-				if (isset($env->points[$type][$x]['schedule'])){
-					foreach($env->points[$type][$x]['schedule'] as $j => $day){
-						if (!isset($env->points[$type][$x]['schedule'][$j]['weekday'])){
-							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $points["'.$type.'"]['.$x.']["days"]['.$j.'] array';
-						}
-						if (!isset($env->points[$type][$x]['schedule'][$j]['open_am'])){
-							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $points["'.$type.'"]['.$x.']["days"]['.$j.'] array';
-						}
-						if (!isset($env->points[$type][$x]['schedule'][$j]['close_am'])){
-							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $points["'.$type.'"]['.$x.']["days"]['.$j.'] array';
-						}
-						if (!isset($env->points[$type][$x]['schedule'][$j]['open_pm'])){
-							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $points["'.$type.'"]['.$x.']["days"]['.$j.'] array';
-						}
-						if (!isset($env->points[$type][$x]['schedule'][$j]['close_pm'])){
-							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $points["'.$type.'"]['.$x.']["days"]['.$j.'] array';
-						}
-					}
-				}
-			}
+            if (!isset($env->points[$type]['code'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['name'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"name" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['address'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['city'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"city" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['zipcode'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"zipcode" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['country'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"country" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['description'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $points["'.$type.'"] array';
+            }
+            if (!isset($env->points[$type]['schedule'])){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $points["'.$type.'"] array';
+            }
+            else if (count($env->points[$type]['schedule']) != 7){
+                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" should contains 7 days info, but contains ' . count($env->points[$type]['schedule']) . ' instead';
+            }
+            if (isset($env->points[$type]['schedule'])){
+                foreach($env->points[$type]['schedule'] as $j => $day){
+                    if (!isset($env->points[$type]['schedule'][$j]['weekday'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    }
+                    if (!isset($env->points[$type]['schedule'][$j]['open_am'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    }
+                    if (!isset($env->points[$type]['schedule'][$j]['close_am'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    }
+                    if (!isset($env->points[$type]['schedule'][$j]['open_pm'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    }
+                    if (!isset($env->points[$type]['schedule'][$j]['close_pm'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    }
+                }
+            }
 		}
 	}
 	
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_OrderStatus($userData){
+function test_EnvOrderStatus($userData){
 	/* Create an order for the test */
 	/* Initialisation */
 	$orderPassed = "1306261940UPSE8302AU";
@@ -552,19 +566,19 @@ function test_Env_OrderStatus($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_OrderStatus(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
+	$env = new EnvOrderStatus($userData);
+	$env->setEnv($env); 
 	$env->getOrderInformations($orderPassed);
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -579,40 +593,40 @@ function test_Env_OrderStatus($userData){
 	/* Test for the result structure */
 	$result['additionals'][0]['name'] = 'Structure';
 	$result['additionals'][0]['state'] = OK;
-	if (count($env->orderInfo) == 0){
+	if (count($env->order_info) == 0){
 			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$orderInfo array is empty';
+			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$order_info array is empty';
 	}
 	else{
-		if (!isset($env->orderInfo['emcRef'])){
+		if (!isset($env->order_info['emcRef'])){
 			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $orderInfo array';
+			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $order_info array';
 		}
-		if (!isset($env->orderInfo['state'])){
+		if (!isset($env->order_info['state'])){
 			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $orderInfo array';
+			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $order_info array';
 		}
-		if (!isset($env->orderInfo['opeRef'])){
+		if (!isset($env->order_info['opeRef'])){
 			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $orderInfo array';
+			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $order_info array';
 		}
-		if (!isset($env->orderInfo['labelAvailable'])){
+		if (!isset($env->order_info['labelAvailable'])){
 			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $orderInfo array';
+			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emcRef" not defined in $order_info array';
 		}
-		else if ($env->orderInfo['labelAvailable']){
-			if (!isset($env->orderInfo['labelUrl'])){
+		else if ($env->order_info['labelAvailable']){
+			if (!isset($env->order_info['labelUrl'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"labelUrl" not defined in $orderInfo array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"labelUrl" not defined in $order_info array';
 			}
-			if (!isset($env->orderInfo['labels'])){
+			if (!isset($env->order_info['labels'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"labels" not defined in $orderInfo array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"labels" not defined in $order_info array';
 			}
 			else{
-				if (count($env->orderInfo['labels']) == 0){
+				if (count($env->order_info['labels']) == 0){
 					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$orderInfo["labels"] array is empty';
+					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$order_info["labels"] array is empty';
 				}
 			}
 		}
@@ -621,24 +635,24 @@ function test_Env_OrderStatus($userData){
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_Service($userData){
+function test_EnvService($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_Service(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
+	$env = new EnvService($userData);
+	$env->setEnv($env); 
 	$env->getServices();
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -659,140 +673,103 @@ function test_Env_Service($userData){
 	}
 	else{
 		foreach($env->carriers as $code => $carrier){
-			if (!isset($env->carriers[$code]['label'])){
+			if (!isset($carrier['label'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['code'])){
+			if (!isset($carrier['code'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['logo'])){
+			if (!isset($carrier['logo'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"logo" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['logo_modules'])){
+			if (!isset($carrier['logo_modules'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"logo_modules" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['description'])){
+			if (!isset($carrier['description'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['address'])){
+			if (!isset($carrier['address'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['url'])){
+			if (!isset($carrier['url'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"url" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['tracking'])){
+			if (!isset($carrier['tracking'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"tracking" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['tel'])){
+			if (!isset($carrier['tel'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"tel" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['cgv'])){
+			if (!isset($carrier['cgv'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"cgv" not defined in $carriers["'.$code.'"] array';
 			}
-			if (!isset($env->carriers[$code]['services'])){
+			if (!isset($carrier['services'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"services" not defined in $carriers["'.$code.'"] array';
 			}
 			else{
-				if (count($env->carriers[$code]['services']) == 0){
+				if (count($carrier['services']) == 0){
 					$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
 					$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"] array is empty';
 				}
 				else{
-					foreach($env->carriers[$code]['services'] as $s => $service){
-						if (!isset($env->carriers[$code]['services'][$s]['code'])){
+					foreach($carrier['services'] as $s => $service){
+						if (!isset($service['code'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['label'])){
+						if (!isset($service['label'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['mode'])){
+						if (!isset($service['mode'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"mode" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['alert'])){
+						if (!isset($service['alert'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"alert" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['collection'])){
+						if (!isset($service['collection'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"collection" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['delivery'])){
+						if (!isset($service['delivery'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"delivery" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['is_pluggable'])){
+						if (!isset($service['is_pluggable'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"is_pluggable" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['options'])){
+						if (!isset($service['options'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"options" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
 						else{
-							if (count($env->carriers[$code]['services'][$s]['options']) == 0){
+							if (count($service['options']) == 0){
 								$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
 								$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"]["'.$s.'"]["options"] array is empty';
 							}
-							else{
-								foreach($env->carriers[$code]['services'][$s]['options'] as $o => $option){
-									if (!isset($env->carriers[$code]['services'][$s]['options'][$o]['label'])){
-										$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-										$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"]["options"]["'.$o.'"] array';
-									}
-								}
-							}
 						}
-						if (!isset($env->carriers[$code]['services'][$s]['exclusions'])){
+						if (!isset($service['exclusions'])){
 							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"exclusions" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
 						}
 						else{
-							if (count($env->carriers[$code]['services'][$s]['exclusions']) == 0){
+							if (count($service['exclusions']) == 0){
 								$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
 								$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"]["'.$s.'"]["exclusions"] array is empty';
-							}
-							else{
-								foreach($env->carriers[$code]['services'][$s]['exclusions'] as $e => $exclusion){
-									if (!isset($env->carriers[$code]['services'][$s]['exclusions'][$e]['label'])){
-										$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-										$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"]["exclusions"]["'.$e.'"] array';
-									}
-								}
-							}
-						}
-						if (!isset($env->carriers[$code]['services'][$s]['apiOptions'])){
-							$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-							$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"apiOptions" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-						}
-						else{
-							if (count($env->carriers[$code]['services'][$s]['apiOptions']) == 0){
-								//$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-								//$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"]["'.$s.'"]["apiOptions"] array is empty';
-							}
-							else{
-								
-								foreach($env->carriers[$code]['services'][$s]['apiOptions'] as $e => $apiOption){
-									foreach($env->carriers[$code]['services'][$s]['apiOptions'][$e] as $e2 => $apiOption2){
-										if (!isset($env->carriers[$code]['services'][$s]['apiOptions'][$e][$e2])){
-											$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-											$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"'.$e2.'" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"]["apiOptions"]["'.$e.'"] array';
-										}
-									}
-								}
 							}
 						}
 					}
@@ -804,24 +781,24 @@ function test_Env_Service($userData){
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_User($userData){
+function test_EnvUser($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new Env_User(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$env->setEnv('test'); 
+	$env = new EnvUser($userData);
+	$env->setEnv($env); 
 	$env->getEmailConfiguration();
 	
 	/* Reception test */
-	if($env->curlError){
+	if($env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($env->respError){
+	else if ($env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($env->respErrorsList as $message) { 
+		foreach($env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -836,26 +813,26 @@ function test_Env_User($userData){
 	/* Test for the result structure */
 	$result['additionals'][0]['name'] = 'Structure';
 	$result['additionals'][0]['state'] = OK;
-	if (!isset($env->userConfiguration['emails'])){
+	if (!isset($env->user_configuration['emails'])){
 		$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-		$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emails" not defined in $userConfiguration array';
+		$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emails" not defined in $user_configuration array';
 	}
 	else{
-		if (count($env->userConfiguration['emails']) == 0){
+		if (count($env->user_configuration['emails']) == 0){
 			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$userConfiguration array is empty';
+			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$user_configuration array is empty';
 		}
 	}
 			
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_Env_Quotation($userData){
+function test_EnvQuotation($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$order_env = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$order_env = new EnvQuotation($userData);
 	$order_from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
 	"ville" => "Paris", "adresse" => "41, rue Saint Augustin | floor nr 3", "civilite" => "M",
 	"prenom" => "Test_prenom", "nom" => "Test_nom", "email" => "dev@boxtale.com",
@@ -887,11 +864,11 @@ function test_Env_Quotation($userData){
 	2 => array("description_en" => "300 editions of L'Equipe newspaper from 1999",
 	"description_fr" => "300 numéros de L'Equipe du 1999",  "nombre" => 300,  "valeur" => 8, 
 	"origine" => "FR", "poids" => 0.1)));
-	$order_env->setEnv('test'); 
+	$order_env->setEnv($env); 
 	$orderPassed = $order_env->makeOrder($order_quotInfo,true);
 	
-	$offer_env = new Env_Quotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
-	$offer_env->setEnv('test'); 
+	$offer_env = new EnvQuotation($userData);
+	$offer_env->setEnv($env); 
 	$offer_to = array(
 		"pays" => "FR", 
 		"code_postal" => "75002", 
@@ -931,25 +908,25 @@ function test_Env_Quotation($userData){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while making the order (makeOrder returned false)';
 	}
-	if($order_env->curlError){
+	if($order_env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($order_env->respError){
+	else if ($order_env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($order_env->respErrorsList as $message) { 
+		foreach($order_env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
-	else if($offer_env->curlError){
+	else if($offer_env->curl_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
 	}
-	else if ($offer_env->respError){
+	else if ($offer_env->resp_error){
 		$result['reception'] = max($result['reception'],ERROR);
 		$result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-		foreach($offer_env->respErrorsList as $message) { 
+		foreach($offer_env->resp_errors_list as $message) { 
 			$result['reception_info'][count($result['reception_info'])] = $message['message'];
 		}  
 	}
@@ -1381,6 +1358,7 @@ function test_Env_Quotation($userData){
 				<td>Additional tests</td>
 			</tr>
 <?php
+            $userData = $credentials[$env];
 			foreach($_CLASSES as $class){
 				$result = array();
 				try{

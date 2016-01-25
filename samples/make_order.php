@@ -2,7 +2,8 @@
 /* Example of use for EnvListPoints class  
  * Make an order
  */
-
+$folder = '../';
+require_once('../utils/header.php');
 require_once('../utils/config.php');
 require_once('../env/WebService.php');
 require_once('../env/Quotation.php');
@@ -19,7 +20,7 @@ $from = array(
 	'nom' => 'nom',
 	'email' => 'informationapi@envoimoinscher.com',
 	'tel' => '0606060606',
-	'infos' => 'Some informations about my shipment'
+	'infos' => 'Some informations about this address'
 ); 
 $to = array(
 	'pays' => 'FR', 
@@ -32,7 +33,7 @@ $to = array(
 	'nom' => 'nom',
 	'email' => 'informationapi@envoimoinscher.com',
 	'tel' => '0606060606',
-	'infos' => 'Some informations about my shipment'
+	'infos' => 'Some informations about this address'
 );
 	
 /*
@@ -47,26 +48,36 @@ $quot_params = array(
 	'content_code' => 10120,
 	'colis.description' => "books",
 	'assurance.selected' => false,
-	'depot.pointrelais' => 'CHRP-POST',
+	'depot.pointrelais' => 'CHRP-POST', // if not a parcel-point use {operator code}-POST
 	// you can find more informations about what is sent on this url here : http://ecommerce.envoimoinscher.com/api/documentation/url-de-push
 	'url_push' => 'www.my-website.com/push.php&order=N',
-	// even if these parameters are optional we highly recommend you to set the operator and service you want
 	'operator' => 'CHRP',
 	'service' => 'Chrono18',
 );
 
 // Prepare and execute the request
 $env = 'test';
+$locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
 $lib = new EnvQuotation($credentials[$env]);
 $lib->setPerson('shipper', $from);
 $lib->setPerson('recipient', $to);
 $lib->setEnv($env);
+$lib->setLocale($locale);
+$lib->setType('colis',
+	array(
+		1 => array('poids' => 21, 'longueur' => 7, 'largeur' => 8, 'hauteur' => 11)
+  )
+);
+
+/* Optionally you can send two parcels in one order like this
 $lib->setType('colis',
 	array(
 		1 => array('poids' => 21, 'longueur' => 7, 'largeur' => 8, 'hauteur' => 11), 
-		2 => array('poids' => 21, 'longueur' => 7, 'largeur' => 8, 'hauteur' => 11)
+		2 => array('poids' => 15, 'longueur' => 9, 'largeur' => 8, 'hauteur' => 11)
   )
 );
+*/
+
 $orderPassed = $lib->makeOrder($quot_params); 
 
 if(!$lib->curl_error && !$lib->resp_error)
@@ -80,4 +91,5 @@ if(!$lib->curl_error && !$lib->resp_error)
 }
 
 handle_errors($lib);
+require_once('../utils/footer.php');
 ?> 

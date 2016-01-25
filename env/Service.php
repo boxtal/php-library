@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -29,7 +29,7 @@ class EnvService extends EnvCarrier
      */
     public function getServices()
     {
-        $this->setOptions(array('action' => '/api/v1/services'));
+        $this->setOptions(array('action' => 'api/v1/services'));
         $this->doServicesRequest();
     }
 
@@ -70,7 +70,7 @@ class EnvService extends EnvCarrier
         if (isset($this->carriers[$code]['services'])) {
             return $this->carriers[$code]['services'];
         }
-        $this->setOptions(array('action' => '/api/v1/carrier/' . $code . '/services'));
+        $this->setOptions(array('action' => 'api/v1/carrier/' . $code . '/services'));
         $this->doServicesRequest();
     }
 

@@ -3,7 +3,8 @@
  * Get all available offers for your send
  * You can find more informations about quotation's request here : http://ecommerce.envoimoinscher.com/api/documentation/cotations/
  */
- 
+$folder = '../';
+require_once('../utils/header.php');
 require_once('../utils/config.php');
 require_once('../env/WebService.php');
 require_once('../env/Quotation.php');
@@ -18,15 +19,15 @@ $from = array(
 ); 
 $to = array(
 	'pays' => 'FR', 
-	'code_postal' => '75002', 
-	'ville' => 'Paris', 
+	'code_postal' => '33000', 
+	'ville' => 'Bordeaux', 
 	'type' => 'particulier', 
-	'adresse' => '41, rue Saint Augustin'
+	'adresse' => '24, rue des Ayres'
 );
 	
 /*
  * $quot_params contains all additional parameters for your request, it includes filters or offer's options 
- * A list of all possible parameters is available here : http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+ * A list of all possible parameters is available here: http://ecommerce.envoimoinscher.com/api/documentation/commandes/
  */
 $quot_params = array(
 	'collecte' => date("Y-m-d"),
@@ -36,10 +37,12 @@ $quot_params = array(
 	
 // Prepare and execute the request
 $env = 'test';
+$locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
 $lib = new EnvQuotation($credentials[$env]);
 $lib->setPerson('shipper', $from);
 $lib->setPerson('recipient', $to);
-$lib->setEnv($env); 
+$lib->setEnv($env);
+$lib->setLocale($locale);
 $lib->setType(
 	'colis', 
 	array(
@@ -51,6 +54,15 @@ $lib->setType(
 		)
 	)
 );
+/* Optionally you can define which carriers you want to quote if you don't want to quote all carriers
+$quot_params['offers'] = array(
+    0 => 'MONRCpourToi',
+    1 => 'SOGPRelaisColis',
+    2 => 'POFRColissimoAccess',
+    3 => 'CHRPChrono13'
+);
+*/
+
 $lib->getQuotation($quot_params);
 $lib->getOffers();
 
@@ -67,8 +79,8 @@ table tr td {border:1px solid #000000; padding:5px; }
 			<td>Price</td>
 			<td>Collect</td>
 			<td>Delivery</td>
-			<td>DétaDetailsils</td>
-			<td>Alert</td>
+			<td>Details</td>
+			<td>Warning</td>
 			<td>Mandatory informations</td>
 		</tr>
 	</thead>
@@ -90,4 +102,5 @@ table tr td {border:1px solid #000000; padding:5px; }
 }
 
 handle_errors($lib);
+require_once('../utils/footer.php');
 ?>

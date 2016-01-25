@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -68,7 +68,7 @@ class EnvListPoints extends EnvWebService
     {
         $this->param = $infos;
         $this->setGetParams(array());
-        $this->setOptions(array('action' => '/api/v1/' . $ope . '/listpoints'));
+        $this->setOptions(array('action' => 'api/v1/' . $ope . '/listpoints'));
         $this->doListRequest();
     }
 

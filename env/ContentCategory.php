@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -58,7 +58,7 @@ class EnvContentCategory extends EnvWebService
      */
     public function getCategories()
     {
-        $this->setOptions(array('action' => '/api/v1/content_categories'));
+        $this->setOptions(array('action' => 'api/v1/content_categories'));
         $this->doCatRequest();
     }
 
@@ -69,7 +69,7 @@ class EnvContentCategory extends EnvWebService
      */
     public function getContents()
     {
-        $this->setOptions(array('action' => '/api/v1/contents'));
+        $this->setOptions(array('action' => 'api/v1/contents'));
         $this->doConRequest();
     }
 
@@ -106,7 +106,7 @@ class EnvContentCategory extends EnvWebService
     private function doConRequest()
     {
         $source = parent::doRequest();
-
+        
         /* We make sure there is an XML answer and try to parse it */
         if ($source !== false) {
             parent::parseResponse($source);
@@ -115,13 +115,12 @@ class EnvContentCategory extends EnvWebService
                 $contents = $this->xpath->query('/contents/content');
                 foreach ($contents as $content) {
                     $category_id = $this->xpath->query('./category', $content)->item(0)->nodeValue;
-                    if (isset($this->contents[$category_id])) {
-                        $i = count($this->contents[$category_id]);
-                        $this->contents[$category_id][$i] = array(
-                            'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
-                            'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
-                            'category' => $category_id);
-                    }
+                    if (!isset($this->contents[$category_id])) $this->contents[$category_id] = array();
+                    array_push($this->contents[$category_id], array(
+                        'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
+                        'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
+                        'category' => $category_id)
+                    );
                 }
             }
         }
