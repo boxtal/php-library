@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -58,7 +58,7 @@ class EnvContentCategory extends EnvWebService
      */
     public function getCategories()
     {
-        $this->setOptions(array('action' => '/api/v1/content_categories'));
+        $this->setOptions(array('action' => 'api/v1/content_categories'));
         $this->doCatRequest();
     }
 
@@ -69,7 +69,7 @@ class EnvContentCategory extends EnvWebService
      */
     public function getContents()
     {
-        $this->setOptions(array('action' => '/api/v1/contents'));
+        $this->setOptions(array('action' => 'api/v1/contents'));
         $this->doConRequest();
     }
 

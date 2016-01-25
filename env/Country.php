@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -74,7 +74,7 @@ class EnvCountry extends EnvWebService
      */
     public function getCountries()
     {
-        $this->setOptions(array('action' => '/api/v1/countries'));
+        $this->setOptions(array('action' => 'api/v1/countries'));
         $this->doCtrRequest();
     }
 

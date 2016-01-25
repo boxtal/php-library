@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -43,18 +43,19 @@ class EnvUser extends EnvWebService
      */
     public function getPartnership()
     {
-        $this->setOptions(array('action' => '/api/v1/partnership'));
+        $this->setOptions(array('action' => 'api/v1/partnership'));
         $this->setPartnership();
     }
 
     /**
      * Gets information about e-mail configuration for logged user.
+     * This function is rendered useless by getUserDetails function
      * @access public
      * @return Void
      */
     public function getEmailConfiguration()
     {
-        $this->setOptions(array('action' => '/api/v1/emails_configuration'));
+        $this->setOptions(array('action' => 'api/v1/emails_configuration'));
         $this->setEmailConfiguration();
     }
 
@@ -68,7 +69,7 @@ class EnvUser extends EnvWebService
      */
     public function postEmailConfiguration($params)
     {
-        $this->setOptions(array('action' => '/api/v1/emails_configuration'));
+        $this->setOptions(array('action' => 'api/v1/emails_configuration'));
         $this->param = $params;
         $this->setPost();
         $this->setEmailConfiguration();

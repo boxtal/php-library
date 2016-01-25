@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -158,13 +158,13 @@ class EnvQuotation extends EnvWebService
      */
     protected $ship_reasons = array(
         'sale' => 'sale',
-        'repair' => 'repr',
-        'return' => 'rtrn',
+        'repr' => 'repair',
+        'rtrn' => 'return',
         'gift' => 'gift',
-        'sample' => 'smpl',
-        'personnal' => 'prsu',
-        'document' => 'icdt',
-        'other' => 'othr');
+        'smpl' => 'sample',
+        'prsu' => 'personal',
+        'icdt' => 'documents',
+        'othr' => 'other');
 
     /**
      * Public setter used to pass proforma parameters into the api request.
@@ -252,7 +252,7 @@ class EnvQuotation extends EnvWebService
     {
         $this->param = array_merge($this->param, $quot_info);
         $this->setGetParams(array());
-        $this->setOptions(array('action' => '/api/v1/cotation'));
+        $this->setOptions(array('action' => 'api/v1/cotation'));
 
         return $this->doSimpleRequest();
     }
@@ -275,7 +275,7 @@ class EnvQuotation extends EnvWebService
     public function getQuotationMulti()
     {
         $this->setGetParamsMulti(array());
-        $this->setOptionsMulti(array('action' => '/api/v1/cotation'));
+        $this->setOptionsMulti(array('action' => 'api/v1/cotation'));
         return $this->doSimpleRequestMulti();
     }
 
@@ -551,14 +551,14 @@ class EnvQuotation extends EnvWebService
         $this->quot_info = $quot_info;
         $this->get_info = $get_info;
         if (isset($quot_info['reason']) && $quot_info['reason']) {
-            $quot_info['envoi.raison'] = $this->ship_reasons[$quot_info['reason']];
+            $quot_info['envoi.raison'] = array_search($quot_info['reason'], $this->ship_reasons);
             unset($quot_info['reason']);
         }
         if (!isset($quot_info['assurance.selected']) || $quot_info['assurance.selected'] == '') {
             $quot_info['assurance.selected'] = false;
         }
         $this->param = array_merge($this->param, $quot_info);
-        $this->setOptions(array('action' => '/api/v1/order'));
+        $this->setOptions(array('action' => 'api/v1/order'));
         $this->setPost();
 
         if ($this->doSimpleRequest() && !$this->resp_error) {
@@ -581,22 +581,13 @@ class EnvQuotation extends EnvWebService
 
 
     /**
-     * Public getter of shippment reasons
+     * Public getter of shipment reasons
      * @access public
-     * @param Array $translations Array with reasons' translations. You must translate by $this->ship_reasons values,
-     * not the keys.
-     * @return Array Array with shippment reasons, may by used to pro forma generation.
+     * @return Array Array with shipment reasons, may by used to pro forma generation.
      */
-    public function getReasons($translations)
+    public function getReasons()
     {
-        $reasons = array();
-        if (count($translations) == 0) {
-            $translations = $this->ship_reasons;
-        }
-        foreach ($this->ship_reasons as $r => $reason) {
-            $reasons[$reason] = $translations[$r];
-        }
-        return $reasons;
+        return $this->ship_reasons;
     }
 
 

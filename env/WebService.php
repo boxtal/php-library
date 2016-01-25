@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2015 Boxtale
+* 2011-2016 Boxtale
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2015 Boxtale
+* @copyright 2011-2016 Boxtale
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -75,6 +75,13 @@ class EnvWebService
     public $curl_error = false;
 
     /**
+     * A public int which indicates wich curl error number we reach
+     * @access public
+     * @var integer
+     */
+    public $curl_errno = null;
+
+    /**
      * A public variable with curl error text.
      * @access public
      * @var string
@@ -103,7 +110,7 @@ class EnvWebService
     public $xpath = null;
 
     /**
-     * cUrl Timeout
+     * curl Timeout
      * @access public
      * @var int
      */
@@ -166,6 +173,13 @@ class EnvWebService
     protected $uploadDir = '';
 
     /**
+     * Return language code
+     * @access protected
+     * @var string
+     */
+    protected $lang_code = 'fr-FR';
+
+    /**
      * Class constructor.
      * @access public
      * @param Array $auth Array with authentication credentials.
@@ -206,6 +220,7 @@ class EnvWebService
         // You can uncomment this fragment to see the content returned by API
         file_put_contents($this->uploadDir . '/return.xml', $result);
         $curl_info = curl_getinfo($req);
+        $this->curl_errno = curl_errno($req);
         $content_type = explode(';', $curl_info['content_type']);
         if (curl_errno($req) > 0) {
             $this->curl_error = true;
@@ -340,15 +355,10 @@ class EnvWebService
             CURLOPT_URL => $this->server . $options['action'] . $this->get_params,
             CURLOPT_HTTPHEADER => array(
                 'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
-                'access_key : ' . $this->auth['key'] . ''),
+                'access_key : ' . $this->auth['key'] . '',
+                'Accept-Language: '.$this->lang_code),
             CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
 
-        // Hard set in french
-        if (strpos($this->options[CURLOPT_URL], "?")) {
-            $this->options[CURLOPT_URL] .= "&locale=fr_FR";
-        } else {
-            $this->options[CURLOPT_URL] .= "?locale=fr_FR";
-        }
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
         }
@@ -371,18 +381,10 @@ class EnvWebService
                 CURLOPT_URL => $this->server . $options['action'] . $param,
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
-                    'access_key : ' . $this->auth['key'] . ''),
+                    'access_key : ' . $this->auth['key'] . '',
+                    'Accept-Language: '.$this->lang_code),
                 CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt')
                + ( ($this->timeout != null) ? array(CURLOPT_TIMEOUT_MS => $this->timeout) : array());
-        }
-
-        // Hard set in french
-        foreach ($this->options as $value) {
-            if (strpos($value[CURLOPT_URL], "?")) {
-                $value[CURLOPT_URL] .= "&locale=fr_FR";
-            } else {
-                $value[CURLOPT_URL] .= "?locale=fr_FR";
-            }
         }
     }
 
@@ -600,6 +602,17 @@ class EnvWebService
             $var = 'server_' . $env;
             $this->server = $this->$var;
         }
+    }
+
+    /**
+     * Sets locale.
+     * @access public
+     * @param String $lang_code language code. Ex: 'fr-FR', 'en-US'.
+     * @return Void
+     */
+    public function setLocale($lang_code)
+    {
+        $this->lang_code = $lang_code;
     }
 
     /**
