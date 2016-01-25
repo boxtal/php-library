@@ -3,15 +3,15 @@ $credentials = array
 (
   'test' => array
   (
-    'user'	=> 'codersEmc',
-    'pass'	=> 'codersEmc',
-    'key'	=> 'codersEmc'
+    'user'	=> '',
+    'pass'	=> '',
+    'key'	=> ''
   ),
   'prod' => array
   (
-    'user'	=> 'arnauddutant',
-    'pass'	=> 'developpeur',
-    'key'	=> 'k1t40vnf'
+    'user'	=> '',
+    'pass'	=> '',
+    'key'	=> ''
   ),
 );
 
