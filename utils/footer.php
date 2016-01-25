@@ -1,15 +1,15 @@
-<br /><br /><br /><br />
-<p>Autres exemples : <a href="get_categories_simple.php" <?php echo $categoriesStyle;?>>les catégories</a> | 
-<a href="get_country_simple.php" <?php echo $countriesStyle;?>>les pays</a> 
-| <a href="get_point_simple.php" <?php echo $parcelPointsStyle;?>>les points relais</a> 
-| <a href="get_cotation.php" <?php echo $quotationStyle;?>>le devis Nantes - Bordeaux</a> 
-| <a href="get_order.php" <?php echo $orderPMStyle;?>>la commande Paris - Marseille</a> 
-| <a href="get_order_australia.php" <?php echo $orderPSStyle;?>>la commande Paris - Sydney (Australie)</a>
-| <a href="get_cotation.php" <?php echo $quotationPSStyle;?>>le devis Paris - Sydney (Australie)</a> 
-| <a href="get_order_insurance.php" <?php echo $orderPMAStyle;?>>la commande Paris - Marseille (avec l'assurance)</a> 
-| <a href="get_order_double.php" <?php echo $orderDouStyle;?>>la commande Paris - Marseille dans les 2 directions</a> 
+<br /><br />
+<p>Other examples: <a href="<?php echo $folder; ?>samples/get_categories.php">category list</a> | 
+<a href="<?php echo $folder; ?>samples/get_country.php">country list</a> 
+| <a href="<?php echo $folder; ?>samples/get_carriers_list.php">carrier list</a> 
+| <a href="<?php echo $folder; ?>samples/get_list_parcel_points.php">list of parcel points next a given postcode</a> 
+| <a href="<?php echo $folder; ?>samples/get_parcel_point.php">details of given parcel points</a> 
+| <a href="<?php echo $folder; ?>samples/get_cotation.php">Paris to Bordeaux quote</a> 
+| <a href="<?php echo $folder; ?>samples/make_order.php">Marseille to Paris domestic order</a> 
+| <a href="<?php echo $folder; ?>samples/make_order_with_insurance.php">Marseille to Paris domestic order (with insurance)</a> 
+| <a href="<?php echo $folder; ?>samples/make_order_inter.php">Paris to Sydney international order</a>
+| <a href="<?php echo $folder; ?>samples/get_status.php">order status</a>
 </p>
-<p>Regardez aussi : <a href="/api/librairie">quick start</a> | <a href="/api/librairie/documentation">documentation de la librairie</a>
-| <a href="/api/librairie/changelog.html">changelog</a> | <a href="http://test.envoimoinscher.com/api/demo" target="_blank">démonstration de l'API</a></p>
+<p>See also: <a href="<?php echo $folder; ?>index.php">quick start</a> | <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation de la librairie</a></p>
 </body>
 </html>

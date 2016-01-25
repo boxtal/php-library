@@ -3,15 +3,15 @@ $credentials = array
 (
   'test' => array
   (
-    'login'	=> 'codersEmc',
-    'password'	=> 'codersEmc',
-    'api_key'	=> 'codersEmc'
+    'user'	=> 'codersEmc',
+    'pass'	=> 'codersEmc',
+    'key'	=> 'codersEmc'
   ),
   'prod' => array
   (
-    'login'	=> 'arnauddutant',
-    'password'	=> 'developpeur',
-    'api_key'	=> 'k1t40vnf'
+    'user'	=> 'arnauddutant',
+    'pass'	=> 'developpeur',
+    'key'	=> 'k1t40vnf'
   ),
 );
 

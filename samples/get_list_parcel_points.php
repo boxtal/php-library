@@ -2,15 +2,18 @@
 /* Example of use for EnvListPoints class  
  * Load a list of parcel points around a given address
  */ 
- 
+$folder = '../';
+require_once('../utils/header.php');
 require_once('../utils/config.php');
 require_once('../env/WebService.php');
 require_once('../env/ListPoints.php');
 
 // Prepare and execute the request
 $env = 'test';
+$locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
 $lib = new EnvListPoints($credentials[$env]);
 $lib->setEnv($env);
+$lib->setLocale($locale);
 $params = array(
 	'srv_code' => 'RelaisColis',
 	'collecte'=> 'exp',
@@ -43,7 +46,7 @@ $week_days = array(
 		<td>Code</td>
 		<td>Name</td>
 		<td>Adress</td>
-		<td>Town</td>
+		<td>City</td>
 		<td>Postal code</td>
 		<td>Country</td>
 		<td>Phone</td>
@@ -86,5 +89,6 @@ $week_days = array(
 <?php
 }
 handle_errors($lib);
+require_once('../utils/footer.php');
 ?>
  

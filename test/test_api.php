@@ -112,7 +112,7 @@ function test_EnvCarrier($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvCarrier(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvCarrier($userData);
 	$env->setEnv($env); 
 	$env->getCarriers();
 	
@@ -196,7 +196,7 @@ function test_EnvContentCategory($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvContentCategory(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvContentCategory($userData);
 	$env->setEnv($env); 
 	// Gather categories
 	$env->getCategories();
@@ -273,7 +273,7 @@ function test_EnvListPoints($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvListPoints(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvListPoints($userData);
 	$env->setEnv($env); 
 	$params = array('srv_code' => 'CpourToi', 'pays' => 'FR', 'cp' => '75011', 'ville' => 'PARIS');
 	$env->getListPoints("MONR", $params);
@@ -378,7 +378,7 @@ function test_EnvCountry($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvCountry(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvCountry($userData);
 	$env->setEnv($env); 
 	$env->getCountries();
 	$env->getCountry("NL");
@@ -447,9 +447,9 @@ function test_EnvParcelPoint($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvParcelPoint(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvParcelPoint($userData);
 	$env->setEnv($env); 
-	$env->constructList = true;
+	$env->construct_list = true;
 	$env->getParcelPoint("dropoff_point", "SOGP-C1160");
 	$env->getParcelPoint("dropoff_point", "SOGP-C1258"); 
 	$env->getParcelPoint("dropoff_point", "SOGP-C1046"); 
@@ -566,7 +566,7 @@ function test_EnvOrderStatus($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvOrderStatus(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvOrderStatus($userData);
 	$env->setEnv($env); 
 	$env->getOrderInformations($orderPassed);
 	
@@ -640,7 +640,7 @@ function test_EnvService($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvService(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvService($userData);
 	$env->setEnv($env); 
 	$env->getServices();
 	
@@ -786,7 +786,7 @@ function test_EnvUser($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$env = new EnvUser(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$env = new EnvUser($userData);
 	$env->setEnv($env); 
 	$env->getEmailConfiguration();
 	
@@ -832,7 +832,7 @@ function test_EnvQuotation($userData){
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$order_env = new EnvQuotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$order_env = new EnvQuotation($userData);
 	$order_from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
 	"ville" => "Paris", "adresse" => "41, rue Saint Augustin | floor nr 3", "civilite" => "M",
 	"prenom" => "Test_prenom", "nom" => "Test_nom", "email" => "dev@boxtale.com",
@@ -867,7 +867,7 @@ function test_EnvQuotation($userData){
 	$order_env->setEnv($env); 
 	$orderPassed = $order_env->makeOrder($order_quotInfo,true);
 	
-	$offer_env = new EnvQuotation(array("user" => $userData["login"], "pass" => $userData["password"], "key" => $userData["api_key"]));
+	$offer_env = new EnvQuotation($userData);
 	$offer_env->setEnv($env); 
 	$offer_to = array(
 		"pays" => "FR", 
