@@ -21,15 +21,6 @@ h1, h2, h3, h4, h5, h6, .brand {
     letter-spacing: 0.05em;
 }
 
-#logo{
-padding:5px 20px;
-}
-
-#logo img{
-height:30px;
-width:auto;
-}
-
 h2, h3, .detailsbar h1 {
     overflow:    hidden;
     white-space: nowrap;
