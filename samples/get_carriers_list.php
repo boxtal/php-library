@@ -51,10 +51,10 @@ if(!$lib->curl_error && !$lib->resp_error)
 <?php	foreach($lib->carriers as $carrier){	?>
 		<tr>
 			<td><?php echo $carrier['ope_name']; ?></td>
-            <td><?php echo $carrier['srv_name']; ?></td>
+            <td><?php echo $carrier['srv_name_bo']; ?></td>
 			<td><?php echo $carrier['ope_code']; ?></td>
 			<td><?php echo $carrier['srv_code']; ?></td>
-			<td><?php echo '<u>For sender</u> : '.$carrier['label_store'].'<br/><u>For recipient</u> : '.$carrier['description'].' ('.$carrier['description_store'].')'; ?></td>
+			<td><?php echo $carrier['description']; ?></td>
 			<td><?php echo $family[$carrier['family']]; ?></td>
 			<td><?php echo $zone[$carrier['zone']]; ?></td>
 			<td><?php echo $carrier['parcel_pickup_point']=='1'?'Yes':'No'; ?></td>

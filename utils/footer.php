@@ -10,6 +10,6 @@
 | <a href="<?php echo $folder; ?>samples/make_order_inter.php">Paris to Sydney international order</a>
 | <a href="<?php echo $folder; ?>samples/get_status.php">order status</a>
 </p>
-<p>See also: <a href="<?php echo $folder; ?>index.php">quick start</a> | <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation de la librairie</a></p>
+<p>See also: <a href="<?php echo $folder; ?>index.php">quick start</a> | <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">library documentation (french)</a></p>
 </body>
 </html>
