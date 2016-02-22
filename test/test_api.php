@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE); 
+$folder = '../';
 require_once('../utils/header.php');
 
 // load config
@@ -485,73 +486,76 @@ function test_EnvParcelPoint($userData){
 	}
 	else
 	{
-		foreach($env->points as $type => $points)
-		if (count($env->points[$type]) == 0){
-			$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-			$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$points["'.$type.'"] array is empty';
-		}
-		else{
-            if (!isset($env->points[$type]['code'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['name'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"name" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['address'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['city'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"city" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['zipcode'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"zipcode" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['country'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"country" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['description'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $points["'.$type.'"] array';
-            }
-            if (!isset($env->points[$type]['schedule'])){
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $points["'.$type.'"] array';
-            }
-            else if (count($env->points[$type]['schedule']) != 7){
+		foreach($env->points as $type => $points) {
+            if (count($env->points[$type]) == 0){
                 $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" should contains 7 days info, but contains ' . count($env->points[$type]['schedule']) . ' instead';
+                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$points["'.$type.'"] array is empty';
             }
-            if (isset($env->points[$type]['schedule'])){
-                foreach($env->points[$type]['schedule'] as $j => $day){
-                    if (!isset($env->points[$type]['schedule'][$j]['weekday'])){
-                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+            else{
+                foreach($points as $point) {
+                    if (!isset($point['code'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $points["'.$type.'"] array';
                     }
-                    if (!isset($env->points[$type]['schedule'][$j]['open_am'])){
-                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    if (!isset($point['name'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"name" not defined in $points["'.$type.'"] array';
                     }
-                    if (!isset($env->points[$type]['schedule'][$j]['close_am'])){
-                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    if (!isset($point['address'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $points["'.$type.'"] array';
                     }
-                    if (!isset($env->points[$type]['schedule'][$j]['open_pm'])){
-                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                    if (!isset($point['city'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"city" not defined in $points["'.$type.'"] array';
                     }
-                    if (!isset($env->points[$type]['schedule'][$j]['close_pm'])){
+                    if (!isset($point['zipcode'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"zipcode" not defined in $points["'.$type.'"] array';
+                    }
+                    if (!isset($point['country'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"country" not defined in $points["'.$type.'"] array';
+                    }
+                    if (!isset($point['description'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $points["'.$type.'"] array';
+                    }
+                    if (!isset($point['schedule'])){
+                        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $points["'.$type.'"] array';
+                    }
+                    else if (count($point['schedule']) != 7){
                         $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" should contains 7 days info, but contains ' . count($env->points[$type]['schedule']) . ' instead';
+                    }
+                    if (isset($point['schedule'])){
+                        foreach($point['schedule'] as $j => $day){
+                            if (!isset($point['schedule'][$j]['weekday'])){
+                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                            }
+                            if (!isset($point['schedule'][$j]['open_am'])){
+                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                            }
+                            if (!isset($point['schedule'][$j]['close_am'])){
+                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                            }
+                            if (!isset($point['schedule'][$j]['open_pm'])){
+                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                            }
+                            if (!isset($point['schedule'][$j]['close_pm'])){
+                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
+                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $points["'.$type.'"]["days"]['.$j.'] array';
+                            }
+                        }
                     }
                 }
             }
-		}
+        }
 	}
 	
 	$result['duration'] = microtime_float() - $start;

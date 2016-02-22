@@ -100,19 +100,54 @@ class EnvCarriersList extends EnvWebService
                 $this->carriers[$id]['ope_code'] = $ope_code;
                 $this->carriers[$id]['ope_name'] = $ope_name;
                 $this->carriers[$id]['srv_code'] = $this->xpath->query('./code', $carrier)->item(0)->nodeValue;
-                $this->carriers[$id]['srv_name'] = $this->xpath->query('./label', $carrier)->item(0)->nodeValue;
-                $this->carriers[$id]['label_store'] =
-                  $this->xpath->query('./label_store', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['srv_name_fo'] = $this->xpath->query('./srv_name_fo', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['srv_name_bo'] =
+                  $this->xpath->query('./description_store', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['old_srv_name'] = $this->xpath->query('./label', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['description'] =
                   $this->xpath->query('./description', $carrier)->item(0)->nodeValue;
-                $this->carriers[$id]['description_store'] =
-                  $this->xpath->query('./description_store', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['family'] = $this->xpath->query('./family', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['zone'] = $this->xpath->query('./zone', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['zone_fr'] = $this->xpath->query('./zone_fr', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['zone_eu'] = $this->xpath->query('./zone_eu', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['zone_int'] = $this->xpath->query('./zone_int', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['zone_restriction'] =
+                  $this->xpath->query('./zone_restriction', $carrier)->item(0)->nodeValue;
+                foreach ($this->xpath->query('./details/detail', $carrier) as $detail) {
+                  $this->carriers[$id]['details'][] = $detail->nodeValue;
+                }
+                $this->carriers[$id]['delivery_due_time'] =
+                  $this->xpath->query('./delivery_due_time', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['delivery_type'] =
+                  $this->xpath->query('./delivery_type', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['parcel_pickup_point'] =
                   $this->xpath->query('./parcel_pickup_point', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['parcel_dropoff_point'] =
                   $this->xpath->query('./parcel_dropoff_point', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['pickup_place'] =
+                  $this->xpath->query('./pickup_place', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['dropoff_place'] =
+                  $this->xpath->query('./dropoff_place', $carrier)->item(0)->nodeValue;
+                foreach ($this->xpath->query('./translations/translation', $carrier) as $translation) {
+                    $locale = $this->xpath->query('./locale', $translation)->item(0)->nodeValue;
+                    $this->carriers[$id]['translations']['srv_name_fo'][$locale] = 
+                      $this->xpath->query('./srv_name_fo', $translation)->item(0)->nodeValue;
+                    $this->carriers[$id]['translations']['srv_name_bo'][$locale] = 
+                      $this->xpath->query('./description_store', $translation)->item(0)->nodeValue;
+                    $this->carriers[$id]['translations']['description'][$locale] = 
+                      $this->xpath->query('./description', $translation)->item(0)->nodeValue;
+                    $this->carriers[$id]['translations']['zone_restriction'][$locale] = 
+                      $this->xpath->query('./zone_restriction', $translation)->item(0)->nodeValue;
+                    foreach ($this->xpath->query('./details/detail', $translation) as $detail) {
+                        $this->carriers[$id]['translations']['details'][$locale][] = $detail->nodeValue;
+                    }
+                    $this->carriers[$id]['translations']['delivery_due_time'][$locale] = 
+                      $this->xpath->query('./delivery_due_time', $translation)->item(0)->nodeValue;
+                    $this->carriers[$id]['translations']['pickup_place'][$locale] = 
+                      $this->xpath->query('./pickup_place', $translation)->item(0)->nodeValue;
+                    $this->carriers[$id]['translations']['dropoff_place'][$locale] = 
+                      $this->xpath->query('./dropoff_place', $translation)->item(0)->nodeValue;
+                }
             }
         }
     }
