@@ -851,7 +851,7 @@ function test_EnvQuotation($userData){
 	"operator" => "UPSE",
 	"raison" => "sale",
 	"colis.valeur" => 1200,
-	// "assurance.selected" => false,
+	// "assurance.selection" => false,
 	"colis.description" => "Des journaux",
 	"disponibilite.HDE" => "09:00", 
 	"disponibilite.HLE" => "19:00");
