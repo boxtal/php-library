@@ -1,3 +1,6 @@
+Release 1.2.0 11/03/2016
+ - [AD] API to 1.2.0 + localized insurance items
+ 
 Release 1.1.7 22/02/2016
  - [AD] Added carrier translation
  
