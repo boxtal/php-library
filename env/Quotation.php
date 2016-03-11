@@ -381,7 +381,6 @@ class EnvQuotation extends EnvWebService
                 $options = array();
                 foreach ($options_xpath as $option) {
                     $code_option = $xpath->query('./code', $option)->item(0)->nodeValue;
-                    //$s = $o_key + 1;
                     $options[$code_option] = array(
                         'name' => $xpath->query('./name', $option)->item(0)->nodeValue,
                         'parameters' => array());
@@ -396,9 +395,13 @@ class EnvQuotation extends EnvWebService
                             'values' => array());
                         if (trim($param_type->nodeValue) != '') {
                             $values = array();
-                            foreach ($param_type->getElementsByTagName('enum')->item(0)->childNodes as $param_option) {
-                                if (trim($param_option->nodeValue) != '') {
-                                    $values[$param_option->nodeValue] = $param_option->nodeValue;
+                            $enum = $xpath->query('./enum', $param_type)->item(0);
+                            $param_options = $xpath->query('./value', $enum);
+                            foreach ($param_options as $param_option) {
+                                $param_option_id = $xpath->query('./id', $param_option)->item(0)->nodeValue;
+                                $param_option_label = $xpath->query('./label', $param_option)->item(0)->nodeValue;
+                                if (trim($param_option_id) != '') {
+                                    $values[$param_option_id] = $param_option_label;
                                 }
                             }
                             $options[$code_option]['parameters'][$param_code->nodeValue]['values'] = $values;
@@ -554,8 +557,8 @@ class EnvQuotation extends EnvWebService
             $quot_info['envoi.raison'] = array_search($quot_info['reason'], $this->ship_reasons);
             unset($quot_info['reason']);
         }
-        if (!isset($quot_info['assurance.selected']) || $quot_info['assurance.selected'] == '') {
-            $quot_info['assurance.selected'] = false;
+        if (!isset($quot_info['assurance.selection']) || $quot_info['assurance.selection'] == '') {
+            $quot_info['assurance.selection'] = false;
         }
         $this->param = array_merge($this->param, $quot_info);
         $this->setOptions(array('action' => 'api/v1/order'));

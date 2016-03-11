@@ -47,6 +47,13 @@ class EnvWebService
     private $server_prod = 'https://www.envoimoinscher.com/';
 
     /**
+     * Module version
+     * @access protected
+     * @var string
+     */
+    protected $api_version = '1.2.0';
+    
+    /**
      * A private variable which stocks options to pass into curl query.
      * @access private
      * @var array
@@ -356,7 +363,8 @@ class EnvWebService
             CURLOPT_HTTPHEADER => array(
                 'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
                 'access_key : ' . $this->auth['key'] . '',
-                'Accept-Language: '.$this->lang_code),
+                'Accept-Language: '.$this->lang_code,
+                'Api-Version: '.$this->api_version),
             CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
 
         if ($this->timeout != null) {
@@ -382,7 +390,8 @@ class EnvWebService
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
                     'access_key : ' . $this->auth['key'] . '',
-                    'Accept-Language: '.$this->lang_code),
+                    'Accept-Language: '.$this->lang_code,
+                    'Api-Version: '.$this->api_version),
                 CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt')
                + ( ($this->timeout != null) ? array(CURLOPT_TIMEOUT_MS => $this->timeout) : array());
         }

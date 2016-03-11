@@ -54,11 +54,12 @@ $quot_params = array(
 	'operator' => 'CHRP',
 	'service' => 'Chrono18',
     // for assurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+    // from API version 1.2.0, you have to send ids corresponding to the values sent during quotation
     'assurance.selection' => true,
-    'assurance.emballage' => 'Caisse',
-    'assurance.materiau' => 'Carton',
-    'assurance.protection' => 'Sans protection particulière',
-    'assurance.fermeture' => 'Clous',
+    'assurance.emballage' => 1,
+    'assurance.materiau' => 101,
+    'assurance.protection' => 201,
+    'assurance.fermeture' => 304,
 );
 
 // Prepare and execute the request
