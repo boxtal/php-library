@@ -85,7 +85,7 @@ table tr td {border:1px solid #000000; padding:5px; }
 		</tr>
 	</thead>
 	<tbody>
-<?php foreach($lib->offers as $o => $offre) { ?>
+        <?php foreach($lib->offers as $o => $offre) { ?>
 			<tr>
 				<td><b><?php echo $o;?></b>. <?php echo $offre['operator']['label'];?> / <?php echo $offre['service']['code'];?></td>
 				<td><?php echo $offre['price']['tax-exclusive'];?> <?php echo $offre['price']['currency'];?></td>
@@ -95,7 +95,7 @@ table tr td {border:1px solid #000000; padding:5px; }
 				<td><?php echo $offre['alert']; ?></td>
 				<td><?php foreach($offre['mandatory'] as $m => $mandatory) { ?> - <?php echo $m; ?><br /><?php } ?></td>
 			</tr>
-<?php } ?>
+        <?php } ?>
 	</tbody>
 </table>
 <?php

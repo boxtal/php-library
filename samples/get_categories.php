@@ -10,7 +10,7 @@ require_once('../env/ContentCategory.php');
 
 // Prepare and execute the request
 $env = 'test';
-$locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
+$locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance (at this time -API 1.3.0- categories are only returned in french)
 $lib = new EnvContentCategory($credentials[$env]);
 $lib->setEnv($env);
 $lib->setLocale($locale);

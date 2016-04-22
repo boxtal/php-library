@@ -106,7 +106,7 @@ class EnvContentCategory extends EnvWebService
     private function doConRequest()
     {
         $source = parent::doRequest();
-        
+
         /* We make sure there is an XML answer and try to parse it */
         if ($source !== false) {
             parent::parseResponse($source);
@@ -115,11 +115,16 @@ class EnvContentCategory extends EnvWebService
                 $contents = $this->xpath->query('/contents/content');
                 foreach ($contents as $content) {
                     $category_id = $this->xpath->query('./category', $content)->item(0)->nodeValue;
-                    if (!isset($this->contents[$category_id])) $this->contents[$category_id] = array();
-                    array_push($this->contents[$category_id], array(
-                        'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
-                        'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
-                        'category' => $category_id)
+                    if (!isset($this->contents[$category_id])) {
+                        $this->contents[$category_id] = array();
+                    }
+                    array_push(
+                        $this->contents[$category_id],
+                        array(
+                            'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
+                            'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
+                            'category' => $category_id
+                        )
                     );
                 }
             }
