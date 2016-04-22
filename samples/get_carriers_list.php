@@ -22,8 +22,8 @@ $zone = array(
 /* Prepare and execute the request */
 $env = 'test'; // use 'prod' for production
 $locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
-$module_platform = 'prestashop';
-$module_version = '3.0.0';
+$module_platform = 'api';
+$module_version = '1.0.0';
 $lib = new EnvCarriersList($credentials[$env]);
 $lib->setEnv($env);
 $lib->setLocale($locale);
@@ -40,25 +40,72 @@ if(!$lib->curl_error && !$lib->resp_error)
 	<tr>
 		<td>Operator</td>
         <td>Service</td>
-		<td>Operator code</td>
-		<td>Service code</td>
 		<td>Description</td>
+		<td>Specifications</td>
 		<td>Family</td>
 		<td>Zone</td>
 		<td>Parcel point drop-off</td>
 		<td>Parcel point pick-up</td>
+		<td>Delivery time</td>
 	</tr>
 <?php	foreach($lib->carriers as $carrier){	?>
 		<tr>
-			<td><?php echo $carrier['ope_name']; ?></td>
-            <td><?php echo $carrier['srv_name_bo']; ?></td>
-			<td><?php echo $carrier['ope_code']; ?></td>
-			<td><?php echo $carrier['srv_code']; ?></td>
+			<td>
+                <?php
+                    echo $carrier['ope_name'].'<br/>';
+                    echo '<u>code:</u> '.$carrier['ope_code'];
+                ?>
+            </td>
+            <td>
+                <?php
+                    echo $carrier['srv_name_bo'].'<br/>';
+                    echo '<u>code:</u> '.$carrier['srv_code'];
+                ?>
+            </td>
 			<td><?php echo $carrier['description']; ?></td>
+			<td>
+                <?php 
+                    foreach ($carrier['details'] as $detail) {
+                        echo $detail.'<br/>';
+                    }
+                ?>
+            </td>
 			<td><?php echo $family[$carrier['family']]; ?></td>
-			<td><?php echo $zone[$carrier['zone']]; ?></td>
-			<td><?php echo $carrier['parcel_pickup_point']=='1'?'Yes':'No'; ?></td>
-			<td><?php echo $carrier['parcel_dropoff_point']=='1'?'Yes':'No'; ?></td>
+			<td>
+                <?php 
+                    if ($carrier['zone_fr']) {
+                        echo 'France';
+                    };
+                    if ($carrier['zone_eu']) {
+                        if ($carrier['zone_fr']) {
+                            echo '<br/>';
+                        }
+                        echo 'Europe';
+                    };
+                    if ($carrier['zone_int']) {
+                        if ($carrier['zone_fr'] || $carrier['zone_eu']) {
+                            echo '<br/>';
+                        }
+                        echo 'International';
+                    };
+                    if ($carrier['zone_restriction']) {
+                        echo '<br/>('.$carrier['zone_restriction'].')';
+                    };
+                ?>
+            </td>
+			<td>
+                <?php
+                    echo $carrier['parcel_pickup_point']=='1'?'Yes':'No';
+                    echo ' ('.$carrier['pickup_place'].')';
+                ?>
+            </td>
+			<td>
+                <?php 
+                    echo $carrier['parcel_dropoff_point']=='1'?'Yes':'No';
+                    echo ' ('.$carrier['dropoff_place'].')';
+                ?>
+            </td>
+            <td><?php echo $carrier['delivery_due_time']; ?></td>
 		</tr>
 <?php	}	?>
 </table>

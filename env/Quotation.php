@@ -360,12 +360,42 @@ class EnvQuotation extends EnvWebService
                             $nodes = $xpath->query('*', $mandatory_child);
                             foreach ($nodes as $node) {
                                 if ($node->nodeName == 'enum') {
-                                    $mand_infos[$arr_key][$mandatory_child->nodeName] = 'enum';
-                                    $mand_infos[$arr_key]['array'] = array();
-                                    $childs = $xpath->query('*', $node);
-                                    foreach ($childs as $child) {
-                                        if (trim($child->nodeValue) != '') {
-                                            $mand_infos[$arr_key]['array'][] = $child->nodeValue;
+                                    $points = $xpath->query('./point', $node);
+                                    if ($points->length > 0) {
+                                        $mand_infos[$arr_key][$mandatory_child->nodeName] = 'enum';
+                                        $mand_infos[$arr_key]['array'] = array();
+                                        foreach ($points as $point) {
+                                            $point_values = $xpath->query('*', $point);
+                                            $values_to_push = array();
+                                            foreach ($point_values as $val) {
+                                                if ($val->nodeName == 'schedule') {
+                                                    $days = $xpath->query('./day', $val);
+                                                    $values_to_push[$val->nodeName] = array();
+                                                    foreach ($days as $day) {
+                                                        $day_data = array(
+                                                            'weekday' => $xpath->query('./weekday', $day)->item(0)->nodeValue,
+                                                            'open_am' => $xpath->query('./open_am', $day)->item(0)->nodeValue,
+                                                            'close_am' => $xpath->query('./close_am', $day)->item(0)->nodeValue,
+                                                            'open_pm' => $xpath->query('./open_pm', $day)->item(0)->nodeValue,
+                                                            'close_pm' => $xpath->query('./close_pm', $day)->item(0)->nodeValue,
+                                                        );
+                                                        array_push($values_to_push[$val->nodeName], $day_data);
+                                                    }
+                                                } else {
+                                                    $values_to_push[$val->nodeName] = trim($val->nodeValue);
+                                                }
+                                                
+                                            }
+                                            array_push($mand_infos[$arr_key]['array'], $values_to_push);
+                                        }
+                                    } else {
+                                        $mand_infos[$arr_key][$mandatory_child->nodeName] = 'enum';
+                                        $mand_infos[$arr_key]['array'] = array();
+                                        $childs = $xpath->query('*', $node);
+                                        foreach ($childs as $child) {
+                                            if (trim($child->nodeValue) != '') {
+                                                $mand_infos[$arr_key]['array'][] = $child->nodeValue;
+                                            }
                                         }
                                     }
                                 } else {

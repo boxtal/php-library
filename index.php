@@ -30,6 +30,10 @@ require_once('utils/header.php');
     /* if we want to set 'prod' environment  */
     $lib->setEnv('prod');
     </pre>
+    <p>Vous pouvez aussi fixer la langue de retour de l'API en utilisant la fonction setLocale :</p>
+    <pre>
+    $lib->setLocale('en-US');
+    </pre>
     
     <br/><p><b>Le contenu de la librairie</b></p>
     <p>Le package contient 5 répertoires :</p>
@@ -105,6 +109,14 @@ require_once('utils/header.php');
         "colis",
         array(1 => array("poids" => 2, "longueur" => 30, "largeur" => 44, "hauteur" => 44))
     );
+    
+    /* if we want to specify for which carriers we want a quotation (else all carriers will be quoted) */
+    $quotInfo['offers'] = array(
+        0 => 'MONR_CpourToi',
+        1 => 'CHRP_Chrono18',
+        2 => 'POFR_ColissimoAccess'
+    );
+    
     $lib->getQuotation($quotInfo);
     $lib->getOffers(false);
     </pre>
