@@ -100,10 +100,10 @@ class EnvListPoints extends EnvWebService
                         'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
                         'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
                         'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue,
-                        'days' => array());
+                        'schedule' => array());
                     $days = $this->xpath->query('./schedule/day', $point);
                     foreach ($days as $day_index => $day) {
-                        $point_info['days'][$day_index] = array(
+                        $point_info['schedule'][$day_index] = array(
                             'weekday' => $this->xpath->query('./weekday', $day)->item(0)->nodeValue,
                             'open_am' => $this->xpath->query('./open_am', $day)->item(0)->nodeValue,
                             'close_am' => $this->xpath->query('./close_am', $day)->item(0)->nodeValue,

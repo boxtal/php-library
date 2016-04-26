@@ -336,35 +336,35 @@ function test_EnvListPoints($userData){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
 				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $list_points['.$x.'] array';
 			}
-			if (!isset($env->list_points[$x]['days'])){
+			if (!isset($env->list_points[$x]['schedule'])){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],ERROR);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" not defined in $list_points['.$x.'] array';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"schedule" not defined in $list_points['.$x.'] array';
 			}
-			else if (count($env->list_points[$x]['days']) != 7){
+			else if (count($env->list_points[$x]['schedule']) != 7){
 				$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"days" should contains 7 days info, but contains ' . count($env->contents[$x]['days']) . ' instead';
+				$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"schedule" should contains 7 days info, but contains ' . count($env->contents[$x]['schedule']) . ' instead';
 			}
-			if (isset($env->list_points[$x]['days'])){
-				foreach($env->list_points[$x]['days'] as $j => $day){
-					if (!isset($env->list_points[$x]['days'][$j]['weekday'])){
+			if (isset($env->list_points[$x]['schedule'])){
+				foreach($env->list_points[$x]['schedule'] as $j => $day){
+					if (!isset($env->list_points[$x]['schedule'][$j]['weekday'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $list_points['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"weekday" not defined in $list_points['.$x.']["schedule"]['.$j.'] array';
 					}
-					if (!isset($env->list_points[$x]['days'][$j]['open_am'])){
+					if (!isset($env->list_points[$x]['schedule'][$j]['open_am'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $list_points['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_am" not defined in $list_points['.$x.']["schedule"]['.$j.'] array';
 					}
-					if (!isset($env->list_points[$x]['days'][$j]['close_am'])){
+					if (!isset($env->list_points[$x]['schedule'][$j]['close_am'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $list_points['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_am" not defined in $list_points['.$x.']["schedule"]['.$j.'] array';
 					}
-					if (!isset($env->list_points[$x]['days'][$j]['open_pm'])){
+					if (!isset($env->list_points[$x]['schedule'][$j]['open_pm'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $list_points['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"open_pm" not defined in $list_points['.$x.']["schedule"]['.$j.'] array';
 					}
-					if (!isset($env->list_points[$x]['days'][$j]['close_pm'])){
+					if (!isset($env->list_points[$x]['schedule'][$j]['close_pm'])){
 						$result['additionals'][0]['state'] = max($result['additionals'][0]['state'],WARNING);
-						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $list_points['.$x.']["days"]['.$j.'] array';
+						$result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"close_pm" not defined in $list_points['.$x.']["schedule"]['.$j.'] array';
 					}
 				}
 			}
