@@ -72,7 +72,7 @@ $week_days = array(
 						<td>Opening pm</td>
 						<td>Closing pm</td>
 					</tr>
-<?php			foreach($point['days'] as $day){	?>
+<?php			foreach($point['schedule'] as $day){	?>
 						<tr>
 							<td><?php echo $week_days[$day['weekday']]; ?></td>
 							<td><?php echo $day['open_am']; ?></td>
