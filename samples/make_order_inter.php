@@ -62,7 +62,7 @@ $quot_params = array(
 // Prepare and execute the request
 $env = 'test';
 $locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
-$lib = new EnvQuotation($credentials[$env]);
+$lib = new Quotation($credentials[$env]);
 $lib->setPerson('shipper', $from);
 $lib->setPerson('recipient', $to);
 $lib->setEnv($env);
@@ -82,41 +82,7 @@ $lib->setType('colis',
 );
 */
 
-// For an international send, you must specify the proforma
-$lib->setProforma(
-	array(
-		1 => array(
-			'description_en' => 'L\'Equipe newspaper from 1998',
-			'description_fr' => 'le journal L\'Equipe du 1998',
-			'nombre' => 1,
-			'valeur' => 1000, 
-			'origine' => 'FR',
-			'poids' => 20
-		)
-	)
-);
-/* if you're sending more parcels
-$lib->setProforma(
-	array(
-		1 => array(
-			'description_en' => 'L\'Equipe newspaper from 1998',
-			'description_fr' => 'le journal L\'Equipe du 1998',
-			'nombre' => 1,
-			'valeur' => 10, 
-			'origine' => 'FR',
-			'poids' => 1.2
-		),
-		2 => array(
-			'description_en' => '300 editions of L\'Equipe newspaper from 1999',
-			'description_fr' => '300 numéros de L\'Equipe du 1999',
-			'nombre' => 300,
-			'valeur' => 8, 
-			'origine' => 'FR',
-			'poids' => 0.1
-		)
-	)
-);
-*/
+
 
 $orderPassed = $lib->makeOrder($quot_params); 
 

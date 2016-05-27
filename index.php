@@ -1,6 +1,6 @@
 <?php
-$folder = '';
-require_once('utils/header.php');
+require_once('config/autoload.php');
+require_once(EMC_PARENT_DIR.'layout/header.php');
 ?>
 <div>
     <h1>Quick start / Librairie PHP pour l'API EnvoiMoinsCher</h1>
@@ -110,7 +110,7 @@ require_once('utils/header.php');
     </pre>
     <p>Avant d'appeler getOffers() vous pouvez vous assurer que la requête s'est correctement exécutée. Pour cela il faut que $curl_error et $resp_error
     aient comme valeur false.</p>
-    <p>Voir aussi les exemples : le devis <a href="samples/get_cotation.php">Paris - Bordeaux</a>, le devis <a href="samples/get_cotation_australia.php">Paris - Sydney</a>.</p>
+    <p>Voir aussi les exemples : le devis <a href="samples/get_cotation.php">Paris - Bordeaux</a>, le devis <a href="samples/get_cotation.php?dest=international">Paris - Sydney</a>.</p>
     
     <br/><p id="commande"><b>4. Comment passer une commande ?</b></p>
     <p>La passation d'une commande se déroule de la même manière que l'obtention d'une cotation.
@@ -167,5 +167,5 @@ require_once('utils/header.php');
     <p>Si vous rencontrez le moindre problème, n'hésitez pas à nous contacter : <a href="mailto:informationAPI@envoimoinscher.com">informationAPI@envoimoinscher.com</a></p>
 </div>
 <?php 
-require_once('utils/footer.php');
+require_once(EMC_PARENT_DIR.'layout/footer.php');
 ?> 

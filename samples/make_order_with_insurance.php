@@ -65,7 +65,7 @@ $quot_params = array(
 // Prepare and execute the request
 $env = 'test';
 $locale = 'en-US'; // you can change this to 'fr-FR' or 'es-ES' for instance
-$lib = new EnvQuotation($credentials[$env]);
+$lib = new Quotation($credentials[$env]);
 $lib->setPerson('shipper', $from);
 $lib->setPerson('recipient', $to);
 $lib->setEnv($env);

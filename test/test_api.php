@@ -42,7 +42,7 @@ $_CLASSES = array(
 	'EnvOrderStatus',
 	'EnvService',
 	'EnvUser',
-	'EnvQuotation'
+	'Quotation'
 );
 	
 /* Test functions corresponding to their classes, each one must return an array of this configuration :
@@ -831,12 +831,12 @@ function test_EnvUser($userData){
 	$result['duration'] = microtime_float() - $start;
 	return $result;
 }
-function test_EnvQuotation($userData){
+function test_Quotation($userData){
 	$result = default_value();
 	$start = microtime_float();
 	
 	/* Initialisation */
-	$order_env = new EnvQuotation($userData);
+	$order_env = new Quotation($userData);
 	$order_from = array("pays" => "FR", "code_postal" => "75002", "type" => "particulier",
 	"ville" => "Paris", "adresse" => "41, rue Saint Augustin | floor nr 3", "civilite" => "M",
 	"prenom" => "Test_prenom", "nom" => "Test_nom", "email" => "dev@boxtale.com",
@@ -871,7 +871,7 @@ function test_EnvQuotation($userData){
 	$order_env->setEnv($env); 
 	$orderPassed = $order_env->makeOrder($order_quotInfo,true);
 	
-	$offer_env = new EnvQuotation($userData);
+	$offer_env = new Quotation($userData);
 	$offer_env->setEnv($env); 
 	$offer_to = array(
 		"pays" => "FR", 
