@@ -62,7 +62,7 @@ class CarriersList extends WebService
      * @param String $version platform's version.
      * @return true if request was executed correctly, false if not
      */
-    public function getCarriersList($channel, $version)
+    public function getCarriersList()
     {
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/carriers_list'));
