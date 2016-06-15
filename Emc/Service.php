@@ -1,4 +1,6 @@
 <?php
+namespace Emc;
+
 /**
 * 2011-2016 Boxtale
 *
@@ -19,7 +21,7 @@
 * @license   http://www.gnu.org/licenses/
 */
 
-class EnvService extends EnvCarrier
+class Service extends Carrier
 {
 
     /**

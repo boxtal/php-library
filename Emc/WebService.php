@@ -32,28 +32,28 @@ class WebService
      * @access public
      * @var string
      */
-    public $server = 'http://www.envoimoinscher.ahmed/';
+    public $server = 'https://www.envoimoinscher.com/';
 
     /**
      * API test server host.
      * @access public
      * @var string
      */
-    private $server_test = 'http://www.envoimoinscher.ahmed/';
+    private $server_test = 'https://test.envoimoinscher.com/';
 
     /**
      * API production server host.
      * @access public
      * @var string
      */
-    private $server_prod = 'http://www.envoimoinscher.ahmed/';
+    private $server_prod = 'https://www.envoimoinscher.com/';
 
     /**
      * Module version
      * @access protected
      * @var string
      */
-    protected $api_version = '1.2.0';
+    protected $api_version = '1.3.1';
 
     /**
      * A private variable which stocks options to pass into curl query.
@@ -165,7 +165,7 @@ class WebService
      * @access protected
      * @var string
      */
-    protected $platform_version = '';
+    protected $platform_version = '2.0.0';
 
     /**
      * Module version

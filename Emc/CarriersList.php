@@ -46,6 +46,16 @@ class CarriersList extends WebService
     public $carriers = array();
 
     /**
+    * [__construct description]
+    */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->param['channel'] = $this->platform;
+        $this->param['version'] = $this->platform_version;
+    }
+
+    /**
      * Public function which receives the carriers list.
      * @access public
      * @param String $channel platform used (prestashop, magento etc.).
@@ -54,8 +64,6 @@ class CarriersList extends WebService
      */
     public function getCarriersList($channel, $version)
     {
-        $this->param['channel'] = strtolower($channel);
-        $this->param['version'] = strtolower($version);
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/carriers_list'));
         if ($this->doSimpleRequest()) {
