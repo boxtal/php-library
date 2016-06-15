@@ -3,7 +3,7 @@ require_once('config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 ?>
 <div>
-    <h3>Quick start / EMC PHP Library For Envoicoinscher API</h3>
+    <h3>Quick start / Boxtale PHP Library</h3>
     <p>This PHP library aims to present the PHP implementation of the EnvoiMoinsCher.com API. <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a></p>
     <p>We will see step by step the essential blocks for building a custom shipping module on your e-shop:/p>
     <ul class="myTab">
@@ -14,6 +14,10 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     </ul> 
      <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <br/>
+     <h4>Installation.</h4>
+        To install Boxtale PHP Library, simply : <br/>
+        <b>$ composer require boxtale/php-library </b>
+        <br/><br/>
      <h4>Requirements et and general information about the EnvoiMoinsCher API.</h4>
      <p>In order to use the API, you need to create a (free) user account on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, checking the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box. You will then receive an email with your API keys and be able to start your tests.</p>
     Make sure to fill in your credentials in the configuration file : config/config.php
@@ -58,10 +62,23 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         <p>Using the API, you can get a list of the available content types which you will be able to use in your module.
             The "content type" is the nature of the content that you are shipping.</p>
         <pre>
+    require __DIR__ . '/vendor/autoload.php';
 
-        $lib = new \Emc\ContentCategory();
-        $lib->getContents();
-        // The content types list is available on the array : $lib->categories
+    $lib = new \Emc\ContentCategory();
+    $lib->getCategories(); // load all content categories
+    $lib->getContents();   // load all content types
+
+    // The content categories list is available on the array : $lib->categories
+    // The content types list is available on the array : $lib->contents
+
+    if (!$lib->curl_error && !$lib->resp_error) {
+        print_r($lib->categories);
+        print_r($lib->contents);
+
+    } else {
+        handle_errors($lib);
+    }
+
         </pre>
         <p>The API will need the content type ids as a parameter for quotations and orders.</p>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_categories.php">list of contents example</a></p>
@@ -72,9 +89,15 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         <p>Orders shipping with the EnvoiMoinsCher API use country ISO codes. For now, the system only allows shipments from France to abroad, not from abroad to France. Here is how to get the list of countries:</p>
         <pre>
 
-        $lib = new \Emc\Country();
-        $lib->getCountries();
-        // The countries list is available on the array : $lib->countries
+    $lib = new \Emc\Country();
+    $lib->getCountries();
+    // The countries list is available on the array : $lib->countries
+
+    if (!$lib->curl_error && !$lib->resp_error) {
+        print_r($lib->countries);
+    } else {
+        handle_errors($lib);
+    }
         </pre>
         <p>The API will need the country ISO code as a parameter for several actions.</p>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_country.php">list of countries example</a></p>
@@ -92,48 +115,54 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
             <li>your shipment content value (for a cross-boarder quotation)</li>
         </ul>
         <pre>
-            // shipper address
-            $from = array(
-                'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-                'code_postal' => '38400',
-                'ville' => "Saint Martin d'Hères",
-                'type' => 'entreprise',
-                'adresse' => '13 Rue Martin Luther King'
-            );
-            // recipient's address
-            $to = array(
-                'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-                'code_postal' => '33000',
-                'ville' => 'Bordeaux',
-                'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-                'adresse' => '24, rue des Ayres'
-            );
+    // shipper address
+    $from = array(
+        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'code_postal' => '38400',
+        'ville' => "Saint Martin d'Hères",
+        'type' => 'entreprise',
+        'adresse' => '13 Rue Martin Luther King'
+    );
+    // recipient's address
+    $to = array(
+        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'code_postal' => '33000',
+        'ville' => 'Bordeaux',
+        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
+        'adresse' => '24, rue des Ayres'
+    );
 
 
-            /* Parcels informations */
-            $parcels = array(
-                'type' => 'colis',
-                'dimensions' => array(
-                    1 => array(
-                        'poids' => 1,
-                        'longueur' => 15,
-                        'largeur' => 16,
-                        'hauteur' => 8
-                    )
-                )
-            );
+    /* Parcels informations */
+    $parcels = array(
+        'type' => 'colis',
+        'dimensions' => array(
+            1 => array(
+                'poids' => 1,
+                'longueur' => 15,
+                'largeur' => 16,
+                'hauteur' => 8
+            )
+        )
+    );
 
-            $quot_params = array(
-                'collecte' => date("Y-m-d"),
-                'delay' => 'aucun',
-                'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-                'valeur' => "42.655"
-            );
+    $quot_params = array(
+        'collecte' => date("Y-m-d"),
+        'delay' => 'aucun',
+        'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
+        'valeur' => "42.655"
+    );
 
-            $lib = new Quotation($from, $to, $parcels);
-            $lib->getQuotation($quot_params);
-            $lib->getOffers();
-            // The offers list is available on the array : $lib->offers
+    $lib = new Quotation($from, $to, $parcels);
+    $lib->getQuotation($quot_params);
+    $lib->getOffers();
+    // The offers list is available on the array : $lib->offers
+
+    if (!$lib->curl_error && !$lib->resp_error) {
+        print_r($lib->offers);
+    } else {
+        handle_errors($lib);
+    }
         </pre>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php">Paris to Bordeaux</a>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php?dest=Sydney">Paris to Sydney (international)</a>
@@ -214,6 +243,11 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     $orderPassed = $lib->makeOrder($quot_params);
 
+    if (!$lib->curl_error && !$lib->resp_error) {
+        print_r($lib->order);
+    } else {
+        handle_errors($lib);
+    }
     </pre>
     <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <p>If you have any trouble implementing the library, email us at <a href="mailto:api@envoimoinscher.com">api@envoimoinscher.com</a>.</p>

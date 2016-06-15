@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr-FR">
     <head>
-        <title>EMC PHP Library</title>
+        <title>Boxtale PHP Library</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="<?php echo EMC_PARENT_DIR; ?>assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo EMC_PARENT_DIR; ?>assets/css/style.css">
