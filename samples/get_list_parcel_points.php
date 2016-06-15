@@ -21,19 +21,21 @@ $lib->getListPoints('SOGP', $params);
 
 // Display the parcel points
 if (!$lib->curl_error && !$lib->resp_error) {
+    $week_days = array( 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday');
 ?>
+<h3>API ListPoints</h3>
 <div class="row">
-        <table class="table table-striped table-bordered">
+        <table class="table table-hover table-striped table-bordered">
     <tr>
-        <td>Code</td>
-        <td>Name</td>
-        <td>Adress</td>
-        <td>City</td>
-        <td>Postal code</td>
-        <td>Country</td>
-        <td>Phone</td>
-        <td>Description</td>
-        <td>Calendar</td>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Adress</th>
+        <th>City</th>
+        <th>Postal code</th>
+        <th>Country</th>
+        <th>Phone</th>
+        <th>Description</th>
+        <th>Calendar</th>
     </tr>
 <?php   foreach ($lib->list_points as $point) {   ?>
         <tr>
@@ -91,15 +93,18 @@ if (!$lib->curl_error && !$lib->resp_error) {
     handle_errors($lib);
     echo'</div>';
 }
-
+?>
+<div class="well well-sm">
+    <button type="button" class="btn btn-xs btn-default" id="toogleDebug">
+        Toggle Debug
+    </button>
+    <pre id="debug" style="display: none">
+        <?php print_r(array_merge($lib->getApiParam(), array('API response :' =>$lib->list_points))); ?>
+    </pre>
+</div>
+<?php
 require_once(EMC_PARENT_DIR.'layout/footer.php');
 ?>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('[data-toggle="popover"]').popover({ html : true, trigger: 'hover'});
-});
-</script>
-
 <style type="text/css">
     .popover{
         max-width:600px;

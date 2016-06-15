@@ -14,6 +14,7 @@ $lib->getContents(); // load all content types
 
 if (!$lib->curl_error && !$lib->resp_error) {
 ?>
+<h3>API ContentCategory :</h3>
 <div class="row well">
     <form class="form-horizontal" role="form">
       <div class="form-group">
@@ -55,5 +56,14 @@ if (!$lib->curl_error && !$lib->resp_error) {
     handle_errors($lib);
     echo'</div>';
 }
-
+?>
+<div class="well well-sm">
+    <button type="button" class="btn btn-xs btn-default" id="toogleDebug">
+        Toggle Debug
+    </button>
+    <pre id="debug" style="display: none">
+        <?php print_r(array_merge($lib->getApiParam(), array('API response categories :' => $lib->categories , 'API response contents :' => $lib->contents))); ?>
+    </pre>
+</div>
+<?php
 require_once(EMC_PARENT_DIR.'layout/footer.php');

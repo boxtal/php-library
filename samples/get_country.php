@@ -14,10 +14,11 @@ $lib->getCountries();
 
 if (!$lib->curl_error && !$lib->resp_error) {
 ?>
+<h3>API Country</h3>
 <div class="row">
     <form class="form-horizontal well well-sm" role="form">
       <div class="form-group">
-        <label class="col-sm-3 control-label">Country list :</label>
+        <label class="col-sm-3 control-label">Countries list :</label>
         <div class="col-sm-9">
             <select class="form-control">
                 <?php
@@ -39,7 +40,7 @@ $lib->getCountry("ES");
     <div class="form-group">
         <label class="col-sm-3 control-label">Destinations to Spain : <span class="glyphicon glyphicon-question-sign" 
         data-container="body" data-toggle="popover" data-placement="bottom" data-content="Countries relations by ISO codes.<br/>
-                            For example it contains the relation between the Canary Islands and Spain which haven't the same<br/>
+                            For example it contains the relation between the Canary Islands and Spain which haven't the same ISO code<br/>
                             Possible values : 'NL', 'PT', 'DE', 'IT', 'ES', 'VI', 'GR'"></span></label>
         <div class="col-sm-3">
             <ul class="list-group">
@@ -59,5 +60,14 @@ $lib->getCountry("ES");
     handle_errors($lib);
     echo'</div>';
 }
-
+?>
+<div class="well well-sm">
+    <button type="button" class="btn btn-xs btn-default" id="toogleDebug">
+        Toggle Debug
+    </button>
+    <pre id="debug" style="display: none">
+        <?php print_r(array_merge($lib->getApiParam(), array('API response getCountry("ES") :' =>$lib->country, 'API response getCountries :' =>$lib->countries))); ?>
+    </pre>
+</div>
+<?php
 require_once(EMC_PARENT_DIR.'layout/footer.php');

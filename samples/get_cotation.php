@@ -11,7 +11,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
 // shipper and recipient's address
 $from = array(
-    'pays' => 'FR',
+    'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
     'code_postal' => '38400',
     'ville' => "Saint Martin d'Hères",
     'type' => 'entreprise',
@@ -22,19 +22,19 @@ $dest =  isset($_GET['dest']) ? $_GET['dest'] : null;
 switch ($dest) {
     case 'Sydney':
         $to = array(
-            "pays" => "AU",
+            "pays" => "AU", // must be an ISO code, set get_country example on how to get codes
             "code_postal" => "2000",
             "ville" => "Sydney",
-            "type" => "particulier",
+            "type" => "particulier", // accepted values are "entreprise" or "particulier"
             "adresse" => "King Street"
          );
         break;
     default:
         $to = array(
-            'pays' => 'FR',
+            'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
             'code_postal' => '33000',
             'ville' => 'Bordeaux',
-            'type' => 'particulier',
+            'type' => 'particulier', // accepted values are "entreprise" or "particulier"
             'adresse' => '24, rue des Ayres'
         );
         break;
@@ -48,7 +48,7 @@ switch ($dest) {
 $quot_params = array(
     'collecte' => date("Y-m-d"),
     'delay' => 'aucun',
-    'content_code' => 10120,
+    'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
     'valeur' => "42.655"
 );
 
@@ -65,7 +65,7 @@ $quot_params['offers'] = array(
 */
 /* Parcels informations */
 $parcels = array(
-    'type' => 'colis',
+    'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     'dimensions' => array(
         1 => array(
             'poids' => 1,
@@ -75,6 +75,9 @@ $parcels = array(
         )
     )
 );
+
+$currency = array('EUR' => '€', 'USD'=>'$');
+
 // Prepare and execute the request
 $lib = new Quotation($from, $to, $parcels);
 $lib->getQuotation($quot_params);
@@ -82,18 +85,19 @@ $lib->getOffers();
 
 if (!$lib->curl_error && !$lib->resp_error) {
 ?>
+<h3>API Quotation :</h3>
     <div class="row">
         <table class="table table-hover table-striped table-bordered">
             <thead>
                 <tr>
-                    <td>Operator</td>
-                    <td>Offers</td>
-                    <td>Price</td>
-                    <td>Collect</td>
-                    <td>Delivery</td>
-                    <td>Details</td>
-                    <td>Warning</td>
-                    <td>Mandatory informations</td>
+                    <th>Operator</th>
+                    <th>Offers</th>
+                    <th>Price</th>
+                    <th>Collect</th>
+                    <th>Delivery</th>
+                    <th>Details</th>
+                    <th>Warning</th>
+                    <th>Mandatory informations</th>
                 </tr>
             </thead>
             <tbody>
@@ -103,37 +107,37 @@ if (!$lib->curl_error && !$lib->resp_error) {
                         <td><?php echo $offre['operator']['label'];?></td>
                         <td><?php echo $offre['operator']['code'].$offre['service']['code'];?></td>
                         <td>
-                        <span class="badge alert-success">
-                        <?php echo $offre['price']['tax-exclusive'];?> <?php echo $offre['price']['currency'];?></td>
+                        <span class="badge alert-default">
+                        <?php echo $offre['price']['tax-exclusive'];?> <?php echo (isset($currency[$offre['price']['currency']]) ? $currency[$offre['price']['currency']] : $offre['price']['currency'] ) ;?></td>
                         </span>
                         <td>
-                            <span class="btnicon <?php echo $offre['collection']['type'];?>" ></span>
-                            <span class="label  <?php echo $offre['collection']['type'];?>">
+                            <span class="badge alert-<?php echo $offre['collection']['type']== 'DROPOFF_POINT' ? 'info':'success'; ?>">
+                            <span class="glyphicon <?php echo $offre['collection']['type']== 'DROPOFF_POINT'? 'glyphicon-map-marker':'glyphicon-home'; ?>  mr5"></span>
                                 <?php echo $offre['collection']['type'];?>
                             </span>
                         </td>
                         <td>
-                            <span class="btnicon <?php echo $offre['delivery']['type'];?>" ></span>
-                            <span class="label  <?php echo $offre['delivery']['type'];?>">
+                            <span class="badge alert-<?php echo $offre['delivery']['type']== 'PICKUP_POINT' ? 'info':'success'; ?>">
+                            <span class="glyphicon <?php echo $offre['delivery']['type']== 'PICKUP_POINT'? 'glyphicon-map-marker':'glyphicon-home'; ?>  mr5"></span>
                                 <?php echo $offre['delivery']['type'];?>
                             </span>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo str_replace('"', "'", implode('<br /> - ', $offre['characteristics'])); ?>">
+                            <button type="button" class="btn btn-xs btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo str_replace('"', "'", implode('<br /> - ', $offre['characteristics'])); ?>">
                                 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
                                 Details
                             </button>
 
                         </td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-warning" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $offre['alert']; ?>">
+                            <button type="button" class="btn btn-xs btn-warning" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $offre['alert']; ?>">
                                 <span class="glyphicon glyphicon-warning-sign"></span>
                                 Warning
                             </button>
 
                         </td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-danger" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo '- '. str_replace('"', "'", implode('<br /> - ', array_keys($offre['mandatory']))); ?>">
+                            <button type="button" class="btn btn-xs btn-danger" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo '- '. str_replace('"', "'", implode('<br /> - ', array_keys($offre['mandatory']))); ?>">
                                 <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
                                 Mandatory informations
                             </button>

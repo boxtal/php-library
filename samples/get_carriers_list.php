@@ -24,13 +24,12 @@ $zone = array(
 /* Prepare and execute the request */
 $lib = new CarriersList();
 
-$module_version = '3.0.0';
-$module_platform = 'prestashop';
-$lib->getCarriersList($module_platform, $module_version);
+$lib->getCarriersList();
 
 /* Show an array with carrier's informations */
 if (!$lib->curl_error && !$lib->resp_error) {
 ?>
+<h3>API CarriersList :</h3>
 <div class="row">
     <table class="table table-hover table-striped table-bordered">
         <thead>

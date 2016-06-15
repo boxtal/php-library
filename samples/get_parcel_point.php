@@ -10,11 +10,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
 
 // Prepare and execute the request
-$env = 'test';
-$locale = 'fr-FR'; // you can change this to 'fr-FR' or 'es-ES' for instance
 $lib = new ParcelPoint();
-
-$lib->setLocale($locale);
 
 // load multiple parcel points
 // if you plan to load multiple parcel points around the same address, get_list_parcel_points.php is a better solution
@@ -26,8 +22,10 @@ $lib->getParcelPoint("pickup_point", "SOGP-C1250");
 
 // Display loaded parcel points
 if (!$lib->curl_error && !$lib->resp_error) {
+    $week_days = array( 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday');
 ?>
-
+<h3>API ParcelPoint</h3>
+<div class="row">
 <ul class="list-group">
     <li class="list-group-item active"><b>Pickup points :</b></li>
     <?php
@@ -131,23 +129,27 @@ if (!$lib->curl_error && !$lib->resp_error) {
     }
     ?>
 </ul>
+</div>
 <?php
 } else {
     echo '<div class="alert alert-danger">';
     handle_errors($lib);
     echo'</div>';
 }
-
-require_once(EMC_PARENT_DIR.'layout/footer.php');
 ?>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('[data-toggle="popover"]').popover({ html : true, trigger: 'hover',container: 'body'});
-});
-</script>
-
+<div class="well well-sm">
+    <button type="button" class="btn btn-xs btn-default" id="toogleDebug">
+        Toggle Debug
+    </button>
+    <pre id="debug" style="display: none">
+        <?php print_r(array_merge($lib->getApiParam(), array('API response :' =>$lib->points))); ?>
+    </pre>
+</div>
 <style type="text/css">
     .popover{
         max-width:600px;
     }
 </style>
+<?php
+require_once(EMC_PARENT_DIR.'layout/footer.php');
+

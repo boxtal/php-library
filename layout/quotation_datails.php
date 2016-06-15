@@ -1,4 +1,4 @@
-<div class="row well">
+<div class="row well well-sm">
     <form class="form-horizontal" role="form">
     <div class="col-xs-3">
         <h4 class="text-center">Shipper : </h4>
