@@ -3,7 +3,7 @@ require_once('config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 ?>
 <div>
-    <h3>Quick start / PHP Emc Library For Envoicoinscher API</h3>
+    <h3>Quick start / EMC PHP Library For Envoicoinscher API</h3>
     <p>This PHP library aims to present the PHP implementation of the EnvoiMoinsCher.com API. <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a></p>
     <p>We will see step by step the essential blocks for building a custom shipping module on your e-shop:/p>
     <ul class="myTab">

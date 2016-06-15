@@ -1,11 +1,11 @@
-# PHP Emc Library For Envoicoinscher API
+# EMC PHP Library For Envoicoinscher API
 
 This PHP library aims to present the PHP implementation of the EnvoiMoinsCher.com API.
 
 
 ### Installation
 
-To install PHP Emc Library, simply:
+To install EMC PHP Library, simply:
 
 
 
