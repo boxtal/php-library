@@ -249,13 +249,16 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         handle_errors($lib);
     }
     </pre>
+    </div>
+    <br/><br/>
     <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <p>If you have any trouble implementing the library, email us at <a href="mailto:api@envoimoinscher.com">api@envoimoinscher.com</a>.</p>
-
-    </div>
 </div>
 <br/><br/>
 </div>
+<div class="footer">
+        <p>&copy; Boxtale 2016</p>
+      </div>
 <script>
   $(document).ready(function() {
     $('myTab a:first').tab('show')

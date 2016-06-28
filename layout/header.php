@@ -104,6 +104,9 @@
                         <li class="">
                             <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_news.php">API News</a>
                         </li>
+                        <li class="">
+                            <a href="<?php echo EMC_PARENT_DIR; ?>samples/post_signup.php">User signup</a>
+                        </li>
                       </ul>
                     </li>
                     <li><a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">Documentation (french)</a></li>

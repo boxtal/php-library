@@ -187,6 +187,11 @@ class WebService
      * @var string
      */
     protected $lang_code = 'en-US';
+    /**
+     * [$pass_phrase description]
+     * @var string
+     */
+    protected $pass_phrase = 'T+sGKCHeRddqiGb+tot/q2hzGRh5oP3GlB1NEMHEGTw=';
 
     /**
      * Class constructor.
@@ -365,17 +370,20 @@ class WebService
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYHOST => $this->ssl_check['host'],
             CURLOPT_URL => $this->server . $options['action'] . $this->get_params,
-            CURLOPT_HTTPHEADER => array(
+            CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
+
+        if (!empty($this->auth['user']) && !empty($this->auth['pass']) && !empty($this->auth['key'])) {
+            $this->options[CURLOPT_HTTPHEADER] = array(
                 'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
                 'access_key : ' . $this->auth['key'] . '',
                 'Accept-Language: '.$this->lang_code,
-                'Api-Version: '.$this->api_version),
-            CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
-
+                'Api-Version: '.$this->api_version);
+        }
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
         }
         $this->param['action'] = $options['action'];
+
     }
 
     /**
@@ -657,5 +665,53 @@ class WebService
         return array( 'URL called'=> $this->server.$this->param['action'],
                       'Params'=> $this->param
                       );
+    }
+
+    /**
+     * Function to encrypt password
+     *
+     * @access public
+     * @param String $string The password
+     * @return String
+     */
+    public function encryptPassword($string)
+    {
+        $salt = substr($this->pass_phrase, 0, 16);
+        $iv = substr($this->pass_phrase, 16, 16);
+
+        $key = $this->pbkdf2('sha1', $this->pass_phrase, $salt, 100, 32, true);
+        return base64_encode(openssl_encrypt($string, 'aes-128-cbc', $key, true, $iv));
+    }
+
+    public function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false)
+    {
+        $algorithm = strtolower($algorithm);
+        if (!in_array($algorithm, hash_algos(), true)) {
+            throw new Exception('PBKDF2 ERROR: Invalid hash algorithm.');
+        }
+
+        if ($count <= 0 || $key_length <= 0) {
+            throw new Exception('PBKDF2 ERROR: Invalid parameters.');
+        }
+
+        $hash_length = strlen(hash($algorithm, '', true));
+        $block_count = ceil($key_length / $hash_length);
+        for ($i = 1; $i <= $block_count; $i++) {
+            // $i encoded as 4 bytes, big endian.
+            $last = $salt . pack('N', $i);
+            // first iteration
+            $last = $xorsum = hash_hmac($algorithm, $last, $password, true);
+            // perform the other $count - 1 iterations
+            for ($j = 1; $j < $count; $j++) {
+                $xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
+            }
+            $output = '';
+            $output .= $xorsum;
+            if ($raw_output) {
+                return substr($output, 0, $key_length);
+            } else {
+                return bin2hex(substr($output, 0, $key_length));
+            }
+        }
     }
 }
