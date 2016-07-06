@@ -51,7 +51,7 @@ class EnvWebService
      * @access protected
      * @var string
      */
-    protected $api_version = '1.3.1';
+    protected $api_version = '1.3.2';
     
     /**
      * A private variable which stocks options to pass into curl query.
@@ -313,7 +313,6 @@ class EnvWebService
         foreach ($ch as $k => $c) {
             $data[$k] = curl_multi_getcontent($c);
             curl_multi_remove_handle($mh, $c);
-            file_put_contents($this->uploadDir . '/return.xml', $data[$k]);
         }
 
         foreach ($ch as $k => $c) {
@@ -326,15 +325,13 @@ class EnvWebService
                 return false;
             } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] !=
               '400' && $curl_info['http_code'] != '401') {
-                $this->resp_error = true;
-                $this->resp_errors_list[] = array('code' => 'http_error_' . $curl_info['http_code'],
+                $this->resp_errors_list[$k][] = array('code' => 'http_error_' . $curl_info['http_code'],
                     'url' => $curl_info['url'],
                     'message' =>
                       'Echec lors de l\'envoi de la requête, le serveur n\'a pas pu répondre correctement (erreur :' .
                         $curl_info['http_code'] . ')');
             } elseif (trim($content_type[0]) != 'application/xml') {
-                $this->resp_error = true;
-                $this->resp_errors_list[] = array('code' => 'bad_response_format',
+                $this->resp_errors_list[$k][] = array('code' => 'bad_response_format',
                     'url' => $curl_info['url'],
                     'message' =>
                       'Echec lors de l\'envoi de la requête, le serveur a envoyé une réponse invalide ' .
@@ -501,18 +498,31 @@ class EnvWebService
     {
         $i = 0;
         $this->xpath = array();
-
+        
+        $return_xml = new DOMDocument('1.0', 'UTF-8');
+        $return_wrapper = new DOMElement('multirequest_wrapper');
+        $return_xml->appendChild($return_wrapper);
+        
         foreach ($documents as $document) {
             $dom_cl = new DOMDocument();
             $dom_cl->loadXML($document);
+            
             $this->xpath[$i] = new DOMXPath($dom_cl);
+            $target_node = $dom_cl->documentElement;
+            $return_wrapper->appendChild($return_xml->importNode($target_node, true));
 
-            if ($this->hasErrors($this->xpath[$i])) {
-                $this->setResponseErrors($this->xpath[$i]);
+            if ($this->hasErrorsMulti($this->xpath[$i])) {
+                $errors = $this->xpath[$i]->evaluate('/error');
+                foreach ($errors as $e => $error) {
+                    $this->resp_errors_list[$i][$e] = array('code' => $this->xpath[$i]->evaluate('code', $error)->item(0)->nodeValue
+                    , 'message' => $this->xpath[$i]->evaluate('message', $error)->item(0)->nodeValue);
+
+                }
             }
 
             $i++;
         }
+        $return_xml->save($this->uploadDir . '/return.xml');
     }
 
     /**
@@ -577,6 +587,21 @@ class EnvWebService
         $xpath = $xpath ? $xpath : $this->xpath;
         if ((int)$xpath->evaluate('count(/error)') > 0) {
             $this->resp_error = true;
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Function detects if xml document has error tag for curl multi request.
+     * @access private
+     * @param object xml document (if curl multi request)
+     * @return boolean true if xml document has error tag, false if it hasn't.
+     */
+    private function hasErrorsMulti($xpath = false)
+    {
+        $xpath = $xpath ? $xpath : $this->xpath;
+        if ((int)$xpath->evaluate('count(/error)') > 0) {
             return true;
         }
         return false;

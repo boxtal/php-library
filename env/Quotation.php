@@ -268,7 +268,7 @@ class EnvQuotation extends EnvWebService
     }
 
     /**
-     * Public function which receives the quotation for curl  multi request.
+     * Public function which receives the quotation for curl multi request.
      * @access public
      * @return true if request was executed correctly, false if not
      */
@@ -304,13 +304,14 @@ class EnvQuotation extends EnvWebService
     private function doSimpleRequestMulti()
     {
         $source = parent::doRequestMulti();
-
+        
         /* We make sure there is an XML answer and try to parse it */
-        if ($source !== false) {
+        /*if ($source !== false) {*/
             parent::parseResponseMulti($source);
-            return (count($this->resp_errors_list) == 0);
+            /*return (count($this->resp_errors_list) == 0);
         }
-        return false;
+        return false;*/
+        return true;
     }
 
 
@@ -343,7 +344,8 @@ class EnvQuotation extends EnvWebService
         }
 
         $offers = $xpath->query('/cotation/shipment/offer');
-
+        $return_values = array();
+        
         foreach ($offers as $o => $offer) {
             $offer_mode = $xpath->query('./mode', $offer)->item(0)->nodeValue;
             if (!$only_com || ($only_com && $offer_mode == 'COM')) {
@@ -456,7 +458,7 @@ class EnvQuotation extends EnvWebService
                     $alert = '';
                 }
 
-                $this->offers[$o + $i] = array(
+                $return_values[$o] = array(
                     'mode' => $offer_mode,
                     'url' => $xpath->query('./url', $offer)->item(0)->nodeValue,
                     'operator' => array(
@@ -485,15 +487,21 @@ class EnvQuotation extends EnvWebService
                 );
                 // Ajout de l'insurance si elle est retournée
                 if ($xpath->evaluate('boolean(./insurance)', $offer)) {
-                    $this->offers[$o + $i]['insurance'] = array(
+                    $return_values[$o]['insurance'] = array(
                         'currency' => $xpath->query('./insurance/currency', $offer)->item(0)->nodeValue,
                         'tax-exclusive' => $xpath->query('./insurance/tax-exclusive', $offer)->item(0)->nodeValue,
                         'tax-inclusive' => $xpath->query('./insurance/tax-inclusive', $offer)->item(0)->nodeValue);
-                    $this->offers[$o + $i]['hasInsurance'] = true;
+                    $return_values[$o]['hasInsurance'] = true;
                 } else {
-                    $this->offers[$o + $i]['hasInsurance'] = false;
+                    $return_values[$o]['hasInsurance'] = false;
                 }
             }
+        }
+        
+        if ($multi) {
+            $this->offers[$i] = $return_values;
+        } else {
+            $this->offers = $return_values;
         }
     }
 
