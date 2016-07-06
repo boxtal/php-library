@@ -51,7 +51,7 @@ class EnvWebService
      * @access protected
      * @var string
      */
-    protected $api_version = '1.3.1';
+    protected $api_version = '1.3.2';
     
     /**
      * A private variable which stocks options to pass into curl query.
