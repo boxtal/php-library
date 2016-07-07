@@ -11,13 +11,12 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 $lib = new ListPoints();
 
 $params = array(
-    'srv_code' => 'RelaisColis',
     'collecte'=> 'exp',
     'pays' => 'FR',
     'cp' => '75011',
     'ville' => 'PARIS'
 );
-$lib->getListPoints('SOGP', $params);
+$lib->getListPoints(array('SOGP_RelaisColis', 'MONR_CpourToi'), $params);
 
 // Display the parcel points
 if (!$lib->curl_error && !$lib->resp_error) {
@@ -27,9 +26,10 @@ if (!$lib->curl_error && !$lib->resp_error) {
 <div class="row">
         <table class="table table-hover table-striped table-bordered">
     <tr>
+        <th>Carrier</th>
         <th>Code</th>
         <th>Name</th>
-        <th>Adress</th>
+        <th>Address</th>
         <th>City</th>
         <th>Postal code</th>
         <th>Country</th>
@@ -37,8 +37,10 @@ if (!$lib->curl_error && !$lib->resp_error) {
         <th>Description</th>
         <th>Calendar</th>
     </tr>
-<?php   foreach ($lib->list_points as $point) {   ?>
+<?php   foreach ($lib->list_points as $carrier) {   ?>
+    <?php	foreach($carrier['points'] as $point){	?>
         <tr>
+            <td><?php echo $carrier['operator'].' '.$carrier['service']; ?></td>
             <td><?php echo $point['code']; ?></td>
             <td><?php echo $point['name']; ?></td>
             <td><?php echo $point['address']; ?></td>
@@ -84,6 +86,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
                 </button>
             </td>
         </tr>
+    <?php	}	?>
 <?php   }   ?>
 </table>
 </div>

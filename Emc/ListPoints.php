@@ -53,12 +53,12 @@ class ListPoints extends WebService
 
     /**
      * Function loads all points.
-     * @param $ope Folder ope
-     * @param $infos Parameters for the request to the api<br>
+     * @param array $carriers carrier codes array with operator and service codes in the form MONR_CpourToi
+ 	 * @param array $destination Parameters for the request to the api<br>
      * <samp>
      * Example : <br>
      * array(<br>
-     * &nbsp;&nbsp;'srv_code' => 'RelaisColis', <br>
+     * &nbsp;&nbsp;'collecte' => 'exp', <br>
      * &nbsp;&nbsp;'pays' => 'FR', <br>
      * &nbsp;&nbsp;'cp' => '75011', <br>
      * &nbsp;&nbsp;'ville' => 'PARIS'<br>
@@ -66,11 +66,12 @@ class ListPoints extends WebService
      * @access public
      * @return Void
      */
-    public function getListPoints($ope, $infos)
+    public function getListPoints($carriers, $destination)
     {
-        $this->param = $infos;
-        $this->setGetParams(array());
-        $this->setOptions(array('action' => 'api/v1/' . $ope . '/listpoints'));
+        $this->param = $destination;
+        $this->param["carriers"] = $carriers;
+        $this->setGetParams();
+        $this->setOptions(array('action' => 'api/v1/listpoints'));
         $this->doListRequest();
     }
 
@@ -83,36 +84,43 @@ class ListPoints extends WebService
     {
         $source = parent::doRequest();
 
-        /* Uncomment if ou want to display the XML content */
-        //echo '<textarea>'.$source.'</textarea>';
+        /* Uncomment if you want to display the XML content */
+        // echo '<textarea>'.$source.'</textarea>';
 
         /* We make sure there is an XML answer and try to parse it */
         if ($source !== false) {
             parent::parseResponse($source);
             if (count($this->resp_errors_list) == 0) {
                 /* The XML file is loaded, we now gather the datas */
-                $points = $this->xpath->query('/points/point');
-                foreach ($points as $point_index => $point) {
-                    $point_info = array(
-                        'code' => $this->xpath->query('./code', $point)->item(0)->nodeValue,
-                        'name' => $this->xpath->query('./name', $point)->item(0)->nodeValue,
-                        'address' => $this->xpath->query('./address', $point)->item(0)->nodeValue,
-                        'city' => $this->xpath->query('./city', $point)->item(0)->nodeValue,
-                        'zipcode' => $this->xpath->query('./zipcode', $point)->item(0)->nodeValue,
-                        'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
-                        'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
-                        'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue,
-                        'days' => array());
-                    $days = $this->xpath->query('./schedule/day', $point);
-                    foreach ($days as $day_index => $day) {
-                        $point_info['days'][$day_index] = array(
-                            'weekday' => $this->xpath->query('./weekday', $day)->item(0)->nodeValue,
-                            'open_am' => $this->xpath->query('./open_am', $day)->item(0)->nodeValue,
-                            'close_am' => $this->xpath->query('./close_am', $day)->item(0)->nodeValue,
-                            'open_pm' => $this->xpath->query('./open_pm', $day)->item(0)->nodeValue,
-                            'close_pm' => $this->xpath->query('./close_pm', $day)->item(0)->nodeValue);
+                $carriers = $this->xpath->query('/carriers/carrier');
+                foreach ($carriers as $carrier_index => $carrier) {
+                    $this->list_points[$carrier_index]['operator'] = $this->xpath->query('./operator', $carrier)->item(0)->nodeValue;
+                    $this->list_points[$carrier_index]['service'] = $this->xpath->query('./service', $carrier)->item(0)->nodeValue;
+                    $points = $this->xpath->query('./points/point', $carrier);
+                    foreach ($points as $point_index => $point) {
+                        $point_info = array(
+                            'code' => $this->xpath->query('./code', $point)->item(0)->nodeValue,
+                            'name' => $this->xpath->query('./name', $point)->item(0)->nodeValue,
+                            'address' => $this->xpath->query('./address', $point)->item(0)->nodeValue,
+                            'city' => $this->xpath->query('./city', $point)->item(0)->nodeValue,
+                            'zipcode' => $this->xpath->query('./zipcode', $point)->item(0)->nodeValue,
+                            'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
+                            'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
+                            'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue,
+                            'schedule' => array()
+                        );
+                        $days = $this->xpath->query('./schedule/day', $point);
+                        foreach ($days as $day_index => $day) {
+                            $point_info['schedule'][$day_index] = array(
+                                'weekday' => $this->xpath->query('./weekday', $day)->item(0)->nodeValue,
+                                'open_am' => $this->xpath->query('./open_am', $day)->item(0)->nodeValue,
+                                'close_am' => $this->xpath->query('./close_am', $day)->item(0)->nodeValue,
+                                'open_pm' => $this->xpath->query('./open_pm', $day)->item(0)->nodeValue,
+                                'close_pm' => $this->xpath->query('./close_pm', $day)->item(0)->nodeValue
+                            );
+                        }
+                        $this->list_points[$carrier_index]['points'][$point_index] = $point_info;
                     }
-                    $this->list_points[$point_index] = $point_info;
                 }
             }
         }
