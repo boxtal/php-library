@@ -1,0 +1,86 @@
+.navbar-brand {
+    padding-top:10px;
+}
+.navbar-brand img {
+    max-height:30px;
+}
+input[name="debug"] {
+    vertical-align:top;
+}
+.glyphicon-refresh-animate {
+    -animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+select {
+    width:auto !important;
+}
+
+.table tbody > tr > td {
+    vertical-align: middle;
+}
+
+.btnicon {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.btnicon.PICKUP_POINT,
+.btnicon.DROPOFF_POINT,
+.btnicon.POST_OFFICE{
+    background-image: url("../img/ico-marker.png");
+    width: 12px;
+    height: 17px;
+}
+
+.btnicon.HOME,
+.btnicon.COMPANY{
+    padding-top: 5px;
+    background-image: url("../img/ico-home.png");
+    width: 21px;
+    height: 18px;
+}
+
+.label.PICKUP_POINT,
+.label.DROPOFF_POINT,
+.label.POST_OFFICE{
+  background-color: #5bc0de;
+}
+
+.label.HOME,
+.label.COMPANY{
+  background-color: #999;
+}
+
+.form-group-xs,
+.input-xs {
+  height: 22px !important;
+  padding: 2px 5px !important;
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+  border-radius: 3px !important;
+}
+
+
+.blActive{
+  border-left: 2px solid #f0ad4e !important;
+}
+
+.blDefault{
+  border-left: 2px solid #0189FF !important;
+}
