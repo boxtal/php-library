@@ -745,7 +745,8 @@ class QuotationMulti extends Quotation
         parent::__construct();
         
         foreach($multirequest as $quot_index => $quot_info) {
-            $params = array();
+            // set additional params
+            $params = $quot_info['additional_params'];
             
             // Set sender
             foreach ($quot_info['from'] as $key => $value) {
