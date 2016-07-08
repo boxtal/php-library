@@ -1,5 +1,5 @@
 <?php
-use \Emc\Quotation;
+use \Emc\QuotationMulti;
 
 /* Example of use for Quotation class
  * Get all available offers for your send
@@ -8,82 +8,90 @@ use \Emc\Quotation;
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
-
-// shipper and recipient's address
-$from = array(
-    'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '38400',
-    'ville' => "Saint Martin d'Hères",
-    'type' => 'entreprise',
-    'adresse' => '13 Rue Martin Luther King'
-);
-
-$dest =  isset($_GET['dest']) ? $_GET['dest'] : null;
-switch ($dest) {
-    case 'Sydney':
-        $to = array(
-            "pays" => "AU", // must be an ISO code, set get_country example on how to get codes
-            "code_postal" => "2000",
-            "ville" => "Sydney",
-            "type" => "particulier", // accepted values are "entreprise" or "particulier"
-            "adresse" => "King Street"
-         );
-        break;
-    default:
-        $to = array(
-            'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-            'code_postal' => '33000',
-            'ville' => 'Bordeaux',
-            'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-            'adresse' => '24, rue des Ayres'
-        );
-        break;
-}
-
-
-/*
- * $additionalParams contains all additional parameters for your request, it includes filters or offer's options
- * A list of all possible parameters is available here: http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+/* for multi quotations, all params are set in a single array with a numeric index from 0. 
+ * If correctly set, the request response index will be the same as the request numeric index.
  */
-$additionalParams = array(
-    'collecte' => date("Y-m-d"),
-    'delay' => 'aucun',
-    'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-    'valeur' => "42.655"
-);
+$multirequest = array();
 
-
-/* Optionally you can define which carriers you want to quote if you don't want to quote all carriers
-$additionalParams['offers'] = array(
-    0 => 'MONRCpourToi',
-    1 => 'SOGPRelaisColis',
-    2 => 'POFRColissimoAccess',
-    3 => 'CHRPChrono13',
-    4 => 'UPSEExpressSaver',
-    5 => 'DHLEExpressWorldwide'
-);
-*/
-/* Parcels informations */
-$parcels = array(
-    'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
-    'dimensions' => array(
-        1 => array(
-            'poids' => 1,
-            'longueur' => 15,
-            'largeur' => 16,
-            'hauteur' => 8
+// 1st request
+$multirequest[0] = array(
+    'from' => array(
+        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'code_postal' => '38400',
+        'ville' => "Saint Martin d'Hères",
+        'type' => 'entreprise',
+        'adresse' => '13 rue Martin Luther King'
+    ),
+    'to' => array(
+        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'code_postal' => '33000',
+        'ville' => 'Bordeaux',
+        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
+        'adresse' => '24, rue des Ayres'
+    ),
+    'parcels' => array(
+        'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+        'dimensions' => array(
+            1 => array(
+                'poids' => 1,
+                'longueur' => 15,
+                'largeur' => 16,
+                'hauteur' => 8
+            )
         )
+    ),
+    'additional_params' => array(
+        'collecte' => date("Y-m-d"),
+        'delay' => 'aucun',
+        'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
+        'valeur' => "42.655"
+    )
+);
+
+// 2nd request
+$multirequest[1] = array(
+    'from' => array(
+        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'code_postal' => '75002',
+        'ville' => "Paris",
+        'type' => 'entreprise',
+        'adresse' => '15 rue Marsollier'
+    ),
+    'to' => array(
+        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'code_postal' => '33000',
+        'ville' => 'Bordeaux',
+        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
+        'adresse' => '24, rue des Ayres'
+    ),
+    'parcels' => array(
+        'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+        'dimensions' => array(
+            1 => array(
+                'poids' => 1,
+                'longueur' => 15,
+                'largeur' => 16,
+                'hauteur' => 8
+            )
+        )
+    ),
+    'additional_params' => array(
+        'collecte' => date("Y-m-d"),
+        'delay' => 'aucun',
+        'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
+        'valeur' => "42.655"
     )
 );
 
 $currency = array('EUR' => '€', 'USD'=>'$');
 
 // Prepare and execute the request
-$lib = new Quotation($from, $to, $parcels, $additionalParams);
-$lib->getQuotation($quot_params);
-$lib->getOffers();
+$lib = new QuotationMulti($multirequest);
 
-if (!$lib->curl_error && !$lib->resp_error) {
+$lib->getQuotationMulti();
+$lib->getOffersMulti();
+
+if (!$lib->curl_error) {
 ?>
 <h3>API Quotation :</h3>
     <div class="row">

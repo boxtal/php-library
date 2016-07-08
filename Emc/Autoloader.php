@@ -16,6 +16,7 @@ class Autoloader
         $class = str_replace('Emc\\', '', $class);
         $class = str_replace('\\', '/', $class);
         $class = str_replace('Env', '', $class);
+        $class = str_replace('QuotationMulti', 'Quotation', $class);
         require $class .'.php';
     }
 }

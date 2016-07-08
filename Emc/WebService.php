@@ -512,14 +512,14 @@ class WebService
     {
         $i = 0;
         $this->xpath = array();
-        $return_xml = new DOMDocument('1.0', 'UTF-8');
-        $return_wrapper = new DOMElement('multirequest_wrapper');
+        $return_xml = new \DOMDocument('1.0', 'UTF-8');
+        $return_wrapper = new \DOMElement('multirequest_wrapper');
         $return_xml->appendChild($return_wrapper);
 
         foreach ($documents as $document) {
             $dom_cl = new \DOMDocument();
             $dom_cl->loadXML($document);
-            $this->xpath[$i] = new DOMXPath($dom_cl);
+            $this->xpath[$i] = new \DOMXPath($dom_cl);
             $target_node = $dom_cl->documentElement;
             $return_wrapper->appendChild($return_xml->importNode($target_node, true));
 

@@ -37,15 +37,20 @@
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quotation <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li class="<?php if ("get_cotation.php" == $slug) {
+                        <li class="<?php if ("get_cotation.php" == $slug && !isset($_GET['dest'])) {
                             echo "active";
 } ?>">
                             <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php">Paris to Bordeaux</a>
                         </li>
-                        <li class="<?php if ("make_order_inter.php" == $slug) {
+                        <li class="<?php if ("get_cotation.php" == $slug && isset($_GET['dest']) && $_GET['dest'] == 'Sydney') {
                             echo "active";
 } ?>">
                             <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php?dest=Sydney">Paris to Sydney (international)</a>
+                        </li>
+                        <li class="<?php if ("get_cotation_multiple.php" == $slug) {
+                            echo "active";
+} ?>">
+                            <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation_multiple.php">Multiple quotation</a>
                         </li>
                       </ul>
                     </li>

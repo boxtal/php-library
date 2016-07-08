@@ -148,13 +148,22 @@ class Quotation extends WebService
     * @param [Array] $to          recipient info
     * @param [Array] $parcels     [description]
     */
-    public function __construct($from, $to, $parcels)
+    public function __construct($from = array(), $to = array(), $parcels = array(), $additionalParams = array())
     {
         parent::__construct();
-
-        $this->setPerson('shipper', $from);
-        $this->setPerson('recipient', $to);
-        $this->setType($parcels["type"], $parcels["dimensions"]);
+        
+        if (!empty($from)) {
+            $this->setPerson('shipper', $from);
+        }
+        if (!empty($to)) {
+            $this->setPerson('recipient', $to);
+        }
+        if (!empty($parcels)) {
+            $this->setType($parcels["type"], $parcels["dimensions"]);
+        }
+        if (!empty($additionalParams)) {
+            $this->getQuotation($additionalParams);
+        }
     }
 
     /**
@@ -721,5 +730,42 @@ class Quotation extends WebService
     public function getParams()
     {
         return $this->param;
+    }
+}
+
+class QuotationMulti extends Quotation
+{
+
+   /**
+    * [__construct description]
+    * @param [Array] $multirequest    indexed array containing quotation information, namely "from", "to", "parcels" and "additional_params"
+    */
+    public function __construct($multirequest)
+    {
+        parent::__construct();
+        
+        foreach($multirequest as $quot_index => $quot_info) {
+            $params = array();
+            
+            // Set sender
+            foreach ($quot_info['from'] as $key => $value) {
+                $params['expediteur.' . $key] = $value;
+            }
+
+            // Set recipient
+            foreach ($quot_info['to'] as $key => $value) {
+                $params['destinataire.' . $key] = $value;
+            }
+
+            // Set parcel
+            foreach ($quot_info['parcels']['dimensions'] as $d => $data) {
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.poids'] = $data['poids'];
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.longueur'] = $data['longueur'];
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.largeur'] = $data['largeur'];
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.hauteur'] = $data['hauteur'];
+            }
+            
+            $this->setParamMulti($params);
+        }
     }
 }
