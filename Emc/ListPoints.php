@@ -54,7 +54,7 @@ class ListPoints extends WebService
     /**
      * Function loads all points.
      * @param array $carriers carrier codes array with operator and service codes in the form MONR_CpourToi
- 	 * @param array $destination Parameters for the request to the api<br>
+     * @param array $destination Parameters for the request to the api<br>
      * <samp>
      * Example : <br>
      * array(<br>

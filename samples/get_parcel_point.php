@@ -14,8 +14,9 @@ $lib = new ParcelPoint();
 
 // load multiple parcel points
 // if you plan to load multiple parcel points around the same address, get_list_parcel_points.php is a better solution
+$lib->getParcelPoint("dropoff_point", "MONR-003921");
 $lib->getParcelPoint("dropoff_point", "SOGP-C1160");
-$lib->getParcelPoint("pickup_point", "SOGP-C3183");
+$lib->getParcelPoint("pickup_point", "MONR-018481");
 $lib->getParcelPoint("pickup_point", "SOGP-C3210");
 $lib->getParcelPoint("pickup_point", "SOGP-C3059");
 $lib->getParcelPoint("pickup_point", "SOGP-C1250");

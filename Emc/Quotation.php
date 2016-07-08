@@ -285,7 +285,7 @@ class Quotation extends WebService
     }
 
     /**
-     * Public function which receives the quotation for curl  multi request.
+     * Public function which receives the quotation for curl multi request.
      * @access public
      * @return true if request was executed correctly, false if not
      */
@@ -323,11 +323,12 @@ class Quotation extends WebService
         $source = parent::doRequestMulti();
 
         /* We make sure there is an XML answer and try to parse it */
-        if ($source !== false) {
+        /*if ($source !== false) {*/
             parent::parseResponseMulti($source);
-            return (count($this->resp_errors_list) == 0);
+            /*return (count($this->resp_errors_list) == 0);
         }
-        return false;
+        return false;*/
+        return true;
     }
 
 
@@ -360,6 +361,7 @@ class Quotation extends WebService
         }
 
         $offers = $xpath->query('/cotation/shipment/offer');
+        $return_values = array();
 
         foreach ($offers as $o => $offer) {
             $offer_mode = $xpath->query('./mode', $offer)->item(0)->nodeValue;
@@ -377,12 +379,42 @@ class Quotation extends WebService
                             $nodes = $xpath->query('*', $mandatory_child);
                             foreach ($nodes as $node) {
                                 if ($node->nodeName == 'enum') {
-                                    $mand_infos[$arr_key][$mandatory_child->nodeName] = 'enum';
-                                    $mand_infos[$arr_key]['array'] = array();
-                                    $childs = $xpath->query('*', $node);
-                                    foreach ($childs as $child) {
-                                        if (trim($child->nodeValue) != '') {
-                                            $mand_infos[$arr_key]['array'][] = $child->nodeValue;
+                                    $points = $xpath->query('./point', $node);
+                                    if ($points->length > 0) {
+                                        $mand_infos[$arr_key][$mandatory_child->nodeName] = 'enum';
+                                        $mand_infos[$arr_key]['array'] = array();
+                                        foreach ($points as $point) {
+                                            $point_values = $xpath->query('*', $point);
+                                            $values_to_push = array();
+                                            foreach ($point_values as $val) {
+                                                if ($val->nodeName == 'schedule') {
+                                                    $days = $xpath->query('./day', $val);
+                                                    $values_to_push[$val->nodeName] = array();
+                                                    foreach ($days as $day) {
+                                                        $day_data = array(
+                                                            'weekday' => $xpath->query('./weekday', $day)->item(0)->nodeValue,
+                                                            'open_am' => $xpath->query('./open_am', $day)->item(0)->nodeValue,
+                                                            'close_am' => $xpath->query('./close_am', $day)->item(0)->nodeValue,
+                                                            'open_pm' => $xpath->query('./open_pm', $day)->item(0)->nodeValue,
+                                                            'close_pm' => $xpath->query('./close_pm', $day)->item(0)->nodeValue,
+                                                        );
+                                                        array_push($values_to_push[$val->nodeName], $day_data);
+                                                    }
+                                                } else {
+                                                    $values_to_push[$val->nodeName] = trim($val->nodeValue);
+                                                }
+                                                
+                                            }
+                                            array_push($mand_infos[$arr_key]['array'], $values_to_push);
+                                        }
+                                    } else {
+                                        $mand_infos[$arr_key][$mandatory_child->nodeName] = 'enum';
+                                        $mand_infos[$arr_key]['array'] = array();
+                                        $childs = $xpath->query('*', $node);
+                                        foreach ($childs as $child) {
+                                            if (trim($child->nodeValue) != '') {
+                                                $mand_infos[$arr_key]['array'][] = $child->nodeValue;
+                                            }
                                         }
                                     }
                                 } else {
@@ -443,7 +475,7 @@ class Quotation extends WebService
                     $alert = '';
                 }
 
-                $this->offers[$o + $i] = array(
+                $return_values[$o] = array(
                     'mode' => $offer_mode,
                     'url' => $xpath->query('./url', $offer)->item(0)->nodeValue,
                     'operator' => array(
@@ -472,15 +504,21 @@ class Quotation extends WebService
                 );
                 // Ajout de l'insurance si elle est retournée
                 if ($xpath->evaluate('boolean(./insurance)', $offer)) {
-                    $this->offers[$o + $i]['insurance'] = array(
+                    $return_values[$o]['insurance'] = array(
                         'currency' => $xpath->query('./insurance/currency', $offer)->item(0)->nodeValue,
                         'tax-exclusive' => $xpath->query('./insurance/tax-exclusive', $offer)->item(0)->nodeValue,
                         'tax-inclusive' => $xpath->query('./insurance/tax-inclusive', $offer)->item(0)->nodeValue);
-                    $this->offers[$o + $i]['hasInsurance'] = true;
+                    $return_values[$o]['hasInsurance'] = true;
                 } else {
-                    $this->offers[$o + $i]['hasInsurance'] = false;
+                    $return_values[$o]['hasInsurance'] = false;
                 }
             }
+        }
+        
+        if ($multi) {
+            $this->offers[$i] = $return_values;
+        } else {
+            $this->offers = $return_values;
         }
     }
 

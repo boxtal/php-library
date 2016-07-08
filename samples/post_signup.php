@@ -67,7 +67,7 @@ $response = $lib->postUserSignup($params);
 if (!$lib->curl_error && !$lib->resp_error) {
     if ($response == "1") {
         echo '<div class="alert alert-success">You\'ll receive an e-mail confirming that your account was successfully created and now ready for use.</div>';
-    } else if ($response == "0") {
+    } elseif ($response == "0") {
         echo '<div class="alert alert-warning">An error occurred during account creation ! please try again later.</div>';
     } else {
         echo '<pre class="alert alert-danger">';

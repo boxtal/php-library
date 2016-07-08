@@ -110,7 +110,8 @@ class CarriersList extends WebService
                 $this->carriers[$id]['ope_code'] = $ope_code;
                 $this->carriers[$id]['ope_name'] = $ope_name;
                 $this->carriers[$id]['srv_code'] = $this->xpath->query('./code', $carrier)->item(0)->nodeValue;
-                $this->carriers[$id]['srv_name_fo'] = $this->xpath->query('./srv_name_fo', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['srv_name_fo'] =
+                  $this->xpath->query('./srv_name_fo', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['srv_name_bo'] =
                   $this->xpath->query('./description_store', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['old_srv_name'] = $this->xpath->query('./label', $carrier)->item(0)->nodeValue;

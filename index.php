@@ -4,7 +4,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 ?>
 <div>
     <h3>Quick start / Boxtale PHP Library</h3>
-    <p>This PHP library aims to present the PHP implementation of the EnvoiMoinsCher.com API. <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a></p>
+    <p>This PHP library aims to present the PHP implementation of the <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a> API.</p>
     <p>We will see step by step the essential blocks for building a custom shipping module on your e-shop:/p>
     <ul class="myTab">
         <li><a href="#cat" role="tab" data-toggle="tab">Available content types</a></li>

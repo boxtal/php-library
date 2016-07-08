@@ -38,7 +38,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
         <th>Calendar</th>
     </tr>
 <?php   foreach ($lib->list_points as $carrier) {   ?>
-    <?php	foreach($carrier['points'] as $point){	?>
+    <?php   foreach ($carrier['points'] as $point) {  ?>
         <tr>
             <td><?php echo $carrier['operator'].' '.$carrier['service']; ?></td>
             <td><?php echo $point['code']; ?></td>
@@ -63,7 +63,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
                         <td>Closing pm</td>
                     </tr>
                     <?php
-                    foreach ($point['days'] as $day) {
+                    foreach ($point['schedule'] as $day) {
                     ?>
                         <tr>
                             <td><?php echo $week_days[$day['weekday']]; ?></td>
@@ -86,8 +86,10 @@ if (!$lib->curl_error && !$lib->resp_error) {
                 </button>
             </td>
         </tr>
-    <?php	}	?>
-<?php   }   ?>
+<?php
+}
+}
+?>
 </table>
 </div>
 <?php
