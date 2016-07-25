@@ -1,0 +1,21 @@
+{
+    "name": "boxtale/php-library",
+    "type": "library",
+    "description": "Boxtale PHP Library for Envoicoinscher API",
+    "homepage": "https://github.com/Boxtale/php-library",
+    "license": "Unlicense",
+    "minimum-stability": "dev",
+    "keywords": ["envoicoinscher", "boxtale", "php", "emc", "class", "api", "library"],
+    "authors": [
+        {
+            "name": "API Envoimoinscher",
+            "email": "api@envoimoinscher.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "files": ["config/autoload.php"]
+    }
+}

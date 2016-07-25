@@ -1,27 +1,25 @@
 <?php
-use \Emc\OrderStatus;
+use \Emc\News;
 
-/* Example of use for OrderStatus class
- * Get the status of a passed order
+/* Example of use for News class
+ * Load all available News
  */
+
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
 
-if (EMC_MODE == "prod") {
-    $emcRef = "1605122984DHLEQA2DFR";
-} else {
-    $emcRef = "1606073393UPSE082ZFR";
-}
+/* Prepare and execute the request */
+$lib = new News();
 
+$module_version = '3.0.0';
+$module_platform = 'prestashop';
 
-// Prepare and execute the request
-$lib = new OrderStatus($emcRef);
-
-echo "<h3>API OrderStatus :</h3>";
+$lib->loadNews($module_platform, $module_version);
+echo "<h3>API News :</h3>";
 if (!$lib->curl_error && !$lib->resp_error) {
     // If you want to recieve order's status changes or documents, check for "url_push" param in samples/make_order.php
-    echo '<pre>' . print_r($lib->order_info, true) . '</pre>';
+    echo '<pre>' . print_r($lib->news, true) . '</pre>';
 } else {
     echo '<div class="alert alert-danger">';
     handle_errors($lib);
@@ -33,7 +31,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
         Toggle Debug
     </button>
     <pre id="debug" style="display: none">
-        <?php print_r(array_merge($lib->getApiParam(), array('API response :' => $lib->order_info))); ?>
+        <?php print_r(array_merge($lib->getApiParam(), array('API response :' => $lib->news))); ?>
     </pre>
 </div>
 <?php
