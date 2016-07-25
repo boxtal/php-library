@@ -151,7 +151,7 @@ class Quotation extends WebService
     public function __construct($from = array(), $to = array(), $parcels = array(), $additionalParams = array())
     {
         parent::__construct();
-        
+
         if (!empty($from)) {
             $this->setPerson('shipper', $from);
         }
@@ -330,7 +330,7 @@ class Quotation extends WebService
     private function doSimpleRequestMulti()
     {
         $source = parent::doRequestMulti();
-        
+
         /* We make sure there is an XML answer and try to parse it */
         /*if ($source !== false) {*/
             parent::parseResponseMulti($source);
@@ -412,7 +412,6 @@ class Quotation extends WebService
                                                 } else {
                                                     $values_to_push[$val->nodeName] = trim($val->nodeValue);
                                                 }
-                                                
                                             }
                                             array_push($mand_infos[$arr_key]['array'], $values_to_push);
                                         }
@@ -523,7 +522,7 @@ class Quotation extends WebService
                 }
             }
         }
-        
+
         if ($multi) {
             $this->offers[$i] = $return_values;
         } else {

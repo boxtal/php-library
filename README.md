@@ -166,11 +166,8 @@ if (!$lib->curl_error && !$lib->resp_error) {
 ##### 4. Make an order
 
 The process of making an order is the same as making a quotation. The only difference is the extra parameters you need to send.
-
 * _For the sender and the recipient, you need to give phone numbers, name and first name._
-
 * _For the shipment, depending on the carrier chosen,you might need to give hours for pickup availability, dropoff and/or pickup parcel points_
-
 * _All international shipments need an <em>object.</em>valeur parameter (where <em>object</em> is the shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope))._
 
 
