@@ -15,7 +15,7 @@ To install the library, simply:
 
 Boxtale PHP Library works with PHP 5.4, 5.5, 5.6, 7.0.
 
-In order to use the API, you need to create a (free) user account on www.envoimoinscher.com, checking the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website."
+In order to use the API, you need to create a (free) user account you need to create a (free) user account using the API (postUserSignup) or on http://www.envoimoinscher.com/inscription.html, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website."
 
 You will then receive an email with your API keys and be able to start your tests.
 ### Library content
@@ -48,54 +48,60 @@ if (EMC_MODE == "prod") {
 ```
 
 
+##### 1. Signup to envoimoincher.com
 
+To create a (free) Boxtale user account, you have two options:
 
-##### 1. Get the list of available content types
+    * Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.
 
->Using the API, you can get a list of the available content types which you will be able to use in your module. The "content type" is the nature of the content that you are shipping.
+    * Or using the postUserSignup method available in EnvoiMoinsCher API
+
+>In both cases, you will receive an email confirming that your account was successfully created and 24h later another email with your API keys.</p>
+
 
 ```php
 
-require __DIR__ . '/vendor/autoload.php';
+    require __DIR__ . '/vendor/autoload.php';
 
-$lib = new \Emc\ContentCategory();
-$lib->getCategories(); // load all content categories
-$lib->getContents();   // load all content types
+    // Params to create account as Professional
+    $params =array(
+        'facturation.contact_ste'=>'Boxtale',
+        'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
+        'facturation.contact_nom'=>'Snow',
+        'facturation.contact_prenom'=>'Jon',
+        'facturation.adresse1'=>'15 rue Marsollier',
+        'facturation.adresse2'=>'', // Address line 2
+        'facturation.adresse3'=>'', // Address line 3
+        'facturation.ville'=>'Paris', // City
+        'facturation.pz_id'=>'76', // Town id ( 76: France, 68: Spain, 112 :Italy, 70: Unated States, 191: UK ...)
+        'facturation.codepostal'=>'75001',
+        'facturation.contact_email'=>'jsnow@boxtale.com',
+        'facturation.contact_tel'=>'0606060606',
+        'facturation.contact_locale'=>'fr_FR',
+        'facturation.defaut_enl'=>'on', // Set the adress as default collect adress
+        'facturation.contact_stesiret'=>'12345678912345', // SIRET
+        'facturation.contact_tvaintra'=>'123456', // Intra-community VAT No
 
-// The content categories list is available on the array : $lib->categories
-// The content types list is available on the array : $lib->contents
+        'moduleEMC'=>'on', // To obtain an API key within 24 hours.
+        'user.login'=>'jsnow',
+        'user.password'=> urlencode($lib->encryptPassword('password')),
 
-if (!$lib->curl_error && !$lib->resp_error) {
-    print_r($lib->categories);
-    print_r($lib->contents);
+        //Optional
+        'user.profession'=>'gerant', // Your title, (gerant, developpeur, agence, free-lance, autre)
+        'user.partner_code'=>'', // If you have a partner code
+        'user.volumetrie'=>'2', // Your average shipping quantity peer month? 1 (less than 10), 2 (10 to 100), 3 (100 to 250), 4 (250 to 500), 5 (500 to 1000), 6 (1000 to 2000), 7 (2000 to 5000), 8 (5000 to 10000)
+        'user.site_online'=>'1', // Is your website online ? (1 (yes), 0 (no))
+        'user.logiciel'=>'prestashop-1.6' // Possible values (prestashop-1.5, prestashop-1.6, drupal, magento, woocommerce, oscommerce, oxatis)
+    );
+    $lib = new \Emc\User();
 
-} else {
-    handle_errors($lib);
-}
+    $response = $lib->postUserSignup($params);
+
 
 ```
 
-##### 2. Get the list of countries
 
->Orders shipping with the EnvoiMoinsCher API use country ISO codes. For now, the system only allows shipments from France to abroad, not from abroad to France. Here is how to get the list of countries.
-
-```php
-
-$lib = new \Emc\Country();
-$lib->getCountries();
-// The countries list is available on the array : $lib->countries
-if (!$lib->curl_error && !$lib->resp_error) {
-    print_r($lib->countries);
-} else {
-    handle_errors($lib);
-}
-
-```
-
-
-
-
-##### 3. Get a quotation
+##### 2. Get a quotation
 
 Here are the elements needed to get a quotation:
   * Your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
@@ -107,6 +113,7 @@ Here are the elements needed to get a quotation:
 
 
 ```php
+require __DIR__ . '/vendor/autoload.php';
 
 // shipper address
 $from = array(
@@ -139,16 +146,14 @@ $parcels = array(
     )
 );
 
-$quot_params = array(
+$additionalParams = array(
     'collecte' => date("Y-m-d"),
     'delay' => 'aucun',
     'content_code' => 10120,
     'valeur' => "42.655"
 );
 
-$lib = new Quotation($from, $to, $parcels);
-$lib->getQuotation($quot_params);
-
+$lib = new \Emc\Quotation($from, $to, $parcels, additionalParams);
 $lib->getOffers();
 // The offers list is available on the array : $lib->offers
 
@@ -173,6 +178,8 @@ The process of making an order is the same as making a quotation. The only diffe
 
 
 ```php
+require __DIR__ . '/vendor/autoload.php';
+
 // shipper address
 $from = array(
     'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
@@ -218,7 +225,7 @@ $parcels = array(
     )
 );
 
-$quot_params = array(
+$additionalParams = array(
     'collecte' => date('Y-m-d'),
     'delai' => "aucun",
     'assurance.selection' => false, // whether you want an extra insurance or not
@@ -235,10 +242,53 @@ $quot_params = array(
 // Prepare and execute the request
 $lib = new \emc\Quotation($from, $to, $parcels);
 
-$orderPassed = $lib->makeOrder($quot_params);
+$orderPassed = $lib->makeOrder($additionalParams);
 
 if (!$lib->curl_error && !$lib->resp_error) {
     print_r($lib->order);
+} else {
+    handle_errors($lib);
+}
+
+```
+
+
+##### 4. Get the list of available content types
+
+>Using the API, you can get a list of the available content types which you will be able to use in your module. The "content type" is the nature of the content that you are shipping.
+
+```php
+
+require __DIR__ . '/vendor/autoload.php';
+
+$lib = new \Emc\ContentCategory();
+$lib->getCategories(); // load all content categories
+$lib->getContents();   // load all content types
+
+// The content categories list is available on the array : $lib->categories
+// The content types list is available on the array : $lib->contents
+
+if (!$lib->curl_error && !$lib->resp_error) {
+    print_r($lib->categories);
+    print_r($lib->contents);
+
+} else {
+    handle_errors($lib);
+}
+
+```
+
+##### 5. Get the list of countries
+
+>Orders shipping with the EnvoiMoinsCher API use country ISO codes. For now, the system only allows shipments from France to abroad, not from abroad to France. Here is how to get the list of countries.
+
+```php
+
+$lib = new \Emc\Country();
+$lib->getCountries();
+// The countries list is available on the array : $lib->countries
+if (!$lib->curl_error && !$lib->resp_error) {
+    print_r($lib->countries);
 } else {
     handle_errors($lib);
 }

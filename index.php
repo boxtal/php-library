@@ -20,7 +20,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         <b>$ composer require boxtale/php-library </b>
         <br/><br/>
      <h4>Requirements et and general information about the EnvoiMoinsCher API.</h4>
-     <p>In order to use the API, you need to create a (free) user account using the API (postUserSignup) or on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, checking the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box. You will then receive an email with your API keys and be able to start your tests.</p>
+     <p>In order to use the API, you need to create a (free) user account using the API (postUserSignup) or on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box. You will then receive an email with your API keys and be able to start your tests.</p>
     Make sure to fill in your credentials in the configuration file : config/config.php
     <pre>
     /* To use 'test' or 'prod' environment  */
@@ -75,7 +75,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'facturation.contact_ste'=>'Boxtale',
         'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
         'facturation.contact_nom'=>'Snow',
-        'facturation.contact_prenom'=>'John',
+        'facturation.contact_prenom'=>'Jon',
         'facturation.adresse1'=>'15 rue Marsollier',
         'facturation.adresse2'=>'', // Address line 2
         'facturation.adresse3'=>'', // Address line 3
@@ -192,7 +192,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'type' => 'entreprise', // accepted values are "particulier" or "entreprise"
         'adresse' => '15, rue Marsollier',
         'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
-        'prenom' => 'John',
+        'prenom' => 'Jon',
         'nom' => 'Snow',
         'societe' => 'Boxtale',
         'email' => 'jsnow@boxtale.com',
