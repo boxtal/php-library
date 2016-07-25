@@ -51,10 +51,8 @@ if (EMC_MODE == "prod") {
 ##### 1. Signup to envoimoincher.com
 
 To create a (free) Boxtale user account, you have two options:
-
-    * Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.
-
-    * Or using the postUserSignup method available in EnvoiMoinsCher API
+  * Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.
+  * Or using the postUserSignup method available in EnvoiMoinsCher API
 
 >In both cases, you will receive an email confirming that your account was successfully created and 24h later another email with your API keys.</p>
 
