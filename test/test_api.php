@@ -881,14 +881,13 @@ function test_Quotation($userData)
     $order_env->setEnv('test'); // To make an order on test
     $orderPassed = $order_env->makeOrder($order_quotInfo, true);
 
-    $offer_env = new Quotation($from, $to, $parcels);
     $offer_quotInfo = array(
         "collecte" => date("Y-m-d"),
         "delai" => "aucun",
         "code_contenu" => 10120
         );
 
-    $offer_env->getQuotation($offer_quotInfo);
+    $offer_env = new Quotation($from, $to, $parcels, $offer_quotInfo);
     $offer_env->getOffers();
 
     /* Reception test */

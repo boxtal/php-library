@@ -114,7 +114,11 @@ class User extends WebService
             parent::parseResponse($source);
             // The request is ok, we return trimed response
             $nodes = $this->xpath->query('/user/response');
-            return trim($nodes->item(0)->nodeValue);
+            if (isset($nodes->item(0)->nodeValue)) {
+                return trim($nodes->item(0)->nodeValue);
+            } else {
+                return trim($nodes->item);
+            }
         } else {
             return $this->resp_error;
         }

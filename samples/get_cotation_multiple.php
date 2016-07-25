@@ -1,14 +1,15 @@
 <?php
 use \Emc\QuotationMulti;
 
-/* Example of use for Quotation class
+/* Example of use for QuotationMulti class
+ * Used to ship products from multiple warehouses
  * Get all available offers for your send
  * You can find more informations about quotation's request here : http://ecommerce.envoimoinscher.com/api/documentation/cotations/
  */
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
-/* for multi quotations, all params are set in a single array with a numeric index from 0. 
+/* for multi quotations, all params are set in a single array with a numeric index from 0.
  * If correctly set, the request response index will be the same as the request numeric index.
  */
 $multirequest = array();
@@ -112,13 +113,13 @@ if (!$lib->curl_error) {
             <?php
             foreach ($multirequest as $requestIndex => $request) {
                 ?>
-                    <tr><td colspan="8" class="h4">Quotation n°<?php echo $requestIndex.' - From '.$request['from']['ville'].' to '.$request['to']['ville']; ?></td></tr>
+                    <tr><td colspan="8" class="h4">Quotation n° <?php echo ( $requestIndex +1 ).' - From '.$request['from']['ville'].' to '.$request['to']['ville']; ?></td></tr>
                 <?php
                 if (isset($lib->resp_errors_list[$requestIndex])) {
                     // case resp error
                     echo '<tr><td class="alert alert-danger" colspan="8">';
                     $text = '';
-                    foreach($lib->resp_errors_list[$requestIndex] as $e => $error) {
+                    foreach ($lib->resp_errors_list[$requestIndex] as $e => $error) {
                         if ($e == 0) {
                             $text .= 'invalid request : ';
                         } else {
@@ -128,9 +129,11 @@ if (!$lib->curl_error) {
                     }
                     echo $text.'</td></tr>';
                 } else {
-                    foreach ($lib->offers[$requestIndex] as $offre) { ?>
-                        <tr>
-                            <td><?php echo $offre['operator']['label'];?></td>
+                    foreach ($lib->offers[$requestIndex] as $offre) {
+                                $border = ( $requestIndex % 2 ? "blActive" : "blDefault");
+?>
+                        <tr >
+                            <td class="<?php echo $border; ?>"><?php echo $offre['operator']['label'];?></td>
                             <td><?php echo $offre['operator']['code'].$offre['service']['code'];?></td>
                             <td>
                             <span class="badge alert-default">

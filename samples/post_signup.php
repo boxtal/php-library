@@ -1,17 +1,18 @@
 <?php
+use \Emc\User;
 
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
 
-$lib = new \Emc\User();
+$lib = new User();
 
 // Params to create account as Professional
 $params =array(
     'facturation.contact_ste'=>'Boxtale',
     'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
     'facturation.contact_nom'=>'Snow',
-    'facturation.contact_prenom'=>'John',
+    'facturation.contact_prenom'=>'Jon',
     'facturation.adresse1'=>'15 rue Marsollier',
     'facturation.adresse2'=>'', // Address line 2
     'facturation.adresse3'=>'', // Address line 3

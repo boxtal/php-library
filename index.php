@@ -7,10 +7,11 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     <p>This PHP library aims to present the PHP implementation of the <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a> API.</p>
     <p>We will see step by step the essential blocks for building a custom shipping module on your e-shop:/p>
     <ul class="myTab">
-        <li><a href="#cat" role="tab" data-toggle="tab">Available content types</a></li>
-        <li><a href="#country" role="tab" data-toggle="tab">Countries list</a></li>
+        <li><a href="#signup" role="tab" data-toggle="tab">Signup</a></li>
         <li><a href="#cotations" role="tab" data-toggle="tab">Get quotations</a></li>
         <li><a href="#order" role="tab" data-toggle="tab">Make Orders</a></li>
+        <li><a href="#cat" role="tab" data-toggle="tab">Available content types</a></li>
+        <li><a href="#country" role="tab" data-toggle="tab">Countries list</a></li>
     </ul> 
      <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <br/>
@@ -19,7 +20,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         <b>$ composer require boxtale/php-library </b>
         <br/><br/>
      <h4>Requirements et and general information about the EnvoiMoinsCher API.</h4>
-     <p>In order to use the API, you need to create a (free) user account on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, checking the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box. You will then receive an email with your API keys and be able to start your tests.</p>
+     <p>In order to use the API, you need to create a (free) user account using the API (postUserSignup) or on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, checking the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box. You will then receive an email with your API keys and be able to start your tests.</p>
     Make sure to fill in your credentials in the configuration file : config/config.php
     <pre>
     /* To use 'test' or 'prod' environment  */
@@ -51,60 +52,62 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     <br/>
 
 <ul class="myTab nav nav-tabs" role="tablist">
-    <li class="active"><a href="#cat" role="tab" data-toggle="tab">Available content types</a></li>
-    <li><a href="#country" role="tab" data-toggle="tab">Countries list</a></li>
+    <li class="active"><a href="#signup" role="tab" data-toggle="tab">Signup</a></li>
     <li><a href="#cotations" role="tab" data-toggle="tab">Get quotations</a></li>
     <li><a href="#order" role="tab" data-toggle="tab">Make Orders</a></li>
+    <li><a href="#cat" role="tab" data-toggle="tab">Available content types</a></li>
+    <li><a href="#country" role="tab" data-toggle="tab">Countries list</a></li>
 </ul>
 <div class="tab-content">
-      <div class="tab-pane active" id="cat">
-        <h5 id="categories">1. How can I get a list of available content types ?</h5>
-        <p>Using the API, you can get a list of the available content types which you will be able to use in your module.
-            The "content type" is the nature of the content that you are shipping.</p>
+    <div class="tab-pane active" id="signup">
+        <h5 id="orders">1. Signup to envoimoincher.com </h5>
+        <p>To create a (free) Boxtale user account, you have two options:</p>
+        <ul>
+            <li>Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.</li>
+            <li>Or using the postUserSignup method available in EnvoiMoinsCher API </li>
+        </ul>
+        <p>In both cases, you will receive an email confirming that your account was successfully created and 24h later another email with your API keys.</p>
         <pre>
     require __DIR__ . '/vendor/autoload.php';
 
-    $lib = new \Emc\ContentCategory();
-    $lib->getCategories(); // load all content categories
-    $lib->getContents();   // load all content types
+    // Params to create account as Professional
+    $params =array(
+        'facturation.contact_ste'=>'Boxtale',
+        'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
+        'facturation.contact_nom'=>'Snow',
+        'facturation.contact_prenom'=>'John',
+        'facturation.adresse1'=>'15 rue Marsollier',
+        'facturation.adresse2'=>'', // Address line 2
+        'facturation.adresse3'=>'', // Address line 3
+        'facturation.ville'=>'Paris', // City
+        'facturation.pz_id'=>'76', // Town id ( 76: France, 68: Spain, 112 :Italy, 70: Unated States, 191: UK ...)
+        'facturation.codepostal'=>'75001',
+        'facturation.contact_email'=>'jsnow@boxtale.com',
+        'facturation.contact_tel'=>'0606060606',
+        'facturation.contact_locale'=>'fr_FR',
+        'facturation.defaut_enl'=>'on', // Set the adress as default collect adress
+        'facturation.contact_stesiret'=>'12345678912345', // SIRET
+        'facturation.contact_tvaintra'=>'123456', // Intra-community VAT No
 
-    // The content categories list is available on the array : $lib->categories
-    // The content types list is available on the array : $lib->contents
+        'moduleEMC'=>'on', // To obtain an API key within 24 hours.
+        'user.login'=>'jsnow',
+        'user.password'=> urlencode($lib->encryptPassword('password')),
 
-    if (!$lib->curl_error && !$lib->resp_error) {
-        print_r($lib->categories);
-        print_r($lib->contents);
+        //Optional
+        'user.profession'=>'gerant', // Your title, (gerant, developpeur, agence, free-lance, autre)
+        'user.partner_code'=>'', // If you have a partner code
+        'user.volumetrie'=>'2', // Your average shipping quantity peer month? 1 (less than 10), 2 (10 to 100), 3 (100 to 250), 4 (250 to 500), 5 (500 to 1000), 6 (1000 to 2000), 7 (2000 to 5000), 8 (5000 to 10000)
+        'user.site_online'=>'1', // Is your website online ? (1 (yes), 0 (no))
+        'user.logiciel'=>'prestashop-1.6' // Possible values (prestashop-1.5, prestashop-1.6, drupal, magento, woocommerce, oscommerce, oxatis)
+    );
+    $lib = new \Emc\User();
 
-    } else {
-        handle_errors($lib);
-    }
-
+    $response = $lib->postUserSignup($params);
         </pre>
-        <p>The API will need the content type ids as a parameter for quotations and orders.</p>
-        <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_categories.php">list of contents example</a></p>
-        <br/>
+       <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/post_signup.php">User Signup</a>
     </div>
-    <div class="tab-pane" id="country">
-        <h5 id="countries">2. How can I get a list of countries ?</h5>
-        <p>Orders shipping with the EnvoiMoinsCher API use country ISO codes. For now, the system only allows shipments from France to abroad, not from abroad to France. Here is how to get the list of countries:</p>
-        <pre>
-
-    $lib = new \Emc\Country();
-    $lib->getCountries();
-    // The countries list is available on the array : $lib->countries
-
-    if (!$lib->curl_error && !$lib->resp_error) {
-        print_r($lib->countries);
-    } else {
-        handle_errors($lib);
-    }
-        </pre>
-        <p>The API will need the country ISO code as a parameter for several actions.</p>
-        <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_country.php">list of countries example</a></p>
-        <br/>
-    </div>
-    <div class="tab-pane" id="cotations">
-        <h5 id="quotations">3. How to get a quotation ?</h5>
+     <div class="tab-pane" id="cotations">
+        <h5 id="quotations">2. How to get a quotation ?</h5>
         <p>Here are the elements needed to get a quotation:</p>
         <ul>
             <li>your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)</li>
@@ -115,6 +118,8 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
             <li>your shipment content value (for a cross-boarder quotation)</li>
         </ul>
         <pre>
+    require __DIR__ . '/vendor/autoload.php';
+
     // shipper address
     $from = array(
         'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
@@ -146,15 +151,14 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         )
     );
 
-    $quot_params = array(
+    $additionalParams = array(
         'collecte' => date("Y-m-d"),
         'delay' => 'aucun',
         'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
         'valeur' => "42.655"
     );
 
-    $lib = new Quotation($from, $to, $parcels);
-    $lib->getQuotation($quot_params);
+    $lib = new \Emc\Quotation($from, $to, $parcels, $additionalParams);
     $lib->getOffers();
     // The offers list is available on the array : $lib->offers
 
@@ -171,13 +175,14 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     </div>
     <div class="tab-pane" id="order">
-        <h5 id="orders">4. How to make an order ?</h5>
+        <h5 id="orders">3. How to make an order ?</h5>
         <p>The process of making an order is the same as making a quotation. The only difference is the extra parameters you need to send.<br/>
         For the sender and the recipient, you need to give phone numbers, name and first name.<br/>
         For the shipment, depending on the carrier chosen,
         you might need to give hours for pickup availability, dropoff and/or pickup parcel points.</p>
         <p>All international shipments need an <em>object.</em>valeur parameter (where <em>object</em> is the shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)).</p>
         <pre>
+    require __DIR__ . '/vendor/autoload.php';
 
     // shipper address
     $from = array(
@@ -224,7 +229,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         )
     );
 
-    $quot_params = array(
+    $additionalParams = array(
         'collecte' => date('Y-m-d'),
         'delai' => "aucun",
         'assurance.selection' => false, // whether you want an extra insurance or not
@@ -241,7 +246,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     // Prepare and execute the request
     $lib = new \emc\Quotation($from, $to, $parcels);
 
-    $orderPassed = $lib->makeOrder($quot_params);
+    $orderPassed = $lib->makeOrder($additionalParams);
 
     if (!$lib->curl_error && !$lib->resp_error) {
         print_r($lib->order);
@@ -249,6 +254,52 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         handle_errors($lib);
     }
     </pre>
+    </div>
+    <div class="tab-pane" id="cat">
+        <h5 id="categories">4. How can I get a list of available content types ?</h5>
+        <p>Using the API, you can get a list of the available content types which you will be able to use in your module.
+            The "content type" is the nature of the content that you are shipping.</p>
+        <pre>
+    require __DIR__ . '/vendor/autoload.php';
+
+    $lib = new \Emc\ContentCategory();
+    $lib->getCategories(); // load all content categories
+    $lib->getContents();   // load all content types
+
+    // The content categories list is available on the array : $lib->categories
+    // The content types list is available on the array : $lib->contents
+
+    if (!$lib->curl_error && !$lib->resp_error) {
+        print_r($lib->categories);
+        print_r($lib->contents);
+
+    } else {
+        handle_errors($lib);
+    }
+
+        </pre>
+        <p>The API will need the content type ids as a parameter for quotations and orders.</p>
+        <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_categories.php">list of contents example</a></p>
+        <br/>
+    </div>
+    <div class="tab-pane" id="country">
+        <h5 id="countries">5. How can I get a list of countries ?</h5>
+        <p>Orders shipping with the EnvoiMoinsCher API use country ISO codes. For now, the system only allows shipments from France to abroad, not from abroad to France. Here is how to get the list of countries:</p>
+        <pre>
+
+    $lib = new \Emc\Country();
+    $lib->getCountries();
+    // The countries list is available on the array : $lib->countries
+
+    if (!$lib->curl_error && !$lib->resp_error) {
+        print_r($lib->countries);
+    } else {
+        handle_errors($lib);
+    }
+        </pre>
+        <p>The API will need the country ISO code as a parameter for several actions.</p>
+        <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_country.php">list of countries example</a></p>
+        <br/>
     </div>
     <br/><br/>
     <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>

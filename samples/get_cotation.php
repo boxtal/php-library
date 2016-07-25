@@ -12,10 +12,10 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 // shipper and recipient's address
 $from = array(
     'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '38400',
-    'ville' => "Saint Martin d'Hères",
+    'code_postal' => '75002',
+    'ville' => "Paris",
     'type' => 'entreprise',
-    'adresse' => '13 Rue Martin Luther King'
+    'adresse' => '15 rue marsollier'
 );
 
 $dest =  isset($_GET['dest']) ? $_GET['dest'] : null;
@@ -80,7 +80,6 @@ $currency = array('EUR' => '€', 'USD'=>'$');
 
 // Prepare and execute the request
 $lib = new Quotation($from, $to, $parcels, $additionalParams);
-$lib->getQuotation($quot_params);
 $lib->getOffers();
 
 if (!$lib->curl_error && !$lib->resp_error) {

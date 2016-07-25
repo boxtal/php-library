@@ -16,7 +16,7 @@ $from = array(
     'type' => 'entreprise', // accepted values are "particulier" or "entreprise"
     'adresse' => '15, rue Marsollier',
     'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
-    'prenom' => 'John',
+    'prenom' => 'Jon',
     'nom' => 'Snow',
     'societe' => 'Boxtale',
     'email' => 'jsnow@boxtale.com',
@@ -64,20 +64,20 @@ $lib->setType(
 */
 
 /*
- * $quot_params contains all additional parameters for your request, it includes filters or offer's options
+ * $additionalParams contains all additional parameters for your request, it includes filters or offer's options
  * A list of all possible parameters is available here : http://ecommerce.envoimoinscher.com/api/documentation/commandes/
  * For an order, you have to provide at least all offer's mandatory parameters returned by the quotation
  * You can also find all optional parameters (filter not included) in the same quotation
  */
-$quot_params = array(
+$additionalParams = array(
     'collecte' => date('Y-m-d'),
     'delay' => 'aucun',
     'content_code' => 40110,  // List of the available codes at samples/get_categories.php > List of contents
     'colis.description' => "Tissus, vêtements neufs",
     // you can find more informations about what is sent on this url here : http://ecommerce.envoimoinscher.com/api/documentation/url-de-push
     'url_push' => 'www.my-website.com/push.php&order=',
-    'depot.pointrelais' => 'MONR-065846', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
-    'retrait.pointrelais' => 'MONR-079499', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
+    'depot.pointrelais' => 'MONR-000515', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
+    'retrait.pointrelais' => 'MONR-035696', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
     'operator' => 'MONR',
     'service' => 'CpourToi',
     // for assurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
@@ -93,7 +93,7 @@ $quot_params = array(
 // Prepare and execute the request
 $lib = new Quotation($from, $to, $parcels);
 
-$orderPassed = $lib->makeOrder($quot_params);
+$orderPassed = $lib->makeOrder($additionalParams);
 echo "<h3>API Quotation > makeOrder :</h3>";
 if (!$lib->curl_error && !$lib->resp_error) {
     if ($orderPassed) {
