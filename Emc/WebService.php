@@ -32,7 +32,7 @@ class WebService
      * @access public
      * @var string
      */
-    public $server = 'https://www.envoimoinscher.com/';
+    public $server = 'https://test.envoimoinscher.com/';
 
     /**
      * API test server host.
