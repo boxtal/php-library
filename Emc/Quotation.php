@@ -440,7 +440,12 @@ class Quotation extends WebService
                     $code_option = $xpath->query('./code', $option)->item(0)->nodeValue;
                     $options[$code_option] = array(
                         'name' => $xpath->query('./name', $option)->item(0)->nodeValue,
-                        'parameters' => array());
+                    );
+                    $description = $xpath->query('./description', $option)->item(0);
+                    if (isset($description)) {
+                        $options[$code_option]['description'] = $description->nodeValue;
+                    }
+                    $options[$code_option]['parameters'] = array();
                     $parameters = $xpath->query('./parameter', $option);
                     foreach ($parameters as $parameter) {
                         $param_code = $xpath->query('./code', $parameter)->item(0);
@@ -448,20 +453,24 @@ class Quotation extends WebService
                         $param_type = $xpath->query('./type', $parameter)->item(0);
                         $options[$code_option]['parameters'][$param_code->nodeValue] = array(
                             'code' => $param_code->nodeValue,
-                            'label' => $param_label->nodeValue,
-                            'values' => array());
-                        if (trim($param_type->nodeValue) != '') {
-                            $values = array();
-                            $enum = $xpath->query('./enum', $param_type)->item(0);
-                            $param_options = $xpath->query('./value', $enum);
-                            foreach ($param_options as $param_option) {
-                                $param_option_id = $xpath->query('./id', $param_option)->item(0)->nodeValue;
-                                $param_option_label = $xpath->query('./label', $param_option)->item(0)->nodeValue;
-                                if (trim($param_option_id) != '') {
-                                    $values[$param_option_id] = $param_option_label;
+                            'label' => $param_label->nodeValue
+                        );
+                        $nodes = $xpath->query('*', $param_type);
+                        foreach ($nodes as $node) {
+                            $options[$code_option]['parameters'][$param_code->nodeValue]['type'] = $node->nodeName;
+                            if ($node->nodeName == 'enum') {
+                                $values = array();
+                                $enum = $xpath->query('./enum', $param_type)->item(0);
+                                $param_options = $xpath->query('./value', $enum);
+                                foreach ($param_options as $param_option) {
+                                    $param_option_id = $xpath->query('./id', $param_option)->item(0)->nodeValue;
+                                    $param_option_label = $xpath->query('./label', $param_option)->item(0)->nodeValue;
+                                    if (trim($param_option_id) != '') {
+                                        $values[$param_option_id] = $param_option_label;
+                                    }
                                 }
+                                $options[$code_option]['parameters'][$param_code->nodeValue]['values'] = $values;
                             }
-                            $options[$code_option]['parameters'][$param_code->nodeValue]['values'] = $values;
                         }
                     }
                 }
