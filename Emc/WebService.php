@@ -369,12 +369,15 @@ class WebService
             CURLOPT_URL => $this->server . $options['action'] . $this->get_params,
             CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
 
-        if (!empty($this->auth['user']) && !empty($this->auth['pass']) && !empty($this->auth['key'])) {
-            $this->options[CURLOPT_HTTPHEADER] = array(
-                'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
-                'access_key : ' . $this->auth['key'] . '',
+        $this->options[CURLOPT_HTTPHEADER] = array(
                 'Accept-Language: '.$this->lang_code,
                 'Api-Version: '.$this->api_version);
+        
+        if (!empty($this->auth['user']) && !empty($this->auth['pass']) && !empty($this->auth['key'])) {
+            array_push($this->options[CURLOPT_HTTPHEADER],
+                'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '');
+            array_push($this->options[CURLOPT_HTTPHEADER],
+                'access_key : ' . $this->auth['key'] . '');
         }
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
