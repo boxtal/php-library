@@ -373,13 +373,11 @@ class WebService
                 'Accept-Language: '.$this->lang_code,
                 'Api-Version: '.$this->api_version);
         
-        if (!empty($this->auth['user']) && !empty($this->auth['pass'])) {
+        if (!empty($this->auth['user']) && !empty($this->auth['pass']) && !empty($this->auth['key'])) {
             array_push($this->options[CURLOPT_HTTPHEADER],
                 'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '');
-            if (!empty($this->auth['key'])) {
-                array_push($this->options[CURLOPT_HTTPHEADER],
-                    'access_key : ' . $this->auth['key'] . '');
-            }
+            array_push($this->options[CURLOPT_HTTPHEADER],
+                'access_key : ' . $this->auth['key'] . '');
         }
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
