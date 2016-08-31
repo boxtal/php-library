@@ -79,8 +79,8 @@ $parcels = array(
 $currency = array('EUR' => '€', 'USD'=>'$');
 
 // Prepare and execute the request
-$lib = new Quotation($from, $to, $parcels, $additionalParams);
-$lib->getOffers();
+$lib = new Quotation();
+$lib->getQuotation($from, $to, $parcels, $additionalParams);
 
 if (!$lib->curl_error && !$lib->resp_error) {
 ?>

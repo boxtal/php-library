@@ -23,16 +23,6 @@ namespace Emc;
 
 class OrderStatus extends WebService
 {
-    /**
-     * [__construct description]
-     * @param [String] $emcRef emc order reference
-     */
-    public function __construct($emcRef)
-    {
-        parent::__construct();
-
-        $this->getOrderInformations($emcRef);
-    }
 
     /**
      * Contains order informations.

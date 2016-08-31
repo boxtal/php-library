@@ -142,30 +142,6 @@ class Quotation extends WebService
         107107 => '107x107',
         8060 => '80x60');
 
-   /**
-    * [__construct description]
-    * @param [Array] $from        shipper info
-    * @param [Array] $to          recipient info
-    * @param [Array] $parcels     [description]
-    */
-    public function __construct($from = array(), $to = array(), $parcels = array(), $additionalParams = array())
-    {
-        parent::__construct();
-
-        if (!empty($from)) {
-            $this->setPerson('shipper', $from);
-        }
-        if (!empty($to)) {
-            $this->setPerson('recipient', $to);
-        }
-        if (!empty($parcels)) {
-            $this->setType($parcels["type"], $parcels["dimensions"]);
-        }
-        if (!empty($additionalParams)) {
-            $this->getQuotation($additionalParams);
-        }
-    }
-
     /**
      * Protected variable with shipment reasons. It is used to generate proforma invoice.
      * <samp>
@@ -271,16 +247,31 @@ class Quotation extends WebService
     /**
      * Public function which receives the quotation.
      * @access public
-     * @param Array $data Array with quotation demand informations (date, type, delay and insurance value).
+     * @param Array $from Array with sender information.
+     * @param Array $to Array with recipient information.
+     * @param Array $parcels Array with parcel information.
+     * @param Array $additionalParams Array with quotation demand informations (date, type, delay and insurance value).
      * @return true if request was executed correctly, false if not
      */
-    public function getQuotation($quot_info)
-    {
-        $this->param = array_merge($this->param, $quot_info);
+    public function getQuotation($from = array(), $to = array(), $parcels = array(), $additionalParams = array())
+    {   
+        if (!empty($from)) {
+            $this->setPerson('shipper', $from);
+        }
+        if (!empty($to)) {
+            $this->setPerson('recipient', $to);
+        }
+        if (!empty($parcels)) {
+            $this->setType($parcels["type"], $parcels["dimensions"]);
+        }
+        if (!empty($additionalParams)) {
+            $this->param = array_merge($this->param, $additionalParams);
+        }
+        
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/cotation'));
-
-        return $this->doSimpleRequest();
+        $this->doSimpleRequest();
+        return $this->getOffers(false);
     }
 
     /**
@@ -296,13 +287,46 @@ class Quotation extends WebService
     /**
      * Public function which receives the quotation for curl multi request.
      * @access public
+     * @param [Array] $multirequest indexed array containing quotation information, namely "from", "to", "parcels" and "additional_params"
      * @return true if request was executed correctly, false if not
      */
-    public function getQuotationMulti()
+    public function getQuotationMulti($multirequest)
     {
+        
+        foreach ($multirequest as $quot_index => $quot_info) {
+            // set additional params
+            $params = $quot_info['additional_params'];
+
+            // Set sender
+            foreach ($quot_info['from'] as $key => $value) {
+                $params['expediteur.' . $key] = $value;
+            }
+
+            // Set recipient
+            foreach ($quot_info['to'] as $key => $value) {
+                $params['destinataire.' . $key] = $value;
+            }
+
+            // Set parcel
+            foreach ($quot_info['parcels']['dimensions'] as $d => $data) {
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.poids'] = $data['poids'];
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.longueur'] = $data['longueur'];
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.largeur'] = $data['largeur'];
+                $params[$quot_info['parcels']['type'] . '_' . $d . '.hauteur'] = $data['hauteur'];
+            }
+
+            $this->setParamMulti($params);
+        }
+        
         $this->setGetParamsMulti(array());
         $this->setOptionsMulti(array('action' => 'api/v1/cotation'));
-        return $this->doSimpleRequestMulti();
+        $this->doSimpleRequestMulti();
+        $i = 0;
+        foreach ($this->xpath as $xpath) {
+            $this->getOffers(false, $xpath, $i);
+            $i++;
+        }
+        return;
     }
 
     /**
@@ -338,21 +362,6 @@ class Quotation extends WebService
         }
         return false;*/
         return true;
-    }
-
-
-    /**
-     * Function load all offers for curl multi request calling getOffers() function.
-     * @access public
-     * @return Void
-     */
-    public function getOffersMulti()
-    {
-        $i = 0;
-        foreach ($this->xpath as $xpath) {
-            $this->getOffers(false, $xpath, $i);
-            $i++;
-        }
     }
 
     /**
@@ -616,23 +625,29 @@ class Quotation extends WebService
      * The response should contains a order number composed by 10 numbers, 4 letters, 4
      * number and 2 letters. We use this rule to check if the order was correctly executed
      * by API server.
-     * @param $data : Array with order informations (date, type, delay).
+     * @param Array $from Array with sender information.
+     * @param Array $to Array with recipient information.
+     * @param Array $parcels Array with parcel information.
+     * @param Array $additionalParams Array with quotation demand informations (date, type, delay and insurance value).
      * @param $get_info : Precise if we want to get more informations about order.
      * @return boolean : True if order was passed successfully; false if an error occured.
      * @access public
      */
-    public function makeOrder($quot_info, $get_info = false)
+    public function makeOrder($from, $to, $parcels, $additionalParams, $get_info = false)
     {
-        $this->quot_info = $quot_info;
+        $this->setPerson('shipper', $from);
+        $this->setPerson('recipient', $to);
+        $this->setType($parcels["type"], $parcels["dimensions"]);
+        $this->quot_info = $additionalParams;
         $this->get_info = $get_info;
-        if (isset($quot_info['reason']) && $quot_info['reason']) {
-            $quot_info['envoi.raison'] = array_search($quot_info['reason'], $this->ship_reasons);
-            unset($quot_info['reason']);
+        if (isset($additionalParams['reason']) && $additionalParams['reason']) {
+            $additionalParams['envoi.raison'] = array_search($additionalParams['reason'], $this->ship_reasons);
+            unset($additionalParams['reason']);
         }
-        if (!isset($quot_info['assurance.selection']) || $quot_info['assurance.selection'] == '') {
-            $quot_info['assurance.selection'] = false;
+        if (!isset($additionalParams['assurance.selection']) || $additionalParams['assurance.selection'] == '') {
+            $additionalParams['assurance.selection'] = false;
         }
-        $this->param = array_merge($this->param, $quot_info);
+        $this->param = array_merge($this->param, $additionalParams);
         $this->setOptions(array('action' => 'api/v1/order'));
         $this->setPost();
 

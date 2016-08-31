@@ -373,9 +373,11 @@ class WebService
                 'Accept-Language: '.$this->lang_code,
                 'Api-Version: '.$this->api_version);
         
-        if (!empty($this->auth['user']) && !empty($this->auth['pass']) && !empty($this->auth['key'])) {
+        if (!empty($this->auth['user']) && !empty($this->auth['pass'])) {
             array_push($this->options[CURLOPT_HTTPHEADER],
                 'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '');
+        }
+        if (!empty($this->auth['key'])) {
             array_push($this->options[CURLOPT_HTTPHEADER],
                 'access_key : ' . $this->auth['key'] . '');
         }
@@ -638,7 +640,7 @@ class WebService
     }
 
     /**
-     * Sets environment.
+     * Sets environment (and key if given).
      * @access public
      * @param String $env Server's environment : test or prod .
      * @return Void
@@ -646,12 +648,46 @@ class WebService
     public function setEnv($env)
     {
         $envs = array(ENV_TEST, ENV_PRODUCTION);
-        if (in_array($env, $envs)) {
-            $var = 'server_' . $env;
+
+        if (in_array(strtolower($env), $envs)) {
+            $var = 'server_' . strtolower($env);
             $this->server = $this->$var;
         }
     }
 
+    /**
+     * Sets login
+     * @access public
+     * @param String $env Server's environment : test or prod .
+     * @return Void
+     */
+    public function setLogin($login)
+    {
+        $this->auth['user'] = $login;
+    }
+    /**
+     * Sets password
+     * @access public
+     * @param String $env Server's environment : test or prod .
+     * @return Void
+     */
+    public function setPassword($pwd)
+    {
+        $this->auth['pass'] = $pwd;
+    }
+    
+    
+    /**
+     * Sets key
+     * @access public
+     * @param String $env Server's environment : test or prod .
+     * @return Void
+     */
+    public function setKey($key)
+    {
+        $this->auth['key'] = $key;
+    }
+    
     /**
      * Sets locale.
      * @access public

@@ -61,7 +61,14 @@ $params =array(
 );
 */
 
+// Not setting credentials to empty would result in creating a linked account to the parent credentials
+$lib->setLogin('');
+$lib->setPassword('');
+$lib->setKey('');
 
+// Setting environment to 'prod' will create a valid account with test and production API keys
+// Creating an account in a 'test' environment would result in an incomplete account
+$lib->setEnv('prod');
 
 $response = $lib->postUserSignup($params);
 

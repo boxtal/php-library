@@ -1,5 +1,5 @@
 <?php
-use \Emc\QuotationMulti;
+use \Emc\Quotation;
 
 /* Example of use for QuotationMulti class
  * Used to ship products from multiple warehouses
@@ -87,10 +87,9 @@ $multirequest[1] = array(
 $currency = array('EUR' => '€', 'USD'=>'$');
 
 // Prepare and execute the request
-$lib = new QuotationMulti($multirequest);
+$lib = new Quotation();
 
-$lib->getQuotationMulti();
-$lib->getOffersMulti();
+$lib->getQuotationMulti($multirequest);
 
 if (!$lib->curl_error) {
 ?>
