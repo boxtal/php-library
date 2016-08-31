@@ -87,9 +87,8 @@ $additionalParams = array(
     // for assurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
 );
 
-
-// Prepare and execute the request
-$lib = new Quotation($from, $to, $parcels);
+// Initialize request
+$lib = new Quotation();
 
 
 // For an international send, you must specify the proforma
@@ -128,7 +127,8 @@ $lib->setProforma(
 );
 */
 
-$orderPassed = $lib->makeOrder($additionalParams);
+// Execute the request
+$orderPassed = $lib->makeOrder($from, $to, $parcels, $additionalParams);
 echo "<h3>API Quotation > makeOrder :</h3>";
 if (!$lib->curl_error && !$lib->resp_error) {
     if ($orderPassed) {

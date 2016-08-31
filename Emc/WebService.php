@@ -32,7 +32,7 @@ class WebService
      * @access public
      * @var string
      */
-    public $server = 'https://www.envoimoinscher.com/';
+    public $server = 'https://test.envoimoinscher.com/';
 
     /**
      * API test server host.
@@ -53,7 +53,7 @@ class WebService
      * @access protected
      * @var string
      */
-    protected $api_version = '1.3.2';
+    protected $api_version = '1.3.4';
 
     /**
      * A private variable which stocks options to pass into curl query.
@@ -369,12 +369,17 @@ class WebService
             CURLOPT_URL => $this->server . $options['action'] . $this->get_params,
             CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
 
-        if (!empty($this->auth['user']) && !empty($this->auth['pass']) && !empty($this->auth['key'])) {
-            $this->options[CURLOPT_HTTPHEADER] = array(
-                'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
-                'access_key : ' . $this->auth['key'] . '',
+        $this->options[CURLOPT_HTTPHEADER] = array(
                 'Accept-Language: '.$this->lang_code,
                 'Api-Version: '.$this->api_version);
+        
+        if (!empty($this->auth['user']) && !empty($this->auth['pass'])) {
+            array_push($this->options[CURLOPT_HTTPHEADER],
+                'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '');
+        }
+        if (!empty($this->auth['key'])) {
+            array_push($this->options[CURLOPT_HTTPHEADER],
+                'access_key : ' . $this->auth['key'] . '');
         }
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
@@ -635,7 +640,7 @@ class WebService
     }
 
     /**
-     * Sets environment.
+     * Sets environment (and key if given).
      * @access public
      * @param String $env Server's environment : test or prod .
      * @return Void
@@ -643,12 +648,46 @@ class WebService
     public function setEnv($env)
     {
         $envs = array(ENV_TEST, ENV_PRODUCTION);
-        if (in_array($env, $envs)) {
-            $var = 'server_' . $env;
+
+        if (in_array(strtolower($env), $envs)) {
+            $var = 'server_' . strtolower($env);
             $this->server = $this->$var;
         }
     }
 
+    /**
+     * Sets login
+     * @access public
+     * @param String $env Server's environment : test or prod .
+     * @return Void
+     */
+    public function setLogin($login)
+    {
+        $this->auth['user'] = $login;
+    }
+    /**
+     * Sets password
+     * @access public
+     * @param String $env Server's environment : test or prod .
+     * @return Void
+     */
+    public function setPassword($pwd)
+    {
+        $this->auth['pass'] = $pwd;
+    }
+    
+    
+    /**
+     * Sets key
+     * @access public
+     * @param String $env Server's environment : test or prod .
+     * @return Void
+     */
+    public function setKey($key)
+    {
+        $this->auth['key'] = $key;
+    }
+    
     /**
      * Sets locale.
      * @access public

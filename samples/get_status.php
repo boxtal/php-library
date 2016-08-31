@@ -16,7 +16,8 @@ if (EMC_MODE == "prod") {
 
 
 // Prepare and execute the request
-$lib = new OrderStatus($emcRef);
+$lib = new OrderStatus();
+$lib->getOrderInformations($emcRef);
 
 echo "<h3>API OrderStatus :</h3>";
 if (!$lib->curl_error && !$lib->resp_error) {

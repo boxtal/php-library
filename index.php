@@ -15,11 +15,12 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     </ul> 
      <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <br/>
-     <h4>Installation.</h4>
+     <h4>Installation</h4>
         To install Boxtale PHP Library, simply : <br/>
         <b>$ composer require boxtale/php-library </b>
         <br/><br/>
-     <h4>Requirements et and general information about the EnvoiMoinsCher API.</h4>
+        
+     <h4>Requirements et and general information about the EnvoiMoinsCher API</h4>
      <p>In order to use the API, you need to create a (free) user account using the API (postUserSignup) or on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box. You will then receive an email with your API keys and be able to start your tests.</p>
     Make sure to fill in your credentials in the configuration file : config/config.php
     <pre>
@@ -37,7 +38,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         define("EMC_PASS", "yourPasswordTest");
         define("EMC_KEY", "yourApiKeyTest");
     }</pre>
-
+     
     <br/>
     <h4>Library content</h4>
     <p>The package contains 5 main directories:</p>
@@ -101,9 +102,17 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'user.logiciel'=>'prestashop-1.6' // Possible values (prestashop-1.5, prestashop-1.6, drupal, magento, woocommerce, oscommerce, oxatis)
     );
     $lib = new \Emc\User();
+    
+    // Not setting credentials to empty would result in creating a linked account to the parent credentials
+    $lib->setLogin('');
+    $lib->setPassword('');
+    $lib->setKey('');
 
-    $response = $lib->postUserSignup($params);
-        </pre>
+    // Setting environment to 'prod' will create a valid account with test and production API keys
+    // Creating an account in a 'test' environment would result in an incomplete account
+    $lib->setEnv('prod');
+
+    $response = $lib->postUserSignup($params);</pre>
        <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/post_signup.php">User Signup</a>
     </div>
      <div class="tab-pane" id="cotations">
@@ -158,16 +167,15 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'valeur' => "42.655"
     );
 
-    $lib = new \Emc\Quotation($from, $to, $parcels, $additionalParams);
-    $lib->getOffers();
+    $lib = new \Emc\Quotation();
+    $lib->getQuotation($from, $to, $parcels, $additionalParams);
     // The offers list is available on the array : $lib->offers
 
     if (!$lib->curl_error && !$lib->resp_error) {
         print_r($lib->offers);
     } else {
         handle_errors($lib);
-    }
-        </pre>
+    }</pre>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php">Paris to Bordeaux</a>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php?dest=Sydney">Paris to Sydney (international)</a>
 
@@ -244,16 +252,15 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
 
     // Prepare and execute the request
-    $lib = new \emc\Quotation($from, $to, $parcels);
+    $lib = new \emc\Quotation();
 
-    $orderPassed = $lib->makeOrder($additionalParams);
+    $orderPassed = $lib->makeOrder($from, $to, $parcels, $additionalParams);
 
     if (!$lib->curl_error && !$lib->resp_error) {
         print_r($lib->order);
     } else {
         handle_errors($lib);
-    }
-    </pre>
+    }</pre>
     </div>
     <div class="tab-pane" id="cat">
         <h5 id="categories">4. How can I get a list of available content types ?</h5>
@@ -275,9 +282,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     } else {
         handle_errors($lib);
-    }
-
-        </pre>
+    }</pre>
         <p>The API will need the content type ids as a parameter for quotations and orders.</p>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_categories.php">list of contents example</a></p>
         <br/>
@@ -295,17 +300,35 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         print_r($lib->countries);
     } else {
         handle_errors($lib);
-    }
-        </pre>
+    }</pre>
         <p>The API will need the country ISO code as a parameter for several actions.</p>
         <p>See also: <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_country.php">list of countries example</a></p>
         <br/>
     </div>
-    <br/><br/>
-    <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
-    <p>If you have any trouble implementing the library, email us at <a href="mailto:api@envoimoinscher.com">api@envoimoinscher.com</a>.</p>
+    <br/>
 </div>
-<br/><br/>
+
+<h4>Useful functions</h4>
+    <p>Once you've created a library instance, you can use the following functions.</p>
+
+    <pre>
+    /* To change login for this request only */
+    $lib->setLogin("otherLogin");
+    
+    /* To change password for this request only */
+    $lib->setPassword("otherPassword");
+    
+    /* To change API key for this request only */
+    $lib->setKey("otherKey");
+    
+    /* To change environment for this request only */
+    $lib->setEnv("prod");
+    
+    /* To set API return language */
+    $lib->setLocale("fr-FR");</pre>
+<br/>
+<p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
+<p>If you have any trouble implementing the library, email us at <a href="mailto:api@envoimoinscher.com">api@envoimoinscher.com</a>.</p>
 </div>
 <div class="footer">
         <p>&copy; Boxtale 2016</p>

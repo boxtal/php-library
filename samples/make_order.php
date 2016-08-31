@@ -75,9 +75,10 @@ $additionalParams = array(
     'content_code' => 40110,  // List of the available codes at samples/get_categories.php > List of contents
     'colis.description' => "Tissus, vêtements neufs",
     'assurance.selection' => false, // whether you want an extra insurance or not
+    'saturdaydelivery.selection' => false, // set this to true if you want to select a saturday delivery offer (paying option not available for all carriers)
     'url_push' => 'www.my-website.com/push.php&order=',
     'depot.pointrelais' => 'MONR-000515', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
-    'retrait.pointrelais' => 'MONR-035696', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
+    'retrait.pointrelais' => 'MONR-087106', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
     'operator' => 'MONR',
     'service' => 'CpourToi',
     'valeur' => "42.655"
@@ -85,9 +86,9 @@ $additionalParams = array(
 );
 
 // Prepare and execute the request
-$lib = new Quotation($from, $to, $parcels);
+$lib = new Quotation();
 
-$orderPassed = $lib->makeOrder($additionalParams);
+$orderPassed = $lib->makeOrder($from, $to, $parcels, $additionalParams);
 echo "<h3>API Quotation > makeOrder :</h3>";
 if (!$lib->curl_error && !$lib->resp_error) {
     if ($orderPassed) {
