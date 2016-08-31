@@ -53,7 +53,7 @@ class WebService
      * @access protected
      * @var string
      */
-    protected $api_version = '1.3.2';
+    protected $api_version = '1.3.4';
 
     /**
      * A private variable which stocks options to pass into curl query.

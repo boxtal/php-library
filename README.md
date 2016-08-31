@@ -92,7 +92,16 @@ To create a (free) Boxtale user account, you have two options:
         'user.logiciel'=>'prestashop-1.6' // Possible values (prestashop-1.5, prestashop-1.6, drupal, magento, woocommerce, oscommerce, oxatis)
     );
     $lib = new \Emc\User();
+    
+    // Not setting credentials to empty would result in creating a linked account to the parent credentials
+    $lib->setLogin('');
+    $lib->setPassword('');
+    $lib->setKey('');
 
+    // Setting environment to 'prod' will create a valid account with test and production API keys
+    // Creating an account in a 'test' environment would result in an incomplete account
+    $lib->setEnv('prod');
+    
     $response = $lib->postUserSignup($params);
 
 
@@ -151,8 +160,8 @@ $additionalParams = array(
     'valeur' => "42.655"
 );
 
-$lib = new \Emc\Quotation($from, $to, $parcels, additionalParams);
-$lib->getOffers();
+$lib = new \Emc\Quotation();
+$lib->getQuotation($from, $to, $parcels, $additionalParams);
 // The offers list is available on the array : $lib->offers
 
 if (!$lib->curl_error && !$lib->resp_error) {
@@ -235,9 +244,9 @@ $additionalParams = array(
 
 
 // Prepare and execute the request
-$lib = new \emc\Quotation($from, $to, $parcels);
+$lib = new \emc\Quotation();
 
-$orderPassed = $lib->makeOrder($additionalParams);
+$orderPassed = $lib->makeOrder($from, $to, $parcels, $additionalParams);
 
 if (!$lib->curl_error && !$lib->resp_error) {
     print_r($lib->order);
