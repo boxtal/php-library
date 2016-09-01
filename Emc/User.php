@@ -149,7 +149,7 @@ class User extends WebService
             if ($user) {
                 foreach ($user->childNodes as $config_line) {
                     if (!($config_line instanceof DOMText)) {
-                        if ($config_line->childNodes->length > 1) {
+                        if ($config_line->hasChildNodes() && $config_line->childNodes->length > 1) {
                             foreach ($config_line->childNodes as $sub_config_line) {
                                 if (!($sub_config_line instanceof DOMText)) {
                                     $this->user_configuration[$config_line->nodeName][$sub_config_line->nodeName]
