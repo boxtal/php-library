@@ -105,6 +105,8 @@ class ListPoints extends WebService
                             'city' => $this->xpath->query('./city', $point)->item(0)->nodeValue,
                             'zipcode' => $this->xpath->query('./zipcode', $point)->item(0)->nodeValue,
                             'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
+                            'latitude' => $this->xpath->query('./latitude', $point)->item(0)->nodeValue,
+                            'longitude' => $this->xpath->query('./longitude', $point)->item(0)->nodeValue,
                             'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
                             'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue,
                             'schedule' => array()
