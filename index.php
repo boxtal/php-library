@@ -3,8 +3,8 @@ require_once('config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 ?>
 <div>
-    <h3>Quick start / Boxtale PHP Library</h3>
-    <p>This PHP library aims to present the PHP implementation of the <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a> API.</p>
+    <h3>Quick start / Boxtal PHP Library</h3>
+    <p>This PHP library aims to present the PHP implementation of the <a href="https://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a> API.</p>
     <p>We will see step by step the essential blocks for building a custom shipping module on your e-shop:/p>
     <ul class="myTab">
         <li><a href="#signup" role="tab" data-toggle="tab">Signup</a></li>
@@ -16,7 +16,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
      <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <br/>
      <h4>Installation</h4>
-        To install Boxtale PHP Library, simply : <br/>
+        To install Boxtal PHP Library, simply : <br/>
         <b>$ composer require boxtale/php-library </b>
         <br/><br/>
         
@@ -62,7 +62,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 <div class="tab-content">
     <div class="tab-pane active" id="signup">
         <h5 id="orders">1. Signup to envoimoincher.com </h5>
-        <p>To create a (free) Boxtale user account, you have two options:</p>
+        <p>To create a (free) Boxtal user account, you have two options:</p>
         <ul>
             <li>Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.</li>
             <li>Or using the postUserSignup method available in EnvoiMoinsCher API </li>
@@ -73,7 +73,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     // Params to create account as Professional
     $params =array(
-        'facturation.contact_ste'=>'Boxtale',
+        'facturation.contact_ste'=>'Boxtal',
         'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
         'facturation.contact_nom'=>'Snow',
         'facturation.contact_prenom'=>'Jon',
@@ -83,7 +83,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'facturation.ville'=>'Paris', // City
         'facturation.pz_id'=>'76', // Town id ( 76: France, 68: Spain, 112 :Italy, 70: Unated States, 191: UK ...)
         'facturation.codepostal'=>'75001',
-        'facturation.contact_email'=>'jsnow@boxtale.com',
+        'facturation.contact_email'=>'jsnow@boxtal.com',
         'facturation.contact_tel'=>'0606060606',
         'facturation.contact_locale'=>'fr_FR',
         'facturation.defaut_enl'=>'on', // Set the adress as default collect adress
@@ -202,8 +202,8 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
         'prenom' => 'Jon',
         'nom' => 'Snow',
-        'societe' => 'Boxtale',
-        'email' => 'jsnow@boxtale.com',
+        'societe' => 'Boxtal',
+        'email' => 'jsnow@boxtal.com',
         'tel' => '0606060606',
         'infos' => 'Some informations about this address'
     );
@@ -219,7 +219,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'civilite' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
         'prenom' => 'Jane',
         'nom' => 'Doe',
-        'email' => 'jdoe@boxtale.com',
+        'email' => 'jdoe@boxtal.com',
         'tel' => '0606060606',
         'infos' => 'Some informations about this address'
     );
@@ -331,7 +331,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 <p>If you have any trouble implementing the library, email us at <a href="mailto:api@envoimoinscher.com">api@envoimoinscher.com</a>.</p>
 </div>
 <div class="footer">
-        <p>&copy; Boxtale 2016</p>
+        <p>&copy; Boxtal 2016</p>
       </div>
 <script>
   $(document).ready(function() {
