@@ -94,8 +94,10 @@ class ListPoints extends WebService
                 /* The XML file is loaded, we now gather the datas */
                 $carriers = $this->xpath->query('/carriers/carrier');
                 foreach ($carriers as $carrier_index => $carrier) {
-                    $this->list_points[$carrier_index]['operator'] = $this->xpath->query('./operator', $carrier)->item(0)->nodeValue;
-                    $this->list_points[$carrier_index]['service'] = $this->xpath->query('./service', $carrier)->item(0)->nodeValue;
+                    $this->list_points[$carrier_index]['operator'] =
+                        $this->xpath->query('./operator', $carrier)->item(0)->nodeValue;
+                    $this->list_points[$carrier_index]['service'] =
+                        $this->xpath->query('./service', $carrier)->item(0)->nodeValue;
                     $points = $this->xpath->query('./points/point', $carrier);
                     foreach ($points as $point_index => $point) {
                         $point_info = array(

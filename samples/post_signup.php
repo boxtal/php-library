@@ -36,9 +36,8 @@ $params =array(
     'user.volumetrie'=>'2', // Your average shipping quantity peer month? 1 (less than 10), 2 (10 to 100), 3 (100 to 250), 4 (250 to 500), 5 (500 to 1000), 6 (1000 to 2000), 7 (2000 to 5000), 8 (5000 to 10000)
     'user.site_online'=>'1', // Is your website online ? (1 (yes), 0 (no))
     'user.logiciel'=>'prestashop-1.6', // Possible values (prestashop-1.5, prestashop-1.6, drupal, magento, woocommerce, oscommerce, oxatis)
-    'user.branding'=>'boxtales' // 'default' will give user access to carriers on envoimoinscher.com, 'boxtales' to carriers on boxtal.es
+    'user.default_shipping_country'=> 'fr' // To activate local carriers. Possible values: 'fr' (default), 'es'
 );
-
 
 /*
 // Params to create account as Private individual

@@ -254,7 +254,7 @@ class Quotation extends WebService
      * @return true if request was executed correctly, false if not
      */
     public function getQuotation($from = array(), $to = array(), $parcels = array(), $additionalParams = array())
-    {   
+    {
         if (!empty($from)) {
             $this->setPerson('shipper', $from);
         }
@@ -267,7 +267,7 @@ class Quotation extends WebService
         if (!empty($additionalParams)) {
             $this->param = array_merge($this->param, $additionalParams);
         }
-        
+
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/cotation'));
         $this->doSimpleRequest();
@@ -287,12 +287,13 @@ class Quotation extends WebService
     /**
      * Public function which receives the quotation for curl multi request.
      * @access public
-     * @param [Array] $multirequest indexed array containing quotation information, namely "from", "to", "parcels" and "additional_params"
+     * @param [Array] $multirequest indexed array containing quotation information
+     * namely "from", "to", "parcels" and "additional_params"
      * @return true if request was executed correctly, false if not
      */
     public function getQuotationMulti($multirequest)
     {
-        
+
         foreach ($multirequest as $quot_index => $quot_info) {
             // set additional params
             $params = $quot_info['additional_params'];
@@ -317,7 +318,7 @@ class Quotation extends WebService
 
             $this->setParamMulti($params);
         }
-        
+
         $this->setGetParamsMulti(array());
         $this->setOptionsMulti(array('action' => 'api/v1/cotation'));
         $this->doSimpleRequestMulti();
