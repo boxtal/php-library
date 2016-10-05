@@ -90,15 +90,15 @@ foreach ($lib->carriers as $carrier) {
                 } ?>
             </td>
             <td>
-                <span class="badge alert-<?php echo $carrier['parcel_pickup_point']=='1'? 'info':'success'; ?>">
-                <span class="glyphicon <?php echo $carrier['parcel_pickup_point']=='1'? 'glyphicon-map-marker':'glyphicon-home'; ?>  mr5"></span>
-                    <?php echo $carrier['pickup_place']; ?>
-                </span>
-            </td>
-            <td>
                 <span class="badge alert-<?php echo $carrier['parcel_dropoff_point']=='1'? 'info':'success'; ?>">
                     <span class="glyphicon <?php echo $carrier['parcel_dropoff_point']=='1'? 'glyphicon-map-marker':'glyphicon-home'; ?>  mr5"></span>
                     <?php echo $carrier['dropoff_place']; ?>
+                </span>
+            </td>
+            <td>
+                <span class="badge alert-<?php echo $carrier['parcel_pickup_point']=='1'? 'info':'success'; ?>">
+                <span class="glyphicon <?php echo $carrier['parcel_pickup_point']=='1'? 'glyphicon-map-marker':'glyphicon-home'; ?>  mr5"></span>
+                    <?php echo $carrier['pickup_place']; ?>
                 </span>
             </td>
         </tr>

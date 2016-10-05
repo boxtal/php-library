@@ -123,6 +123,8 @@ class Parameters extends WebService
             }
             $operator_data['services'][$service_data['code']] = $service_data;
         }
-        $this->parameters[$operator_data['code']] = $operator_data;
+        if (isset($operator_data['code'])) {
+            $this->parameters[$operator_data['code']] = $operator_data;
+        }
     }
 }
