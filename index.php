@@ -81,7 +81,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'facturation.adresse2'=>'', // Address line 2
         'facturation.adresse3'=>'', // Address line 3
         'facturation.ville'=>'Paris', // City
-        'facturation.pz_id'=>'76', // Town id ( 76: France, 68: Spain, 112 :Italy, 70: Unated States, 191: UK ...)
+        'facturation.pays_iso'=>'FR', // Country ISO code
         'facturation.codepostal'=>'75001',
         'facturation.contact_email'=>'jsnow@boxtal.com',
         'facturation.contact_tel'=>'0606060606',
