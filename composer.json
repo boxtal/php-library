@@ -1,7 +1,7 @@
 {
     "name": "boxtale/php-library",
     "type": "library",
-    "description": "Boxtale PHP Library for Envoicoinscher API",
+    "description": "Boxtale PHP Library for Envoimoinscher API",
     "homepage": "https://github.com/Boxtale/php-library",
     "license": "Unlicense",
     "minimum-stability": "dev",

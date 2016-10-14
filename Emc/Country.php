@@ -98,8 +98,10 @@ class Country extends WebService
                 foreach ($countries as $country) {
                     $code = $this->xpath->query('./code', $country)->item(0)->nodeValue;
                     $this->countries[$code] = array(
-                        'label' => $this->xpath->query('./label', $country)->item(0)->nodeValue,
-                        'code' => $code);
+                      'label' => $this->xpath->query('./label', $country)->item(0)->nodeValue,
+                      'code' => $code,
+                      'is_ue' => $this->xpath->query('./is_ue', $country)->item(0)->nodeValue
+                    );
                 }
             }
         }
