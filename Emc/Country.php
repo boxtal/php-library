@@ -85,27 +85,42 @@ class Country extends WebService
      * @access private
      * @return Void
      */
-    private function doCtrRequest()
-    {
-        $source = parent::doRequest();
+     private function doCtrRequest()
+     {
+         $source = parent::doRequest();
 
-        /* We make sure there is an XML answer and try to parse it */
-        if ($source !== false) {
-            parent::parseResponse($source);
-            if (count($this->resp_errors_list) == 0) {
-                /* The XML file is loaded, we now gather the datas */
-                $countries = $this->xpath->query('/countries/country');
-                foreach ($countries as $country) {
-                    $code = $this->xpath->query('./code', $country)->item(0)->nodeValue;
-                    $this->countries[$code] = array(
-                      'label' => $this->xpath->query('./label', $country)->item(0)->nodeValue,
-                      'code' => $code,
-                      'is_ue' => $this->xpath->query('./is_ue', $country)->item(0)->nodeValue
-                    );
-                }
-            }
-        }
-    }
+         /* We make sure there is an XML answer and try to parse it */
+         if ($source !== false) {
+             parent::parseResponse($source);
+             if (count($this->resp_errors_list) == 0) {
+
+               # Add here new country xml properties to handle.
+               $__prop = ['code', 'label', 'is_ue', 'states'];
+
+               $this -> countries = array();
+               foreach ( $this -> xpath -> query('/countries/country') as $k => $country )
+               {
+                 $c = (object) [];
+                 # Process the random country xml properties.
+                 foreach( $__prop as $_k => $_v )
+                   $c -> {$_v} = $this -> xpath -> query( './' . $_v, $country ) -> item( 0 ) -> nodeValue;
+
+                 # Process some more specific properties.
+                 $c -> states = [];
+                 foreach ( $this -> xpath -> query( './states/state', $country ) as $state )
+                   $c -> states[] = (object) [
+                     'code' => $this -> xpath -> query( './code', $state ) -> item(0) -> nodeValue,
+                     'label' => $this -> xpath -> query( './label', $state ) -> item(0) -> nodeValue
+                   ];
+                 # Add the country object to the collection.
+                 $this -> countries[] = $c;
+               }
+
+             }
+         }
+     }
+
+
 
     /**
      * Getter function for one country. If the country code is placed in $codes_rel array,
