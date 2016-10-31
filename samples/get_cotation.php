@@ -8,37 +8,26 @@ use \Emc\Quotation;
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
+function address($country, $zip, $city, $type, $street){
+    return array(
+            "pays" => $country, // must be an ISO code, set get_country example on how to get codes
+            "code_postal" => $zip,
+            "ville" => $city,
+            "type" => $type, // accepted values are "entreprise" or "particulier"
+            "adresse" => $street
+         );
+}
+
+$cities = array('Paris' => address('FR','75002','Paris','entreprise','15 rue marsollier'),
+                'Madrid' => address("ES","28001","Madrid","particulier","Rambla"),
+                'Sydney' => address("AU","2000","Sydney","particulier","King Street"),
+                'Barcelona' => address("ES","08019","Barcelona","particulier","Rambla") );
 
 // shipper and recipient's address
-$from = array(
-    'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '75002',
-    'ville' => "Paris",
-    'type' => 'entreprise',
-    'adresse' => '15 rue marsollier'
-);
-
-$dest =  isset($_GET['dest']) ? $_GET['dest'] : null;
-switch ($dest) {
-    case 'Sydney':
-        $to = array(
-            "pays" => "AU", // must be an ISO code, set get_country example on how to get codes
-            "code_postal" => "2000",
-            "ville" => "Sydney",
-            "type" => "particulier", // accepted values are "entreprise" or "particulier"
-            "adresse" => "King Street"
-         );
-        break;
-    default:
-        $to = array(
-            'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-            'code_postal' => '33000',
-            'ville' => 'Bordeaux',
-            'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-            'adresse' => '24, rue des Ayres'
-        );
-        break;
-}
+$source= isset($_GET['source']) ? $_GET['source'] : 'Paris';
+$from = $cities[$source];
+$dest =  isset($_GET['dest']) ? $_GET['dest'] : 'Bordeaux';
+$to = $cities[$dest];
 
 
 /*
@@ -76,7 +65,7 @@ $parcels = array(
     )
 );
 
-$currency = array('EUR' => '€', 'USD'=>'$');
+$currency = array('EUR' => '&#8364;', 'USD'=>'&#36;');
 
 // Prepare and execute the request
 $lib = new Quotation();
