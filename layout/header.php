@@ -46,11 +46,6 @@
                             echo "active";
 } ?>">
                             <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php?dest=Sydney">Paris to Sydney (international)</a>
-                        </li>                        
-                        <li class="<?php if ("get_cotation.php" == $slug && isset($_GET['dest']) && $_GET['dest'] == 'Barcelona') {
-                            echo "active";
-} ?>">
-                            <a href="<?php echo EMC_PARENT_DIR; ?>samples/get_cotation.php?soucre=Madrid&dest=Barcelona">Madrid to Barcelona (Spanish)</a>
                         </li>
                         <li class="<?php if ("get_cotation_multiple.php" == $slug) {
                             echo "active";
