@@ -123,7 +123,7 @@ class WebService
      * @access public
      * @var int
      */
-    public $timeout =  15000;
+    public $timeout =  null;
 
     /**
      * A public variable determines if we have check certificate in function of your request environment.
@@ -165,7 +165,7 @@ class WebService
      * @access protected
      * @var string
      */
-    protected $platform_version = '2.0.0';
+    protected $platform_version = '2.0.1';
 
     /**
      * Module version
