@@ -6,9 +6,9 @@ if (EMC_MODE == 'prod') {
     define('EMC_PASS', '');
     define('EMC_KEY', '');
 } else {
-    define('EMC_USER', 'arnauddutant');
-    define('EMC_PASS', 'developpeur');
-    define('EMC_KEY', 'sdqkohbk');
+    define('EMC_USER', '');
+    define('EMC_PASS', '');
+    define('EMC_KEY', '');
 }
 
 
