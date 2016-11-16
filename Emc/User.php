@@ -176,12 +176,15 @@ class User extends WebService
         if ($source !== false) {
             parent::parseResponse($source);
             $node = $this->xpath->evaluate('/user/partnership');
-            if ($node) {
-                $this->partnership = $node->item(0)->nodeValue;
+            if ($node && $node->item(0)) {
+              $this->partnership = $node->item(0)->nodeValue;
+            }
+            else {
+              $this->partnership = null;
             }
         }
     }
-    
+
     /**
      * Post request on api/v1/user_keys to generate API keys
      * @access public
