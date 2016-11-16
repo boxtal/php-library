@@ -113,9 +113,8 @@ class Country extends WebService
                      'label' => $this -> xpath -> query( './label', $state ) -> item(0) -> nodeValue
                    ];
                  # Add the country object to the collection.
-                 $this -> countries[] = $c;
+                 $this -> countries[$c->code] = $c;
                }
-
              }
          }
      }
