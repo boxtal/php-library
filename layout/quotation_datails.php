@@ -60,14 +60,27 @@
         foreach ($lib->getParams() as $key => $value) {
             if (strpos($key, 'recipient')  === false && strpos($key, 'shipper')  === false && strpos($key, 'colis')  === false
                 && strpos($key, 'platform')  === false && strpos($key, 'version')  === false) {
-                ?>
-                <div class="form-group form-group-xs">
-                <label for="inputEmail3" class="col-xs-4 control-label"><?php echo $key?></label>
-                <div class="col-xs-8">
-                  <input type="email" class="form-control input-xs" value="<?php echo $value;?>" >
-                </div>
-              </div>
-            <?php
+                if (is_array($value)) {
+                    foreach ($value as $val) {
+                        ?>
+                        <div class="form-group form-group-xs">
+                            <label for="inputEmail3" class="col-xs-4 control-label"><?php echo $key?></label>
+                            <div class="col-xs-8">
+                              <input type="email" class="form-control input-xs" value="<?php echo $val;?>" >
+                            </div>
+                        </div>
+                        <?php 
+                    }
+                } else {
+                    ?>
+                    <div class="form-group form-group-xs">
+                        <label for="inputEmail3" class="col-xs-4 control-label"><?php echo $key?></label>
+                        <div class="col-xs-8">
+                          <input type="email" class="form-control input-xs" value="<?php echo $value;?>" >
+                        </div>
+                    </div>
+                    <?php 
+                }
             }
         }
         ?>

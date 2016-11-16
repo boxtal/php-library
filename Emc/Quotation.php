@@ -301,12 +301,12 @@ class Quotation extends WebService
 
             // Set sender
             foreach ($quot_info['from'] as $key => $value) {
-                $params['expediteur.' . $key] = $value;
+                $params['shipper.' . $key] = $value;
             }
 
             // Set recipient
             foreach ($quot_info['to'] as $key => $value) {
-                $params['destinataire.' . $key] = $value;
+                $params['recipient.' . $key] = $value;
             }
 
             // Set parcel
@@ -648,7 +648,7 @@ class Quotation extends WebService
         $this->quot_info = $additionalParams;
         $this->get_info = $get_info;
         if (isset($additionalParams['reason']) && $additionalParams['reason']) {
-            $additionalParams['envoi.raison'] = array_search($additionalParams['reason'], $this->ship_reasons);
+            $additionalParams['raison'] = array_search($additionalParams['reason'], $this->ship_reasons);
             unset($additionalParams['reason']);
         }
         if (!isset($additionalParams['assurance.selection']) || $additionalParams['assurance.selection'] == '') {

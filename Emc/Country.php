@@ -130,16 +130,20 @@ class Country extends WebService
      */
     public function getCountry($code)
     {
-        $this->country = array(0 => $this->countries[$code]);
-        if (isset($this->codes_rel[$code]) && $this->codes_rel[$code] != '') {
-            $iso_rel = $this->codes_rel[$code];
-            $i = 1;
-            foreach ($this->countries as $c => $country) {
-                if (preg_match('/' . $iso_rel . '\d/', $c)) {
-                    $this->country[$i] = $country;
-                    $i++;
+        if (isset($this->countries[$code])) {
+            $this->country = array(0 => $this->countries[$code]);
+            if (isset($this->codes_rel[$code]) && $this->codes_rel[$code] != '') {
+                $iso_rel = $this->codes_rel[$code];
+                $i = 1;
+                foreach ($this->countries as $c => $country) {
+                    if (preg_match('/' . $iso_rel . '\d/', $c)) {
+                        $this->country[$i] = $country;
+                        $i++;
+                    }
                 }
             }
+        } else {
+            $this->country = array();
         }
     }
 }

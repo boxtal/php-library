@@ -17,18 +17,20 @@ $multirequest = array();
 // 1st request
 $multirequest[0] = array(
     'from' => array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '38400',
-        'ville' => "Saint Martin d'Hères",
-        'type' => 'entreprise',
-        'adresse' => '13 rue Martin Luther King'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        // "state" => "", if required, state must be an ISO code as well
+        'zipcode' => '38400',
+        'city' => "Saint Martin d'Hères",
+        'address' => '13 rue Martin Luther King',
+        'type' => 'company' // accepted values are "company" or "individual"
     ),
     'to' => array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '33000',
-        'ville' => 'Bordeaux',
-        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-        'adresse' => '24, rue des Ayres'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        // "state" => "", if required, state must be an ISO code as well
+        'zipcode' => '33000',
+        'city' => 'Bordeaux',
+        'address' => '24, rue des Ayres',
+        'type' => 'individual' // accepted values are "company" or "individual"
     ),
     'parcels' => array(
         'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
@@ -42,28 +44,30 @@ $multirequest[0] = array(
         )
     ),
     'additional_params' => array(
-        'collecte' => date("Y-m-d"),
+        'collection_date' => date("Y-m-d"),
         'delay' => 'aucun',
         'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-        'valeur' => "42.655"
+        'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     )
 );
 
 // 2nd request
 $multirequest[1] = array(
     'from' => array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '75002',
-        'ville' => "Paris",
-        'type' => 'entreprise',
-        'adresse' => '15 rue Marsollier'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        // "state" => "", if required, state must be an ISO code as well
+        'zipcode' => '75002',
+        'city' => "Paris",
+        'address' => '15 rue Marsollier',
+        'type' => 'company' // accepted values are "company" or "individual"
     ),
     'to' => array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '33000',
-        'ville' => 'Bordeaux',
-        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-        'adresse' => '24, rue des Ayres'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        // "state" => "", if required, state must be an ISO code as well
+        'zipcode' => '33000',
+        'city' => 'Bordeaux',
+        'address' => '24, rue des Ayres',
+        'type' => 'individual' // accepted values are "company" or "individual"
     ),
     'parcels' => array(
         'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
@@ -77,10 +81,10 @@ $multirequest[1] = array(
         )
     ),
     'additional_params' => array(
-        'collecte' => date("Y-m-d"),
+        'collection_date' => date("Y-m-d"),
         'delay' => 'aucun',
         'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-        'valeur' => "42.655"
+        'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     )
 );
 
@@ -112,7 +116,7 @@ if (!$lib->curl_error) {
             <?php
             foreach ($multirequest as $requestIndex => $request) {
                 ?>
-                    <tr><td colspan="8" class="h4">Quotation n° <?php echo ( $requestIndex +1 ).' - From '.$request['from']['ville'].' to '.$request['to']['ville']; ?></td></tr>
+                    <tr><td colspan="8" class="h4">Quotation n° <?php echo ( $requestIndex +1 ).' - From '.$request['from']['city'].' to '.$request['to']['city']; ?></td></tr>
                 <?php
                 if (isset($lib->resp_errors_list[$requestIndex])) {
                     // case resp error
@@ -180,5 +184,9 @@ if (!$lib->curl_error) {
         </table>
     </div>
 <?php
+} else {
+    echo '<div class="alert alert-danger">';
+    echo "Unable to send the request: ".$lib->curl_error_text;
+    echo'</div>';
 }
 require_once(EMC_PARENT_DIR.'layout/footer.php');

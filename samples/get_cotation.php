@@ -2,8 +2,8 @@
 use \Emc\Quotation;
 
 /* Example of use for Quotation class
- * Get all available offers for your send
- * You can find more informations about quotation's request here : http://ecommerce.envoimoinscher.com/api/documentation/cotations/
+ * Get all available offers for your shipment
+ * You can find more informations about quotation requests here: http://ecommerce.envoimoinscher.com/api/documentation/cotations/
  */
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
@@ -11,31 +11,34 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
 // shipper and recipient's address
 $from = array(
-    'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '75002',
-    'ville' => "Paris",
-    'type' => 'entreprise',
-    'adresse' => '15 rue marsollier'
+    'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+    // "state" => "", if required, state must be an ISO code as well
+    'zipcode' => '75002',
+    'city' => "Paris",
+    'address' => '15 rue marsollier',
+    'type' => 'company' // accepted values are "company" or "individual"
 );
 
 $dest =  isset($_GET['dest']) ? $_GET['dest'] : null;
 switch ($dest) {
     case 'Sydney':
         $to = array(
-            "pays" => "AU", // must be an ISO code, set get_country example on how to get codes
-            "code_postal" => "2000",
-            "ville" => "Sydney",
-            "type" => "particulier", // accepted values are "entreprise" or "particulier"
-            "adresse" => "King Street"
+            "country" => "AU", // must be an ISO code, set get_country example on how to get codes
+            // "state" => "", if required, state must be an ISO code as well
+            "zipcode" => "2000",
+            "city" => "Sydney",
+            "address" => "King Street",
+            "type" => "individual" // accepted values are "company" or "individual"
          );
         break;
     default:
         $to = array(
-            'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-            'code_postal' => '33000',
-            'ville' => 'Bordeaux',
-            'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-            'adresse' => '24, rue des Ayres'
+            'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+            // "state" => "", if required, state must be an ISO code as well
+            'zipcode' => '33000',
+            'city' => 'Bordeaux',
+            'address' => '24, rue des Ayres',
+            'type' => 'individual' // accepted values are "company" or "individual"
         );
         break;
 }
@@ -46,10 +49,10 @@ switch ($dest) {
  * A list of all possible parameters is available here: http://ecommerce.envoimoinscher.com/api/documentation/commandes/
  */
 $additionalParams = array(
-    'collecte' => date("Y-m-d"),
+    'collection_date' => date("Y-m-d"),
     'delay' => 'aucun',
     'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-    'valeur' => "42.655"
+    'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
 );
 
 
