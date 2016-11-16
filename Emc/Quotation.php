@@ -270,8 +270,9 @@ class Quotation extends WebService
 
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/cotation'));
-        $this->doSimpleRequest();
-        return $this->getOffers(false);
+        if ($this->doSimpleRequest()){
+          $this->getOffers(false);
+        }
     }
 
     /**
@@ -324,7 +325,12 @@ class Quotation extends WebService
         $this->doSimpleRequestMulti();
         $i = 0;
         foreach ($this->xpath as $xpath) {
+          if ($xpath) {
             $this->getOffers(false, $xpath, $i);
+          }
+          else {
+            $this->offers[$i] = false;
+          }
             $i++;
         }
         return;

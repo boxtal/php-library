@@ -123,7 +123,7 @@ class WebService
      * @access public
      * @var int
      */
-    public $timeout =  null;
+    public $timeout =  15000;
 
     /**
      * A public variable determines if we have check certificate in function of your request environment.
@@ -239,13 +239,17 @@ class WebService
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
         $content_type = explode(';', $curl_info['content_type']);
-        if (curl_errno($req) > 0) {
+        if (curl_errno($req) > 0 || curl_error($req)) {
             $this->curl_error = true;
             $this->curl_error_text = curl_error($req);
+            $this->resp_errors_list[] = array('code' => 'curl_' . curl_errno($req),
+                'url' => $curl_info['url'],
+                'message' => curl_error($req)
+              );
             curl_close($req);
             return false;
-        } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] !=
-          '400' && $curl_info['http_code'] != '401') {
+        } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400'
+        && $curl_info['http_code'] != '401') {
             $result = false;
             $this->resp_error = true;
             $this->resp_errors_list[] = array('code' => 'http_error_' . $curl_info['http_code'],
@@ -301,6 +305,7 @@ class WebService
             curl_setopt($ch[$i], CURLOPT_HTTPHEADER, $u[CURLOPT_HTTPHEADER]);
             curl_setopt($ch[$i], CURLOPT_CAINFO, $u[CURLOPT_CAINFO]);
             curl_setopt($ch[$i], CURLOPT_SSL_VERIFYPEER, $u[CURLOPT_SSL_VERIFYPEER]);
+            curl_setopt($ch[$i], CURLOPT_TIMEOUT_MS, $this->timeout);
 
             curl_multi_add_handle($mh, $ch[$i]);
             $i++;
@@ -328,11 +333,14 @@ class WebService
         foreach ($ch as $k => $c) {
             $curl_info = curl_getinfo($c);
             $content_type = explode(';', $curl_info['content_type']);
-            if (curl_errno($c) > 0) {
+            if (curl_errno($c) > 0 || curl_error($c)) {
                 $this->curl_error = true;
                 $this->curl_error_text = curl_error($c);
-                curl_multi_close($mh);
-                return false;
+                $this->resp_errors_list[$k][] = array('code' => 'curl_' . curl_errno($c),
+                    'url' => $curl_info['url'],
+                    'message' => curl_error($c)
+                  );
+                $data[$k] = false;
             } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] !=
               '400' && $curl_info['http_code'] != '401') {
                 $this->resp_errors_list[$k][] = array('code' => 'http_error_' . $curl_info['http_code'],
@@ -373,7 +381,7 @@ class WebService
             'Accept-Language: '.$this->lang_code,
             'Api-Version: '.$this->api_version
         );
-        
+
         if (!empty($this->auth['user']) && !empty($this->auth['pass'])) {
             array_push(
                 $this->options[CURLOPT_HTTPHEADER],
@@ -527,6 +535,11 @@ class WebService
         $return_xml->appendChild($return_wrapper);
 
         foreach ($documents as $document) {
+            if (!$document)
+            {
+              $this->xpath[$i] = false;
+              continue;
+            }
             $dom_cl = new \DOMDocument();
             $dom_cl->loadXML($document);
             $this->xpath[$i] = new \DOMXPath($dom_cl);
@@ -682,8 +695,7 @@ class WebService
     {
         $this->auth['pass'] = $pwd;
     }
-    
-    
+
     /**
      * Sets key
      * @access public
@@ -694,7 +706,7 @@ class WebService
     {
         $this->auth['key'] = $key;
     }
-    
+
     /**
      * Sets locale.
      * @access public
