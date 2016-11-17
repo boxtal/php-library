@@ -1,6 +1,8 @@
 Release 1.3.5 TBD
  - [AD] #3811bis cleanup and replaced boxtale by boxtal
  - [TS] Added the is_ue and states fields in Country->getCountries.
+ - [BD] No longer throw a fatal error if the server is not accessible
+ - [BD] Fixed various notices
  
 Release 1.3.4 31/08/2016
  - [AD] #3545 saturday delivery
