@@ -131,25 +131,25 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     // shipper address
     $from = array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '38400',
-        'ville' => "Saint Martin d'Hères",
-        'type' => 'entreprise',
-        'adresse' => '13 Rue Martin Luther King'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '38400',
+        'city' => "Saint Martin d'Hères",
+        'address' => '13 Rue Martin Luther King',
+        'type' => 'company', // accepted values are "company" or "individual"
     );
     // recipient's address
     $to = array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '33000',
-        'ville' => 'Bordeaux',
-        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-        'adresse' => '24, rue des Ayres'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '33000',
+        'city' => 'Bordeaux',
+        'address' => '24, rue des Ayres',
+        'type' => 'individual', // accepted values are "company" or "individual"
     );
 
 
     /* Parcels informations */
     $parcels = array(
-        'type' => 'colis',
+        'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'dimensions' => array(
             1 => array(
                 'poids' => 1,
@@ -161,10 +161,10 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     );
 
     $additionalParams = array(
-        'collecte' => date("Y-m-d"),
+        'collection_date' => date("Y-m-d"),
         'delay' => 'aucun',
         'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-        'valeur' => "42.655"
+        'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     );
 
     $lib = new \Emc\Quotation();
@@ -194,33 +194,33 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     // shipper address
     $from = array(
-        'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '75002',
-        'ville' => 'Paris',
-        'type' => 'entreprise', // accepted values are "particulier" or "entreprise"
-        'adresse' => '15, rue Marsollier',
-        'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
-        'prenom' => 'Jon',
-        'nom' => 'Snow',
-        'societe' => 'Boxtal',
+        'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '75002',
+        'city' => 'Paris',
+        'address' => '15, rue Marsollier',
+        'type' => 'company', // accepted values are "company" or "individual"
+        'title' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
+        'firstname' => 'Jon',
+        'lastname' => 'Snow',
+        'societe' => 'Boxtal', // company name
         'email' => 'jsnow@boxtal.com',
-        'tel' => '0606060606',
+        'phone' => '0606060606',
         'infos' => 'Some informations about this address'
     );
 
 
     // Recipient's address
     $to = array(
-        'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '13002',
-        'ville' => 'Marseille',
-        'type' => 'particulier', // accepted values are "particulier" or "entreprise"
-        'adresse' => '1, rue Chape',
-        'civilite' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
-        'prenom' => 'Jane',
-        'nom' => 'Doe',
+        'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '13002',
+        'city' => 'Marseille',
+        'address' => '1, rue Chape',
+        'type' => 'individual', // accepted values are "company" or "individual"
+        'title' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
+        'firstname' => 'Jane',
+        'lastname' => 'Doe',
         'email' => 'jdoe@boxtal.com',
-        'tel' => '0606060606',
+        'phone' => '0606060606',
         'infos' => 'Some informations about this address'
     );
 
@@ -229,22 +229,22 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'dimensions' => array(
             1 => array(
-                'poids' => 5,
-                'longueur' => 15,
-                'largeur' => 16,
-                'hauteur' => 8
+                'poids' => 5, // parcel weight
+                'longueur' => 15, // parcel length
+                'largeur' => 16, // parcel width
+                'hauteur' => 8 // parcel height
             )
         )
     );
 
     $additionalParams = array(
-        'collecte' => date('Y-m-d'),
-        'delai' => "aucun",
+        'collection_date' => date('Y-m-d'),
+        'delay' => "aucun", // no delay, meaning shipping as soon as possible
         'assurance.selection' => false, // whether you want an extra insurance or not
         'url_push' => 'www.my-website.com/push.php&order=',
         'content_code' => 40110,
-        'colis.description' => "Tissus, vêtements neufs",
-        'valeur' => "42.655",
+        'colis.description' => "Tissus, vêtements neufs", // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+        'colis.valeur' => "42.655", // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'depot.pointrelais' => 'CHRP-POST',
         'operator' => 'CHRP',
         'service' => 'Chrono18'

@@ -36,10 +36,10 @@ $multirequest[0] = array(
         'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'dimensions' => array(
             1 => array(
-                'poids' => 1,
-                'longueur' => 15,
-                'largeur' => 16,
-                'hauteur' => 8
+                'poids' => 1, // parcel weight
+                'longueur' => 15, // parcel length
+                'largeur' => 16, // parcel width
+                'hauteur' => 8 // parcel height
             )
         )
     ),
@@ -73,10 +73,10 @@ $multirequest[1] = array(
         'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'dimensions' => array(
             1 => array(
-                'poids' => 1,
-                'longueur' => 15,
-                'largeur' => 16,
-                'hauteur' => 8
+                'poids' => 1, // parcel weight
+                'longueur' => 15, // parcel length
+                'largeur' => 16, // parcel width
+                'hauteur' => 8 // parcel height
             )
         )
     ),

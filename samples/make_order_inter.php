@@ -18,10 +18,10 @@ $from = array(
     'title' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
     'firstname' => 'Jon',
     'lastname' => 'Snow',
-    'societe' => 'Boxtale', // name of company field
+    'societe' => 'Boxtale', // company name
     'email' => 'jsnow@boxtale.com',
     'phone' => '0606060606',
-    'infos' => 'Some informations about this address'
+    'infos' => 'Some additional information about this address'
 );
 
 
@@ -37,7 +37,7 @@ $to = array(
     'lastname' => 'Doe',
     'email' => 'jdoe@boxtale.com',
     'phone' => '0606060606',
-    'infos' => 'Some informations about this address'
+    'infos' => 'Some additional information about this address'
  );
 
 /* Parcels informations */
@@ -45,10 +45,10 @@ $parcels = array(
     'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     'dimensions' => array(
         1 => array(
-            'poids' => 5,
-            'longueur' => 15,
-            'largeur' => 16,
-            'hauteur' => 8
+            'poids' => 5, // parcel weight
+            'longueur' => 15, // parcel length
+            'largeur' => 16, // parcel width
+            'hauteur' => 8 // parcel height
         )
     )
 );
