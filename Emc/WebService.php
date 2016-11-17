@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* 2011-2016 Boxtale
+* 2011-2016 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -16,8 +16,8 @@ namespace Emc;
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2016 Boxtale
+* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
+* @copyright 2011-2016 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -165,7 +165,7 @@ class WebService
      * @access protected
      * @var string
      */
-    protected $platform_version = '2.0.0';
+    protected $platform_version = '2.0.1';
 
     /**
      * Module version
@@ -239,13 +239,17 @@ class WebService
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
         $content_type = explode(';', $curl_info['content_type']);
-        if (curl_errno($req) > 0) {
+        if (curl_errno($req) > 0 || curl_error($req)) {
             $this->curl_error = true;
             $this->curl_error_text = curl_error($req);
+            $this->resp_errors_list[] = array('code' => 'curl_' . curl_errno($req),
+                'url' => $curl_info['url'],
+                'message' => curl_error($req)
+              );
             curl_close($req);
             return false;
-        } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] !=
-          '400' && $curl_info['http_code'] != '401') {
+        } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] != '400'
+        && $curl_info['http_code'] != '401') {
             $result = false;
             $this->resp_error = true;
             $this->resp_errors_list[] = array('code' => 'http_error_' . $curl_info['http_code'],
@@ -301,6 +305,7 @@ class WebService
             curl_setopt($ch[$i], CURLOPT_HTTPHEADER, $u[CURLOPT_HTTPHEADER]);
             curl_setopt($ch[$i], CURLOPT_CAINFO, $u[CURLOPT_CAINFO]);
             curl_setopt($ch[$i], CURLOPT_SSL_VERIFYPEER, $u[CURLOPT_SSL_VERIFYPEER]);
+            curl_setopt($ch[$i], CURLOPT_TIMEOUT_MS, $this->timeout);
 
             curl_multi_add_handle($mh, $ch[$i]);
             $i++;
@@ -328,11 +333,14 @@ class WebService
         foreach ($ch as $k => $c) {
             $curl_info = curl_getinfo($c);
             $content_type = explode(';', $curl_info['content_type']);
-            if (curl_errno($c) > 0) {
+            if (curl_errno($c) > 0 || curl_error($c)) {
                 $this->curl_error = true;
                 $this->curl_error_text = curl_error($c);
-                curl_multi_close($mh);
-                return false;
+                $this->resp_errors_list[$k][] = array('code' => 'curl_' . curl_errno($c),
+                    'url' => $curl_info['url'],
+                    'message' => curl_error($c)
+                  );
+                $data[$k] = false;
             } elseif ($curl_info['http_code'] != '200' && $curl_info['http_code'] !=
               '400' && $curl_info['http_code'] != '401') {
                 $this->resp_errors_list[$k][] = array('code' => 'http_error_' . $curl_info['http_code'],
@@ -370,16 +378,21 @@ class WebService
             CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
 
         $this->options[CURLOPT_HTTPHEADER] = array(
-                'Accept-Language: '.$this->lang_code,
-                'Api-Version: '.$this->api_version);
-        
+            'Accept-Language: '.$this->lang_code,
+            'Api-Version: '.$this->api_version
+        );
+
         if (!empty($this->auth['user']) && !empty($this->auth['pass'])) {
-            array_push($this->options[CURLOPT_HTTPHEADER],
-                'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '');
+            array_push(
+                $this->options[CURLOPT_HTTPHEADER],
+                'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . ''
+            );
         }
         if (!empty($this->auth['key'])) {
-            array_push($this->options[CURLOPT_HTTPHEADER],
-                'access_key : ' . $this->auth['key'] . '');
+            array_push(
+                $this->options[CURLOPT_HTTPHEADER],
+                'access_key : ' . $this->auth['key'] . ''
+            );
         }
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
@@ -522,6 +535,11 @@ class WebService
         $return_xml->appendChild($return_wrapper);
 
         foreach ($documents as $document) {
+            if (!$document)
+            {
+              $this->xpath[$i] = false;
+              continue;
+            }
             $dom_cl = new \DOMDocument();
             $dom_cl->loadXML($document);
             $this->xpath[$i] = new \DOMXPath($dom_cl);
@@ -531,8 +549,10 @@ class WebService
             if ($this->hasErrorsMulti($this->xpath[$i])) {
                 $errors = $this->xpath[$i]->evaluate('/error');
                 foreach ($errors as $e => $error) {
-                    $this->resp_errors_list[$i][$e] = array('code' => $this->xpath[$i]->evaluate('code', $error)->item(0)->nodeValue
-                    , 'message' => $this->xpath[$i]->evaluate('message', $error)->item(0)->nodeValue);
+                    $this->resp_errors_list[$i][$e] = array(
+                        'code' => $this->xpath[$i]->evaluate('code', $error)->item(0)->nodeValue,
+                        'message' => $this->xpath[$i]->evaluate('message', $error)->item(0)->nodeValue
+                    );
                 }
             }
 
@@ -675,8 +695,7 @@ class WebService
     {
         $this->auth['pass'] = $pwd;
     }
-    
-    
+
     /**
      * Sets key
      * @access public
@@ -687,7 +706,7 @@ class WebService
     {
         $this->auth['key'] = $key;
     }
-    
+
     /**
      * Sets locale.
      * @access public

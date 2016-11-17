@@ -11,10 +11,10 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 $lib = new ListPoints();
 
 $params = array(
-    'collecte'=> 'exp',
-    'pays' => 'FR',
-    'cp' => '75011',
-    'ville' => 'PARIS'
+    'collecte'=> 'exp', // whether it's for dropping ("exp") or picking up ("dest") a parcel, required for some operators
+    'pays' => 'FR', // country ISO code
+    'cp' => '75011', // zipcode
+    'ville' => 'PARIS' // city
 );
 $lib->getListPoints(array('SOGP_RelaisColis', 'MONR_CpourToi'), $params);
 
@@ -37,57 +37,59 @@ if (!$lib->curl_error && !$lib->resp_error) {
         <th>Description</th>
         <th>Calendar</th>
     </tr>
-<?php   foreach ($lib->list_points as $carrier) {   ?>
-    <?php   foreach ($carrier['points'] as $point) {  ?>
-        <tr>
-            <td><?php echo $carrier['operator'].' '.$carrier['service']; ?></td>
-            <td><?php echo $point['code']; ?></td>
-            <td><?php echo $point['name']; ?></td>
-            <td><?php echo $point['address']; ?></td>
-            <td><?php echo $point['city']; ?></td>
-            <td><?php echo $point['zipcode']; ?></td>
-            <td><?php echo $point['country']; ?></td>
-            <td><?php echo $point['phone']; ?></td>
-            <td><?php echo $point['description']; ?></td>
-            <td>
-                <?php
-                ob_start();
-                ?>
-                <div style='width: 480px;'>
-                <table class='table table-striped table-bordered'>
-                    <tr>
-                        <td>Week day</td>
-                        <td>Opening am</td>
-                        <td>Closing am</td>
-                        <td>Opening pm</td>
-                        <td>Closing pm</td>
-                    </tr>
-                    <?php
-                    foreach ($point['schedule'] as $day) {
-                    ?>
-                        <tr>
-                            <td><?php echo $week_days[$day['weekday']]; ?></td>
-                            <td><?php echo substr($day['open_am'], 0, 5); ?></td>
-                            <td><?php echo substr($day['close_am'], 0, 5); ?></td>
-                            <td><?php echo substr($day['open_pm'], 0, 5); ?></td>
-                            <td><?php echo substr($day['close_pm'], 0, 5); ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </table>
-                </div>
-                <?php
-                $calendar = ob_get_clean();
-                ?>
-                <button type="button" class="btn btn-sm btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $calendar ; ?>">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                    Opening time
-                </button>
-            </td>
-        </tr>
-<?php
-}
+<?php   foreach ($lib->list_points as $carrier) {
+    if (isset($carrier['points'])) {
+            foreach ($carrier['points'] as $point) {  ?>
+                <tr>
+                    <td><?php echo $carrier['operator'].' '.$carrier['service']; ?></td>
+                    <td><?php echo $point['code']; ?></td>
+                    <td><?php echo $point['name']; ?></td>
+                    <td><?php echo $point['address']; ?></td>
+                    <td><?php echo $point['city']; ?></td>
+                    <td><?php echo $point['zipcode']; ?></td>
+                    <td><?php echo $point['country']; ?></td>
+                    <td><?php echo $point['phone']; ?></td>
+                    <td><?php echo $point['description']; ?></td>
+                    <td>
+                        <?php
+                        ob_start();
+                        ?>
+                        <div style='width: 480px;'>
+                        <table class='table table-striped table-bordered'>
+                            <tr>
+                                <td>Week day</td>
+                                <td>Opening am</td>
+                                <td>Closing am</td>
+                                <td>Opening pm</td>
+                                <td>Closing pm</td>
+                            </tr>
+                            <?php
+                            foreach ($point['schedule'] as $day) {
+                            ?>
+                                <tr>
+                                    <td><?php echo $week_days[$day['weekday']]; ?></td>
+                                    <td><?php echo substr($day['open_am'], 0, 5); ?></td>
+                                    <td><?php echo substr($day['close_am'], 0, 5); ?></td>
+                                    <td><?php echo substr($day['open_pm'], 0, 5); ?></td>
+                                    <td><?php echo substr($day['close_pm'], 0, 5); ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </table>
+                        </div>
+                        <?php
+                        $calendar = ob_get_clean();
+                        ?>
+                        <button type="button" class="btn btn-sm btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="<?php echo $calendar ; ?>">
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            Opening time
+                        </button>
+                    </td>
+                </tr>
+        <?php
+        }
+    }
 }
 ?>
 </table>

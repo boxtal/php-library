@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* ENv autoloader
+* Env autoloader
 */
 class Autoloader
 {

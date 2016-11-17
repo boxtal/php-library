@@ -23,7 +23,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
             <select class="form-control">
                 <?php
                 foreach ($lib->countries as $c => $country) { ?>
-                    <option value="<?php echo $country['code'];?>"><?php echo $country['label'];?></option>
+                    <option value="<?php echo $country->code;?>"><?php echo $country->label;?></option>
                 <?php
                 } ?>
             </select>
@@ -38,7 +38,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
 $lib->getCountry("ES");
 ?>
     <div class="form-group">
-        <label class="col-sm-3 control-label">Destinations to Spain : <span class="glyphicon glyphicon-question-sign" 
+        <label class="col-sm-3 control-label">Destinations to Spain : <span class="glyphicon glyphicon-question-sign"
         data-container="body" data-toggle="popover" data-placement="bottom" data-content="Countries relations by ISO codes.<br/>
                             For example it contains the relation between the Canary Islands and Spain which haven't the same ISO code<br/>
                             Possible values : 'NL', 'PT', 'DE', 'IT', 'ES', 'VI', 'GR'"></span></label>
@@ -46,13 +46,29 @@ $lib->getCountry("ES");
             <ul class="list-group">
             <?php
             foreach ($lib->country as $c => $country) { ?>
-                <li class="list-group-item"><?php echo $country["label"];?></li>
+                <li class="list-group-item"><?php echo $country->label;?></li>
             <?php
             } ?>
             </ul>
         </div>
     </div>
-    </form>
+<?php
+$us = $lib->countries['US'];
+?>
+  <div class="form-group">
+      <label class="col-sm-3 control-label">States from United States : <span class="glyphicon glyphicon-question-sign"
+      data-container="body" data-toggle="popover" data-placement="bottom" data-content="List of states by country."></span></label>
+      <div class="col-sm-9">
+          <select class="form-control">
+          <?php
+          foreach ($us->states as $s => $state) { ?>
+              <option value="<?php echo $state->code;?>"><?php echo $state->label;?></option>
+          <?php
+          } ?>
+          </select>
+      </div>
+  </div>
+  </form>
 </div>
 <?php
 } else {

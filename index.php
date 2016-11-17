@@ -3,8 +3,8 @@ require_once('config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 ?>
 <div>
-    <h3>Quick start / Boxtale PHP Library</h3>
-    <p>This PHP library aims to present the PHP implementation of the <a href="http://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a> API.</p>
+    <h3>Quick start / Boxtal PHP Library</h3>
+    <p>This PHP library aims to present the PHP implementation of the <a href="https://www.envoimoinscher.com" target="_blank">EnvoiMoinsCher.com</a> API.</p>
     <p>We will see step by step the essential blocks for building a custom shipping module on your e-shop:/p>
     <ul class="myTab">
         <li><a href="#signup" role="tab" data-toggle="tab">Signup</a></li>
@@ -16,7 +16,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
      <p>For more information on input parameters, classes, changelog, please refer to our <a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">documentation</a> (in french).</p>
     <br/>
      <h4>Installation</h4>
-        To install Boxtale PHP Library, simply : <br/>
+        To install Boxtal PHP Library, simply : <br/>
         <b>$ composer require boxtale/php-library </b>
         <br/><br/>
         
@@ -62,7 +62,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 <div class="tab-content">
     <div class="tab-pane active" id="signup">
         <h5 id="orders">1. Signup to envoimoincher.com </h5>
-        <p>To create a (free) Boxtale user account, you have two options:</p>
+        <p>To create a (free) Boxtal user account, you have two options:</p>
         <ul>
             <li>Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.</li>
             <li>Or using the postUserSignup method available in EnvoiMoinsCher API </li>
@@ -73,7 +73,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     // Params to create account as Professional
     $params =array(
-        'facturation.contact_ste'=>'Boxtale',
+        'facturation.contact_ste'=>'Boxtal',
         'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
         'facturation.contact_nom'=>'Snow',
         'facturation.contact_prenom'=>'Jon',
@@ -81,9 +81,9 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'facturation.adresse2'=>'', // Address line 2
         'facturation.adresse3'=>'', // Address line 3
         'facturation.ville'=>'Paris', // City
-        'facturation.pz_id'=>'76', // Town id ( 76: France, 68: Spain, 112 :Italy, 70: Unated States, 191: UK ...)
+        'facturation.pays_iso'=>'FR', // Country ISO code
         'facturation.codepostal'=>'75001',
-        'facturation.contact_email'=>'jsnow@boxtale.com',
+        'facturation.contact_email'=>'jsnow@boxtal.com',
         'facturation.contact_tel'=>'0606060606',
         'facturation.contact_locale'=>'fr_FR',
         'facturation.defaut_enl'=>'on', // Set the adress as default collect adress
@@ -131,25 +131,25 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     // shipper address
     $from = array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '38400',
-        'ville' => "Saint Martin d'Hères",
-        'type' => 'entreprise',
-        'adresse' => '13 Rue Martin Luther King'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '38400',
+        'city' => "Saint Martin d'Hères",
+        'address' => '13 Rue Martin Luther King',
+        'type' => 'company', // accepted values are "company" or "individual"
     );
     // recipient's address
     $to = array(
-        'pays' => 'FR', // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '33000',
-        'ville' => 'Bordeaux',
-        'type' => 'particulier', // accepted values are "entreprise" or "particulier"
-        'adresse' => '24, rue des Ayres'
+        'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '33000',
+        'city' => 'Bordeaux',
+        'address' => '24, rue des Ayres',
+        'type' => 'individual', // accepted values are "company" or "individual"
     );
 
 
     /* Parcels informations */
     $parcels = array(
-        'type' => 'colis',
+        'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'dimensions' => array(
             1 => array(
                 'poids' => 1,
@@ -161,10 +161,10 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
     );
 
     $additionalParams = array(
-        'collecte' => date("Y-m-d"),
+        'collection_date' => date("Y-m-d"),
         'delay' => 'aucun',
         'content_code' => 10120, // List of the available codes at samples/get_categories.php > List of contents
-        'valeur' => "42.655"
+        'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     );
 
     $lib = new \Emc\Quotation();
@@ -194,33 +194,33 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 
     // shipper address
     $from = array(
-        'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '75002',
-        'ville' => 'Paris',
-        'type' => 'entreprise', // accepted values are "particulier" or "entreprise"
-        'adresse' => '15, rue Marsollier',
-        'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
-        'prenom' => 'Jon',
-        'nom' => 'Snow',
-        'societe' => 'Boxtale',
-        'email' => 'jsnow@boxtale.com',
-        'tel' => '0606060606',
+        'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '75002',
+        'city' => 'Paris',
+        'address' => '15, rue Marsollier',
+        'type' => 'company', // accepted values are "company" or "individual"
+        'title' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
+        'firstname' => 'Jon',
+        'lastname' => 'Snow',
+        'societe' => 'Boxtal', // company name
+        'email' => 'jsnow@boxtal.com',
+        'phone' => '0606060606',
         'infos' => 'Some informations about this address'
     );
 
 
     // Recipient's address
     $to = array(
-        'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-        'code_postal' => '13002',
-        'ville' => 'Marseille',
-        'type' => 'particulier', // accepted values are "particulier" or "entreprise"
-        'adresse' => '1, rue Chape',
-        'civilite' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
-        'prenom' => 'Jane',
-        'nom' => 'Doe',
-        'email' => 'jdoe@boxtale.com',
-        'tel' => '0606060606',
+        'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+        'zipcode' => '13002',
+        'city' => 'Marseille',
+        'address' => '1, rue Chape',
+        'type' => 'individual', // accepted values are "company" or "individual"
+        'title' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
+        'firstname' => 'Jane',
+        'lastname' => 'Doe',
+        'email' => 'jdoe@boxtal.com',
+        'phone' => '0606060606',
         'infos' => 'Some informations about this address'
     );
 
@@ -229,22 +229,22 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
         'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'dimensions' => array(
             1 => array(
-                'poids' => 5,
-                'longueur' => 15,
-                'largeur' => 16,
-                'hauteur' => 8
+                'poids' => 5, // parcel weight
+                'longueur' => 15, // parcel length
+                'largeur' => 16, // parcel width
+                'hauteur' => 8 // parcel height
             )
         )
     );
 
     $additionalParams = array(
-        'collecte' => date('Y-m-d'),
-        'delai' => "aucun",
+        'collection_date' => date('Y-m-d'),
+        'delay' => "aucun", // no delay, meaning shipping as soon as possible
         'assurance.selection' => false, // whether you want an extra insurance or not
         'url_push' => 'www.my-website.com/push.php&order=',
         'content_code' => 40110,
-        'colis.description' => "Tissus, vêtements neufs",
-        'valeur' => "42.655",
+        'colis.description' => "Tissus, vêtements neufs", // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+        'colis.valeur' => "42.655", // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
         'depot.pointrelais' => 'CHRP-POST',
         'operator' => 'CHRP',
         'service' => 'Chrono18'
@@ -331,7 +331,7 @@ require_once(EMC_PARENT_DIR.'layout/header.php');
 <p>If you have any trouble implementing the library, email us at <a href="mailto:api@envoimoinscher.com">api@envoimoinscher.com</a>.</p>
 </div>
 <div class="footer">
-        <p>&copy; Boxtale 2016</p>
+        <p>&copy; Boxtal 2016</p>
       </div>
 <script>
   $(document).ready(function() {

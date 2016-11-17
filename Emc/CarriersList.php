@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* 2011-2016 Boxtale
+* 2011-2016 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -16,8 +16,8 @@ namespace Emc;
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2016 Boxtale
+* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
+* @copyright 2011-2016 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -120,6 +120,7 @@ class CarriersList extends WebService
                 $this->carriers[$id]['family'] = $this->xpath->query('./family', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['zone'] = $this->xpath->query('./zone', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['zone_fr'] = $this->xpath->query('./zone_fr', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['zone_es'] = $this->xpath->query('./zone_es', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['zone_eu'] = $this->xpath->query('./zone_eu', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['zone_int'] = $this->xpath->query('./zone_int', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['zone_restriction'] =

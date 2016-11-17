@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* 2011-2016 Boxtale
+* 2011-2016 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -16,8 +16,8 @@ namespace Emc;
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2016 Boxtale
+* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
+* @copyright 2011-2016 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -149,7 +149,7 @@ class User extends WebService
             if ($user) {
                 foreach ($user->childNodes as $config_line) {
                     if (!($config_line instanceof DOMText)) {
-                        if ($config_line->childNodes->length > 1) {
+                        if ($config_line->hasChildNodes() && $config_line->childNodes->length > 1) {
                             foreach ($config_line->childNodes as $sub_config_line) {
                                 if (!($sub_config_line instanceof DOMText)) {
                                     $this->user_configuration[$config_line->nodeName][$sub_config_line->nodeName]
@@ -176,12 +176,15 @@ class User extends WebService
         if ($source !== false) {
             parent::parseResponse($source);
             $node = $this->xpath->evaluate('/user/partnership');
-            if ($node) {
-                $this->partnership = $node->item(0)->nodeValue;
+            if ($node && $node->item(0)) {
+              $this->partnership = $node->item(0)->nodeValue;
+            }
+            else {
+              $this->partnership = null;
             }
         }
     }
-    
+
     /**
      * Post request on api/v1/user_keys to generate API keys
      * @access public

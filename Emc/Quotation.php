@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* 2011-2016 Boxtale
+* 2011-2016 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -16,8 +16,8 @@ namespace Emc;
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2016 Boxtale
+* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
+* @copyright 2011-2016 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -254,7 +254,7 @@ class Quotation extends WebService
      * @return true if request was executed correctly, false if not
      */
     public function getQuotation($from = array(), $to = array(), $parcels = array(), $additionalParams = array())
-    {   
+    {
         if (!empty($from)) {
             $this->setPerson('shipper', $from);
         }
@@ -267,11 +267,12 @@ class Quotation extends WebService
         if (!empty($additionalParams)) {
             $this->param = array_merge($this->param, $additionalParams);
         }
-        
+
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/cotation'));
-        $this->doSimpleRequest();
-        return $this->getOffers(false);
+        if ($this->doSimpleRequest()){
+          $this->getOffers(false);
+        }
     }
 
     /**
@@ -287,24 +288,25 @@ class Quotation extends WebService
     /**
      * Public function which receives the quotation for curl multi request.
      * @access public
-     * @param [Array] $multirequest indexed array containing quotation information, namely "from", "to", "parcels" and "additional_params"
+     * @param [Array] $multirequest indexed array containing quotation information
+     * namely "from", "to", "parcels" and "additional_params"
      * @return true if request was executed correctly, false if not
      */
     public function getQuotationMulti($multirequest)
     {
-        
+
         foreach ($multirequest as $quot_index => $quot_info) {
             // set additional params
             $params = $quot_info['additional_params'];
 
             // Set sender
             foreach ($quot_info['from'] as $key => $value) {
-                $params['expediteur.' . $key] = $value;
+                $params['shipper.' . $key] = $value;
             }
 
             // Set recipient
             foreach ($quot_info['to'] as $key => $value) {
-                $params['destinataire.' . $key] = $value;
+                $params['recipient.' . $key] = $value;
             }
 
             // Set parcel
@@ -317,13 +319,18 @@ class Quotation extends WebService
 
             $this->setParamMulti($params);
         }
-        
+
         $this->setGetParamsMulti(array());
         $this->setOptionsMulti(array('action' => 'api/v1/cotation'));
         $this->doSimpleRequestMulti();
         $i = 0;
         foreach ($this->xpath as $xpath) {
+          if ($xpath) {
             $this->getOffers(false, $xpath, $i);
+          }
+          else {
+            $this->offers[$i] = false;
+          }
             $i++;
         }
         return;
@@ -641,7 +648,7 @@ class Quotation extends WebService
         $this->quot_info = $additionalParams;
         $this->get_info = $get_info;
         if (isset($additionalParams['reason']) && $additionalParams['reason']) {
-            $additionalParams['envoi.raison'] = array_search($additionalParams['reason'], $this->ship_reasons);
+            $additionalParams['raison'] = array_search($additionalParams['reason'], $this->ship_reasons);
             unset($additionalParams['reason']);
         }
         if (!isset($additionalParams['assurance.selection']) || $additionalParams['assurance.selection'] == '') {

@@ -10,34 +10,34 @@ require_once('../layout/header.php');
 
 // shipper address
 $from = array(
-    'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '75002',
-    'ville' => 'Paris',
-    'type' => 'entreprise', // accepted values are "particulier" or "entreprise"
-    'adresse' => '15, rue Marsollier',
-    'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
-    'prenom' => 'Jon',
-    'nom' => 'Snow',
-    'societe' => 'Boxtale',
+    'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+    'zipcode' => '75002',
+    'city' => 'Paris',
+    'address' => '15, rue Marsollier',
+    'type' => 'company', // accepted values are "company" or "individual"
+    'title' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
+    'firstname' => 'Jon',
+    'lastname' => 'Snow',
+    'societe' => 'Boxtale', // company name
     'email' => 'jsnow@boxtale.com',
-    'tel' => '0606060606',
-    'infos' => 'Some informations about this address'
+    'phone' => '0606060606',
+    'infos' => 'Some additional information about this address'
 );
 
 
 // Recipient's address
 $to = array(
-    'pays' => 'AU', // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '2000',
-    'ville' => 'Sydney',
-    'type' => 'particulier', // accepted values are "particulier" or "entreprise"
-    'adresse' => 'King Street',
-    'civilite' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
-    'prenom' => 'Jane',
-    'nom' => 'Doe',
+    'country' => 'AU', // must be an ISO code, set get_country example on how to get codes
+    'zipcode' => '2000',
+    'city' => 'Sydney',
+    'address' => 'King Street',
+    'type' => 'individual', // accepted values are "company" or "individual"
+    'title' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
+    'firstname' => 'Jane',
+    'lastname' => 'Doe',
     'email' => 'jdoe@boxtale.com',
-    'tel' => '0606060606',
-    'infos' => 'Some informations about this address'
+    'phone' => '0606060606',
+    'infos' => 'Some additional information about this address'
  );
 
 /* Parcels informations */
@@ -45,10 +45,10 @@ $parcels = array(
     'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     'dimensions' => array(
         1 => array(
-            'poids' => 5,
-            'longueur' => 15,
-            'largeur' => 16,
-            'hauteur' => 8
+            'poids' => 5, // parcel weight
+            'longueur' => 15, // parcel length
+            'largeur' => 16, // parcel width
+            'hauteur' => 8 // parcel height
         )
     )
 );
@@ -70,37 +70,36 @@ $lib->setType(
  * You can also find all optional parameters (filter not included) in the same quotation
  */
 $additionalParams = array(
-    'collecte' => date('Y-m-d'),
+    'collection_date' => date('Y-m-d'),
     'delay' => 'aucun',
     'content_code' => 10120,  // List of the available codes at samples/get_categories.php > List of contents
-    'raison' => 'sale', // for a list of authorized values see $ship_reasons (right-hand side values) in Quotation.php
-    'colis.valeur' => 1200,
+    'reason' => 'sale', // for a list of authorized values see $ship_reasons (right-hand side values) in Quotation.php
+    'colis.valeur' => 1200, // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     'assurance.selection' => false,  // whether you want an extra insurance or not
-    'colis.description' => 'Des journaux',
+    'colis.description' => 'Newspapers',
     // you can find more informations about what is sent on this url here : http://ecommerce.envoimoinscher.com/api/documentation/url-de-push
     'url_push' => 'www.my-website.com/push.php&order=N',
     'disponibilite.HDE' => '09:00', // Starting time at which you are available for the pickup
     'disponibilite.HLE' => '19:00', // Ending time at which you are available for the pickup
     'operator' => 'UPSE',
-    'service' => 'ExpressSaver',
-    'valeur' => "42.655"
-    // for assurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+    'service' => 'ExpressSaver'
+    // for insurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
 );
 
 // Initialize request
 $lib = new Quotation();
 
 
-// For an international send, you must specify the proforma
+// For an international delivery, you must specify the proforma
 $lib->setProforma(
     array(
         1 => array(
-            'description_en' => 'L\'Equipe newspaper from 1998',
-            'description_fr' => 'le journal L\'Equipe du 1998',
-            'nombre' => 1,
-            'valeur' => 1200,
-            'origine' => 'FR',
-            'poids' => 4.9 // Le poids de la marchandise que vous indiquez doit être inférieur au poids de votre envoi
+            'description_en' => 'L\'Equipe newspaper from 1998', // description in english
+            'description_fr' => 'le journal L\'Equipe du 1998', // description in french (you can fill it in english if you don't speak french)
+            'number' => 1, // number of items
+            'value' => 1200, // value of 1 item
+            'origine' => 'FR', // country of origin
+            'poids' => 4.9 // weight (total weight of product must be inferior to parcel weight)
         )
     )
 );

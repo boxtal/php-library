@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* 2011-2016 Boxtale
+* 2011-2016 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -16,8 +16,8 @@ namespace Emc;
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2016 Boxtale
+* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
+* @copyright 2011-2016 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -94,8 +94,10 @@ class ListPoints extends WebService
                 /* The XML file is loaded, we now gather the datas */
                 $carriers = $this->xpath->query('/carriers/carrier');
                 foreach ($carriers as $carrier_index => $carrier) {
-                    $this->list_points[$carrier_index]['operator'] = $this->xpath->query('./operator', $carrier)->item(0)->nodeValue;
-                    $this->list_points[$carrier_index]['service'] = $this->xpath->query('./service', $carrier)->item(0)->nodeValue;
+                    $this->list_points[$carrier_index]['operator'] =
+                        $this->xpath->query('./operator', $carrier)->item(0)->nodeValue;
+                    $this->list_points[$carrier_index]['service'] =
+                        $this->xpath->query('./service', $carrier)->item(0)->nodeValue;
                     $points = $this->xpath->query('./points/point', $carrier);
                     foreach ($points as $point_index => $point) {
                         $point_info = array(
@@ -105,6 +107,8 @@ class ListPoints extends WebService
                             'city' => $this->xpath->query('./city', $point)->item(0)->nodeValue,
                             'zipcode' => $this->xpath->query('./zipcode', $point)->item(0)->nodeValue,
                             'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
+                            'latitude' => $this->xpath->query('./latitude', $point)->item(0)->nodeValue,
+                            'longitude' => $this->xpath->query('./longitude', $point)->item(0)->nodeValue,
                             'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
                             'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue,
                             'schedule' => array()

@@ -10,45 +10,47 @@ require_once('../layout/header.php');
 
 // shipper address
 $from = array(
-    'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '75002',
-    'ville' => 'Paris',
-    'type' => 'entreprise', // accepted values are "particulier" or "entreprise"
-    'adresse' => '15, rue Marsollier',
-    'civilite' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
-    'prenom' => 'Jon',
-    'nom' => 'Snow',
-    'societe' => 'Boxtale',
+    'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+    // "state" : "" if required, state must be an ISO code as well
+    'zipcode' => '75002',
+    'city' => 'Paris',
+    'address' => '15, rue Marsollier',
+    'type' => 'company', // accepted values are "company" or "individual"
+    'title' => 'M', // accepted values are "M" (sir) or "Mme" (madam)
+    'firstname' => 'Jon',
+    'lastname' => 'Snow',
+    'societe' => 'Boxtale', // company name
     'email' => 'jsnow@boxtale.com',
-    'tel' => '0606060606',
-    'infos' => 'Some informations about this address'
+    'phone' => '0606060606',
+    'infos' => 'Some additional information about this address'
 );
 
 
 // Recipient's address
 $to = array(
-    'pays' => 'FR',  // must be an ISO code, set get_country example on how to get codes
-    'code_postal' => '13002',
-    'ville' => 'Marseille',
-    'type' => 'particulier', // accepted values are "particulier" or "entreprise"
-    'adresse' => '1, rue Chape',
-    'civilite' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
-    'prenom' => 'Jane',
-    'nom' => 'Doe',
+    'country' => 'FR',  // must be an ISO code, set get_country example on how to get codes
+    // "state" : "" if required, state must be an ISO code as well
+    'zipcode' => '13002',
+    'city' => 'Marseille',
+    'address' => '1, rue Chape',
+    'type' => 'individual', // accepted values are "company" or "individual"
+    'title' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
+    'firstname' => 'Jane',
+    'lastname' => 'Doe',
     'email' => 'jdoe@boxtale.com',
-    'tel' => '0606060606',
-    'infos' => 'Some informations about this address'
+    'phone' => '0606060606',
+    'infos' => 'Some additional information about this address'
 );
 
-/* Parcels informations */
+/* Parcel information */
 $parcels = array(
     'type' => 'colis', // your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     'dimensions' => array(
         1 => array(
-            'poids' => 5,
-            'longueur' => 15,
-            'largeur' => 16,
-            'hauteur' => 8
+            'poids' => 5, // parcel weight
+            'longueur' => 15, // parcel length
+            'largeur' => 16, // parcel width
+            'hauteur' => 8 // parcel height
         )
     )
 );
@@ -70,10 +72,10 @@ $lib->setType(
  * You can also find all optional parameters (filter not included) in the same quotation
  */
 $additionalParams = array(
-    'collecte' => date('Y-m-d'),
+    'collection_date' => date('Y-m-d'),
     'delay' => 'aucun',
     'content_code' => 40110,  // List of the available codes at samples/get_categories.php > List of contents
-    'colis.description' => "Tissus, vêtements neufs",
+    'colis.description' => "books",
     'assurance.selection' => false, // whether you want an extra insurance or not
     'saturdaydelivery.selection' => false, // set this to true if you want to select a saturday delivery offer (paying option not available for all carriers)
     'url_push' => 'www.my-website.com/push.php&order=',
@@ -81,8 +83,8 @@ $additionalParams = array(
     'retrait.pointrelais' => 'MONR-087106', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
     'operator' => 'MONR',
     'service' => 'CpourToi',
-    'valeur' => "42.655"
-    // for assurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+    'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
+    // for insurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
 );
 
 // Prepare and execute the request

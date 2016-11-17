@@ -2,7 +2,7 @@
 namespace Emc;
 
 /**
-* 2011-2016 Boxtale
+* 2011-2016 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -16,8 +16,8 @@ namespace Emc;
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtale EnvoiMoinsCher <informationapi@boxtale.com>
-* @copyright 2011-2016 Boxtale
+* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
+* @copyright 2011-2016 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -89,37 +89,38 @@ class ParcelPoint extends WebService
         /* We make sure there is an XML answer and try to parse it */
         if ($source !== false) {
             parent::parseResponse($source);
+            if (count($this->resp_errors_list) == 0) {
+                $point = $this->xpath->query('/' . $type)->item(0);
+                $point_detail = array(
+                    'code' => $this->xpath->query('./code', $point)->item(0)->nodeValue,
+                    'name' => $this->xpath->query('./name', $point)->item(0)->nodeValue,
+                    'address' => $this->xpath->query('./address', $point)->item(0)->nodeValue,
+                    'city' => $this->xpath->query('./city', $point)->item(0)->nodeValue,
+                    'zipcode' => $this->xpath->query('./zipcode', $point)->item(0)->nodeValue,
+                    'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
+                    'latitude' => $this->xpath->query('./latitude', $point)->item(0)->nodeValue,
+                    'longitude' => $this->xpath->query('./longitude', $point)->item(0)->nodeValue,
+                    'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
+                    'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue);
 
-            $point = $this->xpath->query('/' . $type)->item(0);
-            $point_detail = array(
-                'code' => $this->xpath->query('./code', $point)->item(0)->nodeValue,
-                'name' => $this->xpath->query('./name', $point)->item(0)->nodeValue,
-                'address' => $this->xpath->query('./address', $point)->item(0)->nodeValue,
-                'city' => $this->xpath->query('./city', $point)->item(0)->nodeValue,
-                'zipcode' => $this->xpath->query('./zipcode', $point)->item(0)->nodeValue,
-                'country' => $this->xpath->query('./country', $point)->item(0)->nodeValue,
-                'phone' => $this->xpath->query('./phone', $point)->item(0)->nodeValue,
-                'description' => $this->xpath->query('./description', $point)->item(0)->nodeValue);
-
-            /* We get open and close informations  */
-            $schedule = array();
-            foreach ($this->xpath->query('./schedule/day', $point) as $d => $day_node) {
-                $childs = $this->xpath->query('*', $day_node);
-                foreach ($childs as $child_node) {
-                    if ($child_node->nodeName != '#text') {
-                        $schedule[$d][$child_node->nodeName] = $child_node->nodeValue;
+                /* We get open and close informations  */
+                $schedule = array();
+                foreach ($this->xpath->query('./schedule/day', $point) as $d => $day_node) {
+                    $childs = $this->xpath->query('*', $day_node);
+                    foreach ($childs as $child_node) {
+                        if ($child_node->nodeName != '#text') {
+                            $schedule[$d][$child_node->nodeName] = $child_node->nodeValue;
+                        }
                     }
                 }
-            }
-            $point_detail['schedule'] = $schedule;
+                $point_detail['schedule'] = $schedule;
 
-            /* We store the data in the right array (defined by $type) */
-            //echo '<pre>';
-            //print_r($this->points[$type]);
-            if (!isset($this->points[$type])) {
-                $this->points[$type] = array();
+                /* We store the data in the right array (defined by $type) */
+                if (!isset($this->points[$type])) {
+                    $this->points[$type] = array();
+                }
+                $this->points[$type][] = $point_detail;
             }
-            $this->points[$type][] = $point_detail;
         }
     }
 }
