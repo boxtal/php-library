@@ -127,12 +127,13 @@ class User extends WebService
     /**
      * Gets information about user from server.
      * @access public
-     * @return Void
+     * @return user_configuration
      */
     public function getUserDetails()
     {
         $this->setOptions(array('action' => 'api/v1/user_details'));
         $this->setUserDetails();
+        return $this->user_configuration;
     }
 
     /**
@@ -188,7 +189,7 @@ class User extends WebService
     /**
      * Post request on api/v1/user_keys to generate API keys
      * @access public
-     * @param Array $params Params
+     * @param Array $params Params ('user.login' => "login")
      * @return String
      */
     public function postUserKeys($params)
