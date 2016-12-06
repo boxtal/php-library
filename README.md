@@ -63,30 +63,30 @@ To create a (free) Boxtale user account, you have two options:
 
     // Params to create account as Professional
     $params =array(
-        'facturation.contact_ste'=>'Boxtale',
-        'facturation.contact_civ'=>'M.', // Accepted values are "M" (sir) or "Mme" (madam)
-        'facturation.contact_nom'=>'Snow',
-        'facturation.contact_prenom'=>'Jon',
-        'facturation.adresse1'=>'15 rue Marsollier',
-        'facturation.adresse2'=>'', // Address line 2
-        'facturation.adresse3'=>'', // Address line 3
-        'facturation.ville'=>'Paris', // City
-        'facturation.pays_iso'=>'FR', // Country ISO code
-        'facturation.codepostal'=>'75001',
-        'facturation.contact_email'=>'jsnow@boxtale.com',
-        'facturation.contact_tel'=>'0606060606',
-        'facturation.contact_locale'=>'fr_FR',
-        'facturation.defaut_enl'=>'on', // Set the adress as default collect adress
-        'facturation.contact_stesiret'=>'12345678912345', // SIRET
-        'facturation.contact_tvaintra'=>'123456', // Intra-community VAT No
+        'facturation.contact_ste'=>'Boxtal', // maxlength=30
+        'facturation.contact_civ'=>'M.', // Accepted values are "M." (sir) or "Mme" (madam), maxlength=3
+        'facturation.contact_nom'=>'Snow', // maxlength=20
+        'facturation.contact_prenom'=>'Jon', // maxlength=20
+        'facturation.adresse1'=>'15 rue Marsollier', // maxlength=30
+        'facturation.adresse2'=>'', // Address line 2 , maxlength=30
+        'facturation.adresse3'=>'', // Address line 3 , maxlength=30
+        'facturation.ville'=>'Paris', // City , maxlength=50
+        'facturation.pays_iso'=>'FR', // Country ISO code, maxlength=2
+        'facturation.codepostal'=>'75001', // maxlength=72
+        'facturation.contact_email'=>'jsnow@boxtal.com', //maxlength=255
+        'facturation.contact_tel'=>'0606060606', // maxlength=17
+        'facturation.contact_locale'=>'fr_FR', // maxlength=5
+        'facturation.defaut_enl'=>'on', // Set the adress as default collect adress, maxlength=3
+        'facturation.contact_stesiret'=>'12345678912345', // SIRET, maxlength=14
+        'facturation.contact_tvaintra'=>'123456', // Intra-community VAT No,  maxlength=50
 
-        'moduleEMC'=>'on', // To obtain an API key within 24 hours.
-        'user.login'=>'jsnow',
-        'user.password'=> urlencode($lib->encryptPassword('password')),
+        'moduleEMC'=>'on', // To obtain an API key, maxlength=3
+        'user.login'=>'jsnow', // maxlength=50
+        'user.password'=> urlencode($lib->encryptPassword('password')), // Encrypted password, minlength=6
 
         //Optional
-        'user.profession'=>'gerant', // Your title, (gerant, developpeur, agence, free-lance, autre)
-        'user.partner_code'=>'', // If you have a partner code
+        'user.profession'=>'gerant', // Your title, (gerant, developpeur, agence, free-lance, autre) , maxlength=30
+        'user.partner_code'=>'', // If you have a partner code , maxlength=32
         'user.volumetrie'=>'2', // Your average shipping quantity peer month? 1 (less than 10), 2 (10 to 100), 3 (100 to 250), 4 (250 to 500), 5 (500 to 1000), 6 (1000 to 2000), 7 (2000 to 5000), 8 (5000 to 10000)
         'user.site_online'=>'1', // Is your website online ? (1 (yes), 0 (no))
         'user.logiciel'=>'prestashop-1.6' // Possible values (prestashop-1.5, prestashop-1.6, drupal, magento, woocommerce, oscommerce, oxatis)

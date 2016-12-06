@@ -5,6 +5,9 @@ $(document).ready(function() {
     $('#toogleDebug').click(function (e) {
       $("#debug").toggle();
     })
+    $('#toogleDebug2').click(function (e) {
+      $("#debug2").toggle();
+    })
 });
 </script>
 <style type="text/css">
