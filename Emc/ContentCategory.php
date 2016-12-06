@@ -108,7 +108,7 @@ class ContentCategory extends WebService
     private function doConRequest()
     {
         $source = parent::doRequest();
-        
+
         /* We make sure there is an XML answer and try to parse it */
         if ($source !== false) {
             parent::parseResponse($source);

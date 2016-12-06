@@ -233,8 +233,10 @@ class WebService
     {
         $req = curl_init();
         curl_setopt_array($req, $this->options);
+        echo '<pre>';  var_dump($req);echo '</pre>';
         $result = curl_exec($req);
         // You can uncomment this fragment to see the content returned by API
+        echo '<textarea>'.$result.'</textarea>';
         file_put_contents($this->uploadDir . '/return.xml', $result);
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
@@ -397,6 +399,8 @@ class WebService
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
         }
+
+        echo'<pre>';var_dump($this->options);echo'</pre>';
         $this->param['action'] = $options['action'];
 
     }
@@ -451,6 +455,7 @@ class WebService
         $this->param['module_version'] = $this->module_version;
         $this->options[CURLOPT_POST] = true;
         $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
+        echo http_build_query($this->param);
     }
 
     /**
@@ -759,7 +764,10 @@ class WebService
         $salt = substr($this->pass_phrase, 0, 16);
         $iv = substr($this->pass_phrase, 16, 16);
 
+
         $key = $this->pbkdf2('sha1', $this->pass_phrase, $salt, 100, 32, true);
+        echo "key |".bin2hex($key)."|<br/>";
+        echo "iv |".bin2hex($iv)."|<br/>";
         return base64_encode(openssl_encrypt($string, 'aes-128-cbc', $key, true, $iv));
     }
 

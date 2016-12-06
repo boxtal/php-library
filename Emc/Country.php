@@ -85,39 +85,38 @@ class Country extends WebService
      * @access private
      * @return Void
      */
-     private function doCtrRequest()
-     {
-         $source = parent::doRequest();
+    private function doCtrRequest()
+    {
+        $source = parent::doRequest();
 
-         /* We make sure there is an XML answer and try to parse it */
-         if ($source !== false) {
-             parent::parseResponse($source);
-             if (count($this->resp_errors_list) == 0) {
+        /* We make sure there is an XML answer and try to parse it */
+        if ($source !== false) {
+            parent::parseResponse($source);
+            if (count($this->resp_errors_list) == 0) {
+                # Add here new country xml properties to handle.
+                $__prop = ['code', 'label', 'is_ue', 'states'];
 
-               # Add here new country xml properties to handle.
-               $__prop = ['code', 'label', 'is_ue', 'states'];
-
-               $this -> countries = array();
-               foreach ( $this -> xpath -> query('/countries/country') as $k => $country )
-               {
-                 $c = (object) [];
-                 # Process the random country xml properties.
-                 foreach( $__prop as $_k => $_v )
-                   $c -> {$_v} = $this -> xpath -> query( './' . $_v, $country ) -> item( 0 ) -> nodeValue;
-
-                 # Process some more specific properties.
-                 $c -> states = [];
-                 foreach ( $this -> xpath -> query( './states/state', $country ) as $state )
-                   $c -> states[] = (object) [
-                     'code' => $this -> xpath -> query( './code', $state ) -> item(0) -> nodeValue,
-                     'label' => $this -> xpath -> query( './label', $state ) -> item(0) -> nodeValue
-                   ];
-                 # Add the country object to the collection.
-                 $this -> countries[$c->code] = $c;
-               }
-             }
-         }
-     }
+                $this -> countries = array();
+                foreach ($this->xpath->query('/countries/country') as $k => $country) {
+                    $c = (object) [];
+                    # Process the random country xml properties.
+                    foreach ($__prop as $_k => $_v) {
+                        $c -> {$_v} = $this->xpath->query('./' . $_v, $country)->item(0)->nodeValue;
+                    }
+                    # Process some more specific properties.
+                    $c->states = [];
+                    foreach ($this->xpath->query('./states/state', $country) as $state) {
+                        $c -> states[] = (object) [
+                          'code' => $this->xpath->query('./code', $state)->item(0)->nodeValue,
+                          'label' => $this->xpath->query('./label', $state)->item(0)->nodeValue
+                        ];
+                    }
+                    # Add the country object to the collection.
+                    $this->countries[$c->code] = $c;
+                }
+            }
+        }
+    }
 
 
 

@@ -270,8 +270,8 @@ class Quotation extends WebService
 
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/cotation'));
-        if ($this->doSimpleRequest()){
-          $this->getOffers(false);
+        if ($this->doSimpleRequest()) {
+            $this->getOffers(false);
         }
     }
 
@@ -325,12 +325,11 @@ class Quotation extends WebService
         $this->doSimpleRequestMulti();
         $i = 0;
         foreach ($this->xpath as $xpath) {
-          if ($xpath) {
-            $this->getOffers(false, $xpath, $i);
-          }
-          else {
-            $this->offers[$i] = false;
-          }
+            if ($xpath) {
+                $this->getOffers(false, $xpath, $i);
+            } else {
+                $this->offers[$i] = false;
+            }
             $i++;
         }
         return;
@@ -417,11 +416,16 @@ class Quotation extends WebService
                                                     $values_to_push[$val->nodeName] = array();
                                                     foreach ($days as $day) {
                                                         $day_data = array(
-                                                            'weekday' => $xpath->query('./weekday', $day)->item(0)->nodeValue,
-                                                            'open_am' => $xpath->query('./open_am', $day)->item(0)->nodeValue,
-                                                            'close_am' => $xpath->query('./close_am', $day)->item(0)->nodeValue,
-                                                            'open_pm' => $xpath->query('./open_pm', $day)->item(0)->nodeValue,
-                                                            'close_pm' => $xpath->query('./close_pm', $day)->item(0)->nodeValue,
+                                                            'weekday' => $xpath->query('./weekday', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'open_am' => $xpath->query('./open_am', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'close_am' => $xpath->query('./close_am', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'open_pm' => $xpath->query('./open_pm', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'close_pm' => $xpath->query('./close_pm', $day)
+                                                              ->item(0)->nodeValue,
                                                         );
                                                         array_push($values_to_push[$val->nodeName], $day_data);
                                                     }

@@ -26,19 +26,7 @@ $from = array(
 
 
 // Recipient's address
-$to = array(
-    'country' => 'AU', // must be an ISO code, set get_country example on how to get codes
-    'zipcode' => '2000',
-    'city' => 'Sydney',
-    'address' => 'King Street',
-    'type' => 'individual', // accepted values are "company" or "individual"
-    'title' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
-    'firstname' => 'Jane',
-    'lastname' => 'Doe',
-    'email' => 'jdoe@boxtale.com',
-    'phone' => '0606060606',
-    'infos' => 'Some additional information about this address'
- );
+$to = $config['address_us_p'];
 
 /* Parcels informations */
 $parcels = array(
