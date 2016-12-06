@@ -178,10 +178,9 @@ class User extends WebService
             parent::parseResponse($source);
             $node = $this->xpath->evaluate('/user/partnership');
             if ($node && $node->item(0)) {
-              $this->partnership = $node->item(0)->nodeValue;
-            }
-            else {
-              $this->partnership = null;
+                $this->partnership = $node->item(0)->nodeValue;
+            } else {
+                $this->partnership = null;
             }
         }
     }
