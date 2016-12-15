@@ -123,7 +123,9 @@ class ContentCategory extends WebService
                     array_push($this->contents[$category_id], array(
                         'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
                         'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
-                        'category' => $category_id));
+                        'category' => $category_id,
+                        'blocked' => $this->xpath->query('./blocked', $content)->item(0)->nodeValue === 'true',
+                      ));
                 }
             }
         }

@@ -33,13 +33,13 @@ if (!$lib->curl_error && !$lib->resp_error) {
         <label class="col-sm-4 control-label">List of contents</label>
         <div class="col-sm-8">
             <select class="form-control">
-                <option value="<?php echo $lib->contents[0][0]['code'];?>"><?php echo $lib->contents[0][0]['label'];?></option>
+                <option value="<?php echo $lib->contents[0][0]['code'];?>"><?php echo htmlentities($lib->contents[0][0]['label']);?></option>
                 <?php
                 foreach ($lib->categories as $c => $category) { ?>
                     <optgroup label="<?php echo $category['label'];?>">
                         <?php
                         foreach ($lib->contents[$category['code']] as $ch => $child) { ?>
-                            <option value="<?php echo $child['code'];?>"><?php echo $child['label'];?></option>
+                            <option<?php if($child['blocked']){echo ' disabled';}?> value="<?php echo $child['code'];?>"><?php echo htmlentities($child['label']);?></option>
                         <?php
                         }  ?>
                     </optgroup>
