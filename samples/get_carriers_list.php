@@ -100,7 +100,7 @@ foreach ($lib->carriers as $i => $carrier) {
                   if ($allowed_content['condition'] != null) {
                     $desc .= '<b>Condition</b> : ' . $allowed_content['condition'];
                   }
-                  echo '<option data-desc="'.$desc.'" value="' . $id . '">' . $allowed_content['label'][$locale] . '</option>';
+                  echo '<option data-desc="'.$desc.'" value="' . $id . '">' . $allowed_content['label'] . '</option>';
                 }
                 ?>
               </select><br/>

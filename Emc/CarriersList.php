@@ -143,20 +143,17 @@ class CarriersList extends WebService
                 $this->carriers[$id]['allowed_content'] = array();
                 foreach ($this->xpath->query('./inclusion_content/content', $carrier) as $content) {
                     $idNode = $this->xpath->query('./id', $content);
-                    $labelNodes = $this->xpath->query('./label/*', $content);
+                    $labelNode = $this->xpath->query('./label', $content);
                     $conditionNode = $this->xpath->query('./condition', $content);
 
-                    if ($idNode->length == 1 && $labelNodes->length >= 1 && $conditionNode->length <= 1) {
+                    if ($idNode->length == 1 && $labelNode->length == 1 && $conditionNode->length <= 1) {
                         $contId = $idNode->item(0)->nodeValue;
                         $condition = ($conditionNode->length > 0) ? $conditionNode->item(0)->nodeValue : null;
-                        $labels = array();
-                        foreach ($labelNodes as $label) {
-                            $labels[$label->tagName] = $label->nodeValue;
-                        }
+                        $label = $labelNode->item(0)->nodeValue;
                         $this->carriers[$id]['allowed_content'][$contId] = array(
                           'id' => $contId,
                           'condition' => $condition,
-                          'label' => $labels
+                          'label' => $label
                         );
                     }
                 }
