@@ -39,7 +39,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
                     <optgroup label="<?php echo $category['label'];?>">
                         <?php
                         foreach ($lib->contents[$category['code']] as $ch => $child) { ?>
-                            <option<?php if($child['blocked']){echo ' disabled';}?> value="<?php echo $child['code'];?>"><?php echo htmlentities($child['label']);?></option>
+                            <option<?php if($child['prohibited']){echo ' disabled';}?> value="<?php echo $child['code'];?>"><?php echo htmlentities($child['label']);?></option>
                         <?php
                         }  ?>
                     </optgroup>

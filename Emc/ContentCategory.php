@@ -144,7 +144,7 @@ class ContentCategory extends WebService
                         'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
                         'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
                         'category' => $category_id,
-                        'blocked' => $this->xpath->query('./blocked', $content)->item(0)->nodeValue === 'true',
+                        'prohibited' => $this->xpath->query('./prohibited', $content)->item(0)->nodeValue === 'true',
                         'translations' => $translations
                       ));
                 }
