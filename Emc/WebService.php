@@ -451,7 +451,6 @@ class WebService
         $this->param['module_version'] = $this->module_version;
         $this->options[CURLOPT_POST] = true;
         $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
-        echo http_build_query($this->param);
     }
 
     /**
@@ -760,8 +759,6 @@ class WebService
 
 
         $key = $this->pbkdf2('sha1', $this->pass_phrase, $salt, 100, 32, true);
-        echo "key |".bin2hex($key)."|<br/>";
-        echo "iv |".bin2hex($iv)."|<br/>";
         return base64_encode(openssl_encrypt($string, 'aes-128-cbc', $key, true, $iv));
     }
 
