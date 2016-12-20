@@ -140,6 +140,23 @@ class CarriersList extends WebService
                   $this->xpath->query('./pickup_place', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['dropoff_place'] =
                   $this->xpath->query('./dropoff_place', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['allowed_content'] = array();
+                foreach ($this->xpath->query('./inclusion_content/content', $carrier) as $content) {
+                    $idNode = $this->xpath->query('./id', $content);
+                    $labelNode = $this->xpath->query('./label', $content);
+                    $conditionNode = $this->xpath->query('./condition', $content);
+
+                    if ($idNode->length == 1 && $labelNode->length == 1 && $conditionNode->length <= 1) {
+                        $contId = $idNode->item(0)->nodeValue;
+                        $condition = ($conditionNode->length > 0) ? $conditionNode->item(0)->nodeValue : null;
+                        $label = $labelNode->item(0)->nodeValue;
+                        $this->carriers[$id]['allowed_content'][$contId] = array(
+                          'id' => $contId,
+                          'condition' => $condition,
+                          'label' => $label
+                        );
+                    }
+                }
                 foreach ($this->xpath->query('./translations/translation', $carrier) as $translation) {
                     $locale = $this->xpath->query('./locale', $translation)->item(0)->nodeValue;
                     $this->carriers[$id]['translations']['srv_name_fo'][$locale] =

@@ -233,10 +233,8 @@ class WebService
     {
         $req = curl_init();
         curl_setopt_array($req, $this->options);
-        echo '<pre>';  var_dump($req);echo '</pre>';
         $result = curl_exec($req);
         // You can uncomment this fragment to see the content returned by API
-        echo '<textarea>'.$result.'</textarea>';
         file_put_contents($this->uploadDir . '/return.xml', $result);
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
@@ -400,9 +398,7 @@ class WebService
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
         }
 
-        echo'<pre>';var_dump($this->options);echo'</pre>';
         $this->param['action'] = $options['action'];
-
     }
 
     /**
@@ -540,10 +536,9 @@ class WebService
         $return_xml->appendChild($return_wrapper);
 
         foreach ($documents as $document) {
-            if (!$document)
-            {
-              $this->xpath[$i] = false;
-              continue;
+            if (!$document) {
+                $this->xpath[$i] = false;
+                continue;
             }
             $dom_cl = new \DOMDocument();
             $dom_cl->loadXML($document);
@@ -660,7 +655,6 @@ class WebService
         foreach ($errors as $e => $error) {
             $this->resp_errors_list[$e] = array('code' => $xpath->evaluate('code', $error)->item(0)->nodeValue
             , 'message' => $xpath->evaluate('message', $error)->item(0)->nodeValue);
-
         }
     }
 

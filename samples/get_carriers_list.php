@@ -8,6 +8,8 @@ use \Emc\CarriersList;
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
+$locale = 'en_US';
+
 $family = array(
     '1' => '<span class="label label-warning">Economy</span>',
     '2' => '<span class="label label-danger">Express</span>'
@@ -29,6 +31,20 @@ $lib->getCarriersList();
 /* Show an array with carrier's informations */
 if (!$lib->curl_error && !$lib->resp_error) {
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("select.content").change(function(){
+    $(this).parent().find(".content_info").html($(this).find(":selected").attr("data-desc"));
+  });
+  $("select.content").trigger("change");
+});
+</script>
+<style>
+.content_info{
+  display:inline-block;
+  width:200px;
+}
+</style>
 <h3>API CarriersList :</h3>
 <div class="row">
     <table class="table table-hover table-striped table-bordered">
@@ -38,6 +54,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
                 <th>Service</th>
                 <th>Delivery time</th>
                 <th>Specifications</th>
+                <th>Allowed contents</th>
                 <th>Family</th>
                 <th>Zone</th>
                 <th>Drop-off</th>
@@ -45,7 +62,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
             </tr>
         </thead>
 <?php
-foreach ($lib->carriers as $carrier) {
+foreach ($lib->carriers as $i => $carrier) {
     if (!isset($tmpCarrier)) {
         $tmpCarrier = $carrier['ope_code'];
         $border = "blDefault";
@@ -74,6 +91,20 @@ foreach ($lib->carriers as $carrier) {
                 <button type="button" class="btn btn-xs btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="- <?php echo implode('<br/>- ', $carrier['details']); ?>">
                     <span class="glyphicon glyphicon-list" aria-hidden="true"></span> Details
                 </button>
+            </td>
+            <td>
+              <select class="content" style="max-width: 200px;">
+                <?php
+                foreach($carrier['allowed_content'] as $id => $allowed_content) {
+                  $desc = '';
+                  if ($allowed_content['condition'] != null) {
+                    $desc .= '<b>Condition</b> : ' . $allowed_content['condition'];
+                  }
+                  echo '<option data-desc="'.$desc.'" value="' . $id . '">' . $allowed_content['label'] . '</option>';
+                }
+                ?>
+              </select><br/>
+              <span class="content_info" style="width: 200px;"></span>
             </td>
             <td><?php echo $family[$carrier['family']]; ?></td>
             <td>
