@@ -21,8 +21,9 @@ $lib->getOrderInformations($emcRef);
 
 echo "<h3>API OrderStatus :</h3>";
 if (!$lib->curl_error && !$lib->resp_error) {
-    // If you want to recieve order's status changes or documents, check for "url_push" param in samples/make_order.php
+    // If you want to receive order's status changes or documents, check for "url_push" param in samples/make_order.php
     echo '<pre>' . print_r($lib->order_info, true) . '</pre>';
+    echo '<button class = "btn btn-primary" onClick="downloadWaybill(\''.$emcRef.'\', \'bordereau\')" style="margin-bottom:10px">Download waybill</button>';
 } else {
     echo '<div class="alert alert-danger">';
     handle_errors($lib);
@@ -37,5 +38,11 @@ if (!$lib->curl_error && !$lib->resp_error) {
         <?php print_r(array_merge($lib->getApiParam(), array('API response :' => $lib->order_info))); ?>
     </pre>
 </div>
+
+<script>
+    function downloadWaybill(reference, type) {
+        window.location.href = "get_documents.php?reference="+reference+"&type="+type;
+    }
+</script>
 <?php
 require_once(EMC_PARENT_DIR.'layout/footer.php');

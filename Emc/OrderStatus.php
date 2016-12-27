@@ -41,10 +41,12 @@ class OrderStatus extends WebService
      * @var array
      */
     public $order_info = array('emcRef' => '', 'state' => '', 'opeRef' => '', 'labelAvailable' => false);
+    
+    private $documents = array('waybill' => 'bordereau', 'delivery_waybill' => 'remise');
 
     /**
-     * Function loads all categories.
-     * @param $reference : folder reference
+     * Function gets order status.
+     * @param $reference : order reference
      * @access public
      * @return Void
      */
@@ -52,6 +54,23 @@ class OrderStatus extends WebService
     {
         $this->setOptions(array('action' => 'api/v1/order_status/' . $reference . '/informations'));
         $this->doStatusRequest();
+    }
+    
+    /**
+     * Function gets documents for order.
+     * @param $reference : order reference
+     * @param $type : document type
+     * @access public
+     * @return Void
+     */
+    public function getOrderDocuments($reference, $type)
+    {
+        $this->server = $this->document_server;
+        $this->param["type"] = isset($this->documents[$type]) ? $this->documents[$type] : $type;
+        $this->param["envoi"] = $reference;
+        $this->setGetParams();
+        $this->setOptions(array('action' => ''));
+        $this->doDocumentRequest();
     }
 
     /**
@@ -88,5 +107,19 @@ class OrderStatus extends WebService
                     'documents' => $documents);
             }
         }
+    }
+    
+    /**
+     * Function executes order request and prepares the $order_info array.
+     * @access private
+     * @return Void
+     */
+    private function doDocumentRequest()
+    {
+        $source = parent::doRequest();
+        header('Content-type: application/pdf');
+        header('Content-Disposition: attachment; filename="waybill.pdf"');
+        echo $source;
+        die();
     }
 }

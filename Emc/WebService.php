@@ -47,6 +47,27 @@ class WebService
      * @var string
      */
     private $server_prod = 'https://www.envoimoinscher.com/';
+    
+    /**
+     * A public variable which determines the document server used by curl request.
+     * @access public
+     * @var string
+     */
+    public $document_server = 'http://test.envoimoinscher.com/documents';
+
+    /**
+     * API test document server host.
+     * @access public
+     * @var string
+     */
+    private $document_server_test = 'http://test.envoimoinscher.com/documents';
+
+    /**
+     * API production document server host.
+     * @access public
+     * @var string
+     */
+    private $document_server_prod = 'http://documents.envoimoinscher.com/documents';
 
     /**
      * Module version
@@ -257,7 +278,7 @@ class WebService
                 'message' =>
                   'Echec lors de l\'envoi de la requête, le serveur n\'a pas pu répondre correctement (erreur :' .
                     $curl_info['http_code'] . ')');
-        } elseif (trim($content_type[0]) != 'application/xml') {
+        } elseif (trim($content_type[0]) != 'application/xml' && trim($content_type[0]) != 'application/x-download') {
             $result = false;
             $this->resp_error = true;
             $this->resp_errors_list[] = array('code' => 'bad_response_format',
@@ -670,6 +691,9 @@ class WebService
         if (in_array(strtolower($env), $envs)) {
             $var = 'server_' . strtolower($env);
             $this->server = $this->$var;
+            
+            $doc_var = 'document_server_' . strtolower($env);
+            $this->document_server = $this->$doc_var;
         }
     }
 

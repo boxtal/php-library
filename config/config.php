@@ -1,5 +1,5 @@
 <?php
-define('EMC_MODE', 'test'); // change to 'prod' to test production server (this WILL make an order if you test makeOrder function !)
+define('EMC_MODE', 'prod'); // change to 'prod' to test production server (this WILL make an order if you test makeOrder function !)
 
 if (EMC_MODE == 'prod') {
     define('EMC_USER', '');
