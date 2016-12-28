@@ -17,5 +17,6 @@ $lib = new OrderStatus();
     $type is the document type. Available values are:
         -"waybill" general waybill for the shipment
         -"delivery_waybill" waybill used by some carriers only (Colissimo for instance)
+    $filename is the intended file title
 */
-$lib->getOrderDocuments($reference, 'waybill');
+$lib->getOrderDocuments($reference, 'waybill', 'my-waybill');

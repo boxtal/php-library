@@ -60,17 +60,18 @@ class OrderStatus extends WebService
      * Function gets documents for order.
      * @param $reference : order reference
      * @param $type : document type
+     * @param $filename : intended filename
      * @access public
      * @return Void
      */
-    public function getOrderDocuments($reference, $type = 'waybill')
+    public function getOrderDocuments($reference, $type = 'waybill', $filename = 'waybill')
     {
         $this->server = $this->document_server;
         $this->param["type"] = isset($this->documents[$type]) ? $this->documents[$type] : $type;
         $this->param["envoi"] = $reference;
         $this->setGetParams();
         $this->setOptions(array('action' => ''));
-        $this->doDocumentRequest($reference, $type);
+        $this->doDocumentRequest($reference, $type, $filename);
     }
 
     /**
@@ -110,15 +111,15 @@ class OrderStatus extends WebService
     }
     
     /**
-     * Function executes order request and prepares the $order_info array.
+     * Function requests document and prints it.
      * @access private
      * @return Void
      */
-    private function doDocumentRequest($reference, $type)
+    private function doDocumentRequest($reference, $type, $filename)
     {
         $source = parent::doRequest();
         header('Content-type: application/pdf');
-        header('Content-Disposition: attachment; filename="'.$reference.'_'.$type.'.pdf"');
+        header('Content-Disposition: attachment; filename="'.$filename.'.pdf"');
         echo $source;
         die();
     }
