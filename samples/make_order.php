@@ -77,6 +77,7 @@ $additionalParams = array(
     'content_code' => 40110,  // List of the available codes at samples/get_categories.php > List of contents
     'colis.description' => "books",
     'assurance.selection' => false, // whether you want an extra insurance or not
+    'saturdaydelivery.selection' => false, // set this to true if you want to select a saturday delivery offer (paying option not available for all carriers)
     'url_push' => 'www.my-website.com/push.php&order=',
     'depot.pointrelais' => 'MONR-000515', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
     'retrait.pointrelais' => 'MONR-087106', // if not a parcel-point use {operator code}-POST like "CHRP-POST"
