@@ -7,16 +7,16 @@ use \Emc\OrderStatus;
 require_once('../config/autoload.php');
 
 
-$reference = isset($_REQUEST['reference']) ? $_REQUEST['reference'] : '';
+$references = isset($_REQUEST['reference']) ? array($_REQUEST['reference']) : array();
 $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 
 // Prepare and execute the request
 $lib = new OrderStatus();
 /* 
-    $reference is the order Boxtal reference
+    $reference is an array of Boxtal order references
     $type is the document type. Available values are:
         -"waybill" general waybill for the shipment
         -"delivery_waybill" waybill used by some carriers only (Colissimo for instance)
     $filename is the intended file title
 */
-$lib->getOrderDocuments($reference, 'waybill', 'my-waybill');
+$lib->getOrderDocuments($references, 'waybill', 'my-waybill');

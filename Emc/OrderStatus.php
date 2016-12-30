@@ -58,17 +58,17 @@ class OrderStatus extends WebService
     
     /**
      * Function gets documents for order.
-     * @param $reference : order reference
+     * @param $reference : array of order references
      * @param $type : document type
      * @param $filename : intended filename
      * @access public
      * @return Void
      */
-    public function getOrderDocuments($reference, $type = 'waybill', $filename = 'waybill')
+    public function getOrderDocuments($references, $type = 'waybill', $filename = 'waybill')
     {
         $this->server = $this->document_server;
         $this->param["type"] = isset($this->documents[$type]) ? $this->documents[$type] : $type;
-        $this->param["envoi"] = $reference;
+        $this->param["envoi"] = implode(',', $references);
         $this->setGetParams();
         $this->setOptions(array('action' => ''));
         $this->doDocumentRequest($reference, $type, $filename);
