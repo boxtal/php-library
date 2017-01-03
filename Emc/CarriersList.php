@@ -104,11 +104,13 @@ class CarriersList extends WebService
         foreach ($operators as $operator) {
             $ope_code = $this->xpath->query('./code', $operator)->item(0)->nodeValue;
             $ope_name = $this->xpath->query('./name', $operator)->item(0)->nodeValue;
+            $ope_cgv = $this->xpath->query('./cgv', $operator)->item(0)->nodeValue;
             $ope_carriers = $this->xpath->query('./services/service', $operator);
             foreach ($ope_carriers as $carrier) {
                 $id = count($this->carriers);
                 $this->carriers[$id]['ope_code'] = $ope_code;
                 $this->carriers[$id]['ope_name'] = $ope_name;
+                $this->carriers[$id]['ope_cgv'] = $ope_cgv;
                 $this->carriers[$id]['srv_code'] = $this->xpath->query('./code', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['srv_name_fo'] =
                   $this->xpath->query('./srv_name_fo', $carrier)->item(0)->nodeValue;
@@ -157,6 +159,8 @@ class CarriersList extends WebService
                         );
                     }
                 }
+                $this->carriers[$id]['srv_cgv'] =
+                  $this->xpath->query('./cgv', $carrier)->item(0)->nodeValue;
                 foreach ($this->xpath->query('./translations/translation', $carrier) as $translation) {
                     $locale = $this->xpath->query('./locale', $translation)->item(0)->nodeValue;
                     $this->carriers[$id]['translations']['srv_name_fo'][$locale] =
