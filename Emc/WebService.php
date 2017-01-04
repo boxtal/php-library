@@ -47,7 +47,7 @@ class WebService
      * @var string
      */
     private $server_prod = 'https://www.envoimoinscher.com/';
-    
+
     /**
      * A public variable which determines the document server used by curl request.
      * @access public
@@ -691,10 +691,27 @@ class WebService
         if (in_array(strtolower($env), $envs)) {
             $var = 'server_' . strtolower($env);
             $this->server = $this->$var;
-            
             $doc_var = 'document_server_' . strtolower($env);
             $this->document_server = $this->$doc_var;
+
+            //To manage multiple developement envirnments, used only by boxtal IT Team
+            if (defined('SERVER_TEST_DOC')) {
+                $this->document_server = SERVER_TEST_DOC;
+            }
+            if (defined('SERVER_TEST')) {
+                $this->server = SERVER_TEST;
+            }
+            if (defined('EMC_USER_TEST')) {
+                $this->auth['user'] = EMC_USER_TEST;
+            }
+            if (defined('EMC_PASS_TEST')) {
+                $this->auth['pass'] = EMC_PASS_TEST;
+            }
+            if (defined('EMC_KEY_TEST')) {
+                $this->auth['key']  = EMC_KEY_TEST;
+            }
         }
+
     }
 
     /**
