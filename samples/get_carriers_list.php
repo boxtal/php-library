@@ -37,12 +37,28 @@ $(document).ready(function(){
     $(this).parent().find(".content_info").html($(this).find(":selected").attr("data-desc"));
   });
   $("select.content").trigger("change");
+  
+  $(document).on('click', '.iframe', function(e) {
+    e.preventDefault();
+    var src = $(this).attr('data-src');
+    var height = $(this).attr('data-height');
+    var width = $(this).attr('data-width');
+
+    $("#emc-modal iframe").attr({
+        'src':src,
+        'height': height,
+        'width': width
+    });
+  });
 });
 </script>
 <style>
 .content_info{
   display:inline-block;
   width:200px;
+}
+.modal-dialog{
+    width:1030px;
 }
 </style>
 <h3>API CarriersList :</h3>
@@ -76,11 +92,13 @@ foreach ($lib->carriers as $i => $carrier) {
                 <span data-container="body" data-toggle="popover" data-placement="bottom" data-content="Operator code : <?php echo $carrier['ope_code']; ?>">
                     <?php echo $carrier['ope_name']; ?>
                 </span>
+                (<a data-src="<?php echo $carrier['ope_cgv']; ?>" class="iframe" data-toggle="modal" data-height=600 data-width=1000 data-target="#emc-modal">cgv</a>)
             </td>
             <td>
                 <span data-container="body" data-toggle="popover" data-placement="bottom" data-content="Service code : <?php echo $carrier['srv_code']; ?>">
                     <?php echo $carrier['srv_name_bo']; ?>
                 </span>
+                (<a data-src="<?php echo $carrier['srv_cgv']; ?>" class="iframe" data-toggle="modal" data-height=600 data-width=1000 data-target="#emc-modal">cgv</a>)
             </td>
             <td>
                 <span data-container="body" data-toggle="popover" data-placement="bottom" data-content="<?php echo $carrier['description']; ?>">
@@ -151,5 +169,14 @@ foreach ($lib->carriers as $i => $carrier) {
         <?php print_r(array_merge($lib->getApiParam(), array('API response :' =>$lib->carriers))); ?>
     </pre>
 </div>
+<div class="modal fade" id="emc-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <iframe frameborder="0"></iframe>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <?php
 require_once(EMC_PARENT_DIR.'layout/footer.php');
