@@ -19,4 +19,7 @@ $lib = new OrderStatus();
         -"delivery_waybill" waybill used by some carriers only (Colissimo for instance)
     $filename is the intended file title
 */
-$lib->getOrderDocuments($references, 'waybill', 'my-waybill');
+$lib->getOrderDocuments($references, 'waybill');
+header('Content-type: application/pdf');
+header('Content-Disposition: attachment; filename="my-waybill.pdf"');
+echo $lib->document;
