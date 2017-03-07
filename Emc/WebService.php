@@ -156,9 +156,9 @@ class WebService
     /**
      * Protected variable with GET parameters.
      * @access protected
-     * @var string
+     * @var mixed
      */
-    protected $get_params = '';
+    protected $get_params;
 
     /**
      * Parameters array used by http_query_build.
@@ -510,6 +510,7 @@ class WebService
         $this->param['platform'] = $this->platform;
         $this->param['platform_version'] = $this->platform_version;
         $this->param['module_version'] = $this->module_version;
+        $this->get_params = array();
         foreach ($this->param_multi as $param) {
             $this->get_params[] = '?' . http_build_query($param);
         }
@@ -694,7 +695,7 @@ class WebService
             $doc_var = 'document_server_' . strtolower($env);
             $this->document_server = $this->$doc_var;
 
-            //To manage multiple developement envirnments, used only by boxtal IT Team
+            //To manage multiple developement environments, used only by boxtal IT Team
             if (defined('SERVER_TEST_DOC')) {
                 $this->document_server = SERVER_TEST_DOC;
             }
