@@ -253,7 +253,9 @@ class WebService
     public function doRequest()
     {
         $req = curl_init();
-        curl_setopt_array($req, $this->options);
+        foreach($this->options as $key => $option) {
+          curl_setopt($req, $key, $option);
+        }
         $result = curl_exec($req);
         // You can uncomment this fragment to see the content returned by API
         file_put_contents($this->uploadDir . '/return.xml', $result);
