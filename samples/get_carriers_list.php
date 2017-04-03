@@ -19,6 +19,7 @@ $zone = array(
     '2' => '<span class="label label-primary">INTER</span>',
     '3' => '<span class="label label-info">EU</span>',
     'zone_fr' => ' <span class="label label-primary">FR</span>',
+    'zone_es' => ' <span class="label label-primary">ES</span>',
     'zone_eu' => ' <span class="label label-info">EU</span>',
     'zone_int' => ' <span class="label label-default">INTER</span>'
 );
@@ -128,6 +129,7 @@ foreach ($lib->carriers as $i => $carrier) {
             <td>
                 <?php
                       $allZones  = ( $carrier['zone_fr']  == '1'  ?  $zone['zone_fr']  : '');
+                      $allZones .= ( $carrier['zone_es']  == '1'  ?  $zone['zone_es']  : '');
                       $allZones .= ( $carrier['zone_eu']  == '1'  ?  $zone['zone_eu']  : '');
                       $allZones .= ( $carrier['zone_int'] == '1'  ?  $zone['zone_int'] : '');
                      echo $allZones;
