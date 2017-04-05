@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class OrderStatus extends WebService
 {
@@ -41,9 +41,9 @@ class OrderStatus extends WebService
      * @var array
      */
     public $order_info = array('emcRef' => '', 'state' => '', 'opeRef' => '', 'labelAvailable' => false);
-    
+
     private $documents = array('waybill' => 'bordereau', 'delivery_waybill' => 'remise');
-    
+
     public $document = null;
 
     /**
@@ -57,7 +57,7 @@ class OrderStatus extends WebService
         $this->setOptions(array('action' => 'api/v1/order_status/' . $reference . '/informations'));
         $this->doStatusRequest();
     }
-    
+
     /**
      * Function gets documents for order.
      * @param $reference : array of order references
@@ -110,7 +110,7 @@ class OrderStatus extends WebService
             }
         }
     }
-    
+
     /**
      * Function requests document and prints it.
      * @access private

@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 define('ENV_TEST', 'test');
 define('ENV_PRODUCTION', 'prod');
@@ -253,8 +253,8 @@ class WebService
     public function doRequest()
     {
         $req = curl_init();
-        foreach($this->options as $key => $option) {
-          curl_setopt($req, $key, $option);
+        foreach ($this->options as $key => $option) {
+            curl_setopt($req, $key, $option);
         }
         $result = curl_exec($req);
         // You can uncomment this fragment to see the content returned by API
@@ -293,7 +293,6 @@ class WebService
 
         return $result;
     }
-
 
     /**
      * Function which executes api request with curl multi.
@@ -714,7 +713,6 @@ class WebService
                 $this->auth['key']  = EMC_KEY_TEST;
             }
         }
-
     }
 
     /**
@@ -800,7 +798,6 @@ class WebService
     {
         $salt = substr($this->pass_phrase, 0, 16);
         $iv = substr($this->pass_phrase, 16, 16);
-
 
         $key = $this->pbkdf2('sha1', $this->pass_phrase, $salt, 100, 32, true);
         return base64_encode(openssl_encrypt($string, 'aes-128-cbc', $key, true, $iv));

@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class Country extends WebService
 {
@@ -94,22 +94,22 @@ class Country extends WebService
             parent::parseResponse($source);
             if (count($this->resp_errors_list) == 0) {
                 # Add here new country xml properties to handle.
-                $__prop = ['code', 'label', 'is_ue', 'states'];
+                $__prop = array('code', 'label', 'is_ue', 'states');
 
                 $this -> countries = array();
-                foreach ($this->xpath->query('/countries/country') as $k => $country) {
-                    $c = (object) [];
+                foreach ($this->xpath->query('/countries/country') as $country) {
+                    $c = (object) array();
                     # Process the random country xml properties.
-                    foreach ($__prop as $_k => $_v) {
+                    foreach ($__prop as $_v) {
                         $c -> {$_v} = $this->xpath->query('./' . $_v, $country)->item(0)->nodeValue;
                     }
                     # Process some more specific properties.
-                    $c->states = [];
+                    $c->states = array();
                     foreach ($this->xpath->query('./states/state', $country) as $state) {
-                        $c -> states[] = (object) [
+                        $c -> states[] = (object) array(
                           'code' => $this->xpath->query('./code', $state)->item(0)->nodeValue,
                           'label' => $this->xpath->query('./label', $state)->item(0)->nodeValue
-                        ];
+                        );
                     }
                     # Add the country object to the collection.
                     $this->countries[$c->code] = $c;

@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class Quotation extends WebService
 {
@@ -295,7 +295,7 @@ class Quotation extends WebService
     public function getQuotationMulti($multirequest)
     {
 
-        foreach ($multirequest as $quot_index => $quot_info) {
+        foreach ($multirequest as $quot_info) {
             // set additional params
             $params = $quot_info['additional_params'];
 
@@ -332,7 +332,6 @@ class Quotation extends WebService
             }
             $i++;
         }
-        return;
     }
 
     /**
