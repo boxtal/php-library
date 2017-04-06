@@ -26,7 +26,20 @@ $from = array(
 
 
 // Recipient's address
-$to = $config['address_us_p'];
+$to = array(
+    'country' => 'US',  // must be an ISO code, set get_country example on how to get codes
+    'state' => 'NY',
+    'zipcode' => '10036',
+    'city' => 'New York',
+    'address' => '123 W 43rd St',
+    'type' => 'individual', // accepted values are "company" or "individual"
+    'title' => 'Mme', // accepted values are "M" (sir) or "Mme" (madam)
+    'firstname' => 'Jane',
+    'lastname' => 'Doe',
+    'email' => 'jdoe@boxtale.com',
+    'phone' => '0606060606',
+    'infos' => 'Some additional information about this address'
+);
 
 /* Parcels informations */
 $parcels = array(
