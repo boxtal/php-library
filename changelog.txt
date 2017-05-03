@@ -2,6 +2,7 @@ Release 1.3.6 TBD
  - [AD] #4116 added document download function & sample
  - [AD] #4096 added carrier cgv iframe
  - [AD] fix for php7
+ - [AD] replaced return.xml by last_request variable
  
 Release 1.3.5 17.11/2016
  - [AD] #3811bis cleanup and replaced boxtale by boxtal
