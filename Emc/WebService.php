@@ -257,7 +257,6 @@ class WebService
             curl_setopt($req, $key, $option);
         }
         $result = curl_exec($req);
-        // You can uncomment this fragment to see the content returned by API
         $this->last_request = $result;
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
