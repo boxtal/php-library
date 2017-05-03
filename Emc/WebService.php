@@ -196,11 +196,11 @@ class WebService
     protected $module_version = '1.1.5';
 
     /**
-     * Return.xml upload directory
-     * @access protected
+     * stores last API result
+     * @access public
      * @var string
      */
-    protected $uploadDir = '';
+    public $last_request = '';
 
     /**
      * Return language code
@@ -258,7 +258,7 @@ class WebService
         }
         $result = curl_exec($req);
         // You can uncomment this fragment to see the content returned by API
-        file_put_contents($this->uploadDir . '/return.xml', $result);
+        $this->last_request = $result;
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
         $content_type = explode(';', $curl_info['content_type']);
