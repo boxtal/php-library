@@ -227,9 +227,6 @@ class WebService
         $this->setEnv(EMC_MODE);
         $this->setLocale($this->lang_code);
         $this->param = array();
-
-        /* set upload directory default value */
-        $this->setUploadDir($_SERVER['DOCUMENT_ROOT']);
     }
 
     /**
@@ -555,7 +552,8 @@ class WebService
         $return_xml = new \DOMDocument('1.0', 'UTF-8');
         $return_wrapper = new \DOMElement('multirequest_wrapper');
         $return_xml->appendChild($return_wrapper);
-
+        $this->last_request = $documents;
+        
         foreach ($documents as $document) {
             if (!$document) {
                 $this->xpath[$i] = false;
@@ -579,7 +577,6 @@ class WebService
 
             $i++;
         }
-        $return_xml->save($this->uploadDir . '/return.xml');
     }
 
     /**
@@ -757,17 +754,6 @@ class WebService
         $this->lang_code = $lang_code;
     }
 
-    /**
-     * Sets return.xml upload directory.
-     * @access public
-     * @param String $url upload directory.
-     * @return Void
-     */
-    public function setUploadDir($url)
-    {
-        $this->uploadDir = $url;
-    }
-
     public function setParam($param)
     {
         $this->param = $param;
@@ -782,8 +768,8 @@ class WebService
     public function getApiParam()
     {
         return array( 'URL called'=> $this->server.$this->param['action'],
-                      'Params'=> $this->param
-                      );
+            'Params'=> $this->param
+        );
     }
 
     /**
