@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ruleset name="PHP Library">
+ <description>Coding standard for PHP library</description>
+ <rule ref="PSR2">
+ </rule>
+</ruleset>

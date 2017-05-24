@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class OrderStatus extends WebService
 {
@@ -42,9 +42,13 @@ class OrderStatus extends WebService
      */
     public $order_info = array('emcRef' => '', 'state' => '', 'opeRef' => '', 'labelAvailable' => false);
 
+    private $documents = array('waybill' => 'bordereau', 'delivery_waybill' => 'remise');
+
+    public $document = null;
+
     /**
-     * Function loads all categories.
-     * @param $reference : folder reference
+     * Function gets order status.
+     * @param $reference : order reference
      * @access public
      * @return Void
      */
@@ -52,6 +56,23 @@ class OrderStatus extends WebService
     {
         $this->setOptions(array('action' => 'api/v1/order_status/' . $reference . '/informations'));
         $this->doStatusRequest();
+    }
+
+    /**
+     * Function gets documents for order.
+     * @param $reference : array of order references
+     * @param $type : document type
+     * @access public
+     * @return Void
+     */
+    public function getOrderDocuments($references, $type = 'waybill')
+    {
+        $this->server = $this->document_server;
+        $this->param["type"] = isset($this->documents[$type]) ? $this->documents[$type] : $type;
+        $this->param["envoi"] = implode(',', $references);
+        $this->setGetParams();
+        $this->setOptions(array('action' => ''));
+        $this->document = $this->doDocumentRequest();
     }
 
     /**
@@ -88,5 +109,16 @@ class OrderStatus extends WebService
                     'documents' => $documents);
             }
         }
+    }
+
+    /**
+     * Function requests document and prints it.
+     * @access private
+     * @return Void
+     */
+    private function doDocumentRequest()
+    {
+        $source = parent::doRequest();
+        return $source;
     }
 }

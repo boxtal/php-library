@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class Quotation extends WebService
 {
@@ -270,8 +270,8 @@ class Quotation extends WebService
 
         $this->setGetParams(array());
         $this->setOptions(array('action' => 'api/v1/cotation'));
-        if ($this->doSimpleRequest()){
-          $this->getOffers(false);
+        if ($this->doSimpleRequest()) {
+            $this->getOffers(false);
         }
     }
 
@@ -295,7 +295,7 @@ class Quotation extends WebService
     public function getQuotationMulti($multirequest)
     {
 
-        foreach ($multirequest as $quot_index => $quot_info) {
+        foreach ($multirequest as $quot_info) {
             // set additional params
             $params = $quot_info['additional_params'];
 
@@ -325,15 +325,13 @@ class Quotation extends WebService
         $this->doSimpleRequestMulti();
         $i = 0;
         foreach ($this->xpath as $xpath) {
-          if ($xpath) {
-            $this->getOffers(false, $xpath, $i);
-          }
-          else {
-            $this->offers[$i] = false;
-          }
+            if ($xpath) {
+                $this->getOffers(false, $xpath, $i);
+            } else {
+                $this->offers[$i] = false;
+            }
             $i++;
         }
-        return;
     }
 
     /**
@@ -417,11 +415,16 @@ class Quotation extends WebService
                                                     $values_to_push[$val->nodeName] = array();
                                                     foreach ($days as $day) {
                                                         $day_data = array(
-                                                            'weekday' => $xpath->query('./weekday', $day)->item(0)->nodeValue,
-                                                            'open_am' => $xpath->query('./open_am', $day)->item(0)->nodeValue,
-                                                            'close_am' => $xpath->query('./close_am', $day)->item(0)->nodeValue,
-                                                            'open_pm' => $xpath->query('./open_pm', $day)->item(0)->nodeValue,
-                                                            'close_pm' => $xpath->query('./close_pm', $day)->item(0)->nodeValue,
+                                                            'weekday' => $xpath->query('./weekday', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'open_am' => $xpath->query('./open_am', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'close_am' => $xpath->query('./close_am', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'open_pm' => $xpath->query('./open_pm', $day)
+                                                              ->item(0)->nodeValue,
+                                                            'close_pm' => $xpath->query('./close_pm', $day)
+                                                              ->item(0)->nodeValue,
                                                         );
                                                         array_push($values_to_push[$val->nodeName], $day_data);
                                                     }

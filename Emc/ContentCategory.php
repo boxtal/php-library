@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class ContentCategory extends WebService
 {
@@ -92,9 +92,20 @@ class ContentCategory extends WebService
                 $categories = $this->xpath->query('/content_categories/content_category');
                 foreach ($categories as $category) {
                     $code = $this->xpath->query('./code', $category)->item(0)->nodeValue;
+                    $translationNodes = $this->xpath->query('./translations/translation', $category);
+                    $translations = array();
+                    foreach ($translationNodes as $translationNode) {
+                        $translations[] = array(
+                            'locale' => $this->xpath->query('./locale', $translationNode)->item(0)->nodeValue,
+                            'label' => $this->xpath->query('./label', $translationNode)->item(0)->nodeValue
+                        );
+                    }
+
                     $this->categories[$code] = array(
                         'label' => $this->xpath->evaluate('./label', $category)->item(0)->nodeValue,
-                        'code' => $code);
+                        'code' => $code,
+                        'translations' => $translations
+                    );
                 }
             }
         }
@@ -108,7 +119,7 @@ class ContentCategory extends WebService
     private function doConRequest()
     {
         $source = parent::doRequest();
-        
+
         /* We make sure there is an XML answer and try to parse it */
         if ($source !== false) {
             parent::parseResponse($source);
@@ -120,10 +131,22 @@ class ContentCategory extends WebService
                     if (!isset($this->contents[$category_id])) {
                         $this->contents[$category_id] = array();
                     }
+                    $translationNodes = $this->xpath->query('./translations/translation', $content);
+                    $translations = array();
+                    foreach ($translationNodes as $translationNode) {
+                        $translations[] = array(
+                            'locale' => $this->xpath->query('./locale', $translationNode)->item(0)->nodeValue,
+                            'label' => $this->xpath->query('./label', $translationNode)->item(0)->nodeValue
+                        );
+                    }
+
                     array_push($this->contents[$category_id], array(
                         'code' => $this->xpath->query('./code', $content)->item(0)->nodeValue,
                         'label' => $this->xpath->query('./label', $content)->item(0)->nodeValue,
-                        'category' => $category_id));
+                        'category' => $category_id,
+                        'prohibited' => $this->xpath->query('./prohibited', $content)->item(0)->nodeValue === 'true',
+                        'translations' => $translations
+                      ));
                 }
             }
         }

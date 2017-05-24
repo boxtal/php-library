@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 define('ENV_TEST', 'test');
 define('ENV_PRODUCTION', 'prod');
@@ -47,6 +47,27 @@ class WebService
      * @var string
      */
     private $server_prod = 'https://www.envoimoinscher.com/';
+
+    /**
+     * A public variable which determines the document server used by curl request.
+     * @access public
+     * @var string
+     */
+    public $document_server = 'http://test.envoimoinscher.com/documents';
+
+    /**
+     * API test document server host.
+     * @access public
+     * @var string
+     */
+    private $document_server_test = 'http://test.envoimoinscher.com/documents';
+
+    /**
+     * API production document server host.
+     * @access public
+     * @var string
+     */
+    private $document_server_prod = 'http://documents.envoimoinscher.com/documents';
 
     /**
      * Module version
@@ -135,9 +156,9 @@ class WebService
     /**
      * Protected variable with GET parameters.
      * @access protected
-     * @var string
+     * @var mixed
      */
-    protected $get_params = '';
+    protected $get_params;
 
     /**
      * Parameters array used by http_query_build.
@@ -175,11 +196,11 @@ class WebService
     protected $module_version = '1.1.5';
 
     /**
-     * Return.xml upload directory
-     * @access protected
+     * stores last API result
+     * @access public
      * @var string
      */
-    protected $uploadDir = '';
+    public $last_request = '';
 
     /**
      * Return language code
@@ -206,9 +227,6 @@ class WebService
         $this->setEnv(EMC_MODE);
         $this->setLocale($this->lang_code);
         $this->param = array();
-
-        /* set upload directory default value */
-        $this->setUploadDir($_SERVER['DOCUMENT_ROOT']);
     }
 
     /**
@@ -232,10 +250,11 @@ class WebService
     public function doRequest()
     {
         $req = curl_init();
-        curl_setopt_array($req, $this->options);
+        foreach ($this->options as $key => $option) {
+            curl_setopt($req, $key, $option);
+        }
         $result = curl_exec($req);
-        // You can uncomment this fragment to see the content returned by API
-        file_put_contents($this->uploadDir . '/return.xml', $result);
+        $this->last_request = $result;
         $curl_info = curl_getinfo($req);
         $this->curl_errno = curl_errno($req);
         $content_type = explode(';', $curl_info['content_type']);
@@ -257,7 +276,7 @@ class WebService
                 'message' =>
                   'Echec lors de l\'envoi de la requête, le serveur n\'a pas pu répondre correctement (erreur :' .
                     $curl_info['http_code'] . ')');
-        } elseif (trim($content_type[0]) != 'application/xml') {
+        } elseif (trim($content_type[0]) != 'application/xml' && trim($content_type[0]) != 'application/x-download') {
             $result = false;
             $this->resp_error = true;
             $this->resp_errors_list[] = array('code' => 'bad_response_format',
@@ -270,7 +289,6 @@ class WebService
 
         return $result;
     }
-
 
     /**
      * Function which executes api request with curl multi.
@@ -397,8 +415,8 @@ class WebService
         if ($this->timeout != null) {
             $this->options[CURLOPT_TIMEOUT_MS] = $this->timeout;
         }
-        $this->param['action'] = $options['action'];
 
+        $this->param['action'] = $options['action'];
     }
 
     /**
@@ -489,6 +507,7 @@ class WebService
         $this->param['platform'] = $this->platform;
         $this->param['platform_version'] = $this->platform_version;
         $this->param['module_version'] = $this->module_version;
+        $this->get_params = array();
         foreach ($this->param_multi as $param) {
             $this->get_params[] = '?' . http_build_query($param);
         }
@@ -533,12 +552,12 @@ class WebService
         $return_xml = new \DOMDocument('1.0', 'UTF-8');
         $return_wrapper = new \DOMElement('multirequest_wrapper');
         $return_xml->appendChild($return_wrapper);
-
+        $this->last_request = $documents;
+        
         foreach ($documents as $document) {
-            if (!$document)
-            {
-              $this->xpath[$i] = false;
-              continue;
+            if (!$document) {
+                $this->xpath[$i] = false;
+                continue;
             }
             $dom_cl = new \DOMDocument();
             $dom_cl->loadXML($document);
@@ -558,7 +577,6 @@ class WebService
 
             $i++;
         }
-        $return_xml->save($this->uploadDir . '/return.xml');
     }
 
     /**
@@ -655,7 +673,6 @@ class WebService
         foreach ($errors as $e => $error) {
             $this->resp_errors_list[$e] = array('code' => $xpath->evaluate('code', $error)->item(0)->nodeValue
             , 'message' => $xpath->evaluate('message', $error)->item(0)->nodeValue);
-
         }
     }
 
@@ -672,6 +689,25 @@ class WebService
         if (in_array(strtolower($env), $envs)) {
             $var = 'server_' . strtolower($env);
             $this->server = $this->$var;
+            $doc_var = 'document_server_' . strtolower($env);
+            $this->document_server = $this->$doc_var;
+
+            //To manage multiple developement environments, used only by boxtal IT Team
+            if (defined('SERVER_TEST_DOC')) {
+                $this->document_server = SERVER_TEST_DOC;
+            }
+            if (defined('SERVER_TEST')) {
+                $this->server = SERVER_TEST;
+            }
+            if (defined('EMC_USER_TEST')) {
+                $this->auth['user'] = EMC_USER_TEST;
+            }
+            if (defined('EMC_PASS_TEST')) {
+                $this->auth['pass'] = EMC_PASS_TEST;
+            }
+            if (defined('EMC_KEY_TEST')) {
+                $this->auth['key']  = EMC_KEY_TEST;
+            }
         }
     }
 
@@ -718,17 +754,6 @@ class WebService
         $this->lang_code = $lang_code;
     }
 
-    /**
-     * Sets return.xml upload directory.
-     * @access public
-     * @param String $url upload directory.
-     * @return Void
-     */
-    public function setUploadDir($url)
-    {
-        $this->uploadDir = $url;
-    }
-
     public function setParam($param)
     {
         $this->param = $param;
@@ -743,8 +768,8 @@ class WebService
     public function getApiParam()
     {
         return array( 'URL called'=> $this->server.$this->param['action'],
-                      'Params'=> $this->param
-                      );
+            'Params'=> $this->param
+        );
     }
 
     /**

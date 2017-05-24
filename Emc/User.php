@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class User extends WebService
 {
@@ -127,12 +127,13 @@ class User extends WebService
     /**
      * Gets information about user from server.
      * @access public
-     * @return Void
+     * @return user_configuration
      */
     public function getUserDetails()
     {
         $this->setOptions(array('action' => 'api/v1/user_details'));
         $this->setUserDetails();
+        return $this->user_configuration;
     }
 
     /**
@@ -177,10 +178,9 @@ class User extends WebService
             parent::parseResponse($source);
             $node = $this->xpath->evaluate('/user/partnership');
             if ($node && $node->item(0)) {
-              $this->partnership = $node->item(0)->nodeValue;
-            }
-            else {
-              $this->partnership = null;
+                $this->partnership = $node->item(0)->nodeValue;
+            } else {
+                $this->partnership = null;
             }
         }
     }
@@ -188,7 +188,7 @@ class User extends WebService
     /**
      * Post request on api/v1/user_keys to generate API keys
      * @access public
-     * @param Array $params Params
+     * @param Array $params Params ('user.login' => "login")
      * @return String
      */
     public function postUserKeys($params)

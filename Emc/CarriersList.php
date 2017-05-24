@@ -1,8 +1,6 @@
 <?php
-namespace Emc;
-
 /**
-* 2011-2016 Boxtal
+* 2011-2017 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -17,9 +15,11 @@ namespace Emc;
 * GNU General Public License for more details.
 *
 * @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2016 Boxtal
+* @copyright 2011-2017 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
+
+namespace Emc;
 
 class CarriersList extends WebService
 {
@@ -104,11 +104,13 @@ class CarriersList extends WebService
         foreach ($operators as $operator) {
             $ope_code = $this->xpath->query('./code', $operator)->item(0)->nodeValue;
             $ope_name = $this->xpath->query('./name', $operator)->item(0)->nodeValue;
+            $ope_cgv = $this->xpath->query('./cgv', $operator)->item(0)->nodeValue;
             $ope_carriers = $this->xpath->query('./services/service', $operator);
             foreach ($ope_carriers as $carrier) {
                 $id = count($this->carriers);
                 $this->carriers[$id]['ope_code'] = $ope_code;
                 $this->carriers[$id]['ope_name'] = $ope_name;
+                $this->carriers[$id]['ope_cgv'] = $ope_cgv;
                 $this->carriers[$id]['srv_code'] = $this->xpath->query('./code', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['srv_name_fo'] =
                   $this->xpath->query('./srv_name_fo', $carrier)->item(0)->nodeValue;
@@ -140,6 +142,25 @@ class CarriersList extends WebService
                   $this->xpath->query('./pickup_place', $carrier)->item(0)->nodeValue;
                 $this->carriers[$id]['dropoff_place'] =
                   $this->xpath->query('./dropoff_place', $carrier)->item(0)->nodeValue;
+                $this->carriers[$id]['allowed_content'] = array();
+                foreach ($this->xpath->query('./inclusion_content/content', $carrier) as $content) {
+                    $idNode = $this->xpath->query('./id', $content);
+                    $labelNode = $this->xpath->query('./label', $content);
+                    $conditionNode = $this->xpath->query('./condition', $content);
+
+                    if ($idNode->length == 1 && $labelNode->length == 1 && $conditionNode->length <= 1) {
+                        $contId = $idNode->item(0)->nodeValue;
+                        $condition = ($conditionNode->length > 0) ? $conditionNode->item(0)->nodeValue : null;
+                        $label = $labelNode->item(0)->nodeValue;
+                        $this->carriers[$id]['allowed_content'][$contId] = array(
+                          'id' => $contId,
+                          'condition' => $condition,
+                          'label' => $label
+                        );
+                    }
+                }
+                $this->carriers[$id]['srv_cgv'] =
+                  $this->xpath->query('./cgv', $carrier)->item(0)->nodeValue;
                 foreach ($this->xpath->query('./translations/translation', $carrier) as $translation) {
                     $locale = $this->xpath->query('./locale', $translation)->item(0)->nodeValue;
                     $this->carriers[$id]['translations']['srv_name_fo'][$locale] =
