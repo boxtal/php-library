@@ -1,4 +1,4 @@
-# Boxtale PHP Library
+# Boxtal PHP Library
 
 This PHP library aims to present the PHP implementation of the EnvoiMoinsCher.com API.
 
@@ -13,11 +13,10 @@ To install the library, simply:
 
 ### Requirements
 
-Boxtale PHP Library works with PHP 5.4, 5.5, 5.6, 7.0.
+Boxtal PHP Library works with PHP 5.4, 5.5, 5.6, 7.0.
 
-In order to use the API, you need to create a (free) user account you need to create a (free) user account using the API (postUserSignup) or on http://www.envoimoinscher.com/inscription.html, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website."
+In order to use the API, you need to create a (free) user account on https://www.boxtal.com, then generate an api key from the account management interface."
 
-You will then receive an email with your API keys and be able to start your tests.
 ### Library content
 
 The package contains 5 main directories:
@@ -48,13 +47,11 @@ if (EMC_MODE == "prod") {
 ```
 
 
-##### 1. Signup to envoimoincher.com
+##### 1. Signup to boxtal.com
 
-To create a (free) Boxtale user account, you have two options:
-  * Either on <a href="http://www.envoimoinscher.com/inscription.html" target="_blank">www.envoimoinscher.com</a>, check the "I would like to install the EnvoiMoinsCher module directly on my E-commerce website." box.
-  * Or using the postUserSignup method available in EnvoiMoinsCher API
-
->In both cases, you will receive an email confirming that your account was successfully created and 24h later another email with your API keys.</p>
+To create a (free) Boxtal user account, you have two options:
+  * Either on <a href="https://www.boxtal.com/fr/fr/app/utilisateur/creation-compte" target="_blank">www.boxtal.com</a>, then generate an api key from the account management interface."
+  * Or using the postUserSignup method available in EnvoiMoinsCher API. In that case, you will receive an email confirming that your account was successfully created and another email with your API keys.</p>
 
 
 ```php
