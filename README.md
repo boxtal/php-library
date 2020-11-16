@@ -241,7 +241,7 @@ $additionalParams = array(
 
 
 // Prepare and execute the request
-$lib = new \emc\Quotation();
+$lib = new \Emc\Quotation();
 
 $orderPassed = $lib->makeOrder($from, $to, $parcels, $additionalParams);
 
