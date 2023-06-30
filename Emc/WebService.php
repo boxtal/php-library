@@ -53,21 +53,21 @@ class WebService
      * @access public
      * @var string
      */
-    public $document_server = 'http://test.envoimoinscher.com/documents';
+    public $document_server = 'https://test.envoimoinscher.com/documents';
 
     /**
      * API test document server host.
      * @access public
      * @var string
      */
-    private $document_server_test = 'http://test.envoimoinscher.com/documents';
+    private $document_server_test = 'https://test.envoimoinscher.com/documents';
 
     /**
      * API production document server host.
      * @access public
      * @var string
      */
-    private $document_server_prod = 'http://documents.envoimoinscher.com/documents';
+    private $document_server_prod = 'https://documents.envoimoinscher.com/documents';
 
     /**
      * Module version
