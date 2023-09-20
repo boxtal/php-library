@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2017 Boxtal
+* 2011-2023 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -14,8 +14,8 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2017 Boxtal
+* @author    Boxtal <api@boxtal.com>
+* @copyright 2011-2023 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -70,11 +70,11 @@ class WebService
     private $document_server_prod = 'http://documents.envoimoinscher.com/documents';
 
     /**
-     * Module version
+     * Library version
      * @access protected
      * @var string
      */
-    protected $api_version = '1.3.4';
+    protected $api_version = '1.3.7';
 
     /**
      * A private variable which stocks options to pass into curl query.
@@ -84,18 +84,11 @@ class WebService
     private $options = array();
 
     /**
-     * A private variable with authentication credentials (login, password and api key).
+     * A private variable with authentication credentials (login, password).
      * @access private
      * @var array
      */
     private $auth = array();
-
-    /**
-     * A public variable with _POST data sent by curl function.
-     * @access public
-     * @var array
-     */
-    public $quot_post = array();
 
     /**
      * A public boolean which indicates if curl query was executed successful.
@@ -208,11 +201,6 @@ class WebService
      * @var string
      */
     protected $lang_code = 'en-US';
-    /**
-     * [$pass_phrase description]
-     * @var string
-     */
-    protected $pass_phrase = 'T+sGKCHeRddqiGb+tot/q2hzGRh5oP3GlB1NEMHEGTw=';
 
     /**
      * Class constructor.
@@ -223,7 +211,6 @@ class WebService
     {
         $this->auth['user'] = EMC_USER;
         $this->auth['pass'] = EMC_PASS;
-        $this->auth['key']  = EMC_KEY;
         $this->setEnv(EMC_MODE);
         $this->setLocale($this->lang_code);
         $this->param = array();
@@ -392,8 +379,8 @@ class WebService
             CURLOPT_SSL_VERIFYPEER => $this->ssl_check['peer'],
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYHOST => $this->ssl_check['host'],
-            CURLOPT_URL => $this->server . $options['action'] . $this->get_params,
-            CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt');
+            CURLOPT_URL => $this->server . $options['action'] . $this->get_params
+        );
 
         $this->options[CURLOPT_HTTPHEADER] = array(
             'Accept-Language: '.$this->lang_code,
@@ -404,12 +391,6 @@ class WebService
             array_push(
                 $this->options[CURLOPT_HTTPHEADER],
                 'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . ''
-            );
-        }
-        if (!empty($this->auth['key'])) {
-            array_push(
-                $this->options[CURLOPT_HTTPHEADER],
-                'access_key : ' . $this->auth['key'] . ''
             );
         }
         if ($this->timeout != null) {
@@ -436,11 +417,9 @@ class WebService
                 CURLOPT_URL => $this->server . $options['action'] . $param,
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: ' . base64_encode($this->auth['user'] . ':' . $this->auth['pass']) . '',
-                    'access_key : ' . $this->auth['key'] . '',
                     'Accept-Language: '.$this->lang_code,
-                    'Api-Version: '.$this->api_version),
-                CURLOPT_CAINFO => dirname(__FILE__) . '/../ca/ca-bundle.crt')
-               + ( ($this->timeout != null) ? array(CURLOPT_TIMEOUT_MS => $this->timeout) : array());
+                    'Api-Version: '.$this->api_version)
+            );
         }
     }
 
@@ -469,19 +448,6 @@ class WebService
         $this->param['module_version'] = $this->module_version;
         $this->options[CURLOPT_POST] = true;
         $this->options[CURLOPT_POSTFIELDS] = http_build_query($this->param);
-    }
-
-    /**
-     * Sets The maximum number of milliseconds to allow cURL functions to execute.
-     * @access public
-     * @param Integer $time The timeout in milliseconds.
-     * @return Void
-     */
-    public function setTimeout($time)
-    {
-        if ($time != null) {
-            $this->timeout = $time;
-        }
     }
 
     /**
@@ -580,57 +546,6 @@ class WebService
     }
 
     /**
-     * Function do an encode 64 bits on a string
-     * actually not used
-     *
-     * @access protected
-     * @param String $string The string to encode
-     * @return String : encoded string
-     */
-    /*protected function encode($string)
-    {
-        $bytes_encoding = array(
-            '000000' => 'A', '000001' => 'B',   '000010' => 'C', '000011' => 'D',   '000100' => 'E', '000101' => 'F',
-            '000110' => 'G', '000111' => 'H',   '001000' => 'I', '001001' => 'J',   '001010' => 'K', '001011' => 'L',
-            '001100' => 'M', '001101' => 'N',   '001110' => 'O', '001111' => 'P',   '010000' => 'Q', '010001' => 'R',
-            '010010' => 'S', '010011' => 'T',   '010100' => 'U', '010101' => 'V',   '010110' => 'W', '010111' => 'X',
-            '011000' => 'Y', '011001' => 'Z',   '011010' => 'a', '011011' => 'b',   '011100' => 'c', '011101' => 'd',
-            '011110' => 'e', '011111' => 'f',   '100000' => 'g', '100001' => 'h',   '100010' => 'i', '100011' => 'j',
-            '100100' => 'k', '100101' => 'l',   '100110' => 'm', '100111' => 'n',   '101000' => 'o', '101001' => 'p',
-            '101010' => 'q', '101011' => 'r',   '101100' => 's', '101101' => 't',   '101110' => 'u', '101111' => 'v',
-            '110000' => 'w', '110001' => 'x',   '110010' => 'y', '110011' => 'z',   '110100' => '0', '110101' => '1',
-            '110110' => '2', '110111' => '3',   '111000' => '4', '111001' => '5',   '111010' => '6', '111011' => '7',
-            '111100' => '8', '111101' => '9',   '111110' => '+', '111111' => '/'
-        );
-        $string_array = str_split($string);
-        $byte_array = array();
-        $result = '';
-        $buff = '';
-        $count = 0;
-        // string(8) to bytes
-        foreach ($string_array as $s)
-            for ($i = 7; $i >= 0; $i--)
-                $byte_array[] = (ord($s) & (1<<$i))>>$i;
-        // bytes to string(6)
-        foreach ($byte_array as $b)
-        {
-            $buff .= $b;
-            $count++;
-            if ($count == 6)
-            {
-                $result .= $bytes_encoding[$buff];
-                $buff = '';
-                $count = 0;
-            }
-        }
-        if ($count == 4)
-            $result .= $bytes_encoding[$buff.'00'].'=';
-        elseif ($count == 2)
-            $result .= $bytes_encoding[$buff.'0000'].'==';
-        return $result;
-    }*/
-
-    /**
      * Function detects if xml document has error tag.
      * @access private
      * @param object xml document (if curl multi request)
@@ -677,9 +592,9 @@ class WebService
     }
 
     /**
-     * Sets environment (and key if given).
+     * Sets environment.
      * @access public
-     * @param String $env Server's environment : test or prod .
+     * @param String $env Server's environment: test or prod.
      * @return Void
      */
     public function setEnv($env)
@@ -692,7 +607,7 @@ class WebService
             $doc_var = 'document_server_' . strtolower($env);
             $this->document_server = $this->$doc_var;
 
-            //To manage multiple developement environments, used only by boxtal IT Team
+            //To manage multiple development environments, used only by boxtal IT Team
             if (defined('SERVER_TEST_DOC')) {
                 $this->document_server = SERVER_TEST_DOC;
             }
@@ -704,9 +619,6 @@ class WebService
             }
             if (defined('EMC_PASS_TEST')) {
                 $this->auth['pass'] = EMC_PASS_TEST;
-            }
-            if (defined('EMC_KEY_TEST')) {
-                $this->auth['key']  = EMC_KEY_TEST;
             }
         }
     }
@@ -730,17 +642,6 @@ class WebService
     public function setPassword($pwd)
     {
         $this->auth['pass'] = $pwd;
-    }
-
-    /**
-     * Sets key
-     * @access public
-     * @param String $env Server's environment : test or prod .
-     * @return Void
-     */
-    public function setKey($key)
-    {
-        $this->auth['key'] = $key;
     }
 
     /**
@@ -770,53 +671,5 @@ class WebService
         return array( 'URL called'=> $this->server.$this->param['action'],
             'Params'=> $this->param
         );
-    }
-
-    /**
-     * Function to encrypt password
-     *
-     * @access public
-     * @param String $string The password
-     * @return String
-     */
-    public function encryptPassword($string)
-    {
-        $salt = substr($this->pass_phrase, 0, 16);
-        $iv = substr($this->pass_phrase, 16, 16);
-
-        $key = $this->pbkdf2('sha1', $this->pass_phrase, $salt, 100, 32, true);
-        return base64_encode(openssl_encrypt($string, 'aes-128-cbc', $key, true, $iv));
-    }
-
-    public function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false)
-    {
-        $algorithm = strtolower($algorithm);
-        if (!in_array($algorithm, hash_algos(), true)) {
-            throw new Exception('PBKDF2 ERROR: Invalid hash algorithm.');
-        }
-
-        if ($count <= 0 || $key_length <= 0) {
-            throw new Exception('PBKDF2 ERROR: Invalid parameters.');
-        }
-
-        $hash_length = strlen(hash($algorithm, '', true));
-        $block_count = ceil($key_length / $hash_length);
-        for ($i = 1; $i <= $block_count; $i++) {
-            // $i encoded as 4 bytes, big endian.
-            $last = $salt . pack('N', $i);
-            // first iteration
-            $last = $xorsum = hash_hmac($algorithm, $last, $password, true);
-            // perform the other $count - 1 iterations
-            for ($j = 1; $j < $count; $j++) {
-                $xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
-            }
-            $output = '';
-            $output .= $xorsum;
-            if ($raw_output) {
-                return substr($output, 0, $key_length);
-            } else {
-                return bin2hex(substr($output, 0, $key_length));
-            }
-        }
     }
 }

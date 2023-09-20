@@ -20,7 +20,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="<?php echo EMC_PARENT_DIR; ?>index.php"><img src="<?php echo EMC_PARENT_DIR; ?>assets/img/logo_fr.png" /></a>
+                  <a class="navbar-brand" href="<?php echo EMC_PARENT_DIR; ?>index.php"><img src="<?php echo EMC_PARENT_DIR; ?>assets/img/logo_fr.svg" /></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -114,7 +114,7 @@
                         </li>
                       </ul>
                     </li>
-                    <li><a href="http://ecommerce.envoimoinscher.com/api/documentation/" target="_blank">Documentation (french)</a></li>
+                    <li><a href="https://www.boxtal.com/fr/fr/api" target="_blank">Documentation (french)</a></li>
                   </ul>
                 </div><!-- /.navbar-collapse -->
               </div><!-- /.container-fluid -->

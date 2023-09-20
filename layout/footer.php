@@ -10,7 +10,7 @@ $(document).ready(function() {
     })
 });
 </script>
-<style type="text/css">
+<style>
     body{
         font-size: 13px;
     }

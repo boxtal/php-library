@@ -1,7 +1,7 @@
 {
     "name": "boxtale/php-library",
     "type": "library",
-    "description": "Boxtal PHP Library for Envoimoinscher/Boxtal API v1",
+    "description": "Boxtal PHP Library for Boxtal v1 API",
     "homepage": "https://github.com/boxtal/php-library",
     "license": "Unlicense",
     "minimum-stability": "dev",

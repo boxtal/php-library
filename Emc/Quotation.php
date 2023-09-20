@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2017 Boxtal
+* 2011-2023 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -14,8 +14,8 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2017 Boxtal
+* @author    Boxtal <api@boxtal.com>
+* @copyright 2011-2023 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 
@@ -114,9 +114,9 @@ class Quotation extends WebService
     public $order = array();
 
     /**
-     * Protected variable with pallet dimensions accepted by EnvoiMoinsCher.com. The dimensions are given
+     * Protected variable with pallet dimensions accepted by Boxtal. The dimensions are given
      * in format 'length cm x width cm'. They are sorted from the longest to the shortest.
-     * To pass a correct pallet values, use the $palletDimss' key in your 'pallet' parameter.
+     * To pass a correct pallet values, use the $pallet_dims' key in your 'pallet' parameter.
      * <samp>
      * Example : <br>
      * $quot_info = array(<br>

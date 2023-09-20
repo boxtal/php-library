@@ -3,13 +3,13 @@ use \Emc\Quotation;
 
 /* Example of use for Quotation class
  * Get all available offers for your shipment
- * You can find more informations about quotation requests here: http://ecommerce.envoimoinscher.com/api/documentation/cotations/
+ * You can find more informations about quotation requests here: https://www.boxtal.com/fr/fr/api
  */
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');
 
 
-// shipper and recipient's address
+// shipper and recipient addresses
 $from = array(
     'country' => 'FR', // must be an ISO code, set get_country example on how to get codes
     // "state" => "", if required, state must be an ISO code as well
@@ -46,7 +46,7 @@ switch ($dest) {
 
 /*
  * $additionalParams contains all additional parameters for your request, it includes filters or offer's options
- * A list of all possible parameters is available here: http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+ * A list of all possible parameters is available here: https://www.boxtal.com/fr/fr/api
  */
 $additionalParams = array(
     'collection_date' => date("Y-m-d"),
@@ -157,7 +157,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
     handle_errors($lib);
     echo'</div>';
 }
-require_once(EMC_PARENT_DIR.'layout/quotation_datails.php');
+require_once(EMC_PARENT_DIR . 'layout/quotation_details.php');
 ?>
 <div class="well well-sm">
     <button type="button" class="btn btn-xs btn-default" id="toogleDebug">

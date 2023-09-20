@@ -67,7 +67,7 @@ $lib->setType(
 
 /*
  * $additionalParams contains all additional parameters for your request, it includes filters or offer's options
- * A list of all possible parameters is available here : http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+ * A list of all possible parameters is available here: https://www.boxtal.com/fr/fr/api
  * For an order, you have to provide at least all offer's mandatory parameters returned by the quotation
  * You can also find all optional parameters (filter not included) in the same quotation
  */
@@ -84,7 +84,7 @@ $additionalParams = array(
     'operator' => 'MONR',
     'service' => 'CpourToi',
     'colis.valeur' => "42.655" // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
-    // for insurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+    // for insurance params, see https://www.boxtal.com/fr/fr/api
 );
 
 // Prepare and execute the request
@@ -103,7 +103,7 @@ if (!$lib->curl_error && !$lib->resp_error) {
     handle_errors($lib);
     echo'</div>';
 }
-require_once('../layout/quotation_datails.php');
+require_once('../layout/quotation_details.php');
 ?>
 <div class="well well-sm">
     <button type="button" class="btn btn-xs btn-default" id="toogleDebug">
