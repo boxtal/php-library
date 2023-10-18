@@ -4,11 +4,9 @@ define('EMC_MODE', 'test'); // change to 'prod' to test production server (this 
 if (EMC_MODE == 'prod') {
     define('EMC_USER', '');
     define('EMC_PASS', '');
-    define('EMC_KEY', '');
 } else {
     define('EMC_USER', '');
     define('EMC_PASS', '');
-    define('EMC_KEY', '');
 }
 
 

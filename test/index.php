@@ -1,5 +1,5 @@
 <?php
-/** Simple test page to make sure that you can use EnvoiMoinsCher API library.
+/** Simple test page to make sure that you can use Boxtal API library.
  *  Firstly we list needed extensions. After that we check if they are presented in loaded
  *  extensions.
  */
@@ -25,7 +25,7 @@ if (count($notLoaded) > 0) {
 <?php
 } else {
 ?>
-<p>Toutes les extensions sont correctement installées.</p>
+<p>Toutes les extensions sont correctement installÃ©es.</p>
 <a href="test_api.php">Tester les modules.</a>
 <?php
 }

@@ -66,7 +66,7 @@ $lib->setType(
 
 /*
  * $additionalParams contains all additional parameters for your request, it includes filters or offer's options
- * A list of all possible parameters is available here : http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+ * A list of all possible parameters is available here: https://www.boxtal.com/fr/fr/api
  * For an order, you have to provide at least all offer's mandatory parameters returned by the quotation
  * You can also find all optional parameters (filter not included) in the same quotation
  */
@@ -78,13 +78,13 @@ $additionalParams = array(
     'colis.valeur' => 1200, // prefixed with your shipment type: "encombrant" (bulky parcel), "colis" (parcel), "palette" (pallet), "pli" (envelope)
     'assurance.selection' => false,  // whether you want an extra insurance or not
     'colis.description' => 'Newspapers',
-    // you can find more informations about what is sent on this url here : http://ecommerce.envoimoinscher.com/api/documentation/url-de-push
+    // you can find more informations about what is sent on this url here: https://www.boxtal.com/fr/fr/api
     'url_push' => 'www.my-website.com/push.php&order=N',
     'disponibilite.HDE' => '09:00', // Starting time at which you are available for the pickup
     'disponibilite.HLE' => '19:00', // Ending time at which you are available for the pickup
     'operator' => 'UPSE',
     'service' => 'ExpressSaver'
-    // for insurance params, see http://ecommerce.envoimoinscher.com/api/documentation/commandes/
+    // for insurance params, see https://www.boxtal.com/fr/fr/api
 );
 
 // Initialize request
@@ -141,5 +141,5 @@ if (!$lib->curl_error && !$lib->resp_error) {
     handle_errors($lib);
     echo'</div>';
 }
-require_once('../layout/quotation_datails.php');
+require_once('../layout/quotation_details.php');
 require_once('../layout/footer.php');

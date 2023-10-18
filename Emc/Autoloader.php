@@ -1,6 +1,6 @@
 <?php
 /**
-* 2011-2017 Boxtal
+* 2011-2023 Boxtal
 *
 * NOTICE OF LICENSE
 *
@@ -14,8 +14,8 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* @author    Boxtal EnvoiMoinsCher <api@boxtal.com>
-* @copyright 2011-2017 Boxtal
+* @author    Boxtal <api@boxtal.com>
+* @copyright 2011-2023 Boxtal
 * @license   http://www.gnu.org/licenses/
 */
 

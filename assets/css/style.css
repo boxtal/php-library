@@ -1,8 +1,5 @@
-.navbar-brand {
-    padding-top:10px;
-}
 .navbar-brand img {
-    max-height:30px;
+    height: -webkit-fill-available;
 }
 input[name="debug"] {
     vertical-align:top;

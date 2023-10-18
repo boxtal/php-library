@@ -4,7 +4,7 @@ use \Emc\Quotation;
 /* Example of use for QuotationMulti class
  * Used to ship products from multiple warehouses
  * Get all available offers for your send
- * You can find more informations about quotation's request here : http://ecommerce.envoimoinscher.com/api/documentation/cotations/
+ * You can find more informations about quotation's request here: https://www.boxtal.com/fr/fr/api
  */
 require_once('../config/autoload.php');
 require_once(EMC_PARENT_DIR.'layout/header.php');

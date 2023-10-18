@@ -28,13 +28,11 @@ define('ERROR', 3);// At least one critical error
  * To add a new class to the test, add it in this array, and create the corresponding test function
  */
 $_CLASSES = array(
-    'Carrier',
     'ContentCategory',
     'ListPoints',
     'Country',
     'ParcelPoint',
     'OrderStatus',
-    'Service',
     'User',
     'Quotation'
 );
@@ -110,86 +108,6 @@ function microtime_float()
     return ((float)$usec + (float)$sec);
 }
 
-function test_Carrier()
-{
-    $result = default_value();
-    $start = microtime_float();
-
-    /* Initialisation */
-    $env = new Carrier();
-    $env->getCarriers();
-
-    /* Reception test */
-    if ($env->curl_error) {
-        $result['reception'] = max($result['reception'], ERROR);
-        $result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
-    } elseif ($env->resp_error) {
-        $result['reception'] = max($result['reception'], ERROR);
-        $result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-        foreach ($env->resp_errors_list as $message) {
-            $result['reception_info'][count($result['reception_info'])] = $message['message'];
-        }
-    } else {
-        $result['reception'] = max($result['reception'], OK);
-        $result['reception_info'][count($result['reception_info'])] = 'Reception time : ' . (microtime_float() - $start) . 's';
-    }
-
-    /* Additionals test */
-
-    /* Test for the result structure */
-    $result['additionals'][0]['name'] = 'Structure';
-    $result['additionals'][0]['state'] = OK;
-    if (count($env->carriers) == 0) {
-        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
-        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers array is empty';
-    } else {
-        foreach ($env->carriers as $code => $carrier) {
-            if (!isset($carrier['label'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['code'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['logo'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"logo" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['logo_modules'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"logo_modules" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['description'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['address'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['url'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"url" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['tracking'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"tracking" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['tel'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"tel" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['cgv'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"cgv" not defined in $carriers["'.$code.'"] array';
-            }
-        }
-    }
-
-    $result['duration'] = microtime_float() - $start;
-    return $result;
-}
 function test_ContentCategory()
 {
     $result = default_value();
@@ -224,6 +142,7 @@ function test_ContentCategory()
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (count($env->categories) == 0) {
         $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
         $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$categories array is empty';
@@ -295,6 +214,7 @@ function test_ListPoints()
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (count($env->list_points) == 0) {
         $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
         $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$list_points array is empty';
@@ -398,6 +318,7 @@ function test_Country()
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (count($env->countries) == 0) {
         $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
         $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$countries array is empty';
@@ -466,6 +387,7 @@ function test_ParcelPoint()
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (count($env->points) != 2) {
             $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
             $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$points should contains 2 elements, contains ' . count($env->points) . ' instead';
@@ -579,6 +501,7 @@ function test_OrderStatus()
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (count($env->order_info) == 0) {
             $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
             $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$order_info array is empty';
@@ -618,146 +541,6 @@ function test_OrderStatus()
     $result['duration'] = microtime_float() - $start;
     return $result;
 }
-function test_Service()
-{
-    $result = default_value();
-    $start = microtime_float();
-
-    /* Initialisation */
-    $env = new Service();
-
-    $env->getServices();
-
-    /* Reception test */
-    if ($env->curl_error) {
-        $result['reception'] = max($result['reception'], ERROR);
-        $result['reception_info'][count($result['reception_info'])] = 'Error while sending the query';
-    } elseif ($env->resp_error) {
-        $result['reception'] = max($result['reception'], ERROR);
-        $result['reception_info'][count($result['reception_info'])] = 'Invalid query : ' . $userData["api_key"];
-        foreach ($env->resp_errors_list as $message) {
-            $result['reception_info'][count($result['reception_info'])] = $message['message'];
-        }
-    } else {
-        $result['reception'] = max($result['reception'], OK);
-        $result['reception_info'][count($result['reception_info'])] = 'Reception time : ' . (microtime_float() - $start). 's';
-        ;
-    }
-
-    /* Additionals test */
-
-    /* Test for the result structure */
-    $result['additionals'][0]['name'] = 'Structure';
-    $result['additionals'][0]['state'] = OK;
-    if (count($env->carriers) == 0) {
-        $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
-        $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers array is empty';
-    } else {
-        foreach ($env->carriers as $code => $carrier) {
-            if (!isset($carrier['label'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['code'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['logo'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"logo" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['logo_modules'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"logo_modules" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['description'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"description" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['address'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"address" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['url'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"url" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['tracking'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"tracking" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['tel'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"tel" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['cgv'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"cgv" not defined in $carriers["'.$code.'"] array';
-            }
-            if (!isset($carrier['services'])) {
-                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"services" not defined in $carriers["'.$code.'"] array';
-            } else {
-                if (count($carrier['services']) == 0) {
-                    $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
-                    $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"] array is empty';
-                } else {
-                    foreach ($carrier['services'] as $s => $service) {
-                        if (!isset($service['code'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"code" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['label'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"label" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['mode'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"mode" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['alert'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"alert" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['collection'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"collection" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['delivery'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"delivery" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['is_pluggable'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"is_pluggable" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        }
-                        if (!isset($service['options'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"options" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        } else {
-                            if (count($service['options']) == 0) {
-                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
-                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"]["'.$s.'"]["options"] array is empty';
-                            }
-                        }
-                        if (!isset($service['exclusions'])) {
-                            $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], ERROR);
-                            $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"exclusions" not defined in $carriers["'.$code.'"]["services"]["'.$s.'"] array';
-                        } else {
-                            if (count($service['exclusions']) == 0) {
-                                $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
-                                $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$carriers["'.$code.'"]["services"]["'.$s.'"]["exclusions"] array is empty';
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    $result['duration'] = microtime_float() - $start;
-    return $result;
-}
 function test_User()
 {
     $result = default_value();
@@ -765,7 +548,7 @@ function test_User()
 
     /* Initialisation */
     $env = new User();
-    $env->getEmailConfiguration();
+    $env->getPartnership();
 
     /* Reception test */
     if ($env->curl_error) {
@@ -788,6 +571,7 @@ function test_User()
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (!isset($env->user_configuration['emails'])) {
         $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
         $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '"emails" not defined in $user_configuration array';
@@ -870,16 +654,16 @@ function test_Quotation($userData)
     "disponibilite.HDE" => "09:00",
     "disponibilite.HLE" => "19:00");
 
-    // Pour cet envoi on est obligé de joindre une facture proforma qui résume 2 objets expédiés
+    // Pour cet envoi on est obligï¿½ de joindre une facture proforma qui rï¿½sume 2 objets expï¿½diï¿½s
     $order_env->setProforma(array(1 => array("description_en" => "L'Equipe newspaper from 1998",
     "description_fr" => "le journal L'Equipe du 1998",  "nombre" => 1, "valeur" => 10,
     "origine" => "FR", "poids" => 1.2),
     2 => array("description_en" => "300 editions of L'Equipe newspaper from 1999",
-    "description_fr" => "300 numéros de L'Equipe du 1999",  "nombre" => 300,  "valeur" => 8,
+    "description_fr" => "300 numï¿½ros de L'Equipe du 1999",  "nombre" => 300,  "valeur" => 8,
     "origine" => "FR", "poids" => 0.1)));
 
     $order_env->setEnv('test'); // To make an order on test
-    $orderPassed = $order_env->makeOrder($order_quotInfo, true);
+    $orderPassed = $order_env->makeOrder($from, $to, $parcels, $order_quotInfo, true);
 
     $offer_quotInfo = array(
         "collecte" => date("Y-m-d"),
@@ -923,6 +707,7 @@ function test_Quotation($userData)
     /* Test for the result structure */
     $result['additionals'][0]['name'] = 'Structure';
     $result['additionals'][0]['state'] = OK;
+    $result['additionals'][0]['info'] = array();
     if (count($offer_env->offers) == 0) {
         $result['additionals'][0]['state'] = max($result['additionals'][0]['state'], WARNING);
         $result['additionals'][0]['info'][count($result['additionals'][0]['info'])] = '$offers array is empty';
@@ -1212,7 +997,7 @@ function test_Quotation($userData)
 }
 
 ?>
-    <!-- Code servant à tester le fonctionnement des classes du module -->
+    <!-- Code servant ï¿½ tester le fonctionnement des classes du module -->
     <div class="row">
         <table class="table table-striped table-bordered">
             <tr>
