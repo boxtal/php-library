@@ -1,8 +1,8 @@
 <?php
 
 // Testing envirenment
-define('SERVER_TEST', 'http://test.envoimoinscher.com/');
-define('SERVER_TEST_DOC', 'http://test.envoimoinscher.com//documents');
+define('SERVER_TEST', 'https://test.envoimoinscher.com/');
+define('SERVER_TEST_DOC', 'https://test.envoimoinscher.com//documents');
 
 // Test account
 define('EMC_USER_TEST', '');
